@@ -47,12 +47,23 @@
                         </tbody>
                 </table>
             </div>
+            
+            <div class="flex justify-center items-center gap-4 mt-6">
+                <button id="prevPageBtn" disabled class="px-4 py-2 text-sm font-bold text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm">
+                    &larr; 이전
+                </button>
+                <span id="pageIndicator" class="text-sm font-bold text-gray-700">1 페이지</span>
+                <button id="nextPageBtn" disabled class="px-4 py-2 text-sm font-bold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm">
+                    다음 &rarr;
+                </button>
+            </div>
+            
         </main>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy, limit, startAfter } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // rapigenhc config
         const firebaseConfig = {
@@ -72,8 +83,19 @@
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
         const reservationList = document.getElementById('reservation-list');
+        
+        // 페이지 네비게이션 UI
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
 
-        // 임시 로그인 (나중에 Auth로 고도화 가능)
+        // 🌟 페이지네이션을 위한 전역 변수
+        const PAGE_SIZE = 10; // 한 페이지에 보여줄 개수
+        let currentPage = 1;
+        let lastVisible = null;   // 현재 페이지의 마지막 데이터 (다음 페이지로 갈 때 기준점)
+        let pageHistory = [];     // 이전 페이지로 돌아가기 위해 기준점들을 저장해두는 배열
+
+        // 로그인 (기존과 동일)
         document.getElementById('loginBtn').addEventListener('click', () => {
             const id = document.getElementById('adminId').value;
             const pw = document.getElementById('adminPw').value;
@@ -81,7 +103,9 @@
                 loginScreen.classList.add('hidden');
                 dashboardScreen.classList.remove('hidden');
                 dashboardScreen.classList.add('flex');
-                loadData(); // DB 불러오기 실행
+                
+                // 로그인 성공 시 첫 페이지 불러오기
+                fetchFirstPage(); 
             } else {
                 alert('아이디나 비밀번호가 틀렸습니다.');
             }
@@ -91,36 +115,43 @@
             location.reload();
         });
 
-        // 🎯 파이어베이스에서 데이터 불러오기
-        async function loadData() {
+
+        /* =========================================
+           데이터 렌더링 함수 (화면에 그리기)
+        ========================================= */
+        async function renderData(q) {
             reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">데이터를 불러오는 중입니다...</td></tr>';
             
             try {
-                // 'reservations' 컬렉션을 최신순(내림차순)으로 정렬해서 가져옵니다.
-                const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
-                
-                document.getElementById('totalCount').innerText = `총 ${querySnapshot.size}건`;
-                reservationList.innerHTML = ''; // 로딩 텍스트 지우기
+                reservationList.innerHTML = '';
 
                 if (querySnapshot.empty) {
-                    reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">접수된 예약이 없습니다.</td></tr>';
+                    reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">데이터가 없습니다.</td></tr>';
+                    nextPageBtn.disabled = true; // 다음 페이지 없음
                     return;
                 }
 
-                // 데이터 하나씩 HTML 표(tr)로 만들기
+                // 이번 페이지의 마지막 데이터를 저장 (다음 페이지를 누를 때 이 다음부터 가져오기 위함)
+                lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+                // 가져온 데이터가 10개(PAGE_SIZE) 미만이면 다음 페이지가 없다는 뜻
+                if (querySnapshot.docs.length < PAGE_SIZE) {
+                    nextPageBtn.disabled = true;
+                } else {
+                    nextPageBtn.disabled = false;
+                }
+
                 querySnapshot.forEach((documentSnapshot) => {
                     const data = documentSnapshot.data();
-                    const docId = documentSnapshot.id; // DB 고유 문서 ID
+                    const docId = documentSnapshot.id;
                     
-                    // 시간 변환 (createdAt이 있으면 날짜 형태로, 없으면 빈칸)
                     let timeString = "-";
                     if(data.createdAt) {
                         const date = data.createdAt.toDate();
                         timeString = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
                     }
 
-                    // 상태별 색상
                     let statusColor = 'bg-yellow-100 text-yellow-700';
                     if(data.status === '예약완료') statusColor = 'bg-green-100 text-green-700';
                     else if(data.status === '미응답') statusColor = 'bg-red-100 text-red-700';
@@ -143,31 +174,78 @@
                     reservationList.appendChild(tr);
                 });
 
-                // 🎯 셀렉트 박스(상태) 변경 시 파이어베이스 DB 업데이트 이벤트 달아주기
+                // 상태 변경 이벤트
                 document.querySelectorAll('.status-select').forEach(select => {
                     select.addEventListener('change', async function() {
                         const docId = this.getAttribute('data-id');
                         const newStatus = this.value;
-                        
                         try {
-                            // 해당 문서의 status 값만 업데이트
-                            await updateDoc(doc(db, "reservations", docId), {
-                                status: newStatus
-                            });
-                            // 성공 후 색상 변경을 위해 데이터 리로드
-                            loadData(); 
+                            await updateDoc(doc(db, "reservations", docId), { status: newStatus });
+                            alert('상태가 변경되었습니다.');
+                            // 현재 페이지 번호에 맞춰 화면만 살짝 다시 그려줌
+                            statusColorUpdate(this, newStatus);
                         } catch (error) {
-                            // console.error("업데이트 실패:", error);
                             alert("상태 변경에 실패했습니다.");
                         }
                     });
                 });
 
+                pageIndicator.innerText = `${currentPage} 페이지`;
+                prevPageBtn.disabled = currentPage === 1;
+
             } catch (error) {
-                // console.error("데이터 불러오기 에러:", error);
-                reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-red-500">데이터를 불러오지 못했습니다. DB 규칙을 확인해주세요.</td></tr>';
+                reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-red-500">데이터 로드 실패</td></tr>';
             }
         }
+
+        // 상태 변경 시 새로고침 대신 색상만 즉시 변경 (읽기 횟수 절약 핵심 로직!)
+        function statusColorUpdate(selectElement, newStatus) {
+            selectElement.classList.remove('bg-yellow-100', 'text-yellow-700', 'bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
+            if(newStatus === '대기') selectElement.classList.add('bg-yellow-100', 'text-yellow-700');
+            else if(newStatus === '예약완료') selectElement.classList.add('bg-green-100', 'text-green-700');
+            else if(newStatus === '미응답') selectElement.classList.add('bg-red-100', 'text-red-700');
+        }
+
+        /* =========================================
+           페이지 네비게이션 제어 함수
+        ========================================= */
+        // 1. 처음 페이지 (1페이지) 불러오기
+        async function fetchFirstPage() {
+            currentPage = 1;
+            pageHistory = [];
+            const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"), limit(PAGE_SIZE));
+            await renderData(q);
+        }
+
+        // 2. 다음 페이지 (Next)
+        nextPageBtn.addEventListener('click', async () => {
+            if (!lastVisible) return;
+            pageHistory.push(lastVisible); // 돌아올 때를 대비해 지금 페이지의 마지막 문서를 기록
+            currentPage++;
+            
+            // lastVisible '다음'부터 10개 가져오기
+            const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"), startAfter(lastVisible), limit(PAGE_SIZE));
+            await renderData(q);
+        });
+
+        // 3. 이전 페이지 (Prev)
+        prevPageBtn.addEventListener('click', async () => {
+            if (currentPage <= 1) return;
+            currentPage--;
+            pageHistory.pop(); // 현재 기록 빼기
+            
+            const prevLastVisible = pageHistory.length > 0 ? pageHistory[pageHistory.length - 1] : null;
+
+            let q;
+            if (prevLastVisible) {
+                // 이전 페이지의 시작점부터 다시 10개
+                q = query(collection(db, "reservations"), orderBy("createdAt", "desc"), startAfter(prevLastVisible), limit(PAGE_SIZE));
+            } else {
+                // 기록이 없으면 1페이지
+                q = query(collection(db, "reservations"), orderBy("createdAt", "desc"), limit(PAGE_SIZE));
+            }
+            await renderData(q);
+        });
     </script>
 </body>
 </html>

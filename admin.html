@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>래피젠 | 예약 관리자</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-black text-[#F27405]">래피젠헬스케어</h1>
+                <p class="text-gray-500 text-sm mt-1">예약 관리자 시스템</p>
+            </div>
+            <div class="space-y-4">
+                <input type="email" id="adminId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#F27405]" placeholder="아이디 (admin)">
+                <input type="password" id="adminPw" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#F27405]" placeholder="비밀번호 (1234)">
+                <button id="loginBtn" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-black transition">로그인</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="hidden min-h-screen flex-col">
+        <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+            <h1 class="text-xl font-black text-gray-900">상담 접수 관리</h1>
+            <div class="flex items-center gap-4">
+                <span id="totalCount" class="text-sm font-bold text-gray-500">총 0건</span>
+                <button id="logoutBtn" class="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded hover:bg-gray-200 font-medium">로그아웃</button>
+            </div>
+        </header>
+
+        <main class="flex-1 p-6 overflow-x-auto">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-w-[800px]">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-600">
+                        <tr>
+                            <th class="px-6 py-4 font-bold w-48">접수일시</th>
+                            <th class="px-6 py-4 font-bold w-32">이름</th>
+                            <th class="px-6 py-4 font-bold w-40">연락처</th>
+                            <th class="px-6 py-4 font-bold">선택 패키지</th>
+                            <th class="px-6 py-4 font-bold w-40 text-center">예약상태</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservation-list" class="divide-y divide-gray-100">
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // rapigenhc config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
+            authDomain: "rapigenhc-event.firebaseapp.com",
+            projectId: "rapigenhc-event",
+            storageBucket: "rapigenhc-event.firebasestorage.app",
+            messagingSenderId: "893881210369",
+            appId: "1:893881210369:web:e92344136212280e589200",
+            measurementId: "G-GM4ZWH6XEY"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // UI 요소
+        const loginScreen = document.getElementById('login-screen');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+        const reservationList = document.getElementById('reservation-list');
+
+        // 임시 로그인 (나중에 Auth로 고도화 가능)
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const id = document.getElementById('adminId').value;
+            const pw = document.getElementById('adminPw').value;
+            if(id === 'admin' && pw === '1234') {
+                loginScreen.classList.add('hidden');
+                dashboardScreen.classList.remove('hidden');
+                dashboardScreen.classList.add('flex');
+                loadData(); // DB 불러오기 실행
+            } else {
+                alert('아이디나 비밀번호가 틀렸습니다.');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // 🎯 파이어베이스에서 데이터 불러오기
+        async function loadData() {
+            reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">데이터를 불러오는 중입니다...</td></tr>';
+            
+            try {
+                // 'reservations' 컬렉션을 최신순(내림차순)으로 정렬해서 가져옵니다.
+                const q = query(collection(db, "reservations"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                document.getElementById('totalCount').innerText = `총 ${querySnapshot.size}건`;
+                reservationList.innerHTML = ''; // 로딩 텍스트 지우기
+
+                if (querySnapshot.empty) {
+                    reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">접수된 예약이 없습니다.</td></tr>';
+                    return;
+                }
+
+                // 데이터 하나씩 HTML 표(tr)로 만들기
+                querySnapshot.forEach((documentSnapshot) => {
+                    const data = documentSnapshot.data();
+                    const docId = documentSnapshot.id; // DB 고유 문서 ID
+                    
+                    // 시간 변환 (createdAt이 있으면 날짜 형태로, 없으면 빈칸)
+                    let timeString = "-";
+                    if(data.createdAt) {
+                        const date = data.createdAt.toDate();
+                        timeString = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+                    }
+
+                    // 상태별 색상
+                    let statusColor = 'bg-yellow-100 text-yellow-700';
+                    if(data.status === '예약완료') statusColor = 'bg-green-100 text-green-700';
+                    else if(data.status === '미응답') statusColor = 'bg-red-100 text-red-700';
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50 transition-colors';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-gray-500 text-xs">${timeString}</td>
+                        <td class="px-6 py-4 font-bold text-gray-900">${data.name}</td>
+                        <td class="px-6 py-4 font-medium">${data.phone}</td>
+                        <td class="px-6 py-4 text-gray-600 font-bold">${data.package}</td>
+                        <td class="px-6 py-4 text-center">
+                            <select data-id="${docId}" class="status-select ${statusColor} font-bold text-xs px-3 py-1.5 rounded-full border-none outline-none cursor-pointer appearance-none text-center w-24">
+                                <option value="대기" ${data.status === '대기' ? 'selected' : ''}>대기</option>
+                                <option value="예약완료" ${data.status === '예약완료' ? 'selected' : ''}>예약완료</option>
+                                <option value="미응답" ${data.status === '미응답' ? 'selected' : ''}>미응답</option>
+                            </select>
+                        </td>
+                    `;
+                    reservationList.appendChild(tr);
+                });
+
+                // 🎯 셀렉트 박스(상태) 변경 시 파이어베이스 DB 업데이트 이벤트 달아주기
+                document.querySelectorAll('.status-select').forEach(select => {
+                    select.addEventListener('change', async function() {
+                        const docId = this.getAttribute('data-id');
+                        const newStatus = this.value;
+                        
+                        try {
+                            // 해당 문서의 status 값만 업데이트
+                            await updateDoc(doc(db, "reservations", docId), {
+                                status: newStatus
+                            });
+                            // 성공 후 색상 변경을 위해 데이터 리로드
+                            loadData(); 
+                        } catch (error) {
+                            // console.error("업데이트 실패:", error);
+                            alert("상태 변경에 실패했습니다.");
+                        }
+                    });
+                });
+
+            } catch (error) {
+                // console.error("데이터 불러오기 에러:", error);
+                reservationList.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-red-500">데이터를 불러오지 못했습니다. DB 규칙을 확인해주세요.</td></tr>';
+            }
+        }
+    </script>
+</body>
+</html>

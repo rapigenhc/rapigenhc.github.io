@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+:root {
+    --color-primary: #F27405;
+}
+
+body { font-family: 'Noto Sans KR', sans-serif; }
+
+.text-primary { color: var(--color-primary); }
+.bg-primary { background-color: var(--color-primary); }
+.border-primary { border-color: var(--color-primary); }
+.accent-primary { accent-color: var(--color-primary); }
+
+/* 뱃지(Badge) 스타일 커스텀 */
+.badge-dark {
+    background-color: #1f2937;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+}
+.badge-light {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+}
+
+/* 리스트 아이템 호버 효과 */
+.list-item-hover {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    border-radius: 0.75rem;
+    margin: 0 -0.5rem 1.5rem -0.5rem;
+    padding: 0.5rem;
+}
+.list-item-hover:hover {
+    background-color: #f9fafb;
+    transform: translateX(4px);
+}
+
+/* SPA 페이지 전환 애니메이션 */
+.page-container {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.4s ease forwards;
+}
+.page-container.active {
+    display: block;
+}
+
+/* 카로셀 슬라이드 페이드 효과 */
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+}
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* 말풍선 (Tooltip) 디자인 */
+.speech-bubble {
+    position: absolute;
+    bottom: 110%; /* 인풋창 바로 위 */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: #ef4444; /* 빨간색 경고 */
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+/* 말풍선 꼬리 */
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #ef4444 transparent transparent transparent;
+}
+/* 에러 발생 시 말풍선 보이기 */
+.show-tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

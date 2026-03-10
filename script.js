@@ -192,65 +192,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 폼 접수하기 버튼 클릭 시 (DB 저장을 위해 async 키워드 추가)
+    // 폼 접수하기 버튼 클릭 시 (보안 및 유효성 검사 강화)
     window.submitForm = async function() {
+        // 🚨 방어책 1: 중복 전송(도배) 방지용 플래그
+        if (window.isSubmitting) return; 
+
         const agree = document.getElementById('agree');
         const nameInput = document.getElementById('userName');
         const phoneInput = document.getElementById('userPhone');
         
-        // 1. 유효성 검사 (커스텀 모달 사용)
+        // 🚨 방어책 2: 악성 스크립트(XSS) 차단을 위한 정규식 패턴
+        const nameRegex = /^[가-힣a-zA-Z\s]{2,20}$/; // 한글, 영문, 띄어쓰기만 2~20자 허용 (특수문자 원천 차단)
+        const phoneRegex = /^01[016789]\d{7,8}$/; // 01로 시작하는 10~11자리 숫자만 허용
+
+        // 유효성 검사
         if (agree && !agree.checked) {
             showAlert("개인정보수집 이용에 동의해주세요.");
             return;
         }
-        if (nameInput && nameInput.value.trim() === '') {
-            showAlert("이름을 정확히 입력해주세요.");
+        
+        // 이름 검증
+        const nameValue = nameInput ? nameInput.value.trim() : '';
+        if (!nameRegex.test(nameValue)) {
+            showAlert("이름은 특수문자나 숫자 없이 올바르게 입력해주세요.");
             nameInput.focus();
             return;
         }
-        if (phoneInput && phoneInput.value.trim() === '') {
-            showAlert("연락처를 정확히 입력해주세요.");
+
+        // 연락처 검증
+        const phoneValue = phoneInput ? phoneInput.value.trim().replace(/[^0-9]/g, '') : '';
+        if (!phoneRegex.test(phoneValue)) {
+            showAlert("올바른 휴대폰 번호를 입력해주세요.");
             phoneInput.focus();
             return;
         }
 
-        // 2. 선택된 패키지 이름 가져오기
         let selectedPackageName = "패키지 선택 안함";
         const checkedBox = document.querySelector('.package-checkbox:checked');
         if (checkedBox) {
-            // 체크된 카드의 <h3> 태그 안에서 순수 패키지 이름만 추출 (예: '49% OFF' 제외)
             const titleElement = checkedBox.closest('.package-card').querySelector('h3');
             selectedPackageName = titleElement.childNodes[0].textContent.trim();
         }
 
-        // 3. 파이어베이스 DB에 저장
         try {
-            // 중복 클릭 방지용 버튼 비활성화 로직
+            // 접수 시작 (버튼 무력화)
+            window.isSubmitting = true;
             const submitBtn = document.querySelector('button[onclick="submitForm()"]');
             let originalBtnText = "상담 접수하기";
+            
             if (submitBtn) {
                 originalBtnText = submitBtn.innerText;
                 submitBtn.innerText = "접수 중...";
                 submitBtn.disabled = true;
             }
 
-            // 'reservations' 컬렉션에 데이터 추가
+            // DB 저장
             await addDoc(collection(db, "reservations"), {
-                name: nameInput.value.trim(),
-                phone: phoneInput.value.trim(),
+                name: nameValue, // 검증이 끝난 안전한 값만 전송
+                phone: phoneValue, // 검증이 끝난 안전한 값만 전송
                 package: selectedPackageName,
-                status: "대기", // 처음 접수 시 기본 상태
-                createdAt: serverTimestamp() // 서버 기준 시간 자동 기록
+                status: "대기",
+                createdAt: serverTimestamp()
             });
 
-            // 저장 성공 시 완료 모달 띄우기
             const successModal = document.getElementById('successModal');
             if (successModal) {
                 successModal.classList.remove('hidden');
                 successModal.classList.add('flex');
             }
 
-            // 버튼 상태 원상복구
             if (submitBtn) {
                 submitBtn.innerText = originalBtnText;
                 submitBtn.disabled = false;
@@ -258,13 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             showAlert("접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-            
-            // 에러 발생 시 버튼 원상복구
             const submitBtn = document.querySelector('button[onclick="submitForm()"]');
             if (submitBtn) {
                 submitBtn.innerText = "상담 접수하기";
                 submitBtn.disabled = false;
             }
+        } finally {
+            // 완료되거나 에러가 나면 1초 뒤에 다시 버튼을 누를 수 있게 해제 (매크로 방어)
+            setTimeout(() => {
+                window.isSubmitting = false;
+            }, 1000);
         }
     }
 

@@ -108,3 +108,38 @@ body { font-family: 'Noto Sans KR', sans-serif; }
         transform: translateY(0);
     }
 }
+
+/* =========================================
+   event_02.html 패키지 선택 애니메이션 
+========================================= */
+/* 체크 시 가격 오렌지색 변경 애니메이션 */
+.package-card:has(.package-checkbox:checked) .price-val {
+    color: #F27405 !important;
+}
+
+/* 체크 시 아코디언 영역 부드럽게 노출 */
+.package-card:has(.package-checkbox:checked) .accordion-wrap {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 1rem;
+    visibility: visible;
+}
+
+/* 기본 아코디언 숨김 세팅 */
+.accordion-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 0;
+    visibility: hidden;
+}
+
+.accordion-inner {
+    overflow: hidden;
+}
+
+/* 폰트/컬러 부드러운 전환 효과 */
+.price-val {
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}

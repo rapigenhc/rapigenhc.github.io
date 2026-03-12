@@ -115,6 +115,21 @@
             location.reload();
         });
 
+        /* =========================================
+           HTML 특수문자 변환 (XSS 무력화)
+        ========================================= */
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
 
         /* =========================================
            데이터 렌더링 함수 (화면에 그리기)
@@ -160,11 +175,12 @@
                     tr.className = 'hover:bg-gray-50 transition-colors';
                     tr.innerHTML = `
                         <td class="px-6 py-4 text-gray-500 text-xs">${timeString}</td>
-                        <td class="px-6 py-4 font-bold text-gray-900">${data.name}</td>
-                        <td class="px-6 py-4 font-medium">${data.phone}</td>
-                        <td class="px-6 py-4 text-gray-600 font-bold">${data.package}</td>
+                        <td class="px-6 py-4 font-bold text-gray-900">${escapeHTML(data.name)}</td>
+                        <td class="px-6 py-4 font-medium">${escapeHTML(data.phone)}</td>
+                        <td class="px-6 py-4 text-gray-600 font-bold">${escapeHTML(data.package)}</td>
                         <td class="px-6 py-4 text-center">
                             <select data-id="${docId}" class="status-select ${statusColor} font-bold text-xs px-3 py-1.5 rounded-full border-none outline-none cursor-pointer appearance-none text-center w-24">
+                    // ... (이하 동일) ...
                                 <option value="대기" ${data.status === '대기' ? 'selected' : ''}>대기</option>
                                 <option value="예약완료" ${data.status === '예약완료' ? 'selected' : ''}>예약완료</option>
                                 <option value="미응답" ${data.status === '미응답' ? 'selected' : ''}>미응답</option>

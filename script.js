@@ -382,4 +382,22 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
         }
     }
+
+    /* =========================================
+       7. 이벤트 상세 패키지 아코디언 토글 제어
+    ========================================= */
+    // 'accordion-toggle' 클래스를 가진 모든 summary 태그를 찾습니다.
+    const accordionToggles = document.querySelectorAll('.accordion-toggle');
+    
+    accordionToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(event) {
+            // label 태그 안에서 클릭 시 체크박스가 풀려버리는 기본 동작 방지
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // 클릭한 summary의 부모인 details 태그를 열고 닫음
+            this.parentElement.toggleAttribute('open');
+        });
+    });
+    
 });

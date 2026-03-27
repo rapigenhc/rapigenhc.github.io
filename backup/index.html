@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>래피젠헬스케어 | 건강검진 이벤트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 overflow-x-hidden">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-md md:max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+            <h1 class="text-lg font-bold cursor-pointer" onclick="location.href='index.html'">래피젠헬스케어 이벤트</h1>
+            <button class="text-sm font-medium border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-50">Sign Up</button>
+        </div>
+    </header>
+
+    <main class="max-w-md md:max-w-4xl mx-auto bg-white min-h-screen flex flex-col">
+        
+        <div class="bg-orange-50 px-4 py-3 flex items-center justify-between border-b border-orange-100">
+            <div class="flex items-center gap-2 text-sm text-[#F27405] font-medium">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                건강검진 이벤트가 처음이신가요?
+            </div>
+            <button onclick="openGuideModal()" class="bg-[#F27405] text-white text-xs px-3 py-1.5 rounded font-bold hover:bg-orange-600 transition-transform active:scale-95">가이드 보기</button>
+        </div>
+
+        <div class="relative w-full aspect-[21/9] md:aspect-[3/1] overflow-hidden bg-gray-100 group">
+            <div id="carousel-container" class="relative w-full h-full">
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100 z-20 bg-amber-100 flex flex-col justify-center px-6">
+                    <h2 class="text-xl md:text-3xl font-black text-amber-900 mb-2 z-10">가족과 함께 챙겨요!<br>1+1 검진 이벤트</h2>
+                    <p class="text-amber-800 font-medium z-10 text-sm md:text-base">래피젠 구독 혜택</p>
+                    <div class="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-l from-amber-200 to-transparent"></div>
+                </div>
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 z-10 bg-blue-50 flex flex-col justify-center px-6">
+                    <h2 class="text-xl md:text-3xl font-black text-blue-900 mb-2 z-10">직장인 스트레스 검사<br>특별할인 30%</h2>
+                    <p class="text-blue-800 font-medium z-10 text-sm md:text-base">이달의 추천 패키지</p>
+                    <div class="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-l from-blue-200 to-transparent"></div>
+                </div>
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 z-10 bg-pink-50 flex flex-col justify-center px-6">
+                    <h2 class="text-xl md:text-3xl font-black text-pink-900 mb-2 z-10">부모님 효도 선물<br>프리미엄 정밀검진</h2>
+                    <p class="text-pink-800 font-medium z-10 text-sm md:text-base">가정의 달 한정 특가</p>
+                    <div class="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-l from-pink-200 to-transparent"></div>
+                </div>
+            </div>
+
+            <button id="prevBtn" class="absolute left-2 top-1/2 transform -translate-y-1/2 z-30 bg-black/20 hover:bg-black/50 text-white p-2 rounded-full transition opacity-0 group-hover:opacity-100">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button id="nextBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 z-30 bg-black/20 hover:bg-black/50 text-white p-2 rounded-full transition opacity-0 group-hover:opacity-100">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+            <div class="absolute top-4 right-4 bg-black/50 text-white text-xs px-2 py-1 rounded-full z-30 tracking-widest font-bold" id="slide-indicator">1 / 3</div>
+        </div>
+
+        <div class="flex border-b border-gray-200 text-center font-bold text-gray-500">
+            <button class="tab-btn flex-1 py-4 border-b-2 border-[#F27405] text-[#F27405]" data-target="all">전체 이벤트</button>
+            <button class="tab-btn flex-1 py-4 border-b-2 border-transparent hover:text-gray-800" data-target="1plus1">국가검진</button>
+            <button class="tab-btn flex-1 py-4 border-b-2 border-transparent hover:text-gray-800" data-target="personal">종합검진</button>
+        </div>
+
+        <div class="px-4 py-4 flex gap-2">
+            <button class="sort-btn bg-gray-800 text-white border border-transparent text-xs px-4 py-2 rounded-full font-medium transition-colors" data-sort="newest">전체보기 (최신순)</button>
+            <button class="sort-btn bg-white text-gray-600 border border-gray-200 text-xs px-4 py-2 rounded-full font-medium transition-colors hover:bg-gray-50" data-sort="urgent">마감임박</button>
+        </div>
+
+        <div id="event-list-container">
+            
+            <a href="event_01.html" class="event-item block px-4 mb-6 list-item-hover" data-category="personal" data-date="2026-04-01" data-days="25" data-urgent="true">
+                <div class="flex gap-4">
+                    <div class="w-28 h-28 md:w-36 md:h-36 bg-gray-100 rounded-xl flex-shrink-0 relative overflow-hidden flex items-center justify-center">
+                        <span class="text-gray-400 text-xs font-bold">IMAGE</span>
+                        <div class="absolute top-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">마감<br>임박</div>
+                    </div>
+                    <div class="flex flex-col justify-center py-1">
+                        <div class="flex gap-1 mb-1.5 flex-wrap">
+                            <span class="badge-dark">D-25</span>
+                            <span class="badge-light">모든 회원</span>
+                            <span class="badge-light">전 지점</span>
+                        </div>
+                        <h3 class="font-bold text-lg md:text-xl text-gray-900 leading-tight mb-1">우리두리 1+1 검진</h3>
+                        <p class="text-xs text-gray-500 mb-2">가족, 지인 동반 시 혜택 / 1일 1회</p>
+                        <div class="font-black text-xl">500,000<span class="text-sm font-normal ml-0.5">원~</span></div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="event_02.html" class="event-item block px-4 mb-6 list-item-hover" data-category="1plus1" data-date="2026-04-10" data-days="15" data-urgent="false">
+                <div class="flex gap-4">
+                    <div class="w-28 h-28 md:w-36 md:h-36 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center">
+                        <span class="text-gray-400 text-xs font-bold">IMAGE</span>
+                    </div>
+                    <div class="flex flex-col justify-center py-1">
+                        <div class="flex gap-1 mb-1.5 flex-wrap">
+                            <span class="badge-dark">D-15</span>
+                            <span class="badge-light">모든 회원</span>
+                        </div>
+                        <h3 class="font-bold text-lg md:text-xl text-gray-900 leading-tight mb-1">마이핏 MyFit 건강검진</h3>
+                        <p class="text-xs text-gray-500 mb-2">생활밀착형 나에게 꼭 맞는 패키지</p>
+                        <div class="font-black text-xl">340,000<span class="text-sm font-normal ml-0.5">원</span></div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <footer class="bg-gray-100 border-t border-gray-200 mt-auto px-4 py-8">
+            <h2 class="text-gray-700 font-bold text-sm mb-4">재단법인 한국산업의학연구소 래피젠헬스케어의원</h2>
+            <div class="text-xs text-gray-500 space-y-2 leading-relaxed">
+                <p>
+                    <span class="font-medium">대표자</span> : 박재구 &nbsp;|&nbsp; 
+                    <span class="font-medium">사업자등록번호</span> : 119-82-07583
+                </p>
+                <p><span class="font-medium">주소</span> : 서울 금천구 가산디지털2로 135, 2층 (가산어반워크 1차, 2층)</p>
+                <p>
+                    <span class="font-medium">대표전화</span> : 1544-5189
+                </p>
+                <p><span class="font-medium">카카오톡 상담</span> : <a href="http://pf.kakao.com/_IHgin" target="_blank">@래피젠헬스케어의원</a></p>
+            </div>
+            <div class="mt-6 text-[10px] text-gray-400">
+                Copyright © RAPIGEN Healthcare. All rights reserved.
+            </div>
+        </footer>
+
+    </main>
+    <div id="guideModal" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 max-h-[85vh] overflow-y-auto relative shadow-2xl">
+            
+            <button onclick="closeGuideModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-xl font-extrabold mb-5 flex items-center gap-2 text-gray-900">
+                <span class="text-[#F27405]">📋</span> 건강검진 이용 가이드
+            </h3>
+            
+            <div class="space-y-6 text-sm text-gray-600">
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-2 text-base flex items-center gap-1.5"><span class="bg-gray-100 text-gray-600 w-5 h-5 rounded-full inline-flex items-center justify-center text-xs">1</span> 예약 방법</h4>
+                    <ul class="list-disc pl-5 space-y-1.5 leading-relaxed">
+                        <li>원하시는 이벤트 패키지를 선택 후 하단의 <span class="font-bold text-[#F27405]">'상담 접수하기'</span>를 눌러주세요.</li>
+                        <li>전문 상담원이 영업일 기준 1~2일 내에 전화를 드려 정확한 일정과 추가 검사 항목을 조율합니다.</li>
+                        <li>상담 완료 후 카카오톡(알림톡)으로 최종 예약 확정 문자가 발송됩니다.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-2 text-base flex items-center gap-1.5"><span class="bg-gray-100 text-gray-600 w-5 h-5 rounded-full inline-flex items-center justify-center text-xs">2</span> 검진 전 주의사항</h4>
+                    <ul class="list-disc pl-5 space-y-1.5 leading-relaxed">
+                        <li>검진 전날 밤 9시 이후부터는 반드시 <span class="text-red-500 font-bold underline underline-offset-2">금식</span>해 주세요. (물, 껌, 사탕, 은단, 담배 포함 일체 금지)</li>
+                        <li>평소 복용하시는 약이 있다면 미리 상담원에게 알려주세요. (혈압약, 당뇨약 등)</li>
+                        <li>수면 내시경을 하시는 경우, 당일 자가운전이 절대 불가하오니 대중교통을 이용해 주세요.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-2 text-base flex items-center gap-1.5"><span class="bg-gray-100 text-gray-600 w-5 h-5 rounded-full inline-flex items-center justify-center text-xs">3</span> 검진 당일 안내</h4>
+                    <ul class="list-disc pl-5 space-y-1.5 leading-relaxed">
+                        <li>예약된 시간 10분 전까지 병원 접수처에 방문해 주세요.</li>
+                        <li>본인 확인을 위해 <span class="font-bold text-gray-800">신분증(주민등록증, 운전면허증)</span>을 반드시 지참해 주시기 바랍니다.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-gray-100">
+                <button onclick="closeGuideModal()" class="w-full bg-[#F27405] text-white font-bold py-3.5 rounded-lg hover:bg-orange-600 transition-colors active:scale-95">
+                    확인했습니다
+                </button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

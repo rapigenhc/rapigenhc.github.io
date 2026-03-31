@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>개인종합검진 | 래피젠헬스케어</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="./js/ga_tracking.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
@@ -57,7 +58,7 @@
             <div class="flex flex-col md:flex-row gap-6 md:gap-8 mb-10 pb-10 border-b border-gray-100" data-aos="fade-up">
                 <div class="w-full md:w-1/2 aspect-[4/3] bg-gray-100 rounded-3xl flex items-center justify-center border border-gray-100 shadow-sm overflow-hidden relative">
                     <!-- <span class="text-pink-300 font-extrabold text-[19px] tracking-wider">MAIN IMAGE</span> -->
-                    <div class="absolute top-0 left-0 w-full h-full bg-black/5 bg-cover bg-center bg-no-repeat" style="background-image: url('img/myfit_thumb.png');"></div>
+                    <div class="absolute top-0 left-0 w-full h-full bg-black/5 bg-cover bg-center bg-no-repeat" style="background-image: url('img/rainbow_thumb.png');"></div>
                 </div>
                 <div class="w-full md:w-1/2 flex flex-col justify-center relative px-2 md:px-0">
                     <span class="inline-block bg-gray-100 text-gray-600 px-3 py-1.5 rounded-md text-[12px] font-extrabold mb-3 w-fit">2026.5.31 까지</span>
@@ -101,8 +102,8 @@
                                 <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 기본 포함 검사</strong>
                                 <ul class="list-disc space-y-1.5 text-[13px] md:text-[14px] text-gray-500 mb-6 pl-4 font-medium">
                                     <li>기초·생리 검사 : 신체계측, 체성분, 시력, 청력, 안저·안압, 심전도 등</li>
-                                    <li>혈액·소변 검사 : 간기능, 고지혈증, 당뇨, 신장, 빈혈 등 70여 종</li>
-                                    <li>장비 검사 : 흉부 X-선 촬영 <span class="text-red-500 font-bold">(골밀도 검사 제외)</span></li>
+                                    <li>혈액·소변 검사 : 간기능, 고지혈증, 당뇨, 신장, 종양표지자(간암, 대장암, 췌장암, 난소암 또는 전립선암) 등 70여 종</li>
+                                    <li>장비 검사 : 흉부 X-선 촬영 <span class="text-red-500 font-bold">(골밀도 검사 제외 별도 추가 가능)</span></li>
                                     <li>국가 암 검진 : 대상자에 한하여 진행 (자궁경부암, 분변잠혈 등)</li>
                                 </ul>
 
@@ -111,10 +112,6 @@
                                     <div class="flex items-start gap-2">
                                         <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-600 text-[10px] shrink-0 mt-0.5 font-black">✓</span>
                                         <span class="pt-0.5 leading-snug">상복부 초음파 (간, 담낭, 췌장, 비장, 신장)</span>
-                                    </div>
-                                    <div class="flex items-start gap-2">
-                                        <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-600 text-[10px] shrink-0 mt-0.5 font-black">✓</span>
-                                        <span class="pt-0.5 leading-snug">성별 특화 암 표지자 (여성: 난소암 CA-125, 남성: 전립선암 PSA)</span>
                                     </div>
                                 </div>
 
@@ -191,6 +188,70 @@
                     </div>
                 </label>
 
+                <!-- ORANGE BOOST -->
+                <label class="package-card flex items-start gap-4 p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden">
+                    <div class="pt-1.5 shrink-0 z-10">
+                        <input type="radio" name="package" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
+                    </div>
+                    <div class="flex-1 flex flex-col w-full z-10">
+                        <p class="text-[14px] md:text-[15px] text-[#F27405] mb-2 font-bold tracking-tight">🟡 건강의 중심, 몸의 위험요소를 점검</p>
+                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">YELLOW 옐로우 종합검진</h3>
+                        
+                        <div class="flex items-center gap-2 mb-5">
+                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
+                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">초음파 실속형 구성 옐로우</span>
+                        </div>
+
+                        <details class="group/details mb-6">
+                            <summary class="accordion-toggle bg-white/80 backdrop-blur text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                                <span class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    상세 검사항목 보기
+                                </span>
+                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="mt-3 p-5 bg-white rounded-2xl border border-gray-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 기본 포함 검사</strong>
+                                <ul class="list-disc space-y-1.5 text-[13px] md:text-[14px] text-gray-500 mb-6 pl-4 font-medium">
+                                    <li>기초·생리 검사 : 신체계측, 체성분, 시력, 청력, 안저·안압, 심전도 등</li>
+                                    <li>혈액·소변 검사 : 간기능, 고지혈증, 당뇨, 신장, 종양표지자(간암, 대장암, 췌장암, 난소암 또는 전립선암) 등 70여 종</li>
+                                    <li>장비 검사 : 흉부 X-선 촬영, 골밀도 (만 40세 이상)</li>
+                                    <li>국가 암 검진 : 대상자에 한하여 진행</li>
+                                </ul>
+
+                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 특화 검사</strong>
+                                <div class="text-[13px] md:text-[14px] text-gray-700 font-bold space-y-2.5 mb-6">
+                                    <div class="flex items-start gap-2">
+                                        <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-600 text-[10px] shrink-0 mt-0.5 font-black">✓</span>
+                                        <span class="pt-0.5 leading-snug">상복부 초음파 (간, 담낭, 췌장, 비장, 신장)</span>
+                                    </div>
+                                </div>
+
+                                <strong class="text-[#F27405] block mb-3 text-[15px] md:text-[16px] font-black border-t border-gray-100 pt-5">■ 선택 검사 항목</strong>
+                                <div class="text-[13px] md:text-[14px] text-gray-700 font-bold space-y-3">
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[11px] font-black shrink-0 mt-0.5 shadow-sm">택 1</span>
+                                        <span class="pt-0.5 leading-snug">위내시경 (일반/수면 중 선택)</span>
+                                    </div>
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[11px] font-black shrink-0 mt-0.5 shadow-sm">택 1</span>
+                                        <span class="pt-0.5 leading-snug">대장내시경 (일반/수면) 또는 장내미생물검사</span>
+                                    </div>
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[11px] font-black shrink-0 mt-0.5 shadow-sm">택 1</span>
+                                        <span class="pt-0.5 leading-snug">초음파 (갑상선, 전립선/자궁 중 선택)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <div class="text-right mt-auto pt-5 border-t border-orange-200/50">
+                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 680,000원</del>
+                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">350,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
+                        </div>
+                    </div>
+                </label>
+
                 <!-- GREEN BALANCE -->
                 <label class="package-card flex items-start gap-4 p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden">
                     <div class="pt-1.5 shrink-0 z-10">
@@ -217,7 +278,7 @@
                                 <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 기본 포함 검사</strong>
                                 <ul class="list-disc space-y-1.5 text-[13px] md:text-[14px] text-gray-500 mb-6 pl-4 font-medium">
                                     <li>기초·생리 검사 : 신체계측, 체성분, 시력, 청력, 안저·안압, 심전도 등</li>
-                                    <li>혈액·소변 검사 : 간기능, 고지혈증, 당뇨, 신장, 종양표지자 등 70여 종</li>
+                                    <li>혈액·소변 검사 : 간기능, 고지혈증, 당뇨, 신장, 종양표지자(간암, 대장암, 췌장암, 난소암 또는 전립선암) 등 70여 종</li>
                                     <li>장비 검사 : 흉부 X-선 촬영, 골밀도 (만 40세 이상)</li>
                                     <li>국가 암 검진 : 대상자에 한하여 진행</li>
                                 </ul>
@@ -231,10 +292,6 @@
                                     <div class="flex items-start gap-2">
                                         <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-600 text-[10px] shrink-0 mt-0.5 font-black">✓</span>
                                         <span class="pt-0.5 leading-snug">일반암 5종 유전자검사 (위/대장/간/폐/췌장)</span>
-                                    </div>
-                                    <div class="flex items-start gap-2">
-                                        <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-600 text-[10px] shrink-0 mt-0.5 font-black">✓</span>
-                                        <span class="pt-0.5 leading-snug">성별 특화 암 표지자 (여성: 난소암, 남성: 전립선암)</span>
                                     </div>
                                 </div>
 

@@ -3,7 +3,7 @@
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
@@ -168,6 +168,82 @@ function getStatusColor(status) {
         default: return 'bg-gray-100 text-gray-600';
     }
 }
+
+// 권한별 UI 업데이트 헬퍼 함수
+function updateRoleUI(role) {
+    const roleTag = document.getElementById('roleTag');
+    const masterBtn = document.querySelector('.role-master-only');
+    
+    if (!roleTag) return;
+
+    // 기본 태그 클래스 초기화 (App-like UI)
+    roleTag.className = "text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest transition-colors";
+
+    switch(role) {
+        case 'ROOT':
+            roleTag.classList.add('bg-purple-100', 'text-purple-700');
+            roleTag.innerText = 'ROOT';
+            if(masterBtn) masterBtn.classList.remove('hidden'); // 마스터 전용 버튼 노출
+            break;
+        case 'B2C':
+            roleTag.classList.add('bg-blue-100', 'text-blue-700');
+            roleTag.innerText = 'B2C';
+            if(masterBtn) masterBtn.classList.add('hidden');
+            break;
+        case 'CRM':
+            roleTag.classList.add('bg-green-100', 'text-green-700');
+            roleTag.innerText = '콜센터';
+            if(masterBtn) masterBtn.classList.add('hidden');
+            break;
+        case 'MARKETING':
+            roleTag.classList.add('bg-pink-100', 'text-pink-700');
+            roleTag.innerText = '마케팅';
+            if(masterBtn) masterBtn.classList.add('hidden');
+            break;
+        case 'MANAGER':
+            roleTag.classList.add('bg-orange-100', 'text-orange-700');
+            roleTag.innerText = '관리자';
+            if(masterBtn) masterBtn.classList.add('hidden');
+            break;    
+        default:
+            roleTag.classList.add('bg-gray-100', 'text-gray-500');
+            roleTag.innerText = 'GUEST';
+            if(masterBtn) masterBtn.classList.add('hidden');
+            break;
+    }
+}
+
+// 2. Auth 상태 감지 옵저버 수정
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        // [업데이트] Firestore에서 관리자 권한 정보 1회 로드 (비용 최적화)
+        let currentRole = 'GUEST';
+        try {
+            const adminDocRef = doc(db, "admins", user.uid);
+            const adminSnap = await getDoc(adminDocRef);
+            
+            if (adminSnap.exists()) {
+                currentRole = adminSnap.data().role || 'GUEST';
+            }
+        } catch (error) {
+            console.error("권한 정보를 불러오지 못했습니다.", error);
+        }
+
+        // UI 렌더링
+        updateRoleUI(currentRole);
+
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('dashboard-screen').classList.remove('hidden');
+        document.getElementById('dashboard-screen').classList.add('flex');
+        
+        setInitialDates();
+        fetchFromFirestore(); // 대시보드 리스트 로드
+    } else {
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('dashboard-screen').classList.add('hidden');
+        updateRoleUI('GUEST'); // 로그아웃 시 초기화
+    }
+});
 
 // [이벤트] 통합 클릭 리스너 (이벤트 위임)
 document.addEventListener('click', async (e) => {

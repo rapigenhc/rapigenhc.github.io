@@ -19,6 +19,51 @@ const db = getFirestore(app);
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // URL에서 유입 경로(utm_source) 추출 및 저장
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get('utm_source') || 'direct'; // 파라미터 없으면 '직접유입'
+    
+    // 페이지 이동 시에도 유지되도록 세션 스토리지에 임시 저장
+    if (urlParams.has('utm_source')) {
+        sessionStorage.setItem('rpg_utm_source', utmSource);
+    }
+
+    /* ... 기존 코드 중 submitForm 함수 부분 수정 ... */
+    window.submitForm = async function() {
+        if (window.isSubmitting) return; 
+
+        // [수정] 세션에 저장된 유입 경로 가져오기
+        const savedSource = sessionStorage.getItem('rpg_utm_source') || 'direct';
+        
+        // (기존 유효성 검사 로직 동일...)
+        const nameInput = document.getElementById('userName');
+        const phoneInput = document.getElementById('userPhone');
+        // ...
+
+        try {
+            window.isSubmitting = true;
+            // (버튼 비활성화 로직...)
+
+            // [업데이트] DB 저장 시 'source' 필드 추가
+            await addDoc(collection(db, "reservations"), {
+                name: nameValue,
+                phone: phoneValue,
+                package: selectedPackageName,
+                source: savedSource, // 👈 유입 경로 저장 (당근마켓, 네이버 등)
+                status: "대기",
+                createdAt: serverTimestamp(),
+                userAgent: navigator.userAgent // (선택) 기기 정보 환경 확인용
+            });
+
+            // (성공 모달 로직...)
+        } catch (error) {
+            console.error(error);
+            showAlert("접수 중 오류가 발생했습니다.");
+        } finally {
+            window.isSubmitting = false;
+        }
+    }
           
     /* =========================================
        0. 공통 푸터 불러오기 (fetch)

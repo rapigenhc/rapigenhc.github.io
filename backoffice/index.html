@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>래피젠 헬스케어 | Admin</title>
+    <title>래피젠 헬스케어 | 관리자 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { -webkit-tap-highlight-color: transparent; font-family: 'Pretendard', sans-serif; }
+        body { -webkit-tap-highlight-color: transparent; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* 유입 채널별 뱃지 테마 컬러 */
+        .source-daangn { background-color: #FFF7ED; color: #F27405; border: 1px solid #FFEDD5; } /* 당근마켓 */
+        .source-naver { background-color: #F0FDF4; color: #16A34A; border: 1px solid #DCFCE7; }  /* 네이버 */
+        .source-gm_apt { background-color: #F5F3FF; color: #7C3AED; border: 1px solid #EDE9FE; } /* 광명아파트 */
+        .source-homepage { background-color: #EFF6FF; color: #2563EB; border: 1px solid #DBEAFE; }/* 홈페이지 */
+        .source-direct { background-color: #F9FAFB; color: #6B7280; border: 1px solid #F3F4F6; }  /* 직접유입 */
+
+        /* 셀렉트 박스 커스텀 디자인 */
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -19,62 +28,73 @@
 </head>
 <body class="bg-[#F9FAFB] text-gray-900 antialiased">
 
-    <!-- [1] 로그인 스크린 -->
     <div id="login-screen" class="min-h-screen flex items-center justify-center p-6 transition-all duration-500">
         <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] max-w-sm w-full border border-gray-50 text-center">
             <div class="inline-block p-4 bg-orange-50 rounded-3xl mb-4">
                 <img src="../img/logo.png" class="w-32" alt="래피젠">
             </div>
-            <h1 class="text-[24px] font-black tracking-tight mb-8">관리자 페이지</h1>
+            <h1 class="text-[24px] font-black tracking-tight mb-8">관리자 시스템</h1>
             
             <div class="space-y-3">
-                <input type="email" id="adminId" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-[15px] font-bold focus:ring-2 focus:ring-[#F27405] outline-none" placeholder="ID (Email)">
-                <input type="password" id="adminPw" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-[15px] font-bold focus:ring-2 focus:ring-[#F27405] outline-none" placeholder="Password">
-                <button id="loginBtn" class="w-full bg-gray-900 text-white font-black py-5 rounded-2xl hover:bg-black active:scale-95 transition-all shadow-lg mt-4">시스템 접속</button>
+                <input type="email" id="adminId" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-[15px] font-bold focus:ring-2 focus:ring-[#F27405] outline-none transition-all" placeholder="ID (Email)">
+                <input type="password" id="adminPw" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-[15px] font-bold focus:ring-2 focus:ring-[#F27405] outline-none transition-all" placeholder="Password">
+                <button id="loginBtn" class="w-full bg-gray-900 text-white font-black py-5 rounded-2xl hover:bg-black active:scale-95 transition-all shadow-lg mt-4">보안 접속</button>
             </div>
-
-            <button id="resetPwBtn" class="mt-8 text-[13px] font-bold text-gray-400 hover:text-[#F27405] underline underline-offset-4">비밀번호 재설정</button>
         </div>
     </div>
 
-    <!-- [2] 대시보드 스크린 -->
-    <div id="dashboard-screen" class="hidden min-h-screen flex-col max-w-5xl mx-auto p-4 md:p-6">
-        <header class="bg-white/80 backdrop-blur-md sticky top-0 md:top-6 z-50 border border-gray-100 px-6 py-4 rounded-[1.5rem] md:rounded-[2rem] flex justify-between items-center shadow-sm">
+    <div id="dashboard-screen" class="hidden min-h-screen flex-col max-w-6xl mx-auto p-4 md:p-6">
+        <header class="bg-white/90 backdrop-blur-md sticky top-0 md:top-6 z-50 border border-gray-100 px-6 py-4 rounded-[1.5rem] md:rounded-[2rem] flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-4">
-                <h1 class="text-[20px] font-black tracking-tight">RPHC Admin</h1>
-                <span id="roleTag" class="bg-orange-50 text-[#F27405] text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest tracking-tighter">Guest</span>
+                <h1 class="text-[20px] font-black tracking-tight">RPHC 예약관리</h1>
+                <span id="roleTag" class="bg-orange-50 text-[#F27405] text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest">Guest</span>
             </div>
-            <div class="flex items-center gap-2">
-                <button class="role-master-only hidden p-2 text-gray-400 hover:text-gray-900 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-                <button id="logoutBtn" class="bg-gray-50 text-gray-500 px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-red-50 hover:text-red-500 transition-all">로그아웃</button>
-            </div>
+            <button id="logoutBtn" class="bg-gray-50 text-gray-500 px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-red-50 hover:text-red-500 transition-all">로그아웃</button>
         </header>
 
         <main class="flex-1 mt-8">
-            <div class="bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-50 overflow-hidden overflow-x-auto no-scrollbar">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50/50 border-b border-gray-50 text-gray-400">
-                            <th class="px-8 py-5 text-[11px] font-black uppercase tracking-widest">Client / Time</th>
-                            <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest">Package</th>
-                            <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest text-center">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reservation-list" class="divide-y divide-gray-50 font-medium">
-                        <!-- JS로 데이터 삽입 -->
-                    </tbody>
-                </table>
+            <div class="flex flex-wrap items-center gap-3 mb-6 bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm">
+                <div class="flex items-center gap-2">
+                    <input type="date" id="filterStartDate" class="text-[13px] font-bold px-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-[#F27405] outline-none">
+                    <span class="text-gray-400 font-bold">~</span>
+                    <input type="date" id="filterEndDate" class="text-[13px] font-bold px-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-[#F27405] outline-none">
+                </div>
+                
+                <select id="filterStatus" class="text-[13px] font-bold px-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-[#F27405] outline-none min-w-[120px]">
+                    <option value="전체">전체 상태</option>
+                    <option value="대기중" selected>대기중</option>
+                    <option value="확정">확정</option>
+                    <option value="미응답">미응답</option>
+                </select>
+
+                <button id="filterSearchBtn" class="bg-gray-900 text-white px-6 py-2 rounded-xl text-[13px] font-black hover:bg-black active:scale-95 transition-all ml-auto">조건 조회</button>
             </div>
 
-            <!-- 페이지네이션 -->
+            <div class="bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-50 overflow-hidden">
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[1000px]">
+                        <thead>
+                            <tr class="bg-gray-50/50 border-b border-gray-50 text-gray-400">
+                                <th class="px-8 py-5 text-[11px] font-black uppercase tracking-widest">신청일시</th>
+                                <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest">이름</th>
+                                <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest text-center">연락처</th>
+                                <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest">선택 패키지</th>
+                                <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest text-center">유입 채널</th>
+                                <th class="px-6 py-5 text-[11px] font-black uppercase tracking-widest text-center">처리 상태</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservation-list" class="divide-y divide-gray-50 font-medium">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="flex justify-center items-center gap-6 mt-10 mb-20">
-                <button id="prevPageBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm disabled:opacity-30">
+                <button id="prevPageBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm disabled:opacity-30 hover:bg-gray-50 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <span id="pageIndicator" class="text-[15px] font-black">1 Page</span>
-                <button id="nextPageBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm disabled:opacity-30">
+                <span id="pageIndicator" class="text-[15px] font-black text-gray-400"><span class="text-gray-900" id="currentPage">1</span> / <span id="totalPages">1</span> Page</span>
+                <button id="nextPageBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm disabled:opacity-30 hover:bg-gray-50 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>

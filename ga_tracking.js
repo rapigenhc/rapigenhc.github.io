@@ -3,7 +3,7 @@
  */
 
 // 1. GA4 스크립트 동적 로드
-const GA_MEASUREMENT_ID = 'G-3MC3M8J2DZ'; // 본인의 측정 ID
+const GA_MEASUREMENT_ID = 'G-WZQ4SEMFQK'; // 본인의 측정 ID
 
 function loadGAScript() {
     const script = document.createElement('script');

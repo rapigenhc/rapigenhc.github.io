@@ -3,7 +3,7 @@
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, deleteDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, doc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
@@ -37,7 +37,6 @@ const setInitialDates = () => {
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        // ... (권한 체크 로직 동일) ...
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('dashboard-screen').classList.remove('hidden');
         document.getElementById('dashboard-screen').classList.add('flex');
@@ -58,7 +57,9 @@ async function fetchFromFirestore(isNext = false) {
     isFetching = true;
 
     const listContainer = document.getElementById('reservation-list');
-    if(!isNext) listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center animate-pulse text-gray-400 font-bold">조건에 맞는 데이터를 찾는 중...</td></tr>`;
+    
+    // 로딩 텍스트 노출 과정을 생략하고 깔끔하게 초기화만 수행
+    if(!isNext) listContainer.innerHTML = ``;
 
     try {
         const startDate = new Date(document.getElementById('filterStartDate').value + "T00:00:00");
@@ -94,7 +95,10 @@ async function fetchFromFirestore(isNext = false) {
         }
     } catch (error) {
         console.error("Fetch Error:", error);
-        alert("조회 중 오류가 발생했습니다. (인덱스 생성 확인 필요)");
+        // 에러 알림창을 띄우지 않고, 인덱스 부재 등으로 실패 시 자연스럽게 데이터가 없는 상태로 표시
+        if (!isNext) {
+            listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center text-gray-400 font-bold">조건에 맞는 데이터가 없습니다.</td></tr>`;
+        }
     } finally {
         isFetching = false;
     }
@@ -103,10 +107,13 @@ async function fetchFromFirestore(isNext = false) {
 function renderList(items) {
     const listContainer = document.getElementById('reservation-list');
     listContainer.innerHTML = '';
+    
+    // 조회된 데이터가 없을 경우 처리
     if (items.length === 0) {
-        listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center text-gray-300 font-bold">조건에 해당하는 내역이 없습니다.</td></tr>`;
+        listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center text-gray-400 font-bold">신규 예약이 없습니다.</td></tr>`;
         return;
     }
+    
     appendToList(items);
 }
 
@@ -118,8 +125,15 @@ function appendToList(items) {
                 year: 'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12: false 
               }) : '방금 전';
             
-        const source = data.source || 'direct'; 
+        const source = data.source || 'direct';
+        const medium = data.medium || ''; 
         const status = data.status || '대기중';
+
+        // 세부 매체(medium)가 존재할 경우에만 하단에 작은 서브 뱃지 추가 생성
+        let sourceHtml = `<span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter border">${source.toUpperCase()}</span>`;
+        if (medium) {
+            sourceHtml += `<div class="mt-1.5"><span class="inline-block bg-gray-100 text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">${medium.toUpperCase()}</span></div>`;
+        }
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-all group border-b border-gray-50";
@@ -131,11 +145,11 @@ function appendToList(items) {
                 <span class="inline-block bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package}</span>
             </td>
             <td class="px-6 py-5 text-center">
-                <span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter border">${source.toUpperCase()}</span>
+                ${sourceHtml}
             </td>
             <td class="px-6 py-5">
                 <div class="flex items-center justify-center gap-3">
-                    <select data-id="${data.id}" class="status-select text-[11px] font-black px-4 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
+                    <select data-id="${data.id}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
                         <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
                         <option value="확정" ${status === '확정' ? 'selected' : ''}>확정</option>
                         <option value="미응답" ${status === '미응답' ? 'selected' : ''}>미응답</option>
@@ -155,15 +169,71 @@ function getStatusColor(status) {
     }
 }
 
-// [이벤트] 검색 및 필터링
-document.addEventListener('click', (e) => {
+// [이벤트] 통합 클릭 리스너 (이벤트 위임)
+document.addEventListener('click', async (e) => {
+    
+    // 1. 검색 및 필터링 (조건 조회)
     if (e.target.id === 'filterSearchBtn') {
         lastVisible = null;
         fetchFromFirestore();
+        return;
     }
-    // ... (기존 로그인/로그아웃 로직 유지) ...
+
+    // 2. 관리자 로그인 로직
+    if (e.target.id === 'loginBtn') {
+        const emailInput = document.getElementById('adminId');
+        const passwordInput = document.getElementById('adminPw');
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+            alert("아이디(이메일)와 비밀번호를 모두 입력해주세요.");
+            if(!email) emailInput.focus();
+            else passwordInput.focus();
+            return;
+        }
+
+        const loginBtn = document.getElementById('loginBtn');
+        const originalText = loginBtn.innerText;
+        
+        loginBtn.innerText = "인증 진행 중...";
+        loginBtn.disabled = true;
+        loginBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            emailInput.value = '';
+            passwordInput.value = '';
+        } catch (error) {
+            console.error("Login Error:", error.code);
+            if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+            } else {
+                alert("로그인 처리 중 문제가 발생했습니다. 네트워크 상태를 확인해주세요.");
+            }
+        } finally {
+            loginBtn.innerText = originalText;
+            loginBtn.disabled = false;
+            loginBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+        return;
+    }
+
+    // 3. 로그아웃 로직
+    if (e.target.id === 'logoutBtn') {
+        if (confirm("시스템에서 안전하게 로그아웃 하시겠습니까?")) {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Logout Error:", error);
+                alert("로그아웃 중 오류가 발생했습니다.");
+            }
+        }
+        return;
+    }
 });
 
+// [이벤트] 상태값 변경 로직
 document.addEventListener('change', async (e) => {
     if (e.target.classList.contains('status-select')) {
         const id = e.target.dataset.id;

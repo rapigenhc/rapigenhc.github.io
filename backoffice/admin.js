@@ -153,6 +153,9 @@ function appendToList(items) {
                         <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
                         <option value="확정" ${status === '확정' ? 'selected' : ''}>확정</option>
                         <option value="미응답" ${status === '미응답' ? 'selected' : ''}>미응답</option>
+                        <option value="본인취소" ${status === '본인취소' ? 'selected' : ''}>본인취소</option>
+                        <option value="예약중복취소" ${status === '예약중복취소' ? 'selected' : ''}>예약중복취소</option>
+                        <option value="기타취소" ${status === '기타취소' ? 'selected' : ''}>기타취소</option>
                     </select>
                 </div>
             </td>

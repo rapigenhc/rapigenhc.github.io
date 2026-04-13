@@ -22,25 +22,24 @@
 <body class="bg-white text-gray-900 overflow-x-hidden">
 
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
-        <h1 class="cursor-pointer" onclick="location.href='index.html'">
-            <img src="./img/logo.png" alt="래피젠헬스케어" class="w-32 md:w-40 object-contain">
-        </h1>
+        <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
+            <h1 class="cursor-pointer" onclick="location.href='index.html'">
+                <img src="./img/logo.png" alt="래피젠헬스케어" class="w-32 md:w-40 object-contain">
+            </h1>
 
-        <button onclick="window.open('https://naver.me/GI3JOGWS', '_blank')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all active:scale-95 group"        >
-            <img src="./img/nvmap.png" alt="Naver Map" class="w-5 h-5 md:w-6 md:h-6 object-contain border border-gray-100 rounded-sm">
-            <span class="text-[13px] md:text-[14px] font-bold text-gray-800 tracking-tight">
-                네이버지도 보기
-            </span>
-            <svg class="w-3 h-3 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
-            </svg>
-        </button>
-    </div>
-</header>
+            <button onclick="window.open('https://naver.me/GI3JOGWS', '_blank')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all active:scale-95 group"        >
+                <img src="./img/nvmap.png" alt="Naver Map" class="w-5 h-5 md:w-6 md:h-6 object-contain border border-gray-100 rounded-sm">
+                <span class="text-[13px] md:text-[14px] font-bold text-gray-800 tracking-tight">
+                    네이버지도 보기
+                </span>
+                <svg class="w-3 h-3 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
 
-    <main class="max-w-md md:max-w-4xl mx-auto bg-white min-h-screen flex flex-col">
-        
+    <main class="relative max-w-md md:max-w-4xl mx-auto bg-white min-h-screen flex flex-col">        
         <div class="px-5 pt-3 pb-4">
             <div class="bg-[#fff8f3] rounded-2xl px-4 py-3.5 flex items-center justify-between border border-[#fcd5b4] shadow-sm">
                 <div class="flex items-center gap-2 text-[13px] md:text-sm text-[#F27405] font-bold">
@@ -97,7 +96,7 @@
                 <div class="flex gap-4 items-center">
                     <div class="w-[100px] h-[100px] md:w-32 md:h-32 bg-gray-50 rounded-2xl flex-shrink-0 relative overflow-hidden flex items-center justify-center border border-gray-100 bg-cover bg-center bg-no-repeat" style="background-image: url('img/rainbow_thumb.png');">
                         <!-- <span class="text-gray-300 text-xs font-bold">이미지</span> -->
-                         <!-- <div class="absolute top-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">마감<br>임박</div> -->
+                            <!-- <div class="absolute top-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">마감<br>임박</div> -->
                         <div class="absolute top-0 left-0 w-full h-full bg-black/5"></div>
                     </div>
                     <div class="flex flex-col flex-1 py-1">
@@ -107,7 +106,7 @@
                         </div>
                         <h3 class="font-extrabold text-[17px] md:text-[19px] text-gray-900 leading-tight mb-1 text-truncate-2">개인종합검진</h3>
                         <p class="text-[13px] text-gray-500 mb-2 truncate font-medium">가족, 지인 동반 시 혜택 제공</p>
-                         <div class="font-black text-xl md:text-2xl mt-auto text-[#F27405] tracking-tight">230,000<span class="text-[14px] font-bold ml-0.5 text-gray-600">원~</span></div>
+                            <div class="font-black text-xl md:text-2xl mt-auto text-[#F27405] tracking-tight">230,000<span class="text-[14px] font-bold ml-0.5 text-gray-600">원~</span></div>
                     </div>
                 </div>
             </a>
@@ -147,7 +146,6 @@
                 © RAPIGEN Healthcare. All rights reserved.
             </div>
         </footer>
-
     </main>
 
     <div id="guideModal" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
@@ -197,7 +195,28 @@
             </div>
         </div>
     </div>
-    
+    <!-- 카카오톡 채팅 플로팅 메뉴 -->
+     <div class="fixed bottom-24 z-[60] w-full max-w-md md:max-w-4xl left-1/2 -translate-x-1/2 pointer-events-none px-5">
+        <div class="flex flex-col items-end gap-3 group pointer-events-auto">
+            <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative animate-bounce-subtle">
+                <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                    </span>
+                    <span id="bubble-text">빠른 채팅 상담하기</span>
+                </p>
+                <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45"></div>
+            </div>
+
+            <a href="http://pf.kakao.com/_IHgin/chat" target="_blank" 
+            class="w-14 h-14 bg-[#FEE500] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 ring-4 ring-white/50">
+                <svg class="w-7 h-7 text-[#3A1D1D]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.71 4.795 4.305 6.054-.184.68-.664 2.45-.76 2.81-.12.45.152.445.32.332.132-.088 2.108-1.43 2.944-2.003.39.055.794.085 1.205.085 4.97 0 9-3.186 9-7.115S16.97 3 12 3z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
     <script type="module" src="script.js"></script>
 </body>
 </html>

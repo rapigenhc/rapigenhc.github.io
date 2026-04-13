@@ -163,3 +163,43 @@ body { font-family: 'Noto Sans KR', sans-serif; }
     0% { opacity: 0; transform: translateY(5px); }
     100% { opacity: 1; transform: translateY(0); }
 }
+
+/* 커스텀 체크박스 스타일 */
+.package-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #E5E7EB;
+    border-radius: 50%; /* 둥근 버튼 형태 */
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 체크되었을 때 상태 */
+.package-checkbox:checked {
+    background-color: #F27405;
+    border-color: #F27405;
+}
+
+/* 체크되었을 때 내부 V 표시 (흰색) */
+.package-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%) rotate(45deg);
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+}
+
+/* 체크 시 카드 전체에 은은한 링 효과 추가 */
+.package-card:has(.package-checkbox:checked) {
+    ring: 2px;
+    ring-color: #F27405;
+    box-shadow: 0 10px 15px -3px rgba(242, 116, 5, 0.1);
+}

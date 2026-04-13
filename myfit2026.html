@@ -66,369 +66,421 @@
 
             <div class="mb-10 space-y-6" data-aos="fade-up" data-aos-delay="50">
                 <h3 class="font-black text-[20px] md:text-[26px] mb-6 px-1 tracking-tight">원하시는 패키지를 선택해주세요</h3>
-                
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border-2 border-[#F27405] rounded-3xl bg-orange-50/30 cursor-pointer shadow-sm relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" checked class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
                     </div>
+
                     <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">😮‍💨 소화기능이 걱정된다면?</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">속편안 패키지</h3>
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">😮‍💨 소화기능이 걱정된다면?</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">속편안 패키지</h3>
+                        </div>
                         
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">국가검진 + 수면위대장내시경</span>
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">국가검진(위암대상자) + 수면 위·대장 내시경</span>
                         </div>
 
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-white/80 backdrop-blur text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     상세 검사항목 보기
                                 </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                             </summary>
-                            <div class="mt-3 p-5 bg-white rounded-2xl border border-gray-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3">
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
-                                        </span>
-                                        <span class="pt-1">수면 위·대장 내시경</span>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider">국가검진 항목</span>
+                                    <p class="text-[14px] text-gray-600 font-medium">
+                                         <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
+                                            <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                            <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                            <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                            <li>4. 흉부 X-ray 촬영</li>
+                                            <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                                <div class="flex flex-col gap-1 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <p class="text-[14px] text-gray-800 font-bold leading-relaxed">수면 위·대장 내시경</p>
+                                </div>
+                            </div>
+                        </details>
+
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 48%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">330,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">170,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
+                    </div>
+                    <div class="flex-1 flex flex-col w-full z-10">
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">🚬 잦은 기침과 미세먼지가 신경쓰인다면?</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">숨편안 패키지</h3>
+                        </div>
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">국가검진 + 폐CT + 종양표지자 4종</span>
+                        </div>
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
+                                <span class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                    상세 검사항목 보기
+                                </span>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">폐 CT</span>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">종양표지자 4종</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 48%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">250,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">130,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
+                    </div>
+
+                    <div class="flex-1 flex flex-col w-full z-10">
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">🍻 잦은 회식과 만성 피로에 시달린다면?</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">간당간당 패키지</h3>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">상복부/간섬유화 초음파 + 정밀혈액 등</span>
+                        </div>
+
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
+                                <span class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                    상세 검사항목 보기
+                                </span>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">상복부 초음파(간, 담낭, 췌장, 비장, 신장), 간섬유화 정밀 초음파</span>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">당뇨(Glucose, HbA1c), 간 기능 정밀(AST, ALT, r-GTP)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </details>
 
-                        <div class="text-right mt-auto pt-5 border-t border-orange-200/50">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 330,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">170,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 48%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">330,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">170,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
                         </div>
                     </div>
                 </label>
 
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">🚬 잦은 기침과 미세먼지가 신경쓰인다면?</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">숨편안 패키지</h3>
-                        
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">국가검진 + 폐CT + 종양표지자 4종</span>
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">🌸 건강한 중년을 준비하는 여성을 위한</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">갱년기 안심 패키지</h3>
                         </div>
-
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">초음파(자궁) + 자궁경부암 + 여성호르몬</span>
+                        </div>
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     상세 검사항목 보기
                                 </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                             </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
-                                        </span>
-                                        <span class="pt-1">폐 CT</span>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">자궁 초음파</span>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>여성정밀
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">자궁경부암, HPV 바이러스 검사</span>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">여성호르몬 3종 (LH, E2, FSH)</span>
+                                        </div>
                                     </div>
-                                    <div class="flex items-center gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
-                                        </span>
-                                        <span class="pt-1">종양표지자 4종</span>
+                                </div>
+                            </div>
+                        </details>
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 48%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">330,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">170,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
+                    </div>
+
+                    <div class="flex-1 flex flex-col w-full z-10">
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">🩸 단 한 번의 채혈로 전신 건강을 체크!</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">혈액종합 안심 패키지</h3>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">혈액/소변 종합검사 80여종</span>
+                        </div>
+
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
+                                <span class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                    상세 검사항목 보기
+                                </span>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액/소변
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">혈액·소변 종합검사 80여종 (종양표지자 포함)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </details>
 
-                        <div class="text-right mt-auto pt-5 border-t border-gray-100">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 250,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">130,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 47%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">190,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">100,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
                         </div>
                     </div>
                 </label>
 
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">🍻 잦은 회식과 만성 피로에 시달린다면?</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">간당간당 패키지</h3>
-                        
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">상복부/간섬유화 초음파 + 정밀혈액 등</span>
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">🩺 발견이 어려운 침묵의 장기, 정밀 점검</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">췌장안심 패키지</h3>
                         </div>
-
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">국가검진 + 췌장MRI + 종양표지자 4종</span>
+                        </div>
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     상세 검사항목 보기
                                 </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                             </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">상복부 초음파(간, 담낭, 췌장, 비장, 신장), 간섬유화 정밀 초음파</span>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">당뇨(Glucose, HbA1c), 간 기능 정밀(AST, ALT, r-GTP)</span>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">췌장 MRI</span>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">종양표지자 4종</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </details>
-
-                        <div class="text-right mt-auto pt-5 border-t border-gray-100">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 330,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">170,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
+                        <div class="text-right pt-4 border-t border-dashed border-gray-200">
+                            <div class="flex items-center justify-end gap-2 mb-1">
+                                <span class="text-[11px] font-black text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SAVE 49%</span>
+                                <del class="text-gray-400 text-[13px] font-medium tracking-tight">550,000원</del>
+                            </div>
+                            <div class="price-val text-[28px] md:text-[34px] font-black text-gray-900 tracking-tighter">280,000<span class="text-[16px] font-bold text-gray-800 ml-0.5">원</span></div>
                         </div>
                     </div>
                 </label>
 
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
+                <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
+                    <div class="absolute top-6 left-5 z-20">
+                        <input type="checkbox" class="package-checkbox">
                     </div>
+
                     <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">🌸 건강한 중년을 준비하는 여성을 위한</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">갱년기 안심 패키지</h3>
+                        <div class="pl-10 mb-5">
+                            <p class="text-[13px] md:text-[14px] text-[#F27405] mb-1 font-bold tracking-tight opacity-90">어떤 패키지를 선택할지 고민이라면?</p>
+                            <h3 class="text-[22px] md:text-[26px] font-black tracking-tight text-gray-900 leading-tight">1:1 맞춤 패키지</h3>
+                        </div>
                         
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">초음파(자궁) + 자궁경부암 + 여성호르몬</span>
+                        <div class="flex items-center gap-2 mb-4 bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                            <span class="bg-[#F27405] text-white px-2 py-0.5 rounded text-[10px] font-black shrink-0 shadow-sm">요약</span>
+                            <span class="text-[14px] md:text-[15px] text-gray-700 font-bold truncate">국가검진 + 추가 검사(상담 후 결정)</span>
                         </div>
 
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
+                        <details class="group/details mb-5">
+                            <summary class="accordion-toggle bg-white text-[14px] text-gray-500 font-bold flex items-center justify-between cursor-pointer list-none px-4 py-3.5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-50">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg class="w-4 h-4 text-gray-400 group-open/details:text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     상세 검사항목 보기
                                 </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-4 h-4 transition-transform duration-300 group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                             </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">자궁 초음파</span>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>여성정밀
-                                        </span>
-                                        <span class="pt-1 leading-snug">자궁경부암, HPV 바이러스 검사</span>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">여성호르몬 3종 (LH, E2, FSH)</span>
+                            <div class="mt-2 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 space-y-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-2">국가검진 항목</span>
+                                    <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 pl-1 font-medium">
+                                        <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
+                                        <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
+                                        <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
+                                        <li>4. 흉부 X-ray 촬영</li>
+                                        <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col gap-3 border-t border-gray-200/50 pt-3">
+                                    <span class="text-[12px] font-black text-[#F27405] uppercase tracking-wider">패키지 항목</span>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[11px] font-extrabold shadow-sm shrink-0">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>맞춤상담
+                                            </span>
+                                            <span class="pt-0.5 text-[14px] text-gray-800 font-bold leading-snug">상담을 통해 질환, 가족력에 맞는 추가검사를 안내해드립니다.</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </details>
-
-                        <div class="text-right mt-auto pt-5 border-t border-gray-100">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 330,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">170,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
-                        </div>
-                    </div>
-                </label>
-
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
-                    </div>
-                    <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">🩸 단 한 번의 채혈로 전신 건강을 체크!</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">혈액종합 안심 패키지</h3>
-                        
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">혈액/소변 종합검사 80여종</span>
-                        </div>
-
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    상세 검사항목 보기
-                                </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
-                            </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액/소변
-                                        </span>
-                                        <span class="pt-1 leading-snug">혈액·소변 종합검사 80여종 (종양표지자 포함)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
-
-                        <div class="text-right mt-auto pt-5 border-t border-gray-100">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 190,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">100,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
-                        </div>
-                    </div>
-                </label>
-
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
-                    </div>
-                    <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">🩺 발견이 어려운 침묵의 장기, 정밀 점검</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">췌장안심 패키지</h3>
-                        
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">국가검진 + 췌장MRI + 종양표지자 4종</span>
-                        </div>
-
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    상세 검사항목 보기
-                                </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
-                            </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>장비검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">췌장 MRI</span>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white text-gray-600 text-[12px] font-extrabold shadow-sm shrink-0">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>혈액검사
-                                        </span>
-                                        <span class="pt-1 leading-snug">종양표지자 4종</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
-
-                        <div class="text-right mt-auto pt-5 border-t border-gray-100">
-                            <del class="text-gray-400 text-[14px] md:text-[15px] block mb-1 font-medium">정상가 550,000원</del>
-                            <div class="price-val text-[30px] md:text-[34px] font-black text-gray-900 tracking-tight">280,000<span class="text-[17px] md:text-[19px] font-bold text-gray-800 ml-1 tracking-normal">원</span></div>
-                        </div>
-                    </div>
-                </label>
-
-                <label class="package-card flex items-start gap-4 p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden">
-                    <div class="pt-1.5 shrink-0 z-10">
-                        <input type="checkbox" class="package-checkbox w-[24px] h-[24px] md:w-7 md:h-7 accent-[#F27405] cursor-pointer">
-                    </div>
-                    <div class="flex-1 flex flex-col w-full z-10">
-                        <p class="text-[16px] md:text-[18px] text-[#F27405] mb-2 font-bold tracking-tight">어떤 패키지를 선택할지 고민이라면?</p>
-                        <h3 class="text-[24px] md:text-[28px] font-black mb-3.5 tracking-tight text-gray-900">1:1 맞춤 패키지</h3>
-                        
-                        <div class="flex items-center gap-2 mb-5">
-                            <span class="bg-gray-100 text-gray-500 px-2.5 py-1 rounded-md text-[12px] font-extrabold shrink-0">상품 설명</span>
-                            <span class="text-[15px] md:text-[16px] text-gray-600 font-medium truncate">국가검진 + 추가 검사(상담 후 결정)</span>
-                        </div>
-
-                        <details class="group/details mb-6">
-                            <summary class="accordion-toggle bg-gray-50 text-[14px] md:text-[15px] text-gray-600 font-bold flex items-center justify-between cursor-pointer hover:text-[#F27405] transition-colors list-none px-4 py-4 rounded-2xl border border-gray-100">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-gray-400 group-hover/details:text-[#F27405] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    상세 검사항목 보기
-                                </span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-open/details:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
-                            </summary>
-                            <div class="mt-3 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 국가검진 항목</strong>
-                                <ul class="list-none space-y-2 text-[14px] md:text-[15px] text-gray-500 mb-6 pl-1 font-medium">
-                                    <li>1. 기본 : 문진, 신체계측, 시력, 청력, 혈압 등</li>
-                                    <li>2. 혈액 : AST, ALT, 감마지티피, 공복혈당</li>
-                                    <li>3. 소변 : 요단백, 혈색소, 신사구체여과율 등</li>
-                                    <li>4. 흉부 X-ray 촬영</li>
-                                    <li>5. 성·연령별 검사항목 (대상자에 한함)</li>
-                                </ul>
-                                <strong class="text-gray-900 block mb-3 text-[15px] md:text-[16px] font-black">■ 패키지 항목</strong>
-                                <div class="text-[14px] md:text-[15px] text-gray-700 font-bold space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <span class="pt-1 leading-snug">상담을 통해 질환, 가족력에 맞는 추가검사를 안내해드립니다.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>                
                     </div>
                 </label>
             </div>

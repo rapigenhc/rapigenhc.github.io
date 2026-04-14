@@ -194,6 +194,31 @@ document.addEventListener('DOMContentLoaded', () => {
             this.parentElement.toggleAttribute('open');
         });
     });
+
+    /* =========================================
+    8. 카카오톡 말풍선 텍스트 로테이션 (UX 최적화)
+    ========================================= */
+    const bubbleText = document.getElementById('bubble-text');
+    if (bubbleText) {
+        const messages = [
+            "빠른 채팅 상담하기", 
+            "어떤 검사인지 궁금해요", 
+            "2주후에 예약되나요?",
+            "검진 전 금식해야 하나요?"
+        ];
+        let msgIdx = 0;
+
+        setInterval(() => {
+            // 페이드 아웃 효과를 위한 투명도 조절 (선택사항)
+            bubbleText.style.opacity = 0;
+            
+            setTimeout(() => {
+                msgIdx = (msgIdx + 1) % messages.length;
+                bubbleText.innerText = messages[msgIdx];
+                bubbleText.style.opacity = 1;
+            }, 300); // 0.3초 후 텍스트 교체 및 페이드 인
+        }, 4000);
+    }
 });
 
 /* =========================================

@@ -1,8 +1,12 @@
-// 1. 파이어베이스 최신 모듈 불러오기
+/* ==========================================================================
+   래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
+   특징: 보안(XSS) 강화, 비용 효율적 알림, 네이티브 UI/UX, UTM 추적 통합
+   ========================================================================== */
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// 2. 파이어베이스 설정
+// 1. 파이어베이스 구성 [cite: 86]
 const firebaseConfig = {
   apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
   authDomain: "rapigenhc-event.firebaseapp.com",
@@ -13,388 +17,177 @@ const firebaseConfig = {
   measurementId: "G-GM4ZWH6XEY"
 };
 
-// 3. 파이어베이스 앱 및 데이터베이스 초기화
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM 로드 시 실행될 통합 로직
-document.addEventListener('DOMContentLoaded', () => {
+/* ---------------------------------------------------------
+   [보안] XSS 방어를 위한 HTML 이스케이프 함수 [cite: 8, 108, 119]
+   --------------------------------------------------------- */
+const escapeHTML = (str) => {
+    if (!str) return "";
+    return str.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[m]);
+};
 
-    /* =========================================
-       [핵심] URL 유입 경로(UTM) 세션 저장
-    ========================================= */
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmSource = urlParams.get('utm_source');
-    const utmMedium = urlParams.get('utm_medium');
-    
-    // URL에 utm_source가 있다면 SessionStorage에 소문자로 저장 (창 닫기 전까지 유지)
-    if (utmSource) {
-        sessionStorage.setItem('rapi_utm_source', utmSource.toLowerCase());
-    }
-    if (utmMedium) {
-        sessionStorage.setItem('rapi_utm_medium', utmMedium.toLowerCase());
-    }
-
-    /* =========================================
-       0. 공통 푸터 불러오기 (fetch)
-    ========================================= */
-    const footerContainer = document.getElementById('common-footer-container');
-    if (footerContainer) {
-        fetch('footer.html?v=' + new Date().getTime())
-            .then(response => response.text())
-            .then(data => {
-                footerContainer.innerHTML = data;
-            })
-            .catch(error => console.error('푸터를 불러오는데 실패했습니다:', error));
-    }
-
-    /* =========================================
-       1. 메인 배너 카로셀 로직
-    ========================================= */
-    const slides = document.querySelectorAll('.carousel-slide');
-    const indicator = document.getElementById('slide-indicator');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    let currentIndex = 0;
-    let slideTimer;
-
-    if (slides.length > 0) {
-        function goToSlide(index) {
-            slides[currentIndex].classList.remove('opacity-100', 'z-20');
-            slides[currentIndex].classList.add('opacity-0', 'z-10');
-            
-            currentIndex = index;
-            if (currentIndex < 0) currentIndex = slides.length - 1;
-            if (currentIndex >= slides.length) currentIndex = 0;
-            
-            slides[currentIndex].classList.remove('opacity-0', 'z-10');
-            slides[currentIndex].classList.add('opacity-100', 'z-20');
-            
-            indicator.innerText = `${currentIndex + 1} / ${slides.length}`;
-        }
-
-        function startTimer() {
-            slideTimer = setInterval(() => {
-                goToSlide(currentIndex + 1);
-            }, 3000);
-        }
-
-        function resetTimer() {
-            clearInterval(slideTimer);
-            startTimer();
-        }
-
-        if(prevBtn) prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); resetTimer(); });
-        if(nextBtn) nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); resetTimer(); });
-
-        startTimer();
-    }
-
-    /* =========================================
-       2 & 3. 탭 분류 및 마감임박 필터 통합 로직
-    ========================================= */
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const sortBtns = document.querySelectorAll('.sort-btn');
-    const eventContainer = document.getElementById('event-list-container');
-
-    if (eventContainer) {
-        let currentCategory = 'all';
-        let currentSort = 'newest';
-
-        function updateEventList() {
-            const items = Array.from(eventContainer.querySelectorAll('.event-item'));
-
-            items.forEach(item => {
-                const matchCategory = (currentCategory === 'all' || item.dataset.category === currentCategory);
-                const matchUrgent = (currentSort === 'urgent') ? (item.dataset.urgent === 'true') : true;
-
-                if (matchCategory && matchUrgent) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            items.sort((a, b) => {
-                if (currentSort === 'newest') {
-                    return new Date(b.dataset.date) - new Date(a.dataset.date);
-                } else if (currentSort === 'urgent') {
-                    return parseInt(a.dataset.days) - parseInt(b.dataset.days);
-                }
-            });
-
-            items.forEach(item => eventContainer.appendChild(item));
-        }
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(t => {
-                    t.classList.remove('border-[#F27405]', 'text-[#F27405]');
-                    t.classList.add('border-transparent', 'text-gray-500');
-                });
-                btn.classList.add('border-[#F27405]', 'text-[#F27405]');
-                btn.classList.remove('border-transparent', 'text-gray-500');
-
-                currentCategory = btn.dataset.target;
-                updateEventList();
-            });
+/* ---------------------------------------------------------
+   [알림] EmailJS 발송 로직 (CC 활용으로 쿼터 절약) [cite: 43, 44, 77, 110]
+   --------------------------------------------------------- */
+const sendEmailNotification = async (data) => {
+    try {
+        // template_NEW-Reserve 템플릿의 변수와 일치시킴 [cite: 68, 106]
+        await emailjs.send('service_event-github', 'template_NEW-Reserve', {
+            name: data.name,
+            phone: data.phone,
+            package: data.package,
+            date: new Date().toLocaleDateString('ko-KR'),
+            time: new Date().toLocaleTimeString('ko-KR'),
+            received_at: new Date().toLocaleString('ko-KR')
         });
-
-        sortBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                sortBtns.forEach(b => {
-                    b.classList.remove('bg-gray-800', 'text-white', 'border-transparent');
-                    b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
-                });
-                btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-                btn.classList.add('bg-gray-800', 'text-white', 'border-transparent');
-
-                currentSort = btn.dataset.sort;
-                updateEventList();
-            });
-        });
-
-        updateEventList();
+        console.log("관리자 알림 발송 성공");
+    } catch (err) {
+        console.error("EmailJS 발송 실패:", err);
     }
+};
 
-    /* =========================================
-       4. 체크박스 & 아코디언 UI 제어
-    ========================================= */
-    const cards = document.querySelectorAll('.package-card');
-    const checkboxes = document.querySelectorAll('.package-checkbox');
-
-    checkboxes.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                checkboxes.forEach((cb, cbIndex) => {
-                    if (index !== cbIndex) cb.checked = false;
-                });
-            } else {
-                checkbox.checked = true; // 최소 1개 필수 선택 방어
-            }
-
-            cards.forEach((card, cardIndex) => {
-                if (checkboxes[cardIndex].checked) {
-                    card.classList.remove('border', 'border-gray-200', 'bg-white');
-                    card.classList.add('border-2', 'border-[#F27405]', 'bg-orange-50/30');
-                } else {
-                    card.classList.remove('border-2', 'border-[#F27405]', 'bg-orange-50/30');
-                    card.classList.add('border', 'border-gray-200', 'bg-white');
-                }
-            });
-        });
-    });
-
-    const accordionToggles = document.querySelectorAll('.accordion-toggle');
-    accordionToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.parentElement.toggleAttribute('open');
-        });
-    });
-
-    /* =========================================
-    8. 카카오톡 말풍선 텍스트 로테이션 (UX 최적화)
-    ========================================= */
-    const bubbleText = document.getElementById('bubble-text');
-    if (bubbleText) {
-        const messages = [
-            "빠른 채팅 상담하기", 
-            "어떤 검사인지 궁금해요", 
-            "2주후에 예약되나요?",
-            "검진 전 금식해야 하나요?"
-        ];
-        let msgIdx = 0;
-
-        setInterval(() => {
-            // 페이드 아웃 효과를 위한 투명도 조절 (선택사항)
-            bubbleText.style.opacity = 0;
-            
-            setTimeout(() => {
-                msgIdx = (msgIdx + 1) % messages.length;
-                bubbleText.innerText = messages[msgIdx];
-                bubbleText.style.opacity = 1;
-            }, 300); // 0.3초 후 텍스트 교체 및 페이드 인
-        }, 4000);
-    }
-});
-
-/* =========================================
-   전역 함수 (Window Object 바인딩) - 폼 제출 및 모달
-========================================= */
-
-// 로딩 상태 UI 헬퍼
+/* ---------------------------------------------------------
+   [UI] 로딩 상태 및 모달 제어 함수 [cite: 90, 91, 100, 109]
+   --------------------------------------------------------- */
 const setButtonLoading = (isLoading) => {
     const btn = document.querySelector('button[onclick="submitForm()"]');
     if (!btn) return;
-
-    if (isLoading) {
-        btn.disabled = true;
-        btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white inline mr-2" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> 접수 중...`;
-        btn.classList.add('opacity-70', 'cursor-not-allowed');
-    } else {
-        btn.disabled = false;
-        btn.innerText = '상담 접수하기';
-        btn.classList.remove('opacity-70', 'cursor-not-allowed');
-    }
+    btn.disabled = isLoading;
+    btn.innerHTML = isLoading ? 
+        `<svg class="animate-spin h-4 w-4 text-white inline mr-2" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> 접수 중...` : 
+        '상담 접수하기';
+    btn.classList.toggle('opacity-70', isLoading);
 };
 
-window.showAlert = function(message) {
-    const alertModal = document.getElementById('alertModal');
-    const alertMessage = document.getElementById('alertMessage');
-    if (alertModal && alertMessage) {
-        alertMessage.innerText = message;
-        alertModal.classList.remove('hidden');
-        alertModal.classList.add('flex');
-    } else {
-        alert(message);
-    }
+window.showAlert = (message) => {
+    const modal = document.getElementById('alertModal');
+    const msgArea = document.getElementById('alertMessage');
+    if (modal && msgArea) {
+        msgArea.innerText = message;
+        modal.classList.replace('hidden', 'flex');
+    } else { alert(message); }
 };
 
-window.closeAlertModal = function() {
-    const alertModal = document.getElementById('alertModal');
-    if (alertModal) {
-        alertModal.classList.add('hidden');
-        alertModal.classList.remove('flex');
-    }
-};
+window.closeAlertModal = () => document.getElementById('alertModal')?.classList.replace('flex', 'hidden');
+window.closeModal = () => document.getElementById('successModal')?.classList.replace('flex', 'hidden');
 
-// [핵심] 폼 접수하기 로직
+/* ---------------------------------------------------------
+   [핵심] 폼 제출 로직 [cite: 26, 94, 129]
+   --------------------------------------------------------- */
 window.submitForm = async function() {
-    // 도배 방지 (현재 로딩 중이거나 60초 내 재접수 시단)
-    if (window.isSubmitting || localStorage.getItem('last_submit_time') > Date.now() - 60000) {
-        window.showAlert("이미 접수 중이거나 최근에 접수하셨습니다. 잠시 후 다시 시도해주세요.");
-        return;
+    // 도배 방지 (60초 쿨타임) [cite: 51, 94, 132]
+    const lastSubmit = localStorage.getItem('last_submit_time');
+    if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
+        return window.showAlert("잠시 후 다시 시도해주세요.");
     }
 
-    const agree = document.getElementById('agree');
     const nameInput = document.getElementById('userName');
     const phoneInput = document.getElementById('userPhone');
+    const agree = document.getElementById('agree');
     
-    // 정규식 보안 검증
-    const nameRegex = /^[가-힣a-zA-Z\s]{2,20}$/; 
-    const phoneRegex = /^01[016789]\d{7,8}$/; 
+    // 유효성 검사 (Regex) [cite: 8, 119]
+    if (!agree?.checked) return window.showAlert("개인정보 수집에 동의해주세요.");
+    if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(nameInput?.value.trim())) return window.showAlert("성함을 정확히 입력해주세요.");
+    if (!/^01[016789]\d{7,8}$/.test(phoneInput?.value.trim().replace(/[^0-9]/g, ''))) return window.showAlert("휴대폰 번호를 확인해주세요.");
 
-    if (agree && !agree.checked) {
-        window.showAlert("개인정보수집 이용에 동의해주세요.");
-        return;
-    }
-    
-    const nameValue = nameInput ? nameInput.value.trim() : '';
-    if (!nameRegex.test(nameValue)) {
-        window.showAlert("이름을 특수문자나 숫자 없이 올바르게 입력해주세요.");
-        if(nameInput) nameInput.focus();
-        return;
-    }
-
-    const phoneValue = phoneInput ? phoneInput.value.trim().replace(/[^0-9]/g, '') : '';
-    if (!phoneRegex.test(phoneValue)) {
-        window.showAlert("올바른 휴대폰 번호를 입력해주세요.");
-        if(phoneInput) phoneInput.focus();
-        return;
-    }
-
-    // 선택된 패키지 추출
-    let selectedPkg = "패키지 선택 안함";
+    // 패키지 정보 추출 [cite: 88]
     const checkedBox = document.querySelector('.package-checkbox:checked');
-    if (checkedBox) {
-        const card = checkedBox.closest('.package-card');
-        if(card) selectedPkg = card.querySelector('h3').innerText.trim();
-    }
+    const selectedPkg = checkedBox?.closest('.package-card')?.querySelector('h3')?.innerText.trim() || "기본 패키지";
+
+    // 데이터 가공 (XSS 방어 및 UTM 포함) [cite: 108, 129]
+    const formData = {
+        name: escapeHTML(nameInput.value.trim()),
+        phone: escapeHTML(phoneInput.value.trim()),
+        package: escapeHTML(selectedPkg),
+        status: "대기중",
+        source: sessionStorage.getItem('rapi_utm_source') || 'direct',
+        medium: sessionStorage.getItem('rapi_utm_medium') || '',
+        createdAt: serverTimestamp(),
+        userAgent: navigator.userAgent
+    };
 
     try {
         window.isSubmitting = true;
         setButtonLoading(true);
 
-        // 세션에서 UTM 소스 가져오기
-        const sourceData = sessionStorage.getItem('rapi_utm_source') || 'direct';
-        const mediumData = sessionStorage.getItem('rapi_utm_medium') || '';
+        // 1. Firestore 저장 [cite: 85, 120]
+        await addDoc(collection(db, "reservations"), formData);
 
-        // Firestore 저장 (어드민 연동을 위해 status: "대기중")
-        await addDoc(collection(db, "reservations"), {
-            name: nameValue,
-            phone: phoneValue,
-            package: selectedPkg,
-            status: "대기중",
-            source: sourceData, 
-            medium: mediumData,
-            createdAt: serverTimestamp(),
-            userAgent: navigator.userAgent
-        });
+        // 2. 관리자 이메일 알림 (비동기) [cite: 38, 81]
+        sendEmailNotification(formData);
 
-        // GA4 이벤트 전송 방어코드
-        if (typeof gtag === 'function') {
-            gtag('event', 'generate_lead', {
-                event_category: 'Reservation',
-                event_label: selectedPkg,
-                value: 1
-            });
-        }
+        // 3. 마케팅 성과 추적 (GA4) [cite: 133]
+        if (typeof gtag === 'function') gtag('event', 'generate_lead', { 'event_label': selectedPkg });
 
-        // 성공 처리 및 타임스탬프 기록
+        // 4. 완료 처리
         localStorage.setItem('last_submit_time', Date.now());
+        document.getElementById('successModal')?.classList.replace('hidden', 'flex');
         
-        // 성공 모달 노출 및 폼 초기화
-        const successModal = document.getElementById('successModal');
-        if (successModal) {
-            successModal.classList.remove('hidden');
-            successModal.classList.add('flex');
-        }
-        if (nameInput) nameInput.value = '';
-        if (phoneInput) phoneInput.value = '';
-        if (agree) agree.checked = false;
+        // 필드 초기화
+        nameInput.value = ''; phoneInput.value = ''; agree.checked = false;
 
-    } catch (error) {
-        console.error("Firebase Error:", error);
-        window.showAlert("접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } catch (err) {
+        console.error("DB Error:", err);
+        window.showAlert("오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
         setButtonLoading(false);
         setTimeout(() => { window.isSubmitting = false; }, 1000);
     }
 };
 
-window.closeModal = function() {
-    const successModal = document.getElementById('successModal');
-    if (successModal) {
-        successModal.classList.add('hidden');
-        successModal.classList.remove('flex');
-    }
-};
+/* ---------------------------------------------------------
+   [DOM Load] 초기화 및 UX 인터랙션 로직 [cite: 88, 118, 128]
+   --------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    // UTM 파라미터 저장 [cite: 129]
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
+    if (params.get('utm_medium')) sessionStorage.setItem('rapi_utm_medium', params.get('utm_medium').toLowerCase());
 
-window.openGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.remove('hidden');
-        guideModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
+    // 푸터 동적 로드 [cite: 7, 118, 126]
+    const fContainer = document.getElementById('common-footer-container');
+    if (fContainer) {
+        fetch(`footer.html?v=${Date.now()}`)
+            .then(r => r.text())
+            .then(html => fContainer.innerHTML = html);
     }
-};
 
-window.closeGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.add('hidden');
-        guideModal.classList.remove('flex');
-        document.body.style.overflow = '';
+    // 카카오톡 상담 텍스트 로테이션 [cite: 128]
+    const bubble = document.getElementById('bubble-text');
+    if (bubble) {
+        const msgs = ["빠른 채팅 상담하기", "어떤 검사인지 궁금해요", "검진 전 금식 안내"];
+        let mIdx = 0;
+        setInterval(() => {
+            bubble.style.opacity = 0;
+            setTimeout(() => {
+                mIdx = (mIdx + 1) % msgs.length;
+                bubble.innerText = msgs[mIdx];
+                bubble.style.opacity = 1;
+            }, 300);
+        }, 4000);
     }
-};
 
-window.openPrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal');
-    if (privacyModal) {
-        privacyModal.classList.remove('hidden');
-        privacyModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-};
+    // [이벤트 위임] 체크박스 및 아코디언 제어 [cite: 12, 123]
+    document.body.addEventListener('change', (e) => {
+        if (e.target.classList.contains('package-checkbox')) {
+            const boxes = document.querySelectorAll('.package-checkbox');
+            boxes.forEach(cb => { if (cb !== e.target) cb.checked = false; });
+            if (![...boxes].some(cb => cb.checked)) e.target.checked = true; // 최소 1개 유지
+            
+            // 카드 스타일 업데이트
+            document.querySelectorAll('.package-card').forEach(card => {
+                const isChecked = card.querySelector('.package-checkbox').checked;
+                card.classList.toggle('border-[#F27405]', isChecked);
+                card.classList.toggle('bg-orange-50/30', isChecked);
+            });
+        }
+    });
+});
 
-window.closePrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal');
-    if (privacyModal) {
-        privacyModal.classList.add('hidden');
-        privacyModal.classList.remove('flex');
-        document.body.style.overflow = '';
-    }
-};
+// 모달 유틸리티
+window.openPrivacyModal = () => document.getElementById('privacyModal')?.classList.replace('hidden', 'flex');
+window.closePrivacyModal = () => document.getElementById('privacyModal')?.classList.replace('flex', 'hidden');

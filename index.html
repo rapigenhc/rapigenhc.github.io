@@ -197,19 +197,21 @@
     </div>
     <!-- 카카오톡 채팅 플로팅 메뉴 -->
     <div class="fixed bottom-24 z-[60] w-full max-w-md md:max-w-4xl left-1/2 -translate-x-1/2 pointer-events-none px-5">
-        <div class="flex flex-col items-end gap-3 group pointer-events-auto">
-            <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative">
+        <div class="flex flex-col items-end gap-3 group pointer-events-auto animate-bounce-subtle">
+            <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative transition-all duration-300 group-hover:-translate-y-1">
                 <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
                     </span>
-                    <span id="bubble-text">빠른 채팅 상담하기</span>
+                    <span id="bubble-text" class="transition-opacity duration-300">빠른 채팅 상담하기</span>
                 </p>
                 <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45"></div>
             </div>
             <a href="http://pf.kakao.com/_IHgin/chat" target="_blank" class="w-14 h-14 bg-[#FEE500] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 ring-4 ring-white/50">
-                <svg class="w-7 h-7 text-[#3A1D1D]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.71 4.795 4.305 6.054-.184.68-.664 2.45-.76 2.81-.12.45.152.445.32.332.132-.088 2.108-1.43 2.944-2.003.39.055.794.085 1.205.085 4.97 0 9-3.186 9-7.115S16.97 3 12 3z"/></svg>
+                <svg class="w-7 h-7 text-[#3A1D1D]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.71 4.795 4.305 6.054-.184.68-.664 2.45-.76 2.81-.12.45.152.445.32.332.132-.088 2.108-1.43 2.944-2.003.39.055.794.085 1.205.085 4.97 0 9-3.186 9-7.115S16.97 3 12 3z"/>
+                </svg>
             </a>
         </div>
     </div>

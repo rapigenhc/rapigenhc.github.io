@@ -143,6 +143,68 @@ window.submitForm = async function() {
    [DOM Load] 초기화 및 UX 인터랙션 로직 [cite: 88, 118, 128]
    --------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
+    /* ---------------------------------------------------------
+       1. 메인 카로셀(Carousel) 제어 로직
+       --------------------------------------------------------- */
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicator = document.getElementById('slide-indicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (slides.length > 0) {
+        let currentIdx = 0;
+        let slideInterval;
+
+        const updateSlides = (index) => {
+            slides.forEach((slide, i) => {
+                // Tailwind의 opacity 클래스 대신 style.css에 정의된 .active 활용
+                if (i === index) {
+                    slide.classList.add('active');
+                    slide.classList.replace('opacity-0', 'opacity-100');
+                    slide.classList.add('z-20');
+                } else {
+                    slide.classList.remove('active');
+                    slide.classList.replace('opacity-100', 'opacity-0');
+                    slide.classList.remove('z-20');
+                }
+            });
+            if (indicator) indicator.innerText = `${index + 1} / ${slides.length}`;
+        };
+
+        const nextSlide = () => {
+            currentIdx = (currentIdx + 1) % slides.length;
+            updateSlides(currentIdx);
+        };
+
+        const prevSlide = () => {
+            currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+            updateSlides(currentIdx);
+        };
+
+        // 자동 슬라이드 시작 (4초)
+        const startAutoSlide = () => {
+            stopAutoSlide();
+            slideInterval = setInterval(nextSlide, 4000);
+        };
+
+        const stopAutoSlide = () => {
+            if (slideInterval) clearInterval(slideInterval);
+        };
+
+        // 이벤트 리스너
+        nextBtn?.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
+        prevBtn?.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
+
+        // 초기 실행
+        updateSlides(currentIdx);
+        startAutoSlide();
+
+        // 마우스 호버 시 일시정지 (PC 배려)
+        const container = document.getElementById('carousel-container')?.parentElement;
+        container?.addEventListener('mouseenter', stopAutoSlide);
+        container?.addEventListener('mouseleave', startAutoSlide);
+    }
+
     // UTM 파라미터 저장 [cite: 129]
     const params = new URLSearchParams(window.location.search);
     if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
@@ -156,17 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => fContainer.innerHTML = html);
     }
 
-    // 카카오톡 상담 텍스트 로테이션 [cite: 128]
+    // 카카오톡 상담 텍스트 로테이션
     const bubble = document.getElementById('bubble-text');
     if (bubble) {
         const msgs = ["빠른 채팅 상담하기", "어떤 검사인지 궁금해요", "검진 전 금식 안내"];
         let mIdx = 0;
         setInterval(() => {
-            bubble.style.opacity = 0;
+            bubble.style.opacity = 0; // 페이드 아웃
             setTimeout(() => {
                 mIdx = (mIdx + 1) % msgs.length;
                 bubble.innerText = msgs[mIdx];
-                bubble.style.opacity = 1;
+                bubble.style.opacity = 1; // 페이드 인
             }, 300);
         }, 4000);
     }

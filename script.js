@@ -157,15 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const updateSlides = (index) => {
             slides.forEach((slide, i) => {
-                // Tailwind의 opacity 클래스 대신 style.css에 정의된 .active 활용
                 if (i === index) {
+                    // 활성화된 슬라이드
                     slide.classList.add('active');
                     slide.classList.replace('opacity-0', 'opacity-100');
-                    slide.classList.add('z-20');
+                    slide.classList.replace('z-10', 'z-20');
+                    slide.classList.remove('pointer-events-none'); // 클릭 가능하게 설정
                 } else {
+                    // 비활성화된 슬라이드
                     slide.classList.remove('active');
                     slide.classList.replace('opacity-100', 'opacity-0');
-                    slide.classList.remove('z-20');
+                    slide.classList.replace('z-20', 'z-10');
+                    slide.classList.add('pointer-events-none'); // 뒤에 숨어있는 슬라이드 클릭 방지
                 }
             });
             if (indicator) indicator.innerText = `${index + 1} / ${slides.length}`;
@@ -221,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 카카오톡 상담 텍스트 로테이션
     const bubble = document.getElementById('bubble-text');
     if (bubble) {
-        const msgs = ["빠른 채팅 상담하기", "어떤 검사인지 궁금해요", "검진 전 금식 안내"];
+        const msgs = ["빠른 채팅 상담하기", "어떤 걸 선택해야하나요?", "진행 중인 이벤트는?", "어떤 검사인지 궁금해요"];
         let mIdx = 0;
         setInterval(() => {
             bubble.style.opacity = 0; // 페이드 아웃

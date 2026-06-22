@@ -252,6 +252,103 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+/* =========================================
+   1. 가이드 모달 전역 함수 (Window Object 바인딩)
+========================================= */
+// 모듈(type="module") 환경에서도 HTML의 onclick 이벤트가 함수를 찾을 수 있도록 window에 바인딩합니다.
+window.openGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.remove('hidden');
+        guideModal.classList.add('flex');
+        // 모달 띄울 때 배경(body) 스크롤 방지 (네이티브 앱 UX)
+        document.body.style.overflow = 'hidden'; 
+    }
+};
+
+window.closeGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.add('hidden');
+        guideModal.classList.remove('flex');
+        // 배경 스크롤 원상복구
+        document.body.style.overflow = ''; 
+    }
+};
+
+/* =========================================
+   [최적화] 탭 필터링 로직 (순차적 애니메이션 적용)
+========================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const eventItems = document.querySelectorAll('.event-item');
+
+    // 1. 초기 렌더링 시 모든 아이템에 부드러운 트랜지션 속성 부여
+    eventItems.forEach(item => {
+        // opacity, 높이, 여백에 대해 각각 자연스러운 속도(ease) 설정
+        item.style.transition = 'opacity 0.3s ease-out, max-height 0.5s ease-in-out, padding 0.5s ease-in-out, margin 0.5s ease-in-out, border-width 0.5s ease-in-out';
+        item.style.overflow = 'hidden';
+        item.style.maxHeight = '500px'; // 카드가 충분히 펼쳐질 수 있는 최대 높이
+        item.style.opacity = '1';
+    });
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 2. 탭 버튼 UI 활성화/비활성화 처리
+            tabBtns.forEach(t => {
+                t.classList.remove('border-[#F27405]', 'text-[#F27405]');
+                t.classList.add('border-transparent', 'text-gray-500');
+            });
+            btn.classList.remove('border-transparent', 'text-gray-500');
+            btn.classList.add('border-[#F27405]', 'text-[#F27405]');
+
+            const target = btn.getAttribute('data-target');
+
+            // 3. [Phase 1] 조건에 맞지 않는 항목 '먼저 투명하게' (Fade Out)
+            eventItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (target !== 'all' && category !== target) {
+                    item.style.opacity = '0'; // 내용물 먼저 숨김
+                }
+            });
+
+            // 4. [Phase 2] 투명해진 후, 빈 공간을 위로 부드럽게 당겨 올림 (Slide Collapse)
+            setTimeout(() => {
+                eventItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    
+                    if (target !== 'all' && category !== target) {
+                        // 숨겨야 할 항목: 높이와 여백을 0으로 만들어 스르륵 접히게 처리
+                        item.style.maxHeight = '0px';
+                        item.style.paddingTop = '0px';
+                        item.style.paddingBottom = '0px';
+                        item.style.borderWidth = '0px';
+                        item.style.margin = '0px';
+                    } else {
+                        // 보여야 할 항목: 기존 높이와 여백(Tailwind 클래스 기준)으로 복구 (Slide Expand)
+                        item.style.maxHeight = '500px'; 
+                        item.style.paddingTop = ''; 
+                        item.style.paddingBottom = '';
+                        item.style.borderWidth = '';
+                        item.style.margin = '';
+                        
+                        // 5. [Phase 3] 공간이 확보된 후 서서히 등장 (Fade In)
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 100); // 레이아웃 재배치가 시작된 직후 페이드 인
+                    }
+                });
+
+                // 6. AOS 스크롤 애니메이션 꼬임 방지 (DOM이 모두 움직인 후 갱신)
+                if (typeof AOS !== 'undefined') {
+                    setTimeout(() => {
+                        AOS.refresh();
+                    }, 500); 
+                }
+            }, 300); // Phase 1(Fade Out)의 트랜지션 시간(0.3s) 대기
+        });
+    });
+});
 
 // 모달 유틸리티
 window.openPrivacyModal = () => document.getElementById('privacyModal')?.classList.replace('hidden', 'flex');

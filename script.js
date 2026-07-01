@@ -1,12 +1,12 @@
 /* ==========================================================================
    래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
-   특징: 보안(XSS) 강화, 비용 효율적 알림, 네이티브 UI/UX, UTM 추적 통합
+   특징: 보안(XSS) 강화, 비용 효율적 알림, 네이티브 UI/UX, UTM 추적, GEO 최적화
    ========================================================================== */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// 1. 파이어베이스 구성 [cite: 86]
+// 1. 파이어베이스 구성
 const firebaseConfig = {
   apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
   authDomain: "rapigenhc-event.firebaseapp.com",
@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 /* ---------------------------------------------------------
-   [보안] XSS 방어를 위한 HTML 이스케이프 함수 [cite: 8, 108, 119]
+   [보안] XSS 방어를 위한 HTML 이스케이프 함수
    --------------------------------------------------------- */
 const escapeHTML = (str) => {
     if (!str) return "";
@@ -31,11 +31,10 @@ const escapeHTML = (str) => {
 };
 
 /* ---------------------------------------------------------
-   [알림] EmailJS 발송 로직 (CC 활용으로 쿼터 절약) [cite: 43, 44, 77, 110]
+   [알림] EmailJS 발송 로직 (CC 활용으로 쿼터 절약)
    --------------------------------------------------------- */
 const sendEmailNotification = async (data) => {
     try {
-        // template_NEW-Reserve 템플릿의 변수와 일치시킴 [cite: 68, 106]
         await emailjs.send('service_event-github', 'template_NEW-Reserve', {
             name: data.name,
             phone: data.phone,
@@ -51,7 +50,7 @@ const sendEmailNotification = async (data) => {
 };
 
 /* ---------------------------------------------------------
-   [UI] 로딩 상태 및 모달 제어 함수 [cite: 90, 91, 100, 109]
+   [UI] 로딩 상태 제어 함수
    --------------------------------------------------------- */
 const setButtonLoading = (isLoading) => {
     const btn = document.querySelector('button[onclick="submitForm()"]');
@@ -63,23 +62,88 @@ const setButtonLoading = (isLoading) => {
     btn.classList.toggle('opacity-70', isLoading);
 };
 
+/* ---------------------------------------------------------
+   [전역 함수 바인딩] ReferenceError 해결 (가장 중요)
+   - 모듈 환경에서 HTML 인라인 onclick 이벤트가 함수를 찾을 수 있게 브릿지 역할
+   --------------------------------------------------------- */
 window.showAlert = (message) => {
     const modal = document.getElementById('alertModal');
     const msgArea = document.getElementById('alertMessage');
     if (modal && msgArea) {
         msgArea.innerText = message;
-        modal.classList.replace('hidden', 'flex');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
     } else { alert(message); }
 };
 
-window.closeAlertModal = () => document.getElementById('alertModal')?.classList.replace('flex', 'hidden');
-window.closeModal = () => document.getElementById('successModal')?.classList.replace('flex', 'hidden');
+window.closeAlertModal = function() {
+    const alertModal = document.getElementById('alertModal');
+    if (alertModal) {
+        alertModal.classList.remove('flex');
+        alertModal.classList.add('hidden');
+    }
+};
+
+window.openGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.remove('hidden');
+        guideModal.classList.add('flex');
+        document.body.style.overflow = 'hidden'; 
+    }
+};
+
+window.closeGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.remove('flex');
+        guideModal.classList.add('hidden');
+        document.body.style.overflow = ''; 
+    }
+};
+
+// [오류 해결] 개인정보 동의 모달 전역 바인딩
+window.openPrivacyModal = function() {
+    const privacyModal = document.getElementById('privacyModal');
+    if (privacyModal) {
+        privacyModal.classList.remove('hidden');
+        privacyModal.classList.add('flex');
+        document.body.style.overflow = 'hidden'; 
+    }
+};
+
+window.closePrivacyModal = function() {
+    const privacyModal = document.getElementById('privacyModal');
+    if (privacyModal) {
+        privacyModal.classList.remove('flex');
+        privacyModal.classList.add('hidden');
+        document.body.style.overflow = ''; 
+    }
+};
+
+window.closeModal = function() {
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        successModal.classList.remove('flex');
+        successModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+};
 
 /* ---------------------------------------------------------
-   [핵심] 폼 제출 로직 [cite: 26, 94, 129]
+   [이벤트 위임] 전역 클릭 리스너 (동적 로드된 요소의 이중 안전장치)
+   --------------------------------------------------------- */
+document.body.addEventListener('click', (e) => {
+    // 텍스트를 클릭했을 경우에도 모달이 뜨도록 보장
+    if (e.target.innerText && e.target.innerText.includes('개인정보수집 이용 동의 (필수)')) {
+        window.openPrivacyModal();
+    }
+});
+
+/* ---------------------------------------------------------
+   [핵심] 폼 제출 로직
    --------------------------------------------------------- */
 window.submitForm = async function() {
-    // 도배 방지 (60초 쿨타임) [cite: 51, 94, 132]
     const lastSubmit = localStorage.getItem('last_submit_time');
     if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
         return window.showAlert("잠시 후 다시 시도해주세요.");
@@ -89,16 +153,13 @@ window.submitForm = async function() {
     const phoneInput = document.getElementById('userPhone');
     const agree = document.getElementById('agree');
     
-    // 유효성 검사 (Regex) [cite: 8, 119]
     if (!agree?.checked) return window.showAlert("개인정보 수집에 동의해주세요.");
     if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(nameInput?.value.trim())) return window.showAlert("성함을 정확히 입력해주세요.");
     if (!/^01[016789]\d{7,8}$/.test(phoneInput?.value.trim().replace(/[^0-9]/g, ''))) return window.showAlert("휴대폰 번호를 확인해주세요.");
 
-    // 패키지 정보 추출 [cite: 88]
     const checkedBox = document.querySelector('.package-checkbox:checked');
     const selectedPkg = checkedBox?.closest('.package-card')?.querySelector('h3')?.innerText.trim() || "기본 패키지";
 
-    // 데이터 가공 (XSS 방어 및 UTM 포함) [cite: 108, 129]
     const formData = {
         name: escapeHTML(nameInput.value.trim()),
         phone: escapeHTML(phoneInput.value.trim()),
@@ -114,22 +175,20 @@ window.submitForm = async function() {
         window.isSubmitting = true;
         setButtonLoading(true);
 
-        // 1. Firestore 저장 [cite: 85, 120]
         await addDoc(collection(db, "reservations"), formData);
-
-        // 2. 관리자 이메일 알림 (비동기) [cite: 38, 81]
         sendEmailNotification(formData);
 
-        // 3. 마케팅 성과 추적 (GA4) [cite: 133]
         if (typeof gtag === 'function') gtag('event', 'generate_lead', { 'event_label': selectedPkg });
 
-        // 4. 완료 처리
         localStorage.setItem('last_submit_time', Date.now());
-        document.getElementById('successModal')?.classList.replace('hidden', 'flex');
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            successModal.classList.remove('hidden');
+            successModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
         
-        // 필드 초기화
         nameInput.value = ''; phoneInput.value = ''; agree.checked = false;
-
     } catch (err) {
         console.error("DB Error:", err);
         window.showAlert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -140,12 +199,45 @@ window.submitForm = async function() {
 };
 
 /* ---------------------------------------------------------
-   [DOM Load] 초기화 및 UX 인터랙션 로직 [cite: 88, 118, 128]
+   [GEO 최적화] JSON-LD 구조화 데이터 동적 주입 로직
+   --------------------------------------------------------- */
+const injectGEOSchema = () => {
+    const pageTitle = document.title || "래피젠헬스케어 종합건강검진";
+    
+    const schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "MedicalBusiness",
+                "name": "래피젠헬스케어",
+                "url": window.location.origin,
+                "telephone": "1644-0000",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "가산디지털2로 135 가산어반워크1차 2층",
+                    "addressLocality": "금천구",
+                    "addressRegion": "서울특별시",
+                    "addressCountry": "KR"
+                },
+                "medicalSpecialty": "Health Checkup",
+                "description": pageTitle
+            }
+        ]
+    };
+
+    const scriptObj = document.createElement('script');
+    scriptObj.type = 'application/ld+json';
+    scriptObj.text = JSON.stringify(schema);
+    document.head.appendChild(scriptObj);
+};
+
+/* ---------------------------------------------------------
+   [DOM Load] 초기화 및 UX 인터랙션 로직
    --------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-    /* ---------------------------------------------------------
-       1. 메인 카로셀(Carousel) 제어 로직
-       --------------------------------------------------------- */
+    injectGEOSchema();
+
+    /* 1. 메인 카로셀(Carousel) 제어 로직 */
     const slides = document.querySelectorAll('.carousel-slide');
     const indicator = document.getElementById('slide-indicator');
     const prevBtn = document.getElementById('prevBtn');
@@ -158,17 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateSlides = (index) => {
             slides.forEach((slide, i) => {
                 if (i === index) {
-                    // 활성화된 슬라이드
                     slide.classList.add('active');
-                    slide.classList.replace('opacity-0', 'opacity-100');
-                    slide.classList.replace('z-10', 'z-20');
-                    slide.classList.remove('pointer-events-none'); // 클릭 가능하게 설정
+                    slide.classList.remove('opacity-0', 'pointer-events-none');
+                    slide.classList.add('opacity-100');
+                    slide.style.zIndex = '20';
                 } else {
-                    // 비활성화된 슬라이드
-                    slide.classList.remove('active');
-                    slide.classList.replace('opacity-100', 'opacity-0');
-                    slide.classList.replace('z-20', 'z-10');
-                    slide.classList.add('pointer-events-none'); // 뒤에 숨어있는 슬라이드 클릭 방지
+                    slide.classList.remove('active', 'opacity-100');
+                    slide.classList.add('opacity-0', 'pointer-events-none');
+                    slide.style.zIndex = '10';
                 }
             });
             if (indicator) indicator.innerText = `${index + 1} / ${slides.length}`;
@@ -184,36 +273,28 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlides(currentIdx);
         };
 
-        // 자동 슬라이드 시작 (4초)
         const startAutoSlide = () => {
-            stopAutoSlide();
+            if (slideInterval) clearInterval(slideInterval);
             slideInterval = setInterval(nextSlide, 4000);
         };
 
-        const stopAutoSlide = () => {
-            if (slideInterval) clearInterval(slideInterval);
-        };
-
-        // 이벤트 리스너
         nextBtn?.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
         prevBtn?.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
 
-        // 초기 실행
         updateSlides(currentIdx);
         startAutoSlide();
 
-        // 마우스 호버 시 일시정지 (PC 배려)
         const container = document.getElementById('carousel-container')?.parentElement;
-        container?.addEventListener('mouseenter', stopAutoSlide);
+        container?.addEventListener('mouseenter', () => clearInterval(slideInterval));
         container?.addEventListener('mouseleave', startAutoSlide);
     }
 
-    // UTM 파라미터 저장 [cite: 129]
+    /* 2. UTM 파라미터 저장 */
     const params = new URLSearchParams(window.location.search);
     if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
     if (params.get('utm_medium')) sessionStorage.setItem('rapi_utm_medium', params.get('utm_medium').toLowerCase());
 
-    // 푸터 동적 로드 [cite: 7, 118, 126]
+    /* 3. 푸터 동적 로드 */
     const fContainer = document.getElementById('common-footer-container');
     if (fContainer) {
         fetch(`footer.html?v=${Date.now()}`)
@@ -221,29 +302,28 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => fContainer.innerHTML = html);
     }
 
-    // 카카오톡 상담 텍스트 로테이션
+    /* 4. 카카오톡 상담 텍스트 페이드 애니메이션 */
     const bubble = document.getElementById('bubble-text');
     if (bubble) {
         const msgs = ["빠른 채팅 상담하기", "어떤 걸 선택해야하나요?", "진행 중인 이벤트는?", "어떤 검사인지 궁금해요"];
         let mIdx = 0;
         setInterval(() => {
-            bubble.style.opacity = 0; // 페이드 아웃
+            bubble.style.opacity = 0; 
             setTimeout(() => {
                 mIdx = (mIdx + 1) % msgs.length;
                 bubble.innerText = msgs[mIdx];
-                bubble.style.opacity = 1; // 페이드 인
+                bubble.style.opacity = 1; 
             }, 300);
         }, 4000);
     }
 
-    // [이벤트 위임] 체크박스 및 아코디언 제어 [cite: 12, 123]
+    /* 5. [이벤트 위임] 체크박스 및 카드 선택 효과 */
     document.body.addEventListener('change', (e) => {
         if (e.target.classList.contains('package-checkbox')) {
             const boxes = document.querySelectorAll('.package-checkbox');
             boxes.forEach(cb => { if (cb !== e.target) cb.checked = false; });
-            if (![...boxes].some(cb => cb.checked)) e.target.checked = true; // 최소 1개 유지
+            if (![...boxes].some(cb => cb.checked)) e.target.checked = true; 
             
-            // 카드 스타일 업데이트
             document.querySelectorAll('.package-card').forEach(card => {
                 const isChecked = card.querySelector('.package-checkbox').checked;
                 card.classList.toggle('border-[#F27405]', isChecked);
@@ -251,105 +331,60 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-});
-/* =========================================
-   1. 가이드 모달 전역 함수 (Window Object 바인딩)
-========================================= */
-// 모듈(type="module") 환경에서도 HTML의 onclick 이벤트가 함수를 찾을 수 있도록 window에 바인딩합니다.
-window.openGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.remove('hidden');
-        guideModal.classList.add('flex');
-        // 모달 띄울 때 배경(body) 스크롤 방지 (네이티브 앱 UX)
-        document.body.style.overflow = 'hidden'; 
-    }
-};
 
-window.closeGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.add('hidden');
-        guideModal.classList.remove('flex');
-        // 배경 스크롤 원상복구
-        document.body.style.overflow = ''; 
-    }
-};
-
-/* =========================================
-   [최적화] 탭 필터링 로직 (순차적 애니메이션 적용)
-========================================= */
-document.addEventListener('DOMContentLoaded', () => {
+    /* 6. 부드러운 탭 필터링 로직 */
     const tabBtns = document.querySelectorAll('.tab-btn');
     const eventItems = document.querySelectorAll('.event-item');
 
-    // 1. 초기 렌더링 시 모든 아이템에 부드러운 트랜지션 속성 부여
-    eventItems.forEach(item => {
-        // opacity, 높이, 여백에 대해 각각 자연스러운 속도(ease) 설정
-        item.style.transition = 'opacity 0.3s ease-out, max-height 0.5s ease-in-out, padding 0.5s ease-in-out, margin 0.5s ease-in-out, border-width 0.5s ease-in-out';
-        item.style.overflow = 'hidden';
-        item.style.maxHeight = '500px'; // 카드가 충분히 펼쳐질 수 있는 최대 높이
-        item.style.opacity = '1';
-    });
+    if (eventItems.length > 0) {
+        eventItems.forEach(item => {
+            item.style.transition = 'opacity 0.3s ease-out, max-height 0.5s ease-in-out, padding 0.5s ease-in-out, margin 0.5s ease-in-out, border-width 0.5s ease-in-out';
+            item.style.overflow = 'hidden';
+            item.style.maxHeight = '500px'; 
+            item.style.opacity = '1';
+        });
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // 2. 탭 버튼 UI 활성화/비활성화 처리
-            tabBtns.forEach(t => {
-                t.classList.remove('border-[#F27405]', 'text-[#F27405]');
-                t.classList.add('border-transparent', 'text-gray-500');
-            });
-            btn.classList.remove('border-transparent', 'text-gray-500');
-            btn.classList.add('border-[#F27405]', 'text-[#F27405]');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(t => {
+                    t.classList.remove('border-[#F27405]', 'text-[#F27405]');
+                    t.classList.add('border-transparent', 'text-gray-500');
+                });
+                btn.classList.remove('border-transparent', 'text-gray-500');
+                btn.classList.add('border-[#F27405]', 'text-[#F27405]');
 
-            const target = btn.getAttribute('data-target');
+                const target = btn.getAttribute('data-target');
 
-            // 3. [Phase 1] 조건에 맞지 않는 항목 '먼저 투명하게' (Fade Out)
-            eventItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (target !== 'all' && category !== target) {
-                    item.style.opacity = '0'; // 내용물 먼저 숨김
-                }
-            });
-
-            // 4. [Phase 2] 투명해진 후, 빈 공간을 위로 부드럽게 당겨 올림 (Slide Collapse)
-            setTimeout(() => {
                 eventItems.forEach(item => {
                     const category = item.getAttribute('data-category');
-                    
                     if (target !== 'all' && category !== target) {
-                        // 숨겨야 할 항목: 높이와 여백을 0으로 만들어 스르륵 접히게 처리
-                        item.style.maxHeight = '0px';
-                        item.style.paddingTop = '0px';
-                        item.style.paddingBottom = '0px';
-                        item.style.borderWidth = '0px';
-                        item.style.margin = '0px';
-                    } else {
-                        // 보여야 할 항목: 기존 높이와 여백(Tailwind 클래스 기준)으로 복구 (Slide Expand)
-                        item.style.maxHeight = '500px'; 
-                        item.style.paddingTop = ''; 
-                        item.style.paddingBottom = '';
-                        item.style.borderWidth = '';
-                        item.style.margin = '';
-                        
-                        // 5. [Phase 3] 공간이 확보된 후 서서히 등장 (Fade In)
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                        }, 100); // 레이아웃 재배치가 시작된 직후 페이드 인
+                        item.style.opacity = '0'; 
                     }
                 });
 
-                // 6. AOS 스크롤 애니메이션 꼬임 방지 (DOM이 모두 움직인 후 갱신)
-                if (typeof AOS !== 'undefined') {
-                    setTimeout(() => {
-                        AOS.refresh();
-                    }, 500); 
-                }
-            }, 300); // Phase 1(Fade Out)의 트랜지션 시간(0.3s) 대기
+                setTimeout(() => {
+                    eventItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+                        if (target !== 'all' && category !== target) {
+                            item.style.maxHeight = '0px';
+                            item.style.paddingTop = '0px';
+                            item.style.paddingBottom = '0px';
+                            item.style.borderWidth = '0px';
+                            item.style.margin = '0px';
+                        } else {
+                            item.style.maxHeight = '500px'; 
+                            item.style.paddingTop = ''; 
+                            item.style.paddingBottom = '';
+                            item.style.borderWidth = '';
+                            item.style.margin = '';
+                            setTimeout(() => { item.style.opacity = '1'; }, 100); 
+                        }
+                    });
+                    if (typeof AOS !== 'undefined') {
+                        setTimeout(() => { AOS.refresh(); }, 500); 
+                    }
+                }, 300); 
+            });
         });
-    });
+    }
 });
-
-// 모달 유틸리티
-window.openPrivacyModal = () => document.getElementById('privacyModal')?.classList.replace('hidden', 'flex');
-window.closePrivacyModal = () => document.getElementById('privacyModal')?.classList.replace('flex', 'hidden');

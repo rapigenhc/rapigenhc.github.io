@@ -208,3 +208,25 @@ body { font-family: 'Noto Sans KR', sans-serif; }
     ring-color: #F27405;
     box-shadow: 0 10px 15px -3px rgba(242, 116, 5, 0.1);
 }
+
+/* style.css 파일에 추가 */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 터치 최적화 (모바일 탭 하이라이트 제거) */
+button {
+  -webkit-tap-highlight-color: transparent;
+}

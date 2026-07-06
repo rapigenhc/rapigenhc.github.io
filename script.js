@@ -232,7 +232,7 @@ const injectGEOSchema = () => {
 document.addEventListener('DOMContentLoaded', () => {
     injectGEOSchema();
 
-    /* 1. 메인 카로셀(Carousel) 제어 로직 - [개선] 무한 루프 & 2초 자동 슬라이딩 & 상시 화살표 */
+    /* 1. 메인 카로셀 제어 로직 - [개선] 무한 루프 & 자동 롤링 & 터치(스와이프) 제어 */
     const track = document.querySelector('.carousel-track');
     const originalSlides = document.querySelectorAll('.carousel-item');
     const indicator = document.getElementById('slide-indicator');
@@ -242,21 +242,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (originalSlides.length > 0 && track) {
         const totalItems = originalSlides.length;
 
-        // 클론 기반의 완벽한 무한 루프 구현을 위한 노드 동적 복제
+        // 클론 동적 복제 (무한 루프용)
         const firstClone = originalSlides[0].cloneNode(true);
         const lastClone = originalSlides[totalItems - 1].cloneNode(true);
         
         track.appendChild(firstClone);
         track.insertBefore(lastClone, originalSlides[0]);
         
-        let currentIdx = 1; // 앞에 복제본(Last)이 추가되었으므로 실제 인덱스는 1부터 시작
+        let currentIdx = 1; 
         let slideInterval;
-        let isTransitioning = false; // 고속 연타 클릭 방지 레이어
-        const itemWidthPercent = 90; // HTML 마크업의 w-[90%] 스케일값 매핑
+        let isTransitioning = false;
+        const itemWidthPercent = 90; 
+
+        // 터치 드래그 상태 변수
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
 
         const updateSlides = (animate = true) => {
             if (animate) {
-                track.style.transition = 'transform 0.5s ease-in-out';
+                track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
             } else {
                 track.style.transition = 'none';
             }
@@ -264,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalOffset = currentIdx * itemWidthPercent;
             track.style.transform = `translateX(-${finalOffset}%)`;
             
-            // 인디케이터 번호 보정 계산
             let displayIdx = currentIdx;
             if (currentIdx === 0) displayIdx = totalItems;
             if (currentIdx === totalItems + 1) displayIdx = 1;
@@ -286,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlides(true);
         };
 
-        // 트랜지션(애니메이션) 종료 시점 판단 후, 클론 구간에 있다면 원래 인덱스로 교묘하게 순간이동(Warp)
+        // 트랜지션 종료 시 클론 구간에서 원래 위치로 튕김 없이 워프
         track.addEventListener('transitionend', () => {
             isTransitioning = false;
             if (currentIdx === totalItems + 1) {
@@ -299,15 +303,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 2초마다 자동으로 넘어가는 롤링 세팅 (사용자 요구사항 반영)
         const startAutoSlide = () => {
             if (slideInterval) clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 2000);
+            slideInterval = setInterval(nextSlide, 2000); // 2초 간격 롤링
         };
 
-        // 화살표 이벤트 트리거 결합
+        // 네비게이션 버튼 이벤트
         nextBtn?.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
         prevBtn?.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
+
+        /* --- [NEW] 터치 및 스와이프 로직 --- */
+        const getPositionX = (event) => {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        };
+
+        const touchStart = (event) => {
+            if (isTransitioning) return;
+            isDragging = true;
+            startX = getPositionX(event);
+            if (slideInterval) clearInterval(slideInterval);
+            track.style.transition = 'none'; // 드래그 시 애니메이션 제거 (손가락에 바로 붙도록)
+        };
+
+        const touchMove = (event) => {
+            if (!isDragging) return;
+            currentX = getPositionX(event);
+            const diffX = currentX - startX;
+            const baseOffset = currentIdx * itemWidthPercent;
+            
+            // % 기반의 기준점과 px 단위의 손가락 이동거리를 결합하여 부드럽게 이동
+            track.style.transform = `translateX(calc(-${baseOffset}% + ${diffX}px))`;
+        };
+
+        const touchEnd = (event) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diffX = currentX !== 0 ? currentX - startX : 0;
+            const threshold = 50; // 이 픽셀(px) 이상 스와이프 시 슬라이드 전환
+            
+            if (Math.abs(diffX) > threshold && currentX !== 0) {
+                if (diffX > 0) prevSlide(); // 오른쪽으로 드래그 (이전 슬라이드)
+                else nextSlide();           // 왼쪽으로 드래그 (다음 슬라이드)
+            } else {
+                updateSlides(true); // 임계값 미만이면 원래 슬라이드로 복귀(Snap)
+            }
+            
+            currentX = 0; // 초기화
+            startAutoSlide(); // 롤링 재시작
+        };
+
+        // 터치 및 마우스 이벤트 리스너 등록
+        track.addEventListener('touchstart', touchStart, { passive: true });
+        track.addEventListener('touchmove', touchMove, { passive: true });
+        track.addEventListener('touchend', touchEnd);
+        
+        track.addEventListener('mousedown', touchStart);
+        track.addEventListener('mousemove', touchMove);
+        track.addEventListener('mouseup', touchEnd);
+        track.addEventListener('mouseleave', () => {
+            if (isDragging) touchEnd();
+        });
+        /* ---------------------------------- */
 
         // 초기 화면 정렬 및 스케줄러 기동
         updateSlides(false);
@@ -315,10 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const container = document.getElementById('hero-carousel');
         if(container) {
-            container.addEventListener('mouseenter', () => clearInterval(slideInterval));
-            container.addEventListener('mouseleave', startAutoSlide);
-            container.addEventListener('touchstart', () => clearInterval(slideInterval), {passive: true});
-            container.addEventListener('touchend', startAutoSlide);
+            container.addEventListener('mouseenter', () => { if(!isDragging) clearInterval(slideInterval); });
+            container.addEventListener('mouseleave', () => { if(!isDragging) startAutoSlide(); });
         }
     }
 

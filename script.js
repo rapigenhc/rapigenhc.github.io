@@ -1,20 +1,18 @@
 /* ==========================================================================
    래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
-   특징: 보안(XSS) 강화, 비용 효율적 알림, 네이티브 UI/UX, UTM 추적, GEO 최적화
    ========================================================================== */
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 // 1. 파이어베이스 구성
 const firebaseConfig = {
-  apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
-  authDomain: "rapigenhc-event.firebaseapp.com",
-  projectId: "rapigenhc-event",
-  storageBucket: "rapigenhc-event.firebasestorage.app",
-  messagingSenderId: "893881210369",
-  appId: "1:893881210369:web:e92344136212280e589200",
-  measurementId: "G-GM4ZWH6XEY"
+    apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
+    authDomain: "rapigenhc-event.firebaseapp.com",
+    projectId: "rapigenhc-event",
+    storageBucket: "rapigenhc-event.firebasestorage.app",
+    messagingSenderId: "893881210369",
+    appId: "1:893881210369:web:e92344136212280e589200",
+    measurementId: "G-GM4ZWH6XEY"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -22,7 +20,7 @@ const db = getFirestore(app);
 
 /* ---------------------------------------------------------
    [보안] XSS 방어를 위한 HTML 이스케이프 함수
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 const escapeHTML = (str) => {
     if (!str) return "";
     return str.replace(/[&<>"']/g, (m) => ({
@@ -32,7 +30,7 @@ const escapeHTML = (str) => {
 
 /* ---------------------------------------------------------
    [알림] EmailJS 발송 로직 (CC 활용으로 쿼터 절약)
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 const sendEmailNotification = async (data) => {
     try {
         await emailjs.send('service_event-github', 'template_NEW-Reserve', {
@@ -51,7 +49,7 @@ const sendEmailNotification = async (data) => {
 
 /* ---------------------------------------------------------
    [UI] 로딩 상태 제어 함수
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 const setButtonLoading = (isLoading) => {
     const btn = document.querySelector('button[onclick="submitForm()"]');
     if (!btn) return;
@@ -63,9 +61,8 @@ const setButtonLoading = (isLoading) => {
 };
 
 /* ---------------------------------------------------------
-   [전역 함수 바인딩] ReferenceError 해결 (가장 중요)
-   - 모듈 환경에서 HTML 인라인 onclick 이벤트가 함수를 찾을 수 있게 브릿지 역할
-   --------------------------------------------------------- */
+   [전역 함수 바인딩] 모달 통제
+--------------------------------------------------------- */
 window.showAlert = (message) => {
     const modal = document.getElementById('alertModal');
     const msgArea = document.getElementById('alertMessage');
@@ -102,18 +99,19 @@ window.closeGuideModal = function() {
     }
 };
 
-// [오류 해결] 개인정보 동의 모달 전역 바인딩
 window.openPrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal');
+    const privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
     if (privacyModal) {
         privacyModal.classList.remove('hidden');
         privacyModal.classList.add('flex');
         document.body.style.overflow = 'hidden'; 
+    } else {
+        alert("개인정보 처리방침을 불러올 수 없습니다.");
     }
 };
 
 window.closePrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal');
+    const privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
     if (privacyModal) {
         privacyModal.classList.remove('flex');
         privacyModal.classList.add('hidden');
@@ -131,18 +129,17 @@ window.closeModal = function() {
 };
 
 /* ---------------------------------------------------------
-   [이벤트 위임] 전역 클릭 리스너 (동적 로드된 요소의 이중 안전장치)
-   --------------------------------------------------------- */
+   [이벤트 위임] 전역 클릭 리스너
+--------------------------------------------------------- */
 document.body.addEventListener('click', (e) => {
-    // 텍스트를 클릭했을 경우에도 모달이 뜨도록 보장
-    if (e.target.innerText && e.target.innerText.includes('개인정보수집 이용 동의 (필수)')) {
+    if (e.target.innerText && e.target.innerText.includes('개인정보수집 이용 동의')) {
         window.openPrivacyModal();
     }
 });
 
 /* ---------------------------------------------------------
    [핵심] 폼 제출 로직
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 window.submitForm = async function() {
     const lastSubmit = localStorage.getItem('last_submit_time');
     if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
@@ -199,11 +196,10 @@ window.submitForm = async function() {
 };
 
 /* ---------------------------------------------------------
-   [GEO 최적화] JSON-LD 구조화 데이터 동적 주입 로직
-   --------------------------------------------------------- */
+   [GEO 최적화] JSON-LD 동적 주입 로직
+--------------------------------------------------------- */
 const injectGEOSchema = () => {
     const pageTitle = document.title || "래피젠헬스케어 종합건강검진";
-    
     const schema = {
         "@context": "https://schema.org",
         "@graph": [
@@ -211,7 +207,7 @@ const injectGEOSchema = () => {
                 "@type": "MedicalBusiness",
                 "name": "래피젠헬스케어",
                 "url": window.location.origin,
-                "telephone": "1644-0000",
+                "telephone": "1544-5189",
                 "address": {
                     "@type": "PostalAddress",
                     "streetAddress": "가산디지털2로 135 가산어반워크1차 2층",
@@ -224,7 +220,6 @@ const injectGEOSchema = () => {
             }
         ]
     };
-
     const scriptObj = document.createElement('script');
     scriptObj.type = 'application/ld+json';
     scriptObj.text = JSON.stringify(schema);
@@ -233,60 +228,98 @@ const injectGEOSchema = () => {
 
 /* ---------------------------------------------------------
    [DOM Load] 초기화 및 UX 인터랙션 로직
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     injectGEOSchema();
 
-    /* 1. 메인 카로셀(Carousel) 제어 로직 */
-    const slides = document.querySelectorAll('.carousel-slide');
+    /* 1. 메인 카로셀(Carousel) 제어 로직 - [개선] 무한 루프 & 2초 자동 슬라이딩 & 상시 화살표 */
+    const track = document.querySelector('.carousel-track');
+    const originalSlides = document.querySelectorAll('.carousel-item');
     const indicator = document.getElementById('slide-indicator');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     
-    if (slides.length > 0) {
-        let currentIdx = 0;
-        let slideInterval;
+    if (originalSlides.length > 0 && track) {
+        const totalItems = originalSlides.length;
 
-        const updateSlides = (index) => {
-            slides.forEach((slide, i) => {
-                if (i === index) {
-                    slide.classList.add('active');
-                    slide.classList.remove('opacity-0', 'pointer-events-none');
-                    slide.classList.add('opacity-100');
-                    slide.style.zIndex = '20';
-                } else {
-                    slide.classList.remove('active', 'opacity-100');
-                    slide.classList.add('opacity-0', 'pointer-events-none');
-                    slide.style.zIndex = '10';
-                }
-            });
-            if (indicator) indicator.innerText = `${index + 1} / ${slides.length}`;
+        // 클론 기반의 완벽한 무한 루프 구현을 위한 노드 동적 복제
+        const firstClone = originalSlides[0].cloneNode(true);
+        const lastClone = originalSlides[totalItems - 1].cloneNode(true);
+        
+        track.appendChild(firstClone);
+        track.insertBefore(lastClone, originalSlides[0]);
+        
+        let currentIdx = 1; // 앞에 복제본(Last)이 추가되었으므로 실제 인덱스는 1부터 시작
+        let slideInterval;
+        let isTransitioning = false; // 고속 연타 클릭 방지 레이어
+        const itemWidthPercent = 90; // HTML 마크업의 w-[90%] 스케일값 매핑
+
+        const updateSlides = (animate = true) => {
+            if (animate) {
+                track.style.transition = 'transform 0.5s ease-in-out';
+            } else {
+                track.style.transition = 'none';
+            }
+            
+            const finalOffset = currentIdx * itemWidthPercent;
+            track.style.transform = `translateX(-${finalOffset}%)`;
+            
+            // 인디케이터 번호 보정 계산
+            let displayIdx = currentIdx;
+            if (currentIdx === 0) displayIdx = totalItems;
+            if (currentIdx === totalItems + 1) displayIdx = 1;
+            
+            if (indicator) indicator.innerText = `${displayIdx} / ${totalItems}`;
         };
 
         const nextSlide = () => {
-            currentIdx = (currentIdx + 1) % slides.length;
-            updateSlides(currentIdx);
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIdx++;
+            updateSlides(true);
         };
 
         const prevSlide = () => {
-            currentIdx = (currentIdx - 1 + slides.length) % slides.length;
-            updateSlides(currentIdx);
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIdx--;
+            updateSlides(true);
         };
 
+        // 트랜지션(애니메이션) 종료 시점 판단 후, 클론 구간에 있다면 원래 인덱스로 교묘하게 순간이동(Warp)
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false;
+            if (currentIdx === totalItems + 1) {
+                currentIdx = 1;
+                updateSlides(false);
+            }
+            if (currentIdx === 0) {
+                currentIdx = totalItems;
+                updateSlides(false);
+            }
+        });
+
+        // 2초마다 자동으로 넘어가는 롤링 세팅 (사용자 요구사항 반영)
         const startAutoSlide = () => {
             if (slideInterval) clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 4000);
+            slideInterval = setInterval(nextSlide, 2000);
         };
 
+        // 화살표 이벤트 트리거 결합
         nextBtn?.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
         prevBtn?.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
 
-        updateSlides(currentIdx);
+        // 초기 화면 정렬 및 스케줄러 기동
+        updateSlides(false);
         startAutoSlide();
 
-        const container = document.getElementById('carousel-container')?.parentElement;
-        container?.addEventListener('mouseenter', () => clearInterval(slideInterval));
-        container?.addEventListener('mouseleave', startAutoSlide);
+        const container = document.getElementById('hero-carousel');
+        if(container) {
+            container.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            container.addEventListener('mouseleave', startAutoSlide);
+            container.addEventListener('touchstart', () => clearInterval(slideInterval), {passive: true});
+            container.addEventListener('touchend', startAutoSlide);
+        }
     }
 
     /* 2. UTM 파라미터 저장 */

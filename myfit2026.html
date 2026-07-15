@@ -87,8 +87,14 @@
                     </div>
                 </div>
 
+                <article class="prose max-w-none text-gray-700 mt-8 px-2 text-[15px]">
+                    <p><img src="img/intro-04.png"></p>     
+                    <p><img src="img/intro-02.png"></p>
+                    <p><img src="img/intro-03.png"></p>
+                </article>
 
-                <h3 class="font-black text-[20px] md:text-[26px] mb-6 px-1 tracking-tight">원하시는 패키지를 선택해주세요</h3>
+
+                <h3 class="font-black text-[20px] md:text-[26px] mb-6 px-1 tracking-tight">안녕하세요 고객님! 원하시는 패키지를 선택해주세요</h3>
                 <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
                     <div class="absolute top-6 left-5 z-20">
                         <input type="checkbox" class="package-checkbox">
@@ -609,7 +615,35 @@
             </div>
             
             <article class="prose max-w-none text-gray-700 mt-8 px-2 text-[15px]">
-                <p><img src="img/landing_info.jpg"></p>
+                <p><img src="img/intro-pic-v2.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-01.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-02.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-03.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-04.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-05.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-06.jpg" class="w-full"></p>
+                <p></br></br></p>
+                
+                <!-- * 카카오맵 - 지도퍼가기 -->
+                <!-- 1. 지도 노드 -->
+                <div id="daumRoughmapContainer1784073865427" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+
+                <!--
+                    2. 설치 스크립트
+                    * 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+                -->
+                <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                <!-- 3. 실행 스크립트 -->
+                <script charset="UTF-8">
+                    new daum.roughmap.Lander({
+                        "timestamp" : "1784073865427",
+                        "key" : "quitfm8zgvd",
+                        "mapWidth" : "840",
+                        "mapHeight" : "480"
+                    }).render();
+                </script>
+
             </article>
         </div>
     </main>

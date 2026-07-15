@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>래피젠 헬스케어 | 마케팅 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+
+    <style>
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .rank-1 { background-color: #FFF7ED; color: #F27405; border: 1px solid #FFEDD5; }
+        .rank-2 { background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; }
+        .rank-3 { background-color: #F9FAFB; color: #6B7280; border: 1px solid #F3F4F6; }
+        .rank-other { background-color: transparent; color: #9CA3AF; border: 1px solid transparent; }
+    </style>
+</head>
+<body class="bg-[#F9FAFB] text-gray-900 antialiased">
+    <div id="loading" class="fixed inset-0 bg-white/80 backdrop-blur z-50 flex items-center justify-center font-black text-xl text-[#F27405]">데이터 집계 중...</div>
+
+    <div class="min-h-screen flex-col max-w-6xl mx-auto p-4 md:p-6">
+        
+        <header class="bg-white/90 backdrop-blur-md sticky top-0 md:top-6 z-40 border border-gray-100 px-6 py-4 rounded-[1.5rem] md:rounded-[2rem] flex flex-wrap justify-between items-center shadow-sm gap-4">
+            <div class="flex items-center gap-4">
+                <h1 class="text-[20px] font-black tracking-tight">RPHC 시스템</h1>
+                <span id="roleTag" class="bg-orange-50 text-[#F27405] text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest">Guest</span>
+            </div>
+            <nav class="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
+                <a href="index.html" class="px-5 py-2 rounded-lg text-[13px] font-bold text-gray-500 hover:text-gray-900 hover:bg-white/50 transition-all">예약 리스트</a>
+                <a href="report.html" class="px-5 py-2 rounded-lg bg-white shadow-sm text-[13px] font-black text-[#F27405] transition-all">통계 대시보드</a>
+            </nav>
+            <button id="logoutBtn" class="bg-gray-50 text-gray-500 px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-red-50 hover:text-red-500 transition-all">로그아웃</button>
+        </header>
+
+        <main class="flex-1 mt-8 hidden" id="report-main">
+            
+            <div class="flex flex-col gap-4 mb-6 bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm">
+                <div class="flex flex-wrap items-center gap-6">
+                    
+                    <div class="flex items-center gap-2">
+                        <span class="text-[12px] font-black text-[#0047FF] bg-blue-50 px-2 py-1 rounded-md shrink-0">기준 주간</span>
+                        <div class="flex items-center bg-white border border-gray-200 rounded-xl shadow-sm hover:border-[#0047FF] transition-colors">
+                            <button type="button" class="px-2 py-2 text-gray-400 hover:text-[#0047FF] transition-colors" onclick="window.shiftWeek('this', -1)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+
+                            <input type="text" id="thisWeekPicker" class="w-[170px] bg-transparent border-none outline-none text-[12px] font-bold text-gray-700 cursor-pointer text-center" placeholder="기간 선택" readonly>
+                            <button type="button" class="px-2 py-2 text-gray-400 hover:text-[#0047FF] transition-colors" onclick="window.shiftWeek('this', 1)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                        <input type="hidden" id="thisWeekStart">
+                        <input type="hidden" id="thisWeekEnd">
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <span class="text-[12px] font-black text-gray-500 bg-gray-100 px-2 py-1 rounded-md shrink-0">비교 주간</span>
+                        <div class="flex items-center bg-white border border-gray-200 rounded-xl shadow-sm hover:border-gray-500 transition-colors">
+                            <button type="button" class="px-2 py-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="window.shiftWeek('last', -1)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <input type="text" id="lastWeekPicker" class="w-[170px] bg-transparent border-none outline-none text-[12px] font-bold text-gray-700 cursor-pointer text-center" placeholder="기간 선택" readonly>
+                            <button type="button" class="px-2 py-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="window.shiftWeek('last', 1)">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                        <input type="hidden" id="lastWeekStart">
+                        <input type="hidden" id="lastWeekEnd">
+                    </div>
+                    
+                    <button id="applyDateBtn" class="ml-auto bg-gray-900 text-white px-6 py-2 rounded-xl text-[13px] font-black hover:bg-black active:scale-95 transition-all">데이터 재집계</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-50 rounded-full opacity-50"></div>
+                    <span class="block text-[13px] font-bold text-gray-400 mb-2">기준 주간 신규 DB</span>
+                    <span class="text-3xl font-black text-gray-900" id="stat-this-week">0</span>
+                    <span class="block mt-2 text-[11px] font-bold" id="stat-growth-rate">-</span>
+                </div>
+                <div class="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-orange-50 rounded-full opacity-50"></div>
+                    <span class="block text-[13px] font-bold text-gray-400 mb-2">전체 대기중(인바운드)</span>
+                    <span class="text-3xl font-black text-[#F27405]" id="stat-total-waiting">0</span>
+                </div>
+                <div class="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-green-50 rounded-full opacity-50"></div>
+                    <span class="block text-[13px] font-bold text-gray-400 mb-2">전체 예약 확정</span>
+                    <span class="text-3xl font-black text-green-600" id="stat-total-confirmed">0</span>
+                </div>
+                <div class="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+                    <span class="block text-[13px] font-bold text-gray-400 mb-2">마케팅 이탈(취소)율</span>
+                    <span class="text-3xl font-black text-red-500" id="stat-cancel-rate">0%</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm mb-6">
+                <h2 class="text-[16px] font-black text-gray-900 mb-6 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#0047FF] rounded-full"></span>
+                    기간별 유입 트렌드 비교 (MM/DD)
+                </h2>
+                <div class="relative h-[300px] w-full">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col">
+                    <h2 class="text-[16px] font-black text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-[#F27405] rounded-full"></span>
+                        유입 채널 비율 (기준 주간)
+                    </h2>
+                    <div class="relative flex-1 min-h-[250px] w-full flex justify-center items-center">
+                        <canvas id="channelChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col">
+                    <h2 class="text-[16px] font-black text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span>
+                        선택 패키지 TOP 5 (전체 누적)
+                    </h2>
+                    <div class="flex-1 flex flex-col justify-center">
+                        <ul id="packageRankingList" class="space-y-3"></ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="report.js"></script>
+</body>
+</html>

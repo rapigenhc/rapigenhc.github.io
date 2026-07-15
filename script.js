@@ -1,5 +1,6 @@
 /* ==========================================================================
    래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
+   특징: Fallback 모달 인젝션, 이벤트 위임 충돌 방어, XSS 차단
    ========================================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -19,6 +20,121 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 /* ---------------------------------------------------------
+   [전역 함수 바인딩] 모달 및 UI 제어 (최우선 로드)
+--------------------------------------------------------- */
+window.showAlert = (message) => {
+    const modal = document.getElementById('alertModal');
+    const msgArea = document.getElementById('alertMessage');
+    if (modal && msgArea) {
+        msgArea.innerText = message;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    } else { 
+        alert(message); 
+    }
+};
+
+window.closeAlertModal = function() {
+    const alertModal = document.getElementById('alertModal');
+    if (alertModal) {
+        alertModal.classList.remove('flex');
+        alertModal.classList.add('hidden');
+    }
+};
+
+window.openGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.remove('hidden');
+        guideModal.classList.add('flex');
+        document.body.style.overflow = 'hidden'; 
+    }
+};
+
+window.closeGuideModal = function() {
+    const guideModal = document.getElementById('guideModal');
+    if (guideModal) {
+        guideModal.classList.remove('flex');
+        guideModal.classList.add('hidden');
+        document.body.style.overflow = ''; 
+    }
+};
+
+// [핵심 보완] 개인정보 동의 모달 강제 전역 바인딩 및 동적 인젝션(Fallback)
+window.openPrivacyModal = function() {
+    let privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
+    
+    // 방어 로직: footer.html에서 모달을 불러오지 못했을 경우 즉시 DOM에 주입
+    if (!privacyModal) {
+        console.warn("DOM에서 모달 요소를 찾지 못해 동적으로 생성합니다.");
+        const modalHTML = `
+        <div id="privacyModal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center backdrop-blur-sm transition-opacity">
+            <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full mx-4 relative shadow-2xl" onclick="event.stopPropagation()">
+                <button onclick="closePrivacyModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-[17px] font-bold mb-4 text-gray-900 pr-6">개인정보 수집 및 이용 동의</h3>
+                <div class="text-[13px] text-gray-600 space-y-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100 leading-relaxed break-keep">
+                    <p><strong class="text-gray-800">1. 수집 항목:</strong> 이름, 휴대폰 번호</p>
+                    <p><strong class="text-gray-800">2. 수집 및 이용 목적:</strong> 건강검진 이벤트 상담, 예약 확인 및 안내</p>
+                    <p><strong class="text-gray-800">3. 보유 및 이용 기간:</strong> 상담 완료 후 6개월 보관 후 파기</p>
+                    <p class="text-[11px] text-gray-400 mt-3">* 동의를 거부할 권리가 있으나, 거부 시 이벤트 상담 및 예약이 제한될 수 있습니다.</p>
+                </div>
+                <button onclick="closePrivacyModal()" class="w-full bg-[#F27405] text-white font-bold py-3.5 rounded-xl hover:bg-orange-600 transition-colors active:scale-95">확인했습니다</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        privacyModal = document.getElementById('privacyModal');
+    } else {
+        privacyModal.classList.remove('hidden');
+        privacyModal.classList.add('flex');
+    }
+    
+    document.body.style.overflow = 'hidden'; 
+};
+
+window.closePrivacyModal = function() {
+    const privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
+    if (privacyModal) {
+        privacyModal.classList.remove('flex');
+        privacyModal.classList.add('hidden');
+        document.body.style.overflow = ''; 
+    }
+};
+
+window.closeModal = function() {
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        successModal.classList.remove('flex');
+        successModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+};
+
+/* ---------------------------------------------------------
+   [이벤트 위임] 모달 강제 팝업 및 방어 코드
+--------------------------------------------------------- */
+document.body.addEventListener('click', (e) => {
+    if (!e.target) return;
+
+    // 1. 네이티브 앱 UX: 어두운 배경(Dimmed) 터치 시 모달 자동 닫기
+    const pModal = document.getElementById('privacyModal');
+    if (pModal && e.target === pModal) {
+        window.closePrivacyModal();
+        return;
+    }
+
+    // 2. 인라인 onclick이 있는 요소는 위임 이벤트 중복 실행 방지
+    if (e.target.closest('[onclick*="openPrivacyModal"]')) return;
+
+    // 3. 텍스트 기반 스마트 감지
+    const text = (e.target.innerText || e.target.textContent || '').trim();
+    if (text.length > 0 && text.length < 50 && text.includes('개인정보') && text.includes('동의')) {
+        window.openPrivacyModal();
+    }
+});
+
+/* ---------------------------------------------------------
    [보안] XSS 방어를 위한 HTML 이스케이프 함수
 --------------------------------------------------------- */
 const escapeHTML = (str) => {
@@ -29,7 +145,7 @@ const escapeHTML = (str) => {
 };
 
 /* ---------------------------------------------------------
-   [알림] EmailJS 발송 로직 (CC 활용으로 쿼터 절약)
+   [알림] EmailJS 발송 로직
 --------------------------------------------------------- */
 const sendEmailNotification = async (data) => {
     try {
@@ -59,83 +175,6 @@ const setButtonLoading = (isLoading) => {
         '상담 접수하기';
     btn.classList.toggle('opacity-70', isLoading);
 };
-
-/* ---------------------------------------------------------
-   [전역 함수 바인딩] 모달 통제
---------------------------------------------------------- */
-window.showAlert = (message) => {
-    const modal = document.getElementById('alertModal');
-    const msgArea = document.getElementById('alertMessage');
-    if (modal && msgArea) {
-        msgArea.innerText = message;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    } else { alert(message); }
-};
-
-window.closeAlertModal = function() {
-    const alertModal = document.getElementById('alertModal');
-    if (alertModal) {
-        alertModal.classList.remove('flex');
-        alertModal.classList.add('hidden');
-    }
-};
-
-window.openGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.remove('hidden');
-        guideModal.classList.add('flex');
-        document.body.style.overflow = 'hidden'; 
-    }
-};
-
-window.closeGuideModal = function() {
-    const guideModal = document.getElementById('guideModal');
-    if (guideModal) {
-        guideModal.classList.remove('flex');
-        guideModal.classList.add('hidden');
-        document.body.style.overflow = ''; 
-    }
-};
-
-window.openPrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
-    if (privacyModal) {
-        privacyModal.classList.remove('hidden');
-        privacyModal.classList.add('flex');
-        document.body.style.overflow = 'hidden'; 
-    } else {
-        alert("개인정보 처리방침을 불러올 수 없습니다.");
-    }
-};
-
-window.closePrivacyModal = function() {
-    const privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
-    if (privacyModal) {
-        privacyModal.classList.remove('flex');
-        privacyModal.classList.add('hidden');
-        document.body.style.overflow = ''; 
-    }
-};
-
-window.closeModal = function() {
-    const successModal = document.getElementById('successModal');
-    if (successModal) {
-        successModal.classList.remove('flex');
-        successModal.classList.add('hidden');
-        document.body.style.overflow = '';
-    }
-};
-
-/* ---------------------------------------------------------
-   [이벤트 위임] 전역 클릭 리스너
---------------------------------------------------------- */
-document.body.addEventListener('click', (e) => {
-    if (e.target.innerText && e.target.innerText.includes('개인정보수집 이용 동의')) {
-        window.openPrivacyModal();
-    }
-});
 
 /* ---------------------------------------------------------
    [핵심] 폼 제출 로직
@@ -232,7 +271,7 @@ const injectGEOSchema = () => {
 document.addEventListener('DOMContentLoaded', () => {
     injectGEOSchema();
 
-    /* 1. 메인 카로셀 제어 로직 - [개선] 무한 루프 & 자동 롤링 & 터치(스와이프) 제어 */
+    /* 1. 카로셀 터치/자동 슬라이드 최적화 로직 */
     const track = document.querySelector('.carousel-track');
     const originalSlides = document.querySelectorAll('.carousel-item');
     const indicator = document.getElementById('slide-indicator');
@@ -242,7 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (originalSlides.length > 0 && track) {
         const totalItems = originalSlides.length;
 
-        // 클론 동적 복제 (무한 루프용)
         const firstClone = originalSlides[0].cloneNode(true);
         const lastClone = originalSlides[totalItems - 1].cloneNode(true);
         
@@ -254,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let isTransitioning = false;
         const itemWidthPercent = 90; 
 
-        // 터치 드래그 상태 변수
         let isDragging = false;
         let startX = 0;
         let currentX = 0;
@@ -290,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlides(true);
         };
 
-        // 트랜지션 종료 시 클론 구간에서 원래 위치로 튕김 없이 워프
         track.addEventListener('transitionend', () => {
             isTransitioning = false;
             if (currentIdx === totalItems + 1) {
@@ -305,24 +341,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const startAutoSlide = () => {
             if (slideInterval) clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 2000); // 2초 간격 롤링
+            slideInterval = setInterval(nextSlide, 2000); 
         };
 
-        // 네비게이션 버튼 이벤트
         nextBtn?.addEventListener('click', () => { nextSlide(); startAutoSlide(); });
         prevBtn?.addEventListener('click', () => { prevSlide(); startAutoSlide(); });
 
-        /* --- [NEW] 터치 및 스와이프 로직 --- */
-        const getPositionX = (event) => {
-            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        };
+        const getPositionX = (event) => event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
 
         const touchStart = (event) => {
             if (isTransitioning) return;
             isDragging = true;
             startX = getPositionX(event);
             if (slideInterval) clearInterval(slideInterval);
-            track.style.transition = 'none'; // 드래그 시 애니메이션 제거 (손가락에 바로 붙도록)
+            track.style.transition = 'none'; 
         };
 
         const touchMove = (event) => {
@@ -330,8 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
             currentX = getPositionX(event);
             const diffX = currentX - startX;
             const baseOffset = currentIdx * itemWidthPercent;
-            
-            // % 기반의 기준점과 px 단위의 손가락 이동거리를 결합하여 부드럽게 이동
             track.style.transform = `translateX(calc(-${baseOffset}% + ${diffX}px))`;
         };
 
@@ -340,20 +370,19 @@ document.addEventListener('DOMContentLoaded', () => {
             isDragging = false;
             
             const diffX = currentX !== 0 ? currentX - startX : 0;
-            const threshold = 50; // 이 픽셀(px) 이상 스와이프 시 슬라이드 전환
+            const threshold = 50; 
             
             if (Math.abs(diffX) > threshold && currentX !== 0) {
-                if (diffX > 0) prevSlide(); // 오른쪽으로 드래그 (이전 슬라이드)
-                else nextSlide();           // 왼쪽으로 드래그 (다음 슬라이드)
+                if (diffX > 0) prevSlide(); 
+                else nextSlide();           
             } else {
-                updateSlides(true); // 임계값 미만이면 원래 슬라이드로 복귀(Snap)
+                updateSlides(true); 
             }
             
-            currentX = 0; // 초기화
-            startAutoSlide(); // 롤링 재시작
+            currentX = 0; 
+            startAutoSlide(); 
         };
 
-        // 터치 및 마우스 이벤트 리스너 등록
         track.addEventListener('touchstart', touchStart, { passive: true });
         track.addEventListener('touchmove', touchMove, { passive: true });
         track.addEventListener('touchend', touchEnd);
@@ -364,9 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
         track.addEventListener('mouseleave', () => {
             if (isDragging) touchEnd();
         });
-        /* ---------------------------------- */
 
-        // 초기 화면 정렬 및 스케줄러 기동
         updateSlides(false);
         startAutoSlide();
 
@@ -390,22 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => fContainer.innerHTML = html);
     }
 
-    /* 4. 카카오톡 상담 텍스트 페이드 애니메이션 */
-    const bubble = document.getElementById('bubble-text');
-    if (bubble) {
-        const msgs = ["빠른 채팅 상담하기", "어떤 걸 선택해야하나요?", "진행 중인 이벤트는?", "어떤 검사인지 궁금해요"];
-        let mIdx = 0;
-        setInterval(() => {
-            bubble.style.opacity = 0; 
-            setTimeout(() => {
-                mIdx = (mIdx + 1) % msgs.length;
-                bubble.innerText = msgs[mIdx];
-                bubble.style.opacity = 1; 
-            }, 300);
-        }, 4000);
-    }
-
-    /* 5. [이벤트 위임] 체크박스 및 카드 선택 효과 */
+    /* 4. 체크박스 선택 효과 */
     document.body.addEventListener('change', (e) => {
         if (e.target.classList.contains('package-checkbox')) {
             const boxes = document.querySelectorAll('.package-checkbox');
@@ -420,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* 6. 부드러운 탭 필터링 로직 */
+    /* 5. 부드러운 탭 필터링 로직 */
     const tabBtns = document.querySelectorAll('.tab-btn');
     const eventItems = document.querySelectorAll('.event-item');
 

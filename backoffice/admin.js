@@ -229,7 +229,7 @@ function renderList(items) {
     listContainer.innerHTML = '';
     
     if (items.length === 0) {
-        listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center text-gray-400 font-bold">조회된 데이터가 없습니다.</td></tr>`;
+        listContainer.innerHTML = `<tr><td colspan="7" class="p-20 text-center text-gray-400 font-bold">조회된 데이터가 없습니다.</td></tr>`;
         return;
     }
 
@@ -237,6 +237,7 @@ function renderList(items) {
         const timeStr = data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000).toLocaleString('ko-KR', { year: '2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12: false }) : '방금 전';
         const source = data.source || 'direct';
         const status = data.status || '대기중';
+        const pageName = data.pageName || 'index.html'; // 저장된 페이지명이 없으면 기본 index.html로 표시
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-all border-b border-gray-50";
@@ -245,6 +246,7 @@ function renderList(items) {
             <td class="px-6 py-5 text-[14px] font-black text-gray-900">${data.name}</td>
             <td class="px-6 py-5 text-center text-[13px] font-bold text-gray-500">${data.phone}</td>
             <td class="px-6 py-5"><span class="bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package}</span></td>
+            <td class="px-6 py-5 text-center"><span class="bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-lg text-[11px] font-bold">${pageName}</span></td>
             <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>
             <td class="px-6 py-5 text-center">
                 <select data-id="${data.id}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">

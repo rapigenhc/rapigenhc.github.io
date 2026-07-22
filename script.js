@@ -64,7 +64,6 @@ window.closeGuideModal = function() {
 window.openPrivacyModal = function() {
     let privacyModal = document.getElementById('privacyModal') || document.getElementById('PrivacyModal');
     
-    // 방어 로직: footer.html에서 모달을 불러오지 못했을 경우 즉시 DOM에 주입
     if (!privacyModal) {
         console.warn("DOM에서 모달 요소를 찾지 못해 동적으로 생성합니다.");
         const modalHTML = `
@@ -107,7 +106,7 @@ window.closeModal = function() {
     if (successModal) {
         successModal.classList.remove('flex');
         successModal.classList.add('hidden');
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''; // 본문 스크롤 복원
     }
 };
 
@@ -117,17 +116,14 @@ window.closeModal = function() {
 document.body.addEventListener('click', (e) => {
     if (!e.target) return;
 
-    // 1. 네이티브 앱 UX: 어두운 배경(Dimmed) 터치 시 모달 자동 닫기
     const pModal = document.getElementById('privacyModal');
     if (pModal && e.target === pModal) {
         window.closePrivacyModal();
         return;
     }
 
-    // 2. 인라인 onclick이 있는 요소는 위임 이벤트 중복 실행 방지
     if (e.target.closest('[onclick*="openPrivacyModal"]')) return;
 
-    // 3. 텍스트 기반 스마트 감지
     const text = (e.target.innerText || e.target.textContent || '').trim();
     if (text.length > 0 && text.length < 50 && text.includes('개인정보') && text.includes('동의')) {
         window.openPrivacyModal();
@@ -145,19 +141,25 @@ const escapeHTML = (str) => {
 };
 
 /* ---------------------------------------------------------
-   [알림] EmailJS 발송 로직
+   [알림] EmailJS 발송 로직 최적화
 --------------------------------------------------------- */
 const sendEmailNotification = async (data) => {
+    if (typeof emailjs === 'undefined') {
+        console.warn("EmailJS 라이브러리가 로드되지 않았습니다.");
+        return;
+    }
     try {
         await emailjs.send('service_event-github', 'template_NEW-Reserve', {
             name: data.name,
             phone: data.phone,
             package: data.package,
+            pageName: data.pageName,
+            source: data.source,
             date: new Date().toLocaleDateString('ko-KR'),
             time: new Date().toLocaleTimeString('ko-KR'),
             received_at: new Date().toLocaleString('ko-KR')
         });
-        console.log("관리자 알림 발송 성공");
+        console.log("관리자 이메일(EmailJS) 발송 성공");
     } catch (err) {
         console.error("EmailJS 발송 실패:", err);
     }
@@ -167,72 +169,162 @@ const sendEmailNotification = async (data) => {
    [UI] 로딩 상태 제어 함수
 --------------------------------------------------------- */
 const setButtonLoading = (isLoading) => {
-    const btn = document.querySelector('button[onclick="submitForm()"]');
+    const btn = document.getElementById('submitBtn');
     if (!btn) return;
     btn.disabled = isLoading;
     btn.innerHTML = isLoading ? 
         `<svg class="animate-spin h-4 w-4 text-white inline mr-2" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> 접수 중...` : 
-        '상담 접수하기';
+        '상담 신청하기';
     btn.classList.toggle('opacity-70', isLoading);
 };
 
 /* ---------------------------------------------------------
-   [핵심] 폼 제출 로직
+   [핵심] 폼 제출 및 패키지 스마트 인입 로직
 --------------------------------------------------------- */
-window.submitForm = async function() {
-    const lastSubmit = localStorage.getItem('last_submit_time');
-    if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
-        return window.showAlert("잠시 후 다시 시도해주세요.");
-    }
+function bindReservationEvent() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (!submitBtn || submitBtn.dataset.bound === "true") return;
+    submitBtn.dataset.bound = "true"; 
 
-    const nameInput = document.getElementById('userName');
-    const phoneInput = document.getElementById('userPhone');
-    const agree = document.getElementById('agree');
-    
-    if (!agree?.checked) return window.showAlert("개인정보 수집에 동의해주세요.");
-    if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(nameInput?.value.trim())) return window.showAlert("성함을 정확히 입력해주세요.");
-    if (!/^01[016789]\d{7,8}$/.test(phoneInput?.value.trim().replace(/[^0-9]/g, ''))) return window.showAlert("휴대폰 번호를 확인해주세요.");
+    submitBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
 
-    const checkedBox = document.querySelector('.package-checkbox:checked');
-    const selectedPkg = checkedBox?.closest('.package-card')?.querySelector('h3')?.innerText.trim() || "기본 패키지";
-
-    const formData = {
-        name: escapeHTML(nameInput.value.trim()),
-        phone: escapeHTML(phoneInput.value.trim()),
-        package: escapeHTML(selectedPkg),
-        status: "대기중",
-        source: sessionStorage.getItem('rapi_utm_source') || 'direct',
-        medium: sessionStorage.getItem('rapi_utm_medium') || '',
-        createdAt: serverTimestamp(),
-        userAgent: navigator.userAgent
-    };
-
-    try {
-        window.isSubmitting = true;
-        setButtonLoading(true);
-
-        await addDoc(collection(db, "reservations"), formData);
-        sendEmailNotification(formData);
-
-        if (typeof gtag === 'function') gtag('event', 'generate_lead', { 'event_label': selectedPkg });
-
-        localStorage.setItem('last_submit_time', Date.now());
-        const successModal = document.getElementById('successModal');
-        if (successModal) {
-            successModal.classList.remove('hidden');
-            successModal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
+        const lastSubmit = localStorage.getItem('last_submit_time');
+        if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
+            return window.showAlert("현재 접수가 원활하지 않습니다.\n상담을 원하시면 1544-5189로 연락주세요.\n감사합니다.");
         }
+
+        const userNameEl = document.getElementById('userName');
+        const userPhoneEl = document.getElementById('userPhone');
+        const agreeEl = document.getElementById('agree');
+
+        if (!userNameEl || !userPhoneEl) return;
+
+        const userName = userNameEl.value.trim();
+        const userPhone = userPhoneEl.value.trim();
+        const agree = agreeEl ? agreeEl.checked : false;
+
+        if (!agree) {
+            const tip = document.getElementById('tip-agree');
+            if (tip) {
+                tip.classList.add('show');
+                setTimeout(() => tip.classList.remove('show'), 3000);
+            } else {
+                alert("개인정보수집 이용에 동의해주세요.");
+            }
+            return;
+        }
+
+        // 💡 [패키지 스마트 인입 분기 처리 엔진]
+        let finalPackageName = '';
+        const bodyPackageAttr = document.body.getAttribute('data-package');
+        const packageCheckboxes = document.querySelectorAll('.package-checkbox');
         
-        nameInput.value = ''; phoneInput.value = ''; agree.checked = false;
-    } catch (err) {
-        console.error("DB Error:", err);
-        window.showAlert("오류가 발생했습니다. 다시 시도해주세요.");
-    } finally {
-        setButtonLoading(false);
-        setTimeout(() => { window.isSubmitting = false; }, 1000);
-    }
-};
+        if (packageCheckboxes && packageCheckboxes.length > 0) {
+            const selectedOptions = [];
+            for (let i = 0; i < packageCheckboxes.length; i++) {
+                const cb = packageCheckboxes[i];
+                if (cb && cb.checked && cb.value) {
+                    selectedOptions.push(cb.value);
+                }
+            }
+            
+            if (selectedOptions.length > 0) {
+                finalPackageName = selectedOptions.join(', ');
+            } else {
+                finalPackageName = '기본 패키지';
+            }
+        } else if (bodyPackageAttr) {
+            finalPackageName = bodyPackageAttr;
+        } else {
+            finalPackageName = '기본 패키지';
+        }
+
+        const nameRegex = /^[가-힣a-zA-Z\s]{2,20}$/;
+        const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
+
+        if (!nameRegex.test(userName)) {
+            alert("올바른 이름을 입력해주세요. (특수문자/숫자 제외 2자 이상)");
+            userNameEl.focus();
+            return;
+        }
+        if (!phoneRegex.test(userPhone)) {
+            alert("올바른 휴대폰 번호를 입력해주세요. (예: 010-1234-5678)");
+            userPhoneEl.focus();
+            return;
+        }
+
+        const cleanPhone = userPhone.replace(/-/g, '');
+
+        // 현재 페이지의 파일명 추출 (예: survivor.html, index.html 등)
+        const currentPath = window.location.pathname;
+        const pageFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.html';
+
+        // 유입 채널 추출
+        const utmSource = sessionStorage.getItem('rapi_utm_source') || new URLSearchParams(window.location.search).get('utm_source') || 'direct';
+
+        const formData = {
+            name: escapeHTML(userName),
+            phone: escapeHTML(userPhone),
+            cleanPhone: cleanPhone,
+            package: escapeHTML(finalPackageName),
+            pageName: pageFileName,
+            source: utmSource,
+            status: "대기중",
+            createdAt: serverTimestamp(),
+            utm_source: utmSource
+        };
+
+        try {
+            window.isSubmitting = true;
+            setButtonLoading(true);
+
+            // 1. Firestore 데이터 송신
+            await addDoc(collection(db, "reservations"), {
+                name: formData.name,
+                phone: formData.cleanPhone,
+                package: formData.package,
+                pageName: formData.pageName,
+                source: formData.source,
+                status: formData.status,
+                createdAt: formData.createdAt,
+                utm_source: formData.utm_source
+            });
+
+            // 2. 💡 EmailJS 발송 함수 호출 (pageName, source 포함)
+            sendEmailNotification(formData);
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'generate_lead', { 'event_label': formData.package });
+            }
+
+            localStorage.setItem('last_submit_time', Date.now());
+
+            // 3. 신청완료 모달 활성화
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                successModal.classList.remove('hidden');
+                successModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            } else {
+                alert("상담 신청이 완료되었습니다. 전문 상담원이 곧 연락드리겠습니다.");
+            }
+            
+            userNameEl.value = '';
+            userPhoneEl.value = '';
+            if (agreeEl) agreeEl.checked = true;
+            
+            packageCheckboxes.forEach(cb => cb.checked = false);
+
+        } catch (error) {
+            console.error("Firestore 쓰기 에러 발생:", error);
+            alert("현재 접수가 원활하지 않습니다. 잠시 후 다시 시도해주세요.");
+        } finally {
+            setButtonLoading(false);
+            window.isSubmitting = false;
+        }
+    });
+}
 
 /* ---------------------------------------------------------
    [GEO 최적화] JSON-LD 동적 주입 로직
@@ -270,6 +362,9 @@ const injectGEOSchema = () => {
 --------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     injectGEOSchema();
+    
+    // 예약 버튼 이벤트 바인딩 호출
+    bindReservationEvent();
 
     /* 1. 카로셀 터치/자동 슬라이드 최적화 로직 */
     const track = document.querySelector('.carousel-track');
@@ -414,7 +509,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fContainer) {
         fetch(`footer.html?v=${Date.now()}`)
             .then(r => r.text())
-            .then(html => fContainer.innerHTML = html);
+            .then(html => {
+                fContainer.innerHTML = html;
+                bindReservationEvent();
+            });
+    } else {
+        bindReservationEvent();
     }
 
     /* 4. 체크박스 선택 효과 */

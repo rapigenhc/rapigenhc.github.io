@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5월 어버이날 프로그램 | 래피젠헬스케어</title>
+    <title>부모님 건강검진 프로그램 | 래피젠헬스케어</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="./ga_tracking.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -70,7 +70,7 @@
         <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
             <div class="flex items-center gap-3 cursor-pointer" onclick="location.href='index.html'">
                 <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">맞춤형 종합검진</h1>
+                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">건강검진 이벤트</h1>
             </div>
             <button onclick="window.open('https://naver.me/GI3JOGWS', '_blank')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all active:scale-95 group">
                 <img src="./img/nvmap.png" alt="Naver Map" class="w-5 h-5 object-contain rounded-sm">
@@ -105,7 +105,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="GREEN 그린 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -177,7 +177,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="PINK 여성특화 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -248,7 +248,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 border border-gray-200 rounded-3xl bg-white cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-300 has-[:checked]:border-[#F27405] has-[:checked]:bg-orange-50/30">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="checkbox" class="package-checkbox">
+                        <input type="checkbox" class="package-checkbox" value="갱년기 안심 패키지">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -315,7 +315,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="BLUE 블루 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -388,7 +388,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="NAVY 네이비 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -463,7 +463,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="PURPLE 퍼플 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -548,7 +548,7 @@
 
                 <label class="package-card flex flex-col p-5 md:p-7 rounded-3xl cursor-pointer relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-6 left-5 z-20">
-                        <input type="radio" name="package" class="package-checkbox">
+                        <input type="radio" name="package" class="package-checkbox" value="ROYAL 로얄 종합검진">
                     </div>
                     <div class="flex-1 flex flex-col w-full z-10">
                         <div class="pl-10 mb-5">
@@ -664,13 +664,28 @@
 
             </div>
             
-            <article class="prose max-w-none text-gray-700 mt-8 px-2 text-[15px]">
-                <p><img src="img/landing_info.jpg"></p>
+            <article data-aos="fade-up" data-aos-delay="100" class="prose max-w-none text-gray-700 mt-8 px-2 text-[15px]">
+                <p><img src="img/intro-pic-v2.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-01.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-02.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-03.jpg" class="w-full"></p>
+                <p><img src="img/interior-pic-06.jpg" class="w-full"></p>
+                <p><a href="https://rapigenhc.com/" target="_blank"><img src="img/map-info.jpg" class="w-full"></a></p>
             </article>
+            <div data-aos="fade-up" data-aos-delay="100" class="mb-10 text-center md:text-center flex flex-col items-center">
+                <h4 class="text-lg md:text-xl font-medium text-orange-600 break-keep leading-tight mb-2">
+                    아래 버튼을 통해 상담 신청하시면<br class="hidden md:block"/>
+                    상담원이 전화를 드려 친절하게 안내해드립니다.
+                </h4>
+                    
+                <div class="animate-bounce mt-2 text-orange-600">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
         </div>
     </main>
-
-    <div id="common-footer-container"></div>
 
     <div class="fixed bottom-24 z-[60] w-full max-w-md md:max-w-4xl left-1/2 -translate-x-1/2 pointer-events-none px-5">
         <div class="flex flex-col items-end gap-3 group pointer-events-auto">
@@ -689,6 +704,8 @@
             </a>
         </div>
     </div>
+
+    <div id="common-footer-container"></div>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script type="text/javascript">

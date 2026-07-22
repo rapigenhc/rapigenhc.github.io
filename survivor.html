@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>암생존자 추적관리 프로그램 | 래피젠헬스케어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body { -webkit-tap-highlight-color: transparent; }
+        
+        details[open] summary ~ div {
+            animation: sweep 0.4s ease-in-out;
+        }
+        @keyframes sweep {
+            0%    { opacity: 0; transform: translateY(-10px); }
+            100%  { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body data-package="암추적관리" class="bg-white text-gray-900 pb-32 overflow-x-hidden">
+
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="location.href='index.html'">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">래피젠 헬스케어 건강검진 이벤트</h1>
+            </div>
+            <button class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" onclick="location.href='index.html'">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full flex flex-col items-center overflow-hidden pb-24">
+        <section data-aos="fade-up" class="w-full max-w-5xl px-4 pt-16 pb-12 text-center flex flex-col items-center">
+            <h4 class="text-[#F27405] font-bold text-xl md:text-2xl mb-2">암 생존자 추적관리 프로그램</h4>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 break-keep leading-tight mb-4">
+            치료 후가 관리의 시작입니다
+            </h2>
+            <p class="text-gray-600 text-sm md:text-base break-keep mb-8">
+            증상이 없어도, 혈액에는 신호가 먼저 나타날 수 있습니다.<br class="hidden md:block"/>
+            정기적인 추적관리 검사로 더 이른 시점에 파악하세요.
+            </p>
+            <div class="w-full max-w-4xl relative aspect-[16/9] rounded-3xl overflow-hidden shadow-sm bg-gray-100">
+                <img src="survivor/main01.jpg" alt="의료진과 상담중인 환자" class="w-full h-full object-cover">
+            </div>
+        </section>
+
+        <section class="w-full bg-white py-16">
+            <div class="max-w-5xl mx-auto px-4">
+                <div data-aos="fade-up" class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 break-keep leading-tight mb-4">
+                    불안을 해소하기 위해서는 감시 도구를 정교히 하고<br class="hidden md:block"/> 정기적으로 상태를 확인해야 합니다
+                    </h2>
+                    <p class="text-gray-600 text-sm md:text-base break-keep">
+                    치료 이후 재발에 대한 불안은 크지만, 현행 추적관리는 구조적 한계로 인해 조기 발견과 관리에 어려움이 있습니다.<br class="hidden md:block"/>
+                    영상 검사나 종양표지자 등으로는 발견하기 어려운 미세 잔존암, 이제 액체 생검으로 확인할 수 있습니다.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div data-aos="fade-up" data-aos-delay="100" class="flex flex-col bg-gray-50 rounded-2xl overflow-hidden">
+                    <div class="h-40 bg-gray-200">
+                        <img src="survivor/problem01.jpg" alt="영상 검사" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2 break-keep">영상 검사의 물리적 한계</h3>
+                        <p class="text-sm text-gray-600 break-keep leading-relaxed">CT·MRI는 종양이 일정 크기 이상이 되어야 확인됩니다. 재발 초기 단계에서는 발견이 어려울 수 있습니다.</p>
+                    </div>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="200" class="flex flex-col bg-gray-50 rounded-2xl overflow-hidden">
+                    <div class="h-40 bg-gray-200">
+                        <img src="survivor/problem02.jpg" alt="종양표지자 검사" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2 break-keep">종양표지자 검사의 민감도</h3>
+                        <p class="text-sm text-gray-600 break-keep leading-relaxed">혈액 종양표지자는 암 종에 따라 신뢰도 차이가 있으며, 재발 초기에 수치 변화가 나타나지 않는 경우도 있습니다.</p>
+                    </div>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col bg-gray-50 rounded-2xl overflow-hidden">
+                    <div class="h-40 bg-gray-200">
+                        <img src="survivor/problem03.jpg" alt="치료의 절벽" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2 break-keep">치료의 절벽<br class="hidden md:block"/>(Therapeutic Cliff)</h3>
+                        <p class="text-sm text-gray-600 break-keep leading-relaxed">치료 종료 후 체계적 추적관리가 단절되는 경우가 많아, 환자와 가족이 재발 불안을 홀로 감당하게 됩니다.</p>
+                    </div>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="400" class="flex flex-col bg-gray-50 rounded-2xl overflow-hidden">
+                    <div class="h-40 bg-gray-200">
+                        <img src="survivor/problem04.jpg" alt="정밀한 모니터링 부재" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2 break-keep">맞춤형 장기 모니터링 부재</h3>
+                        <p class="text-sm text-gray-600 break-keep leading-relaxed">국내 암 생존자들은 개인별 상황을 고려한 체계적 장기 추적관리 시스템의 부재를 주요 어려움으로 경험하고 있습니다.</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full bg-blue-50/30 py-16">
+            <div class="max-w-5xl mx-auto px-4 text-center">
+                <div data-aos="fade-up">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 break-keep leading-tight mb-10">
+                    조기에 발견하면 치료할 수 있지만,<br class="hidden md:block"/> 재발을 놓치면 치료 기회를 잃을 수 있습니다
+                    </h2>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="200" class="w-full max-w-4xl mx-auto relative aspect-[21/9]">
+                    <img src="survivor/process.svg" alt="암 추적관리 흐름도" class="w-full h-full object-contain">
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full bg-white py-16">
+            <div class="max-w-5xl mx-auto px-4">
+                <div data-aos="fade-up" class="mb-10 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 break-keep leading-tight mb-4">
+                    암 생존자 정밀 추적관리 프로그램<br/> 액체 생검, Guardant Reveal이란?
+                    </h2>
+                    <p class="text-gray-600 text-sm md:text-base break-keep leading-relaxed">
+                    한 번의 채혈로 눈에 보이지 않는 암의 흔적을 찾아내는 검사입니다.<br class="hidden md:block"/>
+                    영상검사로 확인되기 어려운 초기 변화도 혈액에서 먼저 확인할 수 있습니다.
+                    </p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="150" class="bg-blue-50 border border-blue-300 rounded-3xl p-6 md:p-10 shadow-sm mb-6">
+                    <h4 class="text-blue-900 text-sm md:text-base font-extrabold mb-2 break-keep">검사 원리</h4>
+                    혈액 속에는 암세포가 남긴 미세한 DNA 신호가 존재합니다.<br class="hidden md:block"/>
+                    Guardant Reveal 검사는 이 신호를 분석해 재발 가능성을 조기에 확인하는 기술입니다.
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="150" class="bg-gray-50 border border-gray-100 rounded-3xl p-6 md:p-10 shadow-sm">
+            
+                    <div class="flex flex-col md:flex-row items-stretch justify-between gap-4 md:gap-2">
+                    
+                    <div class="flex-1 flex flex-col relative px-2 md:px-4">
+                        <div class="mb-10">
+                        <h4 class="text-gray-900 text-sm md:text-base font-extrabold mb-2 break-keep">채혈만으로 검사</h4>
+                        <p class="text-xs md:text-sm text-gray-600 break-keep leading-relaxed">복잡한 검사 없이 간단한 혈액 채취로 진행됩니다.</p>
+                        </div>
+                        <div class="mt-auto flex justify-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12">
+                            <img src="survivor/ico_feature01.svg" alt="간편하게 아이콘" class="w-full h-full object-contain">
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:flex flex-col justify-center items-center">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex md:hidden justify-center items-center py-2">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+
+                    <div class="flex-1 flex flex-col relative px-2 md:px-4">
+                        <div class="mb-10">
+                        <h4 class="text-gray-900 text-sm md:text-base font-extrabold mb-2 break-keep">반복 검사 가능</h4>
+                        <p class="text-xs md:text-sm text-gray-600 break-keep leading-relaxed">치료 이후에도 정기적으로 확인할 수 있습니다.</p>
+                        </div>
+                        <div class="mt-auto flex justify-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12">
+                            <img src="survivor/ico_feature02.svg" alt="반복 검사 가능 아이콘" class="w-full h-full object-contain">
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:flex flex-col justify-center items-center">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex md:hidden justify-center items-center py-2">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+
+                    <div class="flex-1 flex flex-col relative px-2 md:px-4">
+                        <div class="mb-10">
+                        <h4 class="text-gray-900 text-sm md:text-base font-extrabold mb-2 break-keep">재발 조기 확인</h4>
+                        <p class="text-xs md:text-sm text-gray-600 break-keep leading-relaxed">증상이 나타나기 전에 변화를 먼저 확인할 수 있습니다.</p>
+                        </div>
+                        <div class="mt-auto flex justify-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12">
+                            <img src="survivor/ico_feature03.svg" alt="정밀 추적 아이콘" class="w-full h-full object-contain">
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:flex flex-col justify-center items-center">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex md:hidden justify-center items-center py-2">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+
+                    <div class="flex-1 flex flex-col relative px-2 md:px-4">
+                        <div class="mb-10">
+                        <h4 class="text-gray-900 text-sm md:text-base font-extrabold mb-2 break-keep">임상 데이터 기반</h4>
+                        <p class="text-xs md:text-sm text-gray-600 break-keep leading-relaxed">대규모 임상 연구를 바탕으로 신뢰할 수 있는 검사입니다.</p>
+                        </div>
+                        <div class="mt-auto flex justify-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12">
+                            <img src="survivor/ico_feature04.svg" alt="조기 발견 아이콘" class="w-full h-full object-contain">
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full bg-gray-50 py-16">
+            <div class="max-w-5xl mx-auto px-4 text-center">
+                <div data-aos="fade-up">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 break-keep leading-tight mb-4">
+                    암세포는 눈에 보이기 훨씬 전부터<br/> 혈액 속에 미세한 흔적(DNA)을 남깁니다
+                    </h2>
+                    <p class="text-gray-600 text-sm md:text-base break-keep mb-10">
+                    영상검사에서 종양이 보이려면 많은 세포가 모여야 하지만,<br class="hidden md:block"/>
+                    혈액 검사는 그보다 훨씬 이른 단계에서 재발의 신호를 먼저 확인할 수 있습니다.
+                    </p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="200" class="w-full max-w-4xl mx-auto bg-white rounded-3xl p-4 shadow-sm border border-gray-100 relative aspect-[16/9]">
+                    <img src="survivor/graph.png" alt="ctDNA 농도 추이 차트" class="w-full h-full object-contain">
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full bg-white py-16 bg-gradient-to-b from-white to-orange-50/30">
+            <div class="max-w-3xl mx-auto px-4">
+                <div data-aos="fade-up" class="text-center md:text-left mb-8">
+                    <h3 class="text-[#F27405] font-bold text-xl md:text-2xl mb-2">암 생존자 추적관리 프로그램</h3>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 break-keep">
+                    자주 묻는 질문을 확인해 보세요
+                    </h2>
+                </div>
+
+               <div data-aos="fade-up" data-aos-delay="150" class="flex flex-col space-y-3">
+                    <details open class="group bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-300">
+                        <summary class="p-5 font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center group-open:text-[#0047FF]">
+                            <span class="break-keep pr-4">누가 암 생존자 추적관리 프로그램(가던트리빌) 대상자에 해당하나요?</span>
+                            <span class="transition-transform duration-300 group-open:rotate-180">
+                                <svg class="w-5 h-5 text-gray-400 group-open:text-[#0047FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="p-5 pt-0 text-sm text-gray-600 leading-relaxed bg-white break-keep border-t border-gray-100">
+                            본 프로그램은 <strong>고형암(대장암, 유방암, 폐암 등)의 수술이나 항암 등 주요 치료를 마치고 일상으로 복귀하신 암 생존자 분</strong>들을 주 대상으로 합니다.</br>
+                            치료 후 병원에서 정기적인 추적 관찰을 하고 계시지만 눈에 보이지 않는 미세 잔존암이 걱정되시는 분, 혹은 재발에 대한 불안감을 선제적으로 해소하고 건강한 일상에 집중하고자 하는 분들께 적극적으로 권장해 드립니다.
+                        </div>
+                    </details>
+
+                    <details class="group bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-300">
+                        <summary class="p-5 font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center group-open:text-[#0047FF]">
+                            <span class="break-keep pr-4">기존 건강검진 항목이나 병원 외래 진료와 비교할 때 어떤 차이점이 있나요?</span>
+                            <span class="transition-transform duration-300 group-open:rotate-180">
+                                <svg class="w-5 h-5 text-gray-400 group-open:text-[#0047FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="p-5 pt-0 text-sm text-gray-600 leading-relaxed bg-white break-keep border-t border-gray-100">
+                            기존의 영상 검사(CT, MRI 등)나 내시경은 <strong>암세포가 물리적으로 눈에 보일 정도로 형태를 갖춰야만 발견</strong>할 수 있다는 한계가 있습니다. 반면 가던트리빌은 단 한 번의 채혈만으로 <strong>혈액 속에 떠다니는 미세한 암세포의 흔적(ctDNA)</strong>을 찾아내는 최첨단 액체 생검 기술입니다. 방사선 노출이나 조영제 부작용 걱정이 없으며, 기존 영상 검사보다 훨씬 더 이른 시기에 미세 잔존암 유무를 파악할 수 있어 <strong>재발 위험을 조기에 관리</strong>할 수 있다는 것이 가장 큰 차별점입니다. 기존 병원 외래 진료와 병행하시면 더욱 빈틈없는 정밀한 추적 관리가 가능합니다.
+                        </div>
+                    </details>
+
+                    <details class="group bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-300">
+                        <summary class="p-5 font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center group-open:text-[#0047FF]">
+                            <span class="break-keep pr-4">검사 전 준비사항이 있나요? 결과는 어떻게 해석하고 관리해야 하나요?</span>
+                            <span class="transition-transform duration-300 group-open:rotate-180">
+                                <svg class="w-5 h-5 text-gray-400 group-open:text-[#0047FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="p-5 pt-0 text-sm text-gray-600 leading-relaxed bg-white break-keep border-t border-gray-100">
+								가던트리빌은 간단한 혈액 채취만으로 진행되므로, 내시경이나 영상 검사처럼 <strong>금식과 같은 번거로운 사전 준비가 전혀 필요하지 않으며 특별한 검사 부적합 요인도 없어</strong>누구나 편안하게 받으실 수 있습니다.<br>
+								<br>
+								단, 이 검사는 미세 잔존암 여부를 판별하는 고도의 전문적인 영역이므로, 검사 결과에 대한 정확한 해석과 향후 관리 방향은 반드시 <strong>종양내과 전문의와의 진료 및 상담</strong>을 통해 확인하셔야 합니다. 또한, <u>수령하신 검사 결과지는 스마트 건강관리 파트너인 암 오케이앱에 업로드하시는 것을 적극 권장합니다.</u> 앱을 통해 소중한 검사 기록을 안전하고 체계적으로 누적 보관하며, 암 생존자를 위한 맞춤형 건강 관리 서비스를 더욱 편리하게 누리실 수 있습니다.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+        <section class="w-full bg-white py-16">
+            <div class="max-w-5xl mx-auto px-4">
+                <div data-aos="fade-up" class="mb-10 text-center md:text-center">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 break-keep leading-tight mb-4">
+                    검사는 ㈜다우바이오메디카를 통해<br class="hidden md:block"/>'래피젠헬스케어의원'에서 받을 수 있습니다.
+                    </h3>
+                    <p class="text-gray-600 text-sm md:text-base break-keep mb-10">
+                        검사는 연구용(Research Use Only, RUO)으로 제공되며,<br class="hidden md:block"/>의료진의 판단과 상담 하에서만 시행될 수 있습니다.<br class="hidden md:block mb-2"/>
+                        <span class="text-sm text-gray-400">출처 : 국가암지식정보센터</span>
+                    </p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100" class="mb-10 text-center md:text-center flex flex-col items-center">
+                    <h4 class="text-lg md:text-xl font-medium text-orange-600 break-keep leading-tight mb-2">
+                        아래 버튼을 통해 상담 신청하시면<br class="hidden md:block"/>
+                        상담원이 전화를 드려 친절하게 안내해드립니다.
+                    </h4>
+                            
+                    <div class="animate-bounce mt-2 text-orange-600">
+                        <svg class="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="100" class="mb-10 text-center md:text-center flex flex-col items-center">
+                    <p><img src="img/intro-pic-v2.jpg" class="w-full"></p>
+                    <p><img src="img/interior-pic-01.jpg" class="w-full"></p>
+                    <p><img src="img/interior-pic-02.jpg" class="w-full"></p>
+                    <p><img src="img/interior-pic-03.jpg" class="w-full"></p>
+                    <p><img src="img/interior-pic-06.jpg" class="w-full"></p>
+                    <p><a href="https://rapigenhc.com/" target="_blank"><img src="img/map-info.jpg" class="w-full"></a></p>
+                    
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <div id="common-footer-container"></div>
+
+    <div class="fixed bottom-24 z-[60] w-full max-w-md md:max-w-4xl left-1/2 -translate-x-1/2 pointer-events-none px-5">
+        <div class="flex flex-col items-end gap-3 group pointer-events-auto">
+            <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative animate-bounce-subtle">
+                <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                    </span>
+                    <span id="bubble-text">빠른 채팅 상담하기</span>
+                </p>
+                <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45"></div>
+            </div>
+            <a href="http://pf.kakao.com/_IHgin/chat" target="_blank" class="w-14 h-14 bg-[#FEE500] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 ring-4 ring-white/50">
+                <svg class="w-7 h-7 text-[#3A1D1D]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.71 4.795 4.305 6.054-.184.68-.664 2.45-.76 2.81-.12.45.152.445.32.332.132-.088 2.108-1.43 2.944-2.003.39.055.794.085 1.205.085 4.97 0 9-3.186 9-7.115S16.97 3 12 3z"/></svg>
+            </a>
+        </div>
+    </div>
+
+   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 600, once: true });
+        });
+    </script>
+    <div id="common-footer-container"></div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init("UYYZlMnSnF3BsSOfK"); 
+    })();
+    </script>
+    <script type="module" src="script.js"></script>
+    
+</body>
+</html>

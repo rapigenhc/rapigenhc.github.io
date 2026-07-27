@@ -27,11 +27,9 @@ let currentBaseConstraints = [];
 let pageCursors = {}; 
 let isFetching = false;
 
-// [핵심] 현재 날짜 선택 모드 (일별/주간/월간)
 let currentDateMode = 'week'; 
-let fpInstance = null; // Flatpickr 인스턴스
+let fpInstance = null;
 
-// 1. 초기 셋업 (Flatpickr 연동)
 const setInitialDates = (range = 'week') => {
     const end = new Date();
     const start = new Date();
@@ -41,50 +39,43 @@ const setInitialDates = (range = 'week') => {
     } else if(range === 'week') {
         start.setDate(end.getDate() - 6);
     } else if(range === 'month') {
-        start.setDate(1); // 이달 1일
+        start.setDate(1); 
         end.setMonth(start.getMonth() + 1);
-        end.setDate(0); // 이달 말일
+        end.setDate(0); 
     }
     
     document.getElementById('filterStartDate').value = start.toISOString().substring(0, 10);
     document.getElementById('filterEndDate').value = end.toISOString().substring(0, 10);
     
     if(fpInstance) {
-        fpInstance.setDate([start, end], false); // 달력 UI 동기화
+        fpInstance.setDate([start, end], false); 
     }
 };
 
-// [신규] Flatpickr 달력 초기화 함수 (Auto-Snap 알고리즘)
 const initFlatpickr = () => {
     fpInstance = flatpickr("#dateRangeDisplay", {
         mode: "range",
-        locale: "ko", // 한국어 패치
+        locale: "ko", 
         dateFormat: "Y-m-d",
         onChange: function(selectedDates, dateStr, instance) {
-            // 사용자가 달력에서 첫 번째 날짜를 클릭하는 순간 발동
             if (selectedDates.length === 1) {
                 const start = selectedDates[0];
                 if (currentDateMode === 'day') {
-                    // 일별: 하루만 선택되도록 스냅
                     instance.setDate([start, start], true);
                 } else if (currentDateMode === 'week') {
-                    // 주간: 클릭한 날짜부터 강제로 7일간 드래그
                     const end = new Date(start);
                     end.setDate(start.getDate() + 6);
                     instance.setDate([start, end], true);
                 } else if (currentDateMode === 'month') {
-                    // 월간: 클릭한 날짜가 속한 월의 1일부터 말일까지 전체 드래그
                     const firstDay = new Date(start.getFullYear(), start.getMonth(), 1);
                     const lastDay = new Date(start.getFullYear(), start.getMonth() + 1, 0);
                     instance.setDate([firstDay, lastDay], true);
                 }
             } 
-            // 2개의 날짜가 스냅되어 최종 범위가 완성되면 즉시 DB 갱신
             else if (selectedDates.length === 2) {
                 const startIso = instance.formatDate(selectedDates[0], "Y-m-d");
                 const endIso = instance.formatDate(selectedDates[1], "Y-m-d");
                 
-                // 무한 루프 방지 및 갱신
                 if(document.getElementById('filterStartDate').value !== startIso || 
                    document.getElementById('filterEndDate').value !== endIso) {
                     document.getElementById('filterStartDate').value = startIso;
@@ -103,7 +94,7 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById('dashboard-screen').classList.add('flex');
         
         await fetchUserRole(user.uid);
-        initFlatpickr(); // 달력 엔진 시동
+        initFlatpickr(); 
         setInitialDates('week'); 
         fetchFromFirestore(1, true); 
     } else {
@@ -236,24 +227,28 @@ function renderList(items) {
     items.forEach(data => {
         const timeStr = data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000).toLocaleString('ko-KR', { year: '2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12: false }) : '방금 전';
         const source = data.source || 'direct';
+        // [신규] utm_medium 데이터 가져오기 (없으면 하이픈 처리)
+        const medium = data.utm_medium || data.medium || '-'; 
         const status = data.status || '대기중';
-        const pageName = data.pageName || 'index.html'; // 저장된 페이지명이 없으면 기본 index.html로 표시
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-all border-b border-gray-50";
+        // [수정됨] 매체(Medium) td 열 추가 및 모든 취소 <option> 복구
         tr.innerHTML = `
             <td class="px-8 py-5 text-[12px] text-gray-400 font-bold">${timeStr}</td>
             <td class="px-6 py-5 text-[14px] font-black text-gray-900">${data.name}</td>
             <td class="px-6 py-5 text-center text-[13px] font-bold text-gray-500">${data.phone}</td>
             <td class="px-6 py-5"><span class="bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package}</span></td>
-            <td class="px-6 py-5 text-center"><span class="bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-lg text-[11px] font-bold">${pageName}</span></td>
             <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>
+            <td class="px-6 py-5 text-center"><span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-[10px] font-bold border border-gray-100 uppercase">${medium}</span></td>
             <td class="px-6 py-5 text-center">
                 <select data-id="${data.id}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
                     <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
                     <option value="확정" ${status === '확정' ? 'selected' : ''}>확정</option>
                     <option value="미응답" ${status === '미응답' ? 'selected' : ''}>미응답</option>
-                    <option value="본인취소" ${status === '본인취소' ? 'selected' : ''}>취소</option>
+                    <option value="본인취소" ${status === '본인취소' ? 'selected' : ''}>본인취소</option>
+                    <option value="예약중복취소" ${status === '예약중복취소' ? 'selected' : ''}>예약중복취소</option>
+                    <option value="기타취소" ${status === '기타취소' ? 'selected' : ''}>기타취소</option>
                 </select>
             </td>
         `;
@@ -314,8 +309,8 @@ document.addEventListener('click', async (e) => {
         e.target.classList.remove('text-gray-500');
         e.target.classList.add('bg-white', 'text-[#F27405]');
         
-        currentDateMode = e.target.dataset.range; // 모드 업데이트
-        setInitialDates(currentDateMode); // 즉시 Flatpickr 달력에 반영
+        currentDateMode = e.target.dataset.range; 
+        setInitialDates(currentDateMode); 
         fetchFromFirestore(1, true); 
     }
 

@@ -326,6 +326,52 @@ function bindReservationEvent() {
     });
 }
 
+ /* 바텀 시트 컨트롤 JS */
+const overlay = document.getElementById('booking-bottom-sheet-overlay');
+const bottomSheet = document.getElementById('booking-bottom-sheet');
+const sheetPackageInput = document.getElementById('sheet_package_name');
+
+function openBottomSheet(packageName = '외래-탈모') {
+    sheetPackageInput.value = packageName; // 선택된 패키지명 저장
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100');
+    bottomSheet.classList.remove('translate-y-full');
+    document.body.style.overflow = 'hidden'; // 뒤 배경 스크롤 방지
+}
+
+function closeBottomSheet() {
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    overlay.classList.remove('opacity-100');
+    bottomSheet.classList.add('translate-y-full');
+    document.body.style.overflow = '';
+}
+
+function submitBottomSheetForm() {
+    // 기존의 openPrivacyModal() 로직에 값을 전달하거나 직접 Firebase 제출 함수를 호출합니다.
+    // 현재 Firebase 로직이 script.js에서 어떻게 바인딩 되어있는지에 따라 호출 방식이 달라집니다.
+    
+    const name = document.getElementById('sheet_user_name').value.trim();
+    const phone = document.getElementById('sheet_user_phone').value.trim();
+    const pkg = sheetPackageInput.value;
+
+    if(!name || !phone) {
+        alert('이름과 연락처를 모두 입력해주세요.');
+        return;
+    }
+
+    /* 옵션 1: 만약 window.openPrivacyModal 내부에 form submit 로직이 통합되어 있다면, 
+    이 바텀 시트를 폼 대용으로 쓰고 바로 Firebase SDK로 Create 하시면 됩니다.
+    
+    옵션 2: script.js의 기존 로직을 그대로 사용하려면 아래처럼 값만 복사하고 
+    기존 예약 함수(예: window.submitReservation)를 호출하도록 연결합니다.
+    */
+    
+    // window.submitReservation(name, phone, pkg); // (기존 함수명에 맞게 매핑 필요)
+    // alert('테스트: ' + name + '님 (' + phone + ') ' + pkg + ' 신청 완료 로직이 실행됩니다. script.js 내 Firebase 연결 코드를 이 함수 내에 바인딩해주세요.');
+    
+    closeBottomSheet();
+}
+
 /* ---------------------------------------------------------
    [GEO 최적화] JSON-LD 동적 주입 로직
 --------------------------------------------------------- */

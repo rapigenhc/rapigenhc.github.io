@@ -37,21 +37,49 @@
     </header>
 
    <main class="w-full flex flex-col items-center overflow-hidden pb-0">
-    
-    <section data-aos="fade-up" class="w-full max-w-5xl px-6 pt-20 pb-16 text-center flex flex-col items-center">
-        <span class="inline-flex items-center gap-2 bg-purple-50 text-[#6F2C91] text-sm md:text-base font-bold px-4 py-2 rounded-full mb-6 ring-1 ring-purple-150">
-            <span class="w-2 h-2 rounded-full bg-[#6F2C91] animate-pulse"></span>
-            래피젠헬스케어의원 비만·대사 클리닉
-        </span>
-        <h2 class="text-[34px] sm:text-5xl md:text-6xl font-extrabold text-gray-900 break-keep leading-tight mb-8">
-            <span class="text-[#6F2C91]">마운자로(Mounjaro)</span><br/>맞춤 솔루션
-        </h2>
-        <p class="text-gray-600 text-lg md:text-xl font-light break-keep mb-12 max-w-2xl mx-auto leading-relaxed">
-            단순한 체중 감량이 아닌, 대사 건강까지 선제적으로 진단합니다.<br class="hidden md:block"/>
-            전문의와의 1:1 상담을 통해 가장 안전하고 효과적인 다이어트를 경험하세요.
-        </p>
-        <div class="w-full max-w-4xl relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-xl bg-gray-50 border border-gray-100 mt-2">
-            <img src="mounjaro/hero-visual.jpg" alt="건강한 체중 관리 시각화 이미지" class="w-full h-full object-cover" onerror="this.src='survivor/main01.jpg'">
+
+    <section id="hero" data-aos="fade-up" class="relative overflow-hidden bg-gradient-to-br from-purple-50/90 via-white to-purple-50/40 rounded-[2.5rem] p-8 sm:p-16 lg:p-20 shadow-sm border border-gray-100">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-purple-100/80 text-[#6F2C91] text-[13px] sm:text-[15px] font-extrabold shadow-sm">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#6F2C91] animate-pulse"></span>
+                    가정의학과 마운자로 처방 · 래피젠헬스케어
+                </div>
+                <h1 class="text-3xl sm:text-[40px] lg:text-[52px] font-black text-gray-900 tracking-tight leading-[1.3] sm:leading-[1.25]">
+                    다이어트 주사,<br>
+                    <span class="text-[#6F2C91]">마운자로(Mounjaro)</span><br/>맞춤 솔루션
+                </h1>
+                <p class="text-gray-600 text-[15px] sm:text-lg leading-relaxed sm:leading-[1.8] mt-6 break-keep">
+                    단순한 체중 감량이 아닌, 대사 건강까지 선제적으로 진단합니다.<br class="hidden md:block"/>
+                    전문의와의 1:1 상담을 통해 가장 안전하고 효과적인 다이어트를 경험하세요.
+                </p>
+                <div class="pt-8 grid grid-cols-2 gap-3 sm:gap-4 max-w-[320px] mx-auto lg:mx-0">
+                    <button type="button" onclick="openBottomSheet('외래-마운자로')" class="flex flex-col items-center justify-center p-4 sm:p-5 rounded-[1.5rem] bg-[#6F2C91] text-white active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/30 group">
+                        <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <span class="text-[14px] sm:text-[15px] font-bold">간편예약</span>
+                    </button>
+
+                    <a href="tel:1544-5189" class="flex flex-col items-center justify-center p-4 sm:p-5 rounded-[1.5rem] bg-white border border-gray-200 text-gray-800 active:scale-95 transition-all duration-300 shadow-sm hover:border-[#6F2C91] group">
+                        <div class="w-12 h-12 rounded-2xl bg-gray-50 text-gray-600 flex items-center justify-center mb-2 group-hover:text-[#6F2C91] group-hover:bg-sky-50 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        </div>
+                        <span class="text-[14px] sm:text-[15px] font-bold">전화문의</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 flex justify-center mt-4 lg:mt-0">
+                <div class="relative w-full max-w-[26rem] aspect-[3/4] rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-white bg-gray-50">
+                    <img src="img/mjr-main.jpg" alt="구로 가산 래피젠헬스케어 마운자로 처방" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-8 left-6 right-6 bg-white/65 backdrop-blur-xl p-5 rounded-2xl border border-white/50 text-[15px] sm:text-base font-extrabold text-gray-800 text-center shadow-lg">
+                        ✨ 진료비 포함 마운자로 가격 안내
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -230,43 +258,43 @@
                 <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 break-keep leading-tight mb-4">
                     마운자로Ⓡ 비급여 처방 비용
                 </h2>
-                <p class="text-gray-500 font-light text-base">※ 진료비(초진/재진 2만 원)가 모두 포함된 투명한 최종 기준액입니다.</p>
+                <p class="text-gray-500 font-light text-base">※ 진료비(초진/재진 2만원)가 모두 포함된 최종 기준액입니다.</p>
             </div>
 
             <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-3xl shadow-lg shadow-purple-900/5 border border-purple-100 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-base md:text-lg min-w-[500px]">
+                    <table class="w-full text-left border-collapse text-base md:text-lg">
                         <thead>
                             <tr class="bg-[#6F2C91] text-white">
-                                <th class="py-6 px-8 font-bold tracking-wide">약제 용량 (1펜 기준)</th>
-                                <th class="py-6 px-8 font-bold text-right tracking-wide">비급여 총금액</th>
+                                <th class="py-6 px-8 font-bold tracking-wide">용량</th>
+                                <th class="py-6 px-8 font-bold text-right tracking-wide">금액(비급여)</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             <tr class="hover:bg-purple-50/30 transition-colors">
                                 <td class="py-6 px-8 font-semibold text-gray-900 flex items-center gap-4">
-                                    <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-gray-100 text-gray-600">초기 용량</span>
+                                    <!-- <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-gray-100 text-gray-600">초기 용량</span> -->
                                     마운자로 2.5mg
                                 </td>
                                 <td class="py-6 px-8 text-right font-extrabold text-[#6F2C91] text-xl">310,000 원</td>
                             </tr>
                             <tr class="hover:bg-purple-50/30 transition-colors">
                                 <td class="py-6 px-8 font-semibold text-gray-900 flex items-center gap-4">
-                                    <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">유지 용량</span>
+                                    <!-- <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">유지 용량</span> -->
                                     마운자로 5.0mg
                                 </td>
                                 <td class="py-6 px-8 text-right font-extrabold text-[#6F2C91] text-xl">410,000 원</td>
                             </tr>
                             <tr class="hover:bg-purple-50/30 transition-colors">
                                 <td class="py-6 px-8 font-semibold text-gray-900 flex items-center gap-4">
-                                    <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">증량 단계</span>
+                                    <!-- <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">증량 단계</span> -->
                                     마운자로 7.5mg
                                 </td>
                                 <td class="py-6 px-8 text-right font-extrabold text-[#6F2C91] text-xl">550,000 원</td>
                             </tr>
                             <tr class="hover:bg-purple-50/30 transition-colors">
                                 <td class="py-6 px-8 font-semibold text-gray-900 flex items-center gap-4">
-                                    <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">증량 단계</span>
+                                    <!-- <span class="px-3 py-1.5 rounded-lg text-sm font-bold bg-purple-100 text-[#6F2C91]">증량 단계</span> -->
                                     마운자로 10.0mg
                                 </td>
                                 <td class="py-6 px-8 text-right font-extrabold text-[#6F2C91] text-xl">550,000 원</td>
@@ -306,33 +334,170 @@
         </div>
     </section>
 
-    <section class="w-full bg-white py-20">
-        <div class="max-w-5xl mx-auto px-6">
-            <div data-aos="fade-up" class="mb-12 text-center flex flex-col items-center">
-                <h4 class="text-xl md:text-2xl font-medium text-orange-600 break-keep leading-tight mb-4">
-                    아래 버튼을 통해 상담 신청하시면<br class="hidden md:block"/>
-                    상담원이 전화를 드려 친절하게 안내해드립니다.
-                </h4>
-                        
-                <div class="animate-bounce mt-4 text-orange-600">
-                    <svg class="w-10 h-10 md:w-12 md:h-12 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
+    <section class="w-full max-w-5xl mx-auto px-6 py-6" data-aos="fade-up">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight">센터 주요 시설</h2>
+            <span class="text-sm font-bold text-gray-400">RapigenHealthcare Quality</span>
+        </div>
+
+        <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-4 px-1">
+            
+            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
+                <img src="img/interior-pic-01.jpg" alt="접수 로비" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <span class="text-sm font-bold text-white tracking-wide">접수 로비</span>
+                </div>
+            </div>
+
+            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
+                <img src="img/interior-pic-02.jpg" alt="기초검사센터" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <span class="text-sm font-bold text-white tracking-wide">기초검사센터</span>
+                </div>
+            </div>
+
+            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
+                <img src="img/interior-pic-03.jpg" alt="영상/초음파검사센터" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <span class="text-sm font-bold text-white tracking-wide">영상/초음파검사센터</span>
+                </div>
+            </div>
+            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
+                <img src="img/interior-pic-05.jpg" alt="내시경검사센터" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <span class="text-sm font-bold text-white tracking-wide">내시경검사센터</span>
+                </div>
+            </div>
+
+            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
+                <img src="img/interior-pic-06.jpg" alt="특수검진센터" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <span class="text-sm font-bold text-white tracking-wide">특수검진센터</span>
                 </div>
             </div>
             
-            <div data-aos="fade-up" data-aos-delay="100" class="mb-12 text-center flex flex-col items-center gap-4">
-                <p><img src="img/intro-pic-v2.jpg" class="w-full rounded-3xl shadow-sm" alt="래피젠헬스케어소개"></p>
-                <p><img src="img/interior-pic-01.jpg" class="w-full rounded-3xl shadow-sm" alt="인테리어01"></p>
-                <p><img src="img/interior-pic-02.jpg" class="w-full rounded-3xl shadow-sm" alt="인테리어02"></p>
-                <p><img src="img/interior-pic-03.jpg" class="w-full rounded-3xl shadow-sm" alt="인테리어03"></p>
-                <p><img src="img/interior-pic-06.jpg" class="w-full rounded-3xl shadow-sm" alt="인테리어06"></p>
-                <p><a href="https://rapigenhc.com/" target="_blank"><img src="img/map-info.jpg" class="w-full rounded-3xl shadow-sm hover:opacity-90 transition-opacity" alt="오시는길 안내"></a></p>
+        </div>
+        <div class="text-center mt-2 flex justify-center items-center gap-1.5 text-xs text-gray-400">
+            <svg class="w-4 h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            옆으로 밀어서 사진 보기
+        </div>
+    </section>
+
+    <section id="additional-care" data-aos="fade-up" class="w-full max-w-5xl mx-auto px-6 py-6">
+        <div class="text-center sm:text-left space-y-4 px-2 pb-4">
+            <span class="text-[13px] sm:text-sm font-extrabold text-slate-600 bg-slate-100 px-5 py-2 rounded-full uppercase tracking-widest shadow-sm">Total Healthcare</span>
+            <h2 class="text-2xl sm:text-[34px] font-black text-gray-900 pt-2">직장인을 위한 기본 진료</h2>
+            <p class="text-[15px] sm:text-[17px] text-gray-500 leading-relaxed break-keep max-w-3xl">다이어트 고민 외에도 바쁜 직장인에게 필요한 기본적인 내과·가정의학과 진료를 함께 안내합니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-[2.5rem] p-10 sm:p-14 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                <div>
+                    <h3 class="text-xl sm:text-[26px] font-black text-gray-900 mb-5">탈모약 진료 처방</h3>
+                    <p class="text-[15px] sm:text-[17px] text-gray-600 leading-[1.8] mb-8 break-keep">
+                        탈모 형태, 진행 정도, 기존 질환을 종합하여 필요한 전문의약품 상담을 함께 진행합니다.
+                    </p>
+                </div>
+                <div class="mt-4 pt-6 border-t border-gray-100">
+                    <p class="text-[13px] sm:text-[14px] text-gray-500 font-extrabold mb-4">▼ 가산 탈모 성지, 탈모약 진료비 가격 확인하기</p>
+                    <a href="hairloss.html" class="block group bg-slate-50 hover:bg-sky-50 p-5 rounded-2xl transition-all border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-5">
+                            <!-- <div class="w-10 h-10 rounded-[0.4rem] bg-slate-800 text-white flex items-center justify-center font-black text-[13px] shrink-0 group-hover:bg-[#6F2C91] transition-colors shadow-md">
+                                NEW
+                            </div> -->
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[15px] sm:text-base font-extrabold text-gray-800 truncate group-hover:text-[#3eaef9] transition-colors">탈모약 처방 전 확인사항</p>
+                                <p class="text-[13px] text-gray-400 truncate mt-1 font-medium">탈모약 진료비 가격 / 래피젠헬스케어</p>
+                            </div>
+                            <svg class="w-6 h-6 text-gray-300 group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] p-10 sm:p-14 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                <div>
+                    <h3 class="text-xl sm:text-[26px] font-black text-gray-900 mb-5">직장인 내과·가정의학과 진료</h3>
+                    <p class="text-[15px] sm:text-[17px] text-gray-600 leading-[1.8] mb-8 break-keep">
+                        가산디지털단지 인근에서 근무하며 병원 방문 시간을 내기 어려운 분들을 위해, 증상이 가볍더라도 일상에 불편을 주는 기본 진료를 지원합니다.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[15px] sm:text-[16px] text-gray-700 font-bold">
+                        <span class="bg-sky-50/60 px-5 py-4 rounded-2xl border border-sky-100/50 flex items-center gap-2">· 감기 / 몸살</span>
+                        <span class="bg-sky-50/60 px-5 py-4 rounded-2xl border border-sky-100/50 flex items-center gap-2">· 고혈압 / 당뇨</span>
+                        <span class="bg-sky-50/60 px-5 py-4 rounded-2xl border border-sky-100/50 flex items-center gap-2">· 장염 / 급체</span>
+                        <span class="bg-sky-50/60 px-5 py-4 rounded-2xl border border-sky-100/50 flex items-center gap-2">· 만성피로 수액</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <section id="booking-links" data-aos="fade-up" class="pt-12 sm:pt-16 border-t border-gray-100 space-y-5 px-2 pb-6">
+        <p class="text-[14px] sm:text-[15px] text-gray-500 font-extrabold">▼ 간편하게 네이버아이디로 상담&진료 예약하세요!</p>
+        
+        <a href="https://m.booking.naver.com/booking/13/bizes/1139154" target="_blank" rel="noopener noreferrer" class="block group bg-emerald-50/60 hover:bg-emerald-100/80 p-8 sm:p-10 rounded-[2.5rem] transition-all border border-emerald-100 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <div class="w-16 h-16 rounded-3xl bg-[#03C75A] text-white flex items-center justify-center font-black text-3xl shadow-md shrink-0 group-hover:scale-105 transition-transform">
+                        N
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="font-black text-gray-900 text-lg sm:text-[22px] group-hover:text-[#03C75A] transition-colors">네이버 예약 : 래피젠헬스케어의원</h3>
+                            <span class="text-[12px] bg-emerald-100 text-emerald-800 font-black px-2.5 py-1 rounded-lg shadow-sm">예약</span>
+                        </div>
+                        <p class="text-[14px] sm:text-[15px] text-gray-600 line-clamp-2 leading-relaxed max-w-2xl font-medium">
+                            래피젠헬스케어 가정의학과 진료 & 국가검진 - 대학병원급 검진장비 보유 및 편안한 라운지 환경.
+                        </p>
+                    </div>
+                </div>
+                <div class="w-full sm:w-auto text-right shrink-0 mb-4 sm:mt-0">
+                    <span class="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-4 sm:py-5 rounded-2xl bg-[#03C75A] text-white text-[15px] sm:text-base font-extrabold shadow-lg group-hover:bg-emerald-600 transition-colors active:scale-95">
+                        네이버 예약 바로가기
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7"></path></svg>
+                    </span>
+                </div>
+            </div>
+        </a>
+    </section>
+
 </main>
+
+    <div id="booking-bottom-sheet-overlay" class="fixed inset-0 bg-black/60 z-[90] opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeBottomSheet()"></div>
+    <div id="booking-bottom-sheet" class="fixed inset-x-0 bottom-0 z-[100] h-[80vh] bg-white rounded-t-[2.5rem] shadow-2xl transform translate-y-full transition-transform duration-300 ease-out flex flex-col max-w-2xl mx-auto border-t border-gray-200">
+        
+        <div class="w-full flex justify-center pt-4 pb-2 cursor-pointer" onclick="closeBottomSheet()">
+            <div class="w-16 h-1.5 bg-gray-300 rounded-full"></div>
+        </div>
+
+        <div class="p-8 flex-1 overflow-y-auto hide-scrollbar flex flex-col">
+            <h2 class="text-2xl font-extrabold text-gray-900 mb-2">빠른 상담 신청</h2>
+            <p class="text-sm text-gray-500 mb-8 font-light break-keep">연락처를 남겨주시면 전문 상담원이 친절하게 안내해 드립니다.</p>
+
+            <form id="bottom-sheet-form" class="space-y-6 flex-1">
+                <input type="hidden" id="sheet_package_name" value="외래-탈모">
+
+                <div class="flex flex-col space-y-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-bold text-gray-700">이름</label>
+                        <input type="text" id="sheet_user_name" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#3eaef9] focus:bg-white transition-colors" placeholder="홍길동" required>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-bold text-gray-700">휴대폰 번호</label>
+                        <input type="tel" id="sheet_user_phone" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#3eaef9] focus:bg-white transition-colors" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                    </div>
+                </div>
+
+                <div class="pt-6 mt-auto">
+                    <button type="button" onclick="submitBottomSheetForm()" class="w-full py-4 bg-[#6F2C91] text-white rounded-2xl text-lg font-bold active:scale-95 transition-transform shadow-xl shadow-purple-500/30">
+                        상담신청하기
+                    </button>
+                    <p class="text-[11px] text-gray-400 text-center mt-4">상담 신청 시 개인정보 수집 및 이용에 동의하는 것으로 간주합니다.</p>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div id="common-footer-container"></div>
 
@@ -353,6 +518,83 @@
             </a>
         </div>
     </div>
+
+   <script>
+        /* 바텀 시트 컨트롤 JS */
+        const overlay = document.getElementById('booking-bottom-sheet-overlay');
+        const bottomSheet = document.getElementById('booking-bottom-sheet');
+        const sheetPackageInput = document.getElementById('sheet_package_name');
+
+        function openBottomSheet(packageName = '외래-마운자로') {
+            sheetPackageInput.value = packageName; // 선택된 패키지명 저장
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100');
+            bottomSheet.classList.remove('translate-y-full');
+            document.body.style.overflow = 'hidden'; // 뒤 배경 스크롤 방지
+        }
+
+        function closeBottomSheet() {
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100');
+            bottomSheet.classList.add('translate-y-full');
+            document.body.style.overflow = '';
+        }
+
+        function submitBottomSheetForm() {
+            // 1. 바텀 시트에서 입력받은 값 가져오기
+            const sheetName = document.getElementById('sheet_user_name').value.trim();
+            const sheetPhone = document.getElementById('sheet_user_phone').value.trim();
+            const sheetPkg = sheetPackageInput.value;
+
+            // 기본 유효성 검사
+            if(!sheetName || !sheetPhone) {
+                alert('이름과 연락처를 모두 입력해주세요.');
+                return;
+            }
+
+            // 2. 푸터(footer) 쪽에 있는 원본 폼 요소들 가져오기
+            const footerNameInput = document.getElementById('userName');
+            const footerPhoneInput = document.getElementById('userPhone');
+            const footerAgreeCheckbox = document.getElementById('agree');
+            const footerSubmitBtn = document.getElementById('submitBtn');
+
+            // 요소가 정상적으로 로드되었는지 확인
+            if (footerNameInput && footerPhoneInput && footerSubmitBtn) {
+                
+                // 3. 바텀 시트의 값을 원본 폼으로 복사
+                footerNameInput.value = sheetName;
+                footerPhoneInput.value = sheetPhone;
+                
+                if(footerAgreeCheckbox) {
+                    footerAgreeCheckbox.checked = true; // 개인정보 동의 자동 체크
+                }
+
+                // 4. 패키지명 연동을 위해 body의 data-package 임시 변경
+                // (script.js 로직이 body의 data-package를 우선 참조함)
+                const originalBodyPackage = document.body.getAttribute('data-package');
+                document.body.setAttribute('data-package', sheetPkg);
+
+                // 5. 푸터의 '상담 신청하기' 버튼 강제 클릭 이벤트를 트리거하여 script.js의 전송 로직 실행
+                footerSubmitBtn.click();
+
+                // 원래 패키지명으로 원복 (전송 로직이 변수를 캡처할 시간을 주기 위해 약간의 딜레이 적용)
+                setTimeout(() => {
+                    if(originalBodyPackage) {
+                        document.body.setAttribute('data-package', originalBodyPackage);
+                    }
+                }, 500);
+
+                // 6. 바텀 시트 닫기 및 입력값 초기화
+                closeBottomSheet();
+                document.getElementById('sheet_user_name').value = '';
+                document.getElementById('sheet_user_phone').value = '';
+
+            } else {
+                console.warn("Footer form elements not found.");
+                alert('예약 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+            }
+        }
+    </script> 
 
    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

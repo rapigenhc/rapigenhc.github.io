@@ -7,7 +7,7 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
 
 // 1. 파이어베이스 구성
 const firebaseConfig = {
-    apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
+    apiKey: "AIzaSyAeIIzAdvwcedR6zyrvQVCHH1S0T8ROLvI",
     authDomain: "rapigenhc-event.firebaseapp.com",
     projectId: "rapigenhc-event",
     storageBucket: "rapigenhc-event.firebasestorage.app",

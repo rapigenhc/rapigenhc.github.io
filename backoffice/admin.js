@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPe
 import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
+    apiKey: "AIzaSyAeIIzAdvwcedR6zyrvQVCHH1S0T8ROLvI",
     authDomain: "rapigenhc-event.firebaseapp.com",
     projectId: "rapigenhc-event",
     storageBucket: "rapigenhc-event.firebasestorage.app",

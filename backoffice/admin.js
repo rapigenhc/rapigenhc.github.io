@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPe
 import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAeIIzAdvwcedR6zyrvQVCHH1S0T8ROLvI",
+    apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
     authDomain: "rapigenhc-event.firebaseapp.com",
     projectId: "rapigenhc-event",
     storageBucket: "rapigenhc-event.firebasestorage.app",
@@ -17,7 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-setPersistence(auth, browserSessionPersistence);
 
 const PAGE_SIZE = 10; 
 const BLOCK_SIZE = 10; 
@@ -107,7 +106,9 @@ async function fetchUserRole(uid) {
     try {
         const snap = await getDoc(doc(db, "admins", uid));
         if (snap.exists()) updateRoleUI(snap.data().role);
-    } catch (e) {}
+    } catch (e) {
+        console.error("권한 조회 실패:", e);
+    }
 }
 
 window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) {
@@ -190,7 +191,7 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
         updatePaginationUI();
 
     } catch (error) {
-        listContainer.innerHTML = `<tr><td colspan="6" class="p-20 text-center font-bold">오류가 발생했습니다.</td></tr>`;
+        listContainer.innerHTML = `<tr><td colspan="8" class="p-20 text-center font-bold">오류가 발생했습니다.</td></tr>`;
     } finally {
         isFetching = false;
     }
@@ -215,32 +216,36 @@ async function updateSummaryCounts(baseConstraints) {
     } catch (error) {}
 }
 
+// [수정 2] renderList 함수 전체 교체 (데이터 매핑 및 td 8개로 확장)
 function renderList(items) {
     const listContainer = document.getElementById('reservation-list');
     listContainer.innerHTML = '';
     
     if (items.length === 0) {
-        listContainer.innerHTML = `<tr><td colspan="7" class="p-20 text-center text-gray-400 font-bold">조회된 데이터가 없습니다.</td></tr>`;
+        // colspan을 7에서 8로 수정
+        listContainer.innerHTML = `<tr><td colspan="8" class="p-20 text-center text-gray-400 font-bold">조회된 데이터가 없습니다.</td></tr>`;
         return;
     }
 
     items.forEach(data => {
         const timeStr = data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000).toLocaleString('ko-KR', { year: '2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12: false }) : '방금 전';
-        const source = data.source || 'direct';
-        // [신규] utm_medium 데이터 가져오기 (없으면 하이픈 처리)
-        const medium = data.utm_medium || data.medium || '-'; 
+        
+        // 💡 추가된 데이터 맵핑 로직
+        const page = data.pageName || '-'; // 예약페이지 데이터 (Firestore 필드명에 맞게 조정 가능)
+        const source = data.source || data.utm_source || 'direct';
+        const medium = data.utm_medium || data.medium || '-';
         const status = data.status || '대기중';
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-all border-b border-gray-50";
-        // [수정됨] 매체(Medium) td 열 추가 및 모든 취소 <option> 복구
         tr.innerHTML = `
             <td class="px-8 py-5 text-[12px] text-gray-400 font-bold">${timeStr}</td>
             <td class="px-6 py-5 text-[14px] font-black text-gray-900">${data.name}</td>
             <td class="px-6 py-5 text-center text-[13px] font-bold text-gray-500">${data.phone}</td>
-            <td class="px-6 py-5"><span class="bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package}</span></td>
-            <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>
-            <td class="px-6 py-5 text-center"><span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-[10px] font-bold border border-gray-100 uppercase">${medium}</span></td>
+            <td class="px-6 py-5"><span class="bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package || '-'}</span></td>
+            <td class="px-6 py-5 text-center text-[12px] font-bold text-gray-600">${page}</td>            
+            <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>            
+            <td class="px-6 py-5 text-center"><span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-[10px] font-bold border border-gray-100 uppercase">${medium}</span></td>          
             <td class="px-6 py-5 text-center">
                 <select data-id="${data.id}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
                     <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
@@ -298,6 +303,50 @@ function updateRoleUI(role) {
     if (roleTag) roleTag.innerText = role || 'GUEST';
 }
 
+// 로그인 핸들러 함수
+async function handleLogin(e) {
+    if (e) e.preventDefault(); // 폼 제출로 인한 브라우저 새로고침 강제 차단
+
+    const email = document.getElementById('adminId').value.trim();
+    const password = document.getElementById('adminPw').value.trim();
+
+    if (!email || !password) {
+        alert("아이디와 비밀번호를 모두 입력해주세요.");
+        return;
+    }
+
+    try {
+        // 세션 유지 설정 후 로그인 시도 (네이티브 앱 수준의 세션 관리)
+        await setPersistence(auth, browserSessionPersistence);
+        await signInWithEmailAndPassword(auth, email, password);
+        // 로그인 성공 시 onAuthStateChanged에서 화면 전환 처리됨
+    } catch (err) {
+        console.error("Firebase Auth Error:", err.code, err.message);
+        
+        let errorMsg = "로그인에 실패했습니다.";
+        switch (err.code) {
+            case 'auth/user-not-found':
+            case 'auth/wrong-password':
+            case 'auth/invalid-credential':
+                errorMsg = "아이디 또는 비밀번호가 올바르지 않습니다.";
+                break;
+            case 'auth/operation-not-allowed':
+                errorMsg = "Firebase 콘솔에서 '이메일/비밀번호' 인증 방식이 꺼져있습니다.";
+                break;
+            case 'auth/invalid-email':
+                errorMsg = "올바른 이메일 형식이 아닙니다.";
+                break;
+            case 'auth/too-many-requests':
+                errorMsg = "접속 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.";
+                break;
+            default:
+                errorMsg = `서버 오류 (${err.code}): 관리자에게 문의하세요.`;
+        }
+        alert(errorMsg);
+    }
+}
+
+// 클릭 이벤트 위임
 document.addEventListener('click', async (e) => {
     if (e.target.id === 'filterSearchBtn') fetchFromFirestore(1, true);
     
@@ -315,12 +364,15 @@ document.addEventListener('click', async (e) => {
     }
 
     if (e.target.id === 'loginBtn') {
-        try { await signInWithEmailAndPassword(auth, document.getElementById('adminId').value, document.getElementById('adminPw').value); } 
-        catch (err) { alert("로그인 실패"); }
+        handleLogin(e);
     }
-    if (e.target.id === 'logoutBtn') if(confirm("로그아웃 하시겠습니까?")) signOut(auth);
+    
+    if (e.target.id === 'logoutBtn') {
+        if(confirm("로그아웃 하시겠습니까?")) signOut(auth);
+    }
 });
 
+// 상태 변경 이벤트 위임
 document.addEventListener('change', async (e) => {
     if (e.target.classList.contains('status-select')) {
         const id = e.target.dataset.id;
@@ -333,6 +385,15 @@ document.addEventListener('change', async (e) => {
     }
 });
 
+// 키보드 엔터키 이벤트 (검색창 및 로그인창 지원)
 document.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && document.activeElement.id === 'searchTerm') fetchFromFirestore(1, true);
+    if (e.key === 'Enter') {
+        if (document.activeElement.id === 'searchTerm') {
+            e.preventDefault();
+            fetchFromFirestore(1, true);
+        } else if (document.activeElement.id === 'adminId' || document.activeElement.id === 'adminPw') {
+            e.preventDefault();
+            handleLogin(e);
+        }
+    }
 });

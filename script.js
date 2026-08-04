@@ -1,6 +1,6 @@
 /* ==========================================================================
    래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
-   특징: Fallback 모달 인젝션, 이벤트 위임 충돌 방어, XSS 차단
+   특징: Fallback 모달 인젝션, 이벤트 위임 충돌 방어, XSS 차단, DB 구조 최적화
    ========================================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -154,7 +154,7 @@ const sendEmailNotification = async (data) => {
             phone: data.phone,
             package: data.package,
             pageName: data.pageName,
-            source: data.source,
+            source: data.source, // 복구된 source 사용
             date: new Date().toLocaleDateString('ko-KR'),
             time: new Date().toLocaleTimeString('ko-KR'),
             received_at: new Date().toLocaleString('ko-KR')
@@ -256,12 +256,14 @@ function bindReservationEvent() {
 
         const cleanPhone = userPhone.replace(/-/g, '');
 
-        // 현재 페이지의 파일명 추출 (예: survivor.html, index.html 등)
+        // 현재 페이지의 파일명 추출
         const currentPath = window.location.pathname;
         const pageFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.html';
 
-        // 유입 채널 추출
-        const utmSource = sessionStorage.getItem('rapi_utm_source') || new URLSearchParams(window.location.search).get('utm_source') || 'direct';
+        // 🎯 [DB 최적화 및 복구] 유입 채널 추출
+        const utmSource = sessionStorage.getItem('utm_source') || new URLSearchParams(window.location.search).get('utm_source') || 'direct';
+        const utmMedium = sessionStorage.getItem('utm_medium') || new URLSearchParams(window.location.search).get('utm_medium') || '-';
+        const userAgent = navigator.userAgent;
 
         const formData = {
             name: escapeHTML(userName),
@@ -269,29 +271,32 @@ function bindReservationEvent() {
             cleanPhone: cleanPhone,
             package: escapeHTML(finalPackageName),
             pageName: pageFileName,
-            source: utmSource,
+            source: utmSource,       
+            medium: utmMedium,       
+            userAgent: userAgent,    
             status: "대기중",
-            createdAt: serverTimestamp(),
-            utm_source: utmSource
+            createdAt: serverTimestamp()
         };
 
         try {
             window.isSubmitting = true;
             setButtonLoading(true);
 
-            // 1. Firestore 데이터 송신
+            // 1. 🎯 Firestore 데이터 송신 (요청하신 예전 구조와 완벽히 매핑)
             await addDoc(collection(db, "reservations"), {
                 name: formData.name,
                 phone: formData.cleanPhone,
                 package: formData.package,
                 pageName: formData.pageName,
-                source: formData.source,
+                source: formData.source,      
+                medium: formData.medium,      
+                userAgent: formData.userAgent, 
                 status: formData.status,
                 createdAt: formData.createdAt,
-                utm_source: formData.utm_source
+                updatedAt: serverTimestamp()  // 복구: 수정일시
             });
 
-            // 2. 💡 EmailJS 발송 함수 호출 (pageName, source 포함)
+            // 2. EmailJS 발송 함수 호출
             sendEmailNotification(formData);
 
             if (typeof gtag === 'function') {
@@ -347,9 +352,6 @@ function closeBottomSheet() {
 }
 
 function submitBottomSheetForm() {
-    // 기존의 openPrivacyModal() 로직에 값을 전달하거나 직접 Firebase 제출 함수를 호출합니다.
-    // 현재 Firebase 로직이 script.js에서 어떻게 바인딩 되어있는지에 따라 호출 방식이 달라집니다.
-    
     const name = document.getElementById('sheet_user_name').value.trim();
     const phone = document.getElementById('sheet_user_phone').value.trim();
     const pkg = sheetPackageInput.value;
@@ -358,16 +360,6 @@ function submitBottomSheetForm() {
         alert('이름과 연락처를 모두 입력해주세요.');
         return;
     }
-
-    /* 옵션 1: 만약 window.openPrivacyModal 내부에 form submit 로직이 통합되어 있다면, 
-    이 바텀 시트를 폼 대용으로 쓰고 바로 Firebase SDK로 Create 하시면 됩니다.
-    
-    옵션 2: script.js의 기존 로직을 그대로 사용하려면 아래처럼 값만 복사하고 
-    기존 예약 함수(예: window.submitReservation)를 호출하도록 연결합니다.
-    */
-    
-    // window.submitReservation(name, phone, pkg); // (기존 함수명에 맞게 매핑 필요)
-    // alert('테스트: ' + name + '님 (' + phone + ') ' + pkg + ' 신청 완료 로직이 실행됩니다. script.js 내 Firebase 연결 코드를 이 함수 내에 바인딩해주세요.');
     
     closeBottomSheet();
 }
@@ -546,9 +538,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* 2. UTM 파라미터 저장 */
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
-    if (params.get('utm_medium')) sessionStorage.setItem('rapi_utm_medium', params.get('utm_medium').toLowerCase());
+    // const params = new URLSearchParams(window.location.search);
+    // if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
+    // if (params.get('utm_medium')) sessionStorage.setItem('rapi_utm_medium', params.get('utm_medium').toLowerCase());
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // URL에 파라미터가 있을 때만 세션 스토리지에 업데이트
+    if (urlParams.has('utm_source') || urlParams.has('source')) {
+        sessionStorage.setItem('utm_source', urlParams.get('utm_source') || urlParams.get('source'));
+    }
+    if (urlParams.has('utm_medium') || urlParams.has('medium')) {
+        sessionStorage.setItem('utm_medium', urlParams.get('utm_medium') || urlParams.get('medium'));
+    }
+    if (urlParams.has('utm_campaign') || urlParams.has('campaign')) {
+        sessionStorage.setItem('utm_campaign', urlParams.get('utm_campaign') || urlParams.get('campaign'));
+    }
 
     /* 3. 푸터 동적 로드 */
     const fContainer = document.getElementById('common-footer-container');

@@ -156,12 +156,12 @@
 
         /* program.html과 동일한 특징 캐러셀 */
         .feature-carousel-section {
-            margin-inline: -1.5rem;
+            margin: 0 -1.25rem 4rem;
             padding: 2rem 0 2.5rem;
             overflow: hidden;
             background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
         }
-        .feature-carousel-heading { padding-inline: 1.5rem; }
+        .feature-carousel-heading { padding-inline: 1.25rem; }
         .feature-carousel {
             display: flex;
             align-items: flex-start;
@@ -174,7 +174,7 @@
             overscroll-behavior-x: contain;
             touch-action: pan-x;
         }
-        .feature-carousel::-webkit-scrollbar, .tour-carousel::-webkit-scrollbar { display: none; }
+        .feature-carousel::-webkit-scrollbar { display: none; }
         .feature-card {
             position: relative;
             flex: 0 0 62%;
@@ -207,21 +207,23 @@
         .feature-carousel-dot.is-active { width: 1.5rem; background: #F27405; }
 
         /* program.html과 동일한 시설 / 장비 둘러보기 */
-        .tour-section { margin-inline: -1.5rem; padding: 2.5rem 0; overflow: hidden; background: #f3f6fc; }
-        .tour-heading { padding-inline: 1.5rem; }
-        .tour-tabs { display: grid; grid-template-columns: repeat(2,1fr); width: min(20rem, calc(100% - 3rem)); margin: 1.5rem auto 1.75rem; padding: .35rem; border: 1px solid #e5e7eb; border-radius: 9999px; background: #fff; }
+        .tour-section { margin: 0 -1.25rem 4rem; padding: 2.5rem 0; overflow: hidden; background: #f3f6fc; }
+        .tour-heading { padding-inline: 1.25rem; }
+        .tour-tabs { display: grid; grid-template-columns: repeat(2,1fr); width: min(20rem, calc(100% - 2.5rem)); margin: 1.5rem auto 1.75rem; padding: .35rem; border: 1px solid #e5e7eb; border-radius: 9999px; background: #fff; box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
         .tour-tab { min-height: 3rem; border-radius: 9999px; color: #6b7280; font-size: 1rem; font-weight: 900; transition: .25s ease; }
         .tour-tab.is-active { color: #fff; background: #F27405; box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
         .tour-panel[hidden] { display: none; }
         .tour-carousel-wrap { position: relative; }
         .tour-carousel { display: flex; gap: .75rem; overflow-x: auto; padding: .5rem 6% 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x; }
+        .tour-carousel::-webkit-scrollbar { display: none; }
         .tour-card { position: relative; display: flex; flex: 0 0 88%; flex-direction: column; overflow: hidden; border: 2px solid #fff; border-radius: 1.75rem; background: #e5e7eb; opacity: .65; scroll-snap-align: center; box-shadow: 0 14px 28px -20px rgba(17,24,39,.55); transition: opacity .3s ease, transform .3s ease; }
         .tour-card.is-active { opacity: 1; transform: scale(1.01); }
         .tour-card img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; }
-        .tour-card-caption { flex: 1; padding: 1rem 1.25rem; border-top: 1px solid #f3f4f6; background: #fff; color: #111827; font-size: 1rem; font-weight: 900; line-height: 1.5; }
-        .tour-arrow { position: absolute; top: 50%; z-index: 10; display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid #e5e7eb; border-radius: 9999px; background: rgba(255,255,255,.92); color: #111827; box-shadow: 0 8px 20px -10px rgba(17,24,39,.65); transform: translateY(-50%); }
+        .tour-card-caption { flex: 1; padding: 1rem 1.25rem; border-top: 1px solid #f3f4f6; background: #fff; color: #111827; font-size: 1rem; font-weight: 900; line-height: 1.5; text-align: left; }
+        .tour-arrow { position: absolute; top: 50%; z-index: 10; display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid #e5e7eb; border-radius: 9999px; background: rgba(255,255,255,.92); color: #111827; box-shadow: 0 8px 20px -10px rgba(17,24,39,.65); transform: translateY(-50%); backdrop-filter: blur(8px); }
+        .tour-arrow:active { transform: translateY(-50%) scale(.92); }
         .tour-arrow--prev { left: .75rem; } .tour-arrow--next { right: .75rem; }
-        .tour-arrow:disabled { opacity: .35; }
+        .tour-arrow:disabled { opacity: .35; cursor: not-allowed; }
         .tour-progress { width: min(13rem,55%); height: .4rem; margin: .75rem auto 0; overflow: hidden; border-radius: 9999px; background: #fff; }
         .tour-progress-bar { height: 100%; border-radius: inherit; background: #F27405; transition: width .3s ease; }
         /* 비동기로 불러오는 공통 푸터도 최소 16px을 유지합니다. */
@@ -237,8 +239,9 @@
         @media (min-width: 768px) {
             .home-section { padding: 2rem; }
             .home-section-title { font-size: 1.75rem; }
-            .feature-carousel-section, .tour-section { margin-inline: -2rem; }
+            .feature-carousel-section, .tour-section { margin-inline: 0; }
             .feature-card { flex-basis: 54%; }
+            .tour-section { border-radius: 2rem; }
             .tour-carousel { padding-inline: 7%; }
             .tour-card { flex-basis: 86%; }
         }
@@ -401,18 +404,18 @@
 
         <section class="feature-carousel-section" data-aos="fade-up" aria-labelledby="feature-carousel-title">
         <div class="feature-carousel-heading">
-            <span class="home-section-eyebrow bg-white">RAPIGEN HEALTHCARE</span>
-            <h2 id="feature-carousel-title" class="home-section-title">래피젠 헬스케어 특징</h2>
-            <p class="home-section-description">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p>
+            <span class="inline-flex items-center rounded-full border border-orange-200 bg-white px-3 py-1.5 text-base font-extrabold text-[#F27405]">RAPIGEN HEALTHCARE</span>
+            <h3 id="feature-carousel-title" class="mt-3 text-[24px] md:text-[30px] font-black tracking-tight text-gray-900">래피젠 헬스케어 특징</h3>
+            <p class="mt-2 text-base font-medium leading-relaxed text-gray-500 break-keep">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p>
         </div>
 
         <div id="feature-carousel" class="feature-carousel" aria-label="래피젠 헬스케어 특징 슬라이드">
-            <article class="feature-card" data-feature-index="0"><img src="img/interior-pic-01.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div><h3 class="feature-card-title">고해상도 3.0T MRI 보유</h3></div></div></article>
-            <article class="feature-card" data-feature-index="1"><img src="img/interior-pic-02.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div><h3 class="feature-card-title">AI 탑재 128ch CT</h3></div></div></article>
-            <article class="feature-card" data-feature-index="2"><img src="img/interior-pic-03.jpg" alt="고해상도 내시경 검사실" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div><h3 class="feature-card-title">정밀 내시경 시스템</h3></div></div></article>
-            <article class="feature-card" data-feature-index="3"><img src="img/interior-pic-04.jpg" alt="RFID 기반 검진 동선 시스템" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div><h3 class="feature-card-title">접수·락커·검진 연계 시스템</h3></div></div></article>
-            <article class="feature-card" data-feature-index="4"><img src="img/interior-pic-05.jpg" alt="간편한 건강검진 예약 서비스" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">회원가입 없이</span><span class="feature-keyword">간편예약</span></div><h3 class="feature-card-title">빠르고 편리한 예약 시스템</h3></div></div></article>
-            <article class="feature-card" data-feature-index="5"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div><h3 class="feature-card-title">체계적이고 편안한 검진환경</h3></div></div></article>
+            <article class="feature-card" data-feature-index="0"><img src="img/concept-mri.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div><h4 class="feature-card-title">고해상도 3.0T MRI</h4></div></div></article>
+            <article class="feature-card" data-feature-index="1"><img src="img/concept-ct.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div><h4 class="feature-card-title">AI 탑재 128ch CT</h4></div></div></article>
+            <article class="feature-card" data-feature-index="2"><img src="img/eq-endo.jpg" alt="고해상도 내시경 검사실" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div><h4 class="feature-card-title">정밀 내시경 시스템</h4></div></div></article>
+            <article class="feature-card" data-feature-index="3"><img src="img/concept-rfid.png" alt="RFID 기반 검진 동선 시스템" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div><h4 class="feature-card-title">접수·락커·검진 연계 시스템</h4></div></div></article>
+            <article class="feature-card" data-feature-index="4"><img src="img/concept01.jpg" alt="사후관리 서비스" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">상급병원</span><span class="feature-keyword">진료연계</span></div><h4 class="feature-card-title">유소견시, 상급병원 진료 예약</h4></div></div></article>
+            <article class="feature-card" data-feature-index="5"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div><h4 class="feature-card-title">체계적이고 편안한 검진환경</h4></div></div></article>
         </div>
         <div id="feature-carousel-status" class="feature-carousel-status" aria-label="슬라이드 위치"></div>
 
@@ -420,9 +423,9 @@
 
     <section class="tour-section" data-aos="fade-up" aria-labelledby="tour-title">
         <div class="tour-heading text-center">
-            <span class="home-section-eyebrow bg-white">SPACE &amp; EQUIPMENT</span>
-            <h2 id="tour-title" class="home-section-title">래피젠 헬스케어 둘러보기</h2>
-            <p class="home-section-description">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p>
+            <span class="inline-flex items-center rounded-full border border-orange-200 bg-white px-3 py-1.5 text-base font-extrabold text-[#F27405]">SPACE &amp; EQUIPMENT</span>
+            <h3 id="tour-title" class="mt-3 text-[24px] md:text-[30px] font-black tracking-tight text-gray-900">래피젠 헬스케어 둘러보기</h3>
+            <p class="mt-2 text-base font-medium leading-relaxed text-gray-500 break-keep">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p>
         </div>
         <div class="tour-tabs" role="tablist" aria-label="둘러보기 분류">
             <button type="button" id="tour-facility-tab" class="tour-tab is-active" role="tab" aria-selected="true" aria-controls="tour-facility-panel" data-tour-target="facility">시설</button>
@@ -430,23 +433,20 @@
         </div>
         <div id="tour-facility-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-facility-tab" data-tour-panel="facility">
             <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="시설 사진">
-                <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크"><div class="tour-card-caption">안내 데스크</div></figure>
-                <figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간"><div class="tour-card-caption">쾌적한 대기 공간</div></figure>
-                <figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간"><div class="tour-card-caption">편안한 검진 공간</div></figure>
-                <figure class="tour-card"><img src="img/interior-pic-04.jpg" alt="래피젠 헬스케어 탈의 공간"><div class="tour-card-caption">프라이빗 탈의 공간</div></figure>
-                <figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간"><div class="tour-card-caption">전문 상담 공간</div></figure>
-                <figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경"><div class="tour-card-caption">센터 내부 전경</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크"><div class="tour-card-caption">접수, 로비</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간"><div class="tour-card-caption">기초검사센터</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간"><div class="tour-card-caption">영상의학센터</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간"><div class="tour-card-caption">내시경센터</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경"><div class="tour-card-caption">특수검진센터</div></figure>
             </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 시설 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 시설 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
             <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
         </div>
         <div id="tour-equipment-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-equipment-tab" data-tour-panel="equipment" hidden>
             <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="장비 사진">
-                <figure class="tour-card"><img src="img/intro-01.png" alt="MRI 장비"><div class="tour-card-caption">3.0T MRI</div></figure>
-                <figure class="tour-card"><img src="img/intro-02.png" alt="CT 장비"><div class="tour-card-caption">128ch CT</div></figure>
-                <figure class="tour-card"><img src="img/intro-03.png" alt="내시경 장비"><div class="tour-card-caption">고해상도 내시경</div></figure>
-                <figure class="tour-card"><img src="img/intro-04.png" alt="초음파 장비"><div class="tour-card-caption">정밀 초음파</div></figure>
-                <figure class="tour-card"><img src="img/intro-05.png" alt="스마트 검사 장비"><div class="tour-card-caption">스마트 검사 장비</div></figure>
-                <figure class="tour-card"><img src="img/intro-06.png" alt="첨단 진단 장비"><div class="tour-card-caption">첨단 진단 장비</div></figure>
+                <figure class="tour-card"><img src="img/eq-mri.jpg" alt="래피젠 헬스케어 MRI 장비"><div class="tour-card-caption">3.0T MRI</div></figure>
+                <figure class="tour-card"><img src="img/eq-ct.jpg" alt="래피젠 헬스케어 CT 장비"><div class="tour-card-caption">128ch CT</div></figure>
+                <figure class="tour-card"><img src="img/eq-endo.jpg" alt="래피젠 헬스케어 내시경 장비"><div class="tour-card-caption">고해상도 내시경</div></figure>
+                <figure class="tour-card"><img src="img/eq-eye.jpg" alt="래피젠 헬스케어 안구 검사 장비"><div class="tour-card-caption">AI판독보조 안저</div></figure>
             </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 장비 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 장비 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
             <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
         </div>
@@ -518,23 +518,21 @@
 
     <section id="location-section" class="mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
             <div class="mb-5 px-1">
-                <span class="home-section-eyebrow">VISIT RAPIGEN</span>
-                <h2 class="home-section-title">운영시간 안내</h2>
-                <p class="home-section-description">검진센터와 외래진료 운영시간, 방문 정보를 확인하세요.</p>
+                <span class="inline-flex items-center rounded-full bg-orange-100 px-3 py-1.5 text-base font-extrabold text-[#F27405]">VISIT RAPIGEN</span>
+                <h3 class="mt-3 text-[24px] md:text-[30px] font-black tracking-tight text-gray-900">운영시간 안내</h3>
             </div>
             <div class="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50 md:p-8">
             <div class="flex flex-col items-start justify-between mb-5 pb-4 border-b border-gray-100 gap-3 sm:flex-row sm:items-center">
                 <div>
-                    <h2 class="text-lg md:text-xl font-extrabold text-[#F27405]" itemprop="name">래피젠헬스케어 검진센터</h2>
-                    <p class="text-base text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
+                    <h4 class="text-[18px] md:text-[22px] font-extrabold text-[#F27405]" itemprop="name">래피젠헬스케어 검진센터</h4>
+                    <p class="mt-1 text-base font-medium text-gray-500" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-base font-bold border border-emerald-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    접수가능
+                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
                 </span>
             </div>
 
-            <div class="space-y-3 text-base mb-6">
+            <div class="mb-7 space-y-3 text-base">
                 <div class="flex justify-between items-center text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
                     <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">07:00 ~ 16:00</span>
@@ -551,16 +549,15 @@
 
             <div class="flex flex-col items-start justify-between mb-5 pb-4 border-b border-gray-100 gap-3 sm:flex-row sm:items-center">
                 <div>
-                    <h2 class="text-lg md:text-xl font-extrabold text-[#3eaef9]" itemprop="name">래피젠헬스케어 외래진료</h2>
-                    <p class="text-base text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">다이어트주사, 탈모, 수액 등 내과 진료</p>
+                    <h4 class="text-[18px] md:text-[22px] font-extrabold text-[#3eaef9]">래피젠헬스케어 외래진료</h4>
+                    <p class="mt-1 text-base font-medium text-gray-500">다이어트주사, 탈모, 수액 등 내과 진료</p>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-base font-bold border border-emerald-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    접수가능
+                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
                 </span>
             </div>
 
-            <div class="space-y-3 text-base mb-6">
+            <div class="mb-6 space-y-3 text-base">
                 <div class="flex justify-between items-center text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
                     <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">08:00 ~ 17:00</span>
@@ -575,42 +572,20 @@
                 </div>
             </div>
 
-            <div class="space-y-3 pt-4 border-t border-gray-100 text-base text-gray-600">
-                <a href="https://naver.me/GziL2Dd5" target="_blank">
-                    <div class="flex items-start gap-2.5">
-                        <svg class="w-5 h-5 text-[#F27405] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                        <div>
-                            <span class="font-extrabold text-gray-800 block mb-1 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층</span>
-                            <span class="text-gray-400 text-base break-keep">지하철 1,7호선 가산디지털단지역 8~11번 출구</span>
-                        </div>
-                    </div>
-                </a>   
-                <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank">
-                    <div class="p-4 rounded-[1rem] bg-gray-50 text-base md:text-base text-gray-500 flex items-center gap-2 border border-gray-100 break-keep leading-relaxed">
-                        <span class="font-bold text-gray-700 bg-gray-200 px-2.5 py-1 rounded-md text-base shrink-0">주차</span>
-                        가산어반워크1차 주차 가능. 검진, 진료 시 주차 지원
-                    </div>
+            <div class="space-y-4 border-t border-gray-100 pt-5 text-base text-gray-600">
+                <a href="https://naver.me/GziL2Dd5" target="_blank" rel="noopener" class="flex items-start gap-2.5">
+                    <svg class="mt-0.5 h-5 w-5 shrink-0 text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                    <span class="font-extrabold leading-relaxed text-gray-800 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층<br><span class="font-medium text-gray-400">지하철 1, 7호선 가산디지털단지역 8~11번 출구</span></span>
                 </a>
-                <div class="grid grid-cols-2 gap-3 pt-1">
-                    <a href="tel:1544-5189" class="rounded-2xl border border-blue-100 bg-blue-50 p-3 active:scale-95 transition-transform" itemprop="telephone">
-                        <span class="block font-bold text-gray-500">대표 전화</span>
-                        <strong class="mt-1 block font-black text-blue-600">1544-5189</strong>
-                    </a>
-                    <a href="tel:02-6449-4083" class="rounded-2xl border border-blue-100 bg-blue-50 p-3 active:scale-95 transition-transform" itemprop="telephone">
-                        <span class="block font-bold text-gray-500">검진 직통</span>
-                        <strong class="mt-1 block font-black text-blue-600">02-6449-4083</strong>
-                    </a>
+                <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-2xl border border-gray-100 bg-gray-50 p-4 leading-relaxed text-gray-500 break-keep">
+                    <span class="shrink-0 rounded-md bg-gray-200 px-2.5 py-1 font-bold text-gray-700">주차</span>
+                    가산어반워크1차 주차 가능 · 검진, 진료 시 주차 지원
+                </a>
+                <div class="flex flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:gap-5">
+                    <span class="font-extrabold text-gray-800">대표 전화 <a href="tel:1544-5189" class="text-blue-500 underline underline-offset-2" itemprop="telephone">1544-5189</a></span>
+                    <span class="font-extrabold text-gray-800">검진 직통 <a href="tel:02-6449-4083" class="text-blue-500 underline underline-offset-2">02-6449-4083</a></span>
                 </div>
             </div>
-<!-- 
-            <div id="map" class="w-full h-52 rounded-2xl bg-gray-50 mt-5 overflow-hidden border border-gray-200 relative flex items-center justify-center">
-                <div class="text-center text-gray-400 text-base">
-                    <svg class="w-8 h-8 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                    카카오 지도 영역 (스크립트 자동 로드)
-                </div>
-            </div> -->
-
-
         </div>
     </section>
 

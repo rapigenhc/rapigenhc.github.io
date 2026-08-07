@@ -19,6 +19,232 @@
         body { 
             -webkit-tap-highlight-color: transparent; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+        }
+        /* Home Design System */
+        :root {
+            --home-brand: #F27405;
+            --home-brand-soft: #fff7ed;
+            --home-border: #f3f4f6;
+            --home-radius: 2rem;
+        }
+        .home-section {
+            width: 100%;
+            padding: 1.5rem;
+            border: 1px solid var(--home-border);
+            border-radius: var(--home-radius);
+            background: #ffffff;
+            box-shadow: 0 16px 35px -28px rgba(15, 23, 42, 0.55);
+        }
+        .home-section-heading { margin-bottom: 1.5rem; }
+        .home-section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid #fed7aa;
+            border-radius: 9999px;
+            background: var(--home-brand-soft);
+            color: var(--home-brand);
+            font-size: 1rem;
+            font-weight: 800;
+        }
+        .home-section-title {
+            margin-top: 0.75rem;
+            color: #111827;
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.025em;
+        }
+        .home-section-description {
+            margin-top: 0.5rem;
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.65;
+            word-break: keep-all;
+        }
+        .home-content-card {
+            border: 1px solid var(--home-border);
+            border-radius: 1.5rem;
+            background: #ffffff;
+            box-shadow: 0 12px 25px -22px rgba(15, 23, 42, 0.55);
+        }
+        .reservation-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+            grid-template-rows: repeat(2, minmax(9rem, 1fr));
+            gap: 0.8rem;
+        }
+        .reservation-card {
+            position: relative;
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            border: 1.5px solid #fed7aa;
+            border-radius: 1.75rem;
+            padding: 1.25rem;
+            background: #fffaf5;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .reservation-card:active { transform: scale(0.98); }
+        .reservation-card--main {
+            grid-row: 1 / span 2;
+            min-height: 19rem;
+            background: linear-gradient(160deg, #fff7ed 0%, #ffffff 68%);
+            box-shadow: 0 18px 35px -25px rgba(242, 116, 5, 0.65);
+        }
+        .reservation-card--dark {
+            border-color: #EF4444;
+            background: linear-gradient(145deg, #EF4444, #f87171);
+            color: #ffffff;
+        }
+        .reservation-card--orange {
+            border-color: #F27405;
+            background: linear-gradient(145deg, #F27405, #ff9347);
+            color: #ffffff;
+        }
+        .reservation-card-label {
+            color: #F27405;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+        .reservation-card-title {
+            margin-top: 0.35rem;
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.25;
+            word-break: keep-all;
+        }
+        .reservation-card-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+        .reservation-icon {
+            display: grid;
+            width: 3rem;
+            height: 3rem;
+            flex-shrink: 0;
+            place-items: center;
+            border-radius: 1rem;
+            background: #fff0e8;
+            color: #F27405;
+        }
+        .reservation-wide {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            padding: 1.25rem 1.5rem;
+            overflow: hidden;
+            border-radius: 1.75rem;
+            background: linear-gradient(135deg, #059669, #0f766e);
+            color: #ffffff;
+            box-shadow: 0 16px 30px -24px rgba(5, 150, 105, 0.9);
+            transition: transform 0.25s ease;
+        }
+        .reservation-wide:active { transform: scale(0.98); }
+
+        /* program.html과 동일한 특징 캐러셀 */
+        .feature-carousel-section {
+            margin-inline: -1.5rem;
+            padding: 2rem 0 2.5rem;
+            overflow: hidden;
+            background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+        }
+        .feature-carousel-heading { padding-inline: 1.5rem; }
+        .feature-carousel {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            height: 23.75rem;
+            overflow-x: auto;
+            padding: 1rem 0 1.75rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            overscroll-behavior-x: contain;
+            touch-action: pan-x;
+        }
+        .feature-carousel::-webkit-scrollbar, .tour-carousel::-webkit-scrollbar { display: none; }
+        .feature-card {
+            position: relative;
+            flex: 0 0 62%;
+            height: 15rem;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+            border-radius: 1.75rem;
+            background: #ffffff;
+            opacity: 0.6;
+            scroll-snap-align: center;
+            box-shadow: 0 8px 24px -18px rgba(17, 24, 39, 0.5);
+            transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        .feature-card.is-active {
+            height: 21rem;
+            opacity: 1;
+            border-color: #F27405;
+            box-shadow: 0 18px 35px -20px rgba(242, 116, 5, 0.65);
+        }
+        .feature-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .feature-card.is-active .feature-card-image { transform: scale(1.04); }
+        .feature-card-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; background: linear-gradient(180deg, transparent 25%, rgba(17,24,39,.12) 48%, rgba(17,24,39,.9) 100%); }
+        .feature-card-copy { opacity: 0; transform: translateY(.75rem); transition: opacity .45s ease .12s, transform .45s ease .12s; }
+        .feature-card.is-active .feature-card-copy { opacity: 1; transform: translateY(0); }
+        .feature-keywords { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .65rem; }
+        .feature-keyword { padding: .25rem .6rem; border-radius: 9999px; background: rgba(255,255,255,.92); color: #F27405; font-size: 1rem; font-weight: 900; }
+        .feature-card-title { color: #fff; font-size: 1.45rem; font-weight: 900; line-height: 1.25; word-break: keep-all; }
+        .feature-carousel-status { display: flex; justify-content: center; gap: .45rem; }
+        .feature-carousel-dot { width: .5rem; height: .5rem; border-radius: 9999px; background: #d1d5db; transition: width .3s ease, background-color .3s ease; }
+        .feature-carousel-dot.is-active { width: 1.5rem; background: #F27405; }
+
+        /* program.html과 동일한 시설 / 장비 둘러보기 */
+        .tour-section { margin-inline: -1.5rem; padding: 2.5rem 0; overflow: hidden; background: #f3f6fc; }
+        .tour-heading { padding-inline: 1.5rem; }
+        .tour-tabs { display: grid; grid-template-columns: repeat(2,1fr); width: min(20rem, calc(100% - 3rem)); margin: 1.5rem auto 1.75rem; padding: .35rem; border: 1px solid #e5e7eb; border-radius: 9999px; background: #fff; }
+        .tour-tab { min-height: 3rem; border-radius: 9999px; color: #6b7280; font-size: 1rem; font-weight: 900; transition: .25s ease; }
+        .tour-tab.is-active { color: #fff; background: #F27405; box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
+        .tour-panel[hidden] { display: none; }
+        .tour-carousel-wrap { position: relative; }
+        .tour-carousel { display: flex; gap: .75rem; overflow-x: auto; padding: .5rem 6% 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x; }
+        .tour-card { position: relative; display: flex; flex: 0 0 88%; flex-direction: column; overflow: hidden; border: 2px solid #fff; border-radius: 1.75rem; background: #e5e7eb; opacity: .65; scroll-snap-align: center; box-shadow: 0 14px 28px -20px rgba(17,24,39,.55); transition: opacity .3s ease, transform .3s ease; }
+        .tour-card.is-active { opacity: 1; transform: scale(1.01); }
+        .tour-card img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; }
+        .tour-card-caption { flex: 1; padding: 1rem 1.25rem; border-top: 1px solid #f3f4f6; background: #fff; color: #111827; font-size: 1rem; font-weight: 900; line-height: 1.5; }
+        .tour-arrow { position: absolute; top: 50%; z-index: 10; display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid #e5e7eb; border-radius: 9999px; background: rgba(255,255,255,.92); color: #111827; box-shadow: 0 8px 20px -10px rgba(17,24,39,.65); transform: translateY(-50%); }
+        .tour-arrow--prev { left: .75rem; } .tour-arrow--next { right: .75rem; }
+        .tour-arrow:disabled { opacity: .35; }
+        .tour-progress { width: min(13rem,55%); height: .4rem; margin: .75rem auto 0; overflow: hidden; border-radius: 9999px; background: #fff; }
+        .tour-progress-bar { height: 100%; border-radius: inherit; background: #F27405; transition: width .3s ease; }
+        /* 비동기로 불러오는 공통 푸터도 최소 16px을 유지합니다. */
+        #common-footer-container .text-xs,
+        #common-footer-container .text-sm,
+        #common-footer-container [class~="text-[11px]"],
+        #common-footer-container [class~="text-[12px]"],
+        #common-footer-container [class~="text-[13px]"],
+        #common-footer-container [class~="text-[14px]"],
+        #common-footer-container [class~="text-[15px]"] {
+            font-size: 1rem !important;
+        }
+        @media (min-width: 768px) {
+            .home-section { padding: 2rem; }
+            .home-section-title { font-size: 1.75rem; }
+            .feature-carousel-section, .tour-section { margin-inline: -2rem; }
+            .feature-card { flex-basis: 54%; }
+            .tour-carousel { padding-inline: 7%; }
+            .tour-card { flex-basis: 86%; }
+        }
+        @media (max-width: 390px) {
+            .reservation-card { padding: 1rem; }
+            .reservation-card-title { font-size: 1.15rem; }
         }
         .text-truncate-2 {
             display: -webkit-box;
@@ -43,16 +269,16 @@
         }
     </style>
 </head>
-<body class="bg-gray-50/50 text-gray-900 overflow-x-hidden selection:bg-[#F27405] selection:text-white pb-24">
+<body class="bg-gray-50/50 text-gray-900 overflow-x-hidden selection:bg-[#F27405] selection:text-white pb-52 md:pb-28">
 
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
         <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
             <h1 class="cursor-pointer" onclick="location.href='index.html'">
-                <img src="../img/logo.png" alt="래피젠헬스케어" class="w-32 md:w-40 object-contain">
+                <img src="img/logo.png" alt="래피젠헬스케어" class="w-32 md:w-40 object-contain">
             </h1>
             <button onclick="window.open('https://naver.me/GI3JOGWS', '_blank')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all active:scale-95 group">
-                <img src="../img/nvmap.png" alt="Naver Map" class="w-5 h-5 md:w-6 md:h-6 object-contain border border-gray-100 rounded-sm">
-                <span class="text-[13px] md:text-[14px] font-bold text-gray-800 tracking-tight">
+                <img src="img/nvmap.png" alt="Naver Map" class="w-5 h-5 md:w-6 md:h-6 object-contain border border-gray-100 rounded-sm">
+                <span class="text-base md:text-base font-bold text-gray-800 tracking-tight">
                     네이버지도 보기
                 </span>
                 <svg class="w-3 h-3 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,77 +292,53 @@
         <div id="carousel-track" class="carousel-track w-full h-[60vh] min-h-[420px]">
             
             <div class="w-full h-full flex-shrink-0 relative flex flex-col justify-center items-center px-6 pt-12 pb-16 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-orange-950 to-slate-900 z-0">
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-[#F27405]/30 rounded-full blur-3xl hero-bg-zoom"></div>
-                </div>
+                <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('img/interior-pic-02.jpg');"></div>
+                <div class="absolute inset-0 z-0 bg-[#6b645c42]"></div>
                 
-                <div class="w-full max-w-md md:max-w-xl text-left relative z-10">
-                    <div class="flex items-left gap-2 mb-5">
-                        <span class="inline-flex items-left gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold border border-white/20 backdrop-blur-sm shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#F27405] animate-ping"></span>
+                <div class="w-full max-w-md md:max-w-xl text-left relative z-10 mt-auto mb-8">
+                    <div class="flex justify-start mb-5">
+                        <span class="inline-flex items-left px-4 py-1.5 rounded-full bg-white/10 text-white text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
                             2026 특별 이벤트
                         </span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white">
                         CT추가 이벤트!<br>
-                        <span class="text-[#F27405]">종합검진</span> 패키지
+                        <span class="text-[rgb(245,255,160)]">종합검진</span> 패키지
                     </h2>
-                    <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
-                        연령별·성별 맞춤 정밀 검사<br class="block sm:hidden"> 최대 할인 혜택
-                    </p>
-                    <a href="../program.html" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-white text-gray-900 font-extrabold px-8 py-3.5 rounded-[1.25rem] text-sm md:text-base hover:bg-gray-100 transition-all shadow-lg active:scale-95">
-                        여름 이벤트 확인하기
-                    </a>
                 </div>
             </div>
 
             <div class="w-full h-full flex-shrink-0 relative flex flex-col justify-center items-center px-6 pt-12 pb-16 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-950 via-slate-900 to-indigo-950 z-0">
-                    <div class="absolute -left-10 -top-10 w-64 h-64 bg-[#0047FF]/30 rounded-full blur-3xl hero-bg-zoom"></div>
-                </div>
+                <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('img/interior-pic-03.jpg');"></div>
+                <div class="absolute inset-0 z-0 bg-[#6b645c42]"></div>
                 
-                <div class="w-full max-w-md md:max-w-xl text-left relative z-10">
-                    <div class="flex items-left gap-2 mb-5">
-                        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold border border-white/20 backdrop-blur-sm shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#0047FF] animate-pulse"></span>
+                <div class="w-full max-w-md md:max-w-xl text-left relative z-10 mt-auto mb-8">
+                    <div class="flex justify-start mb-5">
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 text-white text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
                             국가검진 지정기관
                         </span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white">
                         올해 대상자<br>
-                        <span class="text-blue-400">추가 검사 할인 혜택</span>
+                        <span class="text-[rgb(245,255,160)]">추가 검사 할인 혜택</span>
                     </h2>
-                    <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
-                        공단 검진부터 암검진까지<br class="block sm:hidden"> 한 번에 스마트하게
-                    </p>
-                    <a href="../national.html" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-white text-gray-900 font-extrabold px-8 py-3.5 rounded-[1.25rem] text-sm md:text-base hover:bg-gray-100 transition-all shadow-lg active:scale-95">
-                        검진 예약하기
-                    </a>
                 </div>
             </div>
 
             <div class="w-full h-full flex-shrink-0 relative flex flex-col justify-center items-center px-6 pt-12 pb-16 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 z-0">
-                    <div class="absolute right-0 bottom-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl hero-bg-zoom"></div>
-                </div>
+                <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('img/interior-pic-06.jpg');"></div>
+                <div class="absolute inset-0 z-0 bg-[#6b645c42]"></div>
                 
-                <div class="w-full max-w-md md:max-w-xl text-left relative z-10">
-                    <div class="flex items-left gap-2 mb-5">
-                        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold border border-white/20 backdrop-blur-sm shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <div class="w-full max-w-md md:max-w-xl text-left relative z-10 mt-auto mb-8">
+                    <div class="flex justify-start mb-5">
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 text-white text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
                             SPECIAL CLINIC
                         </span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white">
                         차세대 체중관리<br>
-                        <span class="text-emerald-400">마운자로(Mounjaro)</span>
+                        <span class="text-[rgb(245,255,160)]">마운자로(Mounjaro)</span>
                     </h2>
-                    <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
-                        전문의 1:1 맞춤 상담 및<br class="block sm:hidden"> 처방 케어 프로그램
-                    </p>
-                    <a href="../mounjaro.html" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-white text-gray-900 font-extrabold px-8 py-3.5 rounded-[1.25rem] text-sm md:text-base hover:bg-gray-100 transition-all shadow-lg active:scale-95">
-                        상담 신청하기
-                    </a>
                 </div>
             </div>
 
@@ -146,7 +348,7 @@
             <button id="carousel-prev" aria-label="이전 배너" class="p-1 hover:text-[#F27405] active:scale-90 transition-all">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <span id="carousel-indicator" class="text-sm font-bold tracking-widest px-2">1 / 3</span>
+            <span id="carousel-indicator" class="text-base font-bold tracking-widest px-2">1 / 3</span>
             <button id="carousel-next" aria-label="다음 배너" class="p-1 hover:text-[#F27405] active:scale-90 transition-all">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -155,126 +357,109 @@
 
     <main class="w-full max-w-md md:max-w-4xl mx-auto px-5 -mt-8 relative z-10 space-y-8">
 
-        <section id="event-list-container" class="space-y-4" data-aos="fade-up">
-            <div class="grid grid-cols-2 gap-4">
-                
-                <a href="national.html" class="group relative bg-white p-5 rounded-[1.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 flex flex-col justify-between overflow-hidden active:scale-[0.98] transition-all duration-300">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="px-2.5 py-1 bg-blue-50 text-[#0047FF] text-xs font-extrabold rounded-lg">
-                                공단검진
-                            </span>
-                            <div class="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-[#0047FF]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                        </div>
-                        <h4 class="text-base md:text-lg font-bold text-gray-900 group-hover:text-[#0047FF] transition-colors break-keep mt-2">
-                            국가검진 예약
-                        </h4>
-                        <p class="text-xs text-gray-500 leading-relaxed text-truncate-2">
-                            2026 대상자 확인 및 암검진 안내
-                        </p>
+        <section id="event-list-container" data-aos="fade-up" aria-label="빠른 예약 서비스">
+            <div class="reservation-grid">
+                <a href="national.html" class="reservation-card reservation-card--main group">
+                    <div>
+                        <span class="reservation-card-label">가장 빠른 예약</span>
+                        <h2 class="reservation-card-title text-gray-900">국가검진 예약</h2>
+                        <p class="mt-2 text-base font-medium leading-relaxed text-gray-500 break-keep">공단검진과 국가암검진 대상 여부를 확인하고 간편하게 예약하세요.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="reservation-card-link"><span class="flex items-center gap-2"><span class="reservation-icon"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></span>예약하기</span><span>›</span></div>
+                        <div class="reservation-card-link"><span class="flex items-center gap-2"><span class="reservation-icon"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 4a7 7 0 100 14 7 7 0 000-14zm5 12l4 4M8.5 10.5l1.7 1.7 3.3-3.4"></path></svg></span>대상자 확인</span><span>›</span></div>
                     </div>
                 </a>
 
-                <a href="program.html" class="group relative bg-white p-5 rounded-[1.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 flex flex-col justify-between overflow-hidden active:scale-[0.98] transition-all duration-300">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="px-2.5 py-1 bg-orange-50 text-[#F27405] text-xs font-extrabold rounded-lg">
-                                EVENT
-                            </span>
-                            <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center text-[#F27405]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                        </div>
-                        <h4 class="text-base md:text-lg font-bold text-gray-900 group-hover:text-[#F27405] transition-colors break-keep mt-2">
-                            종합검진 이벤트
-                        </h4>
-                        <p class="text-xs text-gray-500 leading-relaxed text-truncate-2">
-                            고사양 장비로 정밀하게, 연령별 종합검진
-                        </p>
+                <a href="program.html" class="reservation-card reservation-card--orange group">
+                    <div>
+                        <span class="text-base font-black text-white/80">맞춤 정밀검진</span>
+                        <h2 class="reservation-card-title text-white">종합검진 예약</h2>
                     </div>
+                    <div class="reservation-card-link text-white"><span>패키지 확인</span><span class="text-[28px]">›</span></div>
                 </a>
 
-                <a href="mounjaro.html" class="col-span-2 group relative bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-6 rounded-[1.5rem] shadow-xl shadow-emerald-200/50 hover:shadow-2xl transition-all duration-300 flex items-center justify-between overflow-hidden active:scale-[0.98]">
-                    <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-                    
-                    <div class="space-y-1.5 relative z-10 pr-4">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="px-2.5 py-1 bg-white/20 backdrop-blur-md text-white text-[11px] font-extrabold rounded-lg">
-                                HOT CLINIC
-                            </span>
-                        </div>
-                        <h4 class="text-lg md:text-xl font-extrabold text-white">
-                            마운자로(Mounjaro) 예약
-                        </h4>
-                        <p class="text-xs text-emerald-100 font-medium leading-relaxed">
-                            차세대 비만 치료 솔루션 1:1 맞춤 케어
-                        </p>
+                <a href="https://rapigenhc.com/" target="_blank" rel="noopener" class="reservation-card reservation-card--dark group">
+                    <div>
+                        <span class="text-base font-black text-white/80">건강 사전예방</span>
+                        <h2 class="reservation-card-title text-white">예방접종 예약</h2>
                     </div>
-
-                    <div class="relative z-10 flex-shrink-0">
-                        <span class="w-12 h-12 rounded-2xl bg-white text-emerald-700 flex items-center justify-center font-bold shadow-md group-hover:scale-110 transition-transform">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7"/></svg>
-                        </span>
-                    </div>
+                    <div class="reservation-card-link text-stone-300"><span>접종 상담</span><span class="text-[28px] text-white">›</span></div>
                 </a>
-
             </div>
+            <a href="mounjaro.html" class="reservation-wide group">
+                <div>
+                    <span class="text-base font-black text-emerald-100">SPECIAL CLINIC</span>
+                    <h2 class="mt-1 text-[22px] font-black leading-tight">마운자로(Mounjaro) 예약</h2>
+                    <p class="mt-2 text-base font-medium leading-relaxed text-emerald-100 break-keep">전문의 1:1 맞춤 상담과 체중관리 프로그램</p>
+                </div>
+                <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-emerald-700 shadow-md transition-transform group-hover:scale-110">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7"></path></svg>
+                </span>
+            </a>
         </section>
 
-        <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-6" data-aos="fade-up">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight">센터 주요 시설</h2>
-            <span class="text-sm font-bold text-gray-400">Rapigen Quality</span>
+        <section class="feature-carousel-section" data-aos="fade-up" aria-labelledby="feature-carousel-title">
+        <div class="feature-carousel-heading">
+            <span class="home-section-eyebrow bg-white">RAPIGEN HEALTHCARE</span>
+            <h2 id="feature-carousel-title" class="home-section-title">래피젠 헬스케어 특징</h2>
+            <p class="home-section-description">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p>
         </div>
 
-        <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-4 px-1">
-            
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-01.jpg" alt="접수 로비" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">접수 로비</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-02.jpg" alt="기초검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">기초검사센터</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-03.jpg" alt="영상/초음파검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">영상/초음파검사센터</span>
-                </div>
-            </div>
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-05.jpg" alt="내시경검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">내시경검사센터</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-06.jpg" alt="특수검진센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">특수검진센터</span>
-                </div>
-            </div>
-            
+        <div id="feature-carousel" class="feature-carousel" aria-label="래피젠 헬스케어 특징 슬라이드">
+            <article class="feature-card" data-feature-index="0"><img src="img/interior-pic-01.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div><h3 class="feature-card-title">고해상도 3.0T MRI 보유</h3></div></div></article>
+            <article class="feature-card" data-feature-index="1"><img src="img/interior-pic-02.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div><h3 class="feature-card-title">AI 탑재 128ch CT</h3></div></div></article>
+            <article class="feature-card" data-feature-index="2"><img src="img/interior-pic-03.jpg" alt="고해상도 내시경 검사실" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div><h3 class="feature-card-title">정밀 내시경 시스템</h3></div></div></article>
+            <article class="feature-card" data-feature-index="3"><img src="img/interior-pic-04.jpg" alt="RFID 기반 검진 동선 시스템" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div><h3 class="feature-card-title">접수·락커·검진 연계 시스템</h3></div></div></article>
+            <article class="feature-card" data-feature-index="4"><img src="img/interior-pic-05.jpg" alt="간편한 건강검진 예약 서비스" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">회원가입 없이</span><span class="feature-keyword">간편예약</span></div><h3 class="feature-card-title">빠르고 편리한 예약 시스템</h3></div></div></article>
+            <article class="feature-card" data-feature-index="5"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div><h3 class="feature-card-title">체계적이고 편안한 검진환경</h3></div></div></article>
         </div>
-        <div class="text-center mt-2 flex justify-center items-center gap-1.5 text-xs text-gray-400">
-            <svg class="w-4 h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            옆으로 밀어서 사진 보기
+        <div id="feature-carousel-status" class="feature-carousel-status" aria-label="슬라이드 위치"></div>
+
+    </section>
+
+    <section class="tour-section" data-aos="fade-up" aria-labelledby="tour-title">
+        <div class="tour-heading text-center">
+            <span class="home-section-eyebrow bg-white">SPACE &amp; EQUIPMENT</span>
+            <h2 id="tour-title" class="home-section-title">래피젠 헬스케어 둘러보기</h2>
+            <p class="home-section-description">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p>
+        </div>
+        <div class="tour-tabs" role="tablist" aria-label="둘러보기 분류">
+            <button type="button" id="tour-facility-tab" class="tour-tab is-active" role="tab" aria-selected="true" aria-controls="tour-facility-panel" data-tour-target="facility">시설</button>
+            <button type="button" id="tour-equipment-tab" class="tour-tab" role="tab" aria-selected="false" aria-controls="tour-equipment-panel" data-tour-target="equipment">장비</button>
+        </div>
+        <div id="tour-facility-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-facility-tab" data-tour-panel="facility">
+            <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="시설 사진">
+                <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크"><div class="tour-card-caption">안내 데스크</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간"><div class="tour-card-caption">쾌적한 대기 공간</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간"><div class="tour-card-caption">편안한 검진 공간</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-04.jpg" alt="래피젠 헬스케어 탈의 공간"><div class="tour-card-caption">프라이빗 탈의 공간</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간"><div class="tour-card-caption">전문 상담 공간</div></figure>
+                <figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경"><div class="tour-card-caption">센터 내부 전경</div></figure>
+            </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 시설 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 시설 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
+            <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
+        </div>
+        <div id="tour-equipment-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-equipment-tab" data-tour-panel="equipment" hidden>
+            <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="장비 사진">
+                <figure class="tour-card"><img src="img/intro-01.png" alt="MRI 장비"><div class="tour-card-caption">3.0T MRI</div></figure>
+                <figure class="tour-card"><img src="img/intro-02.png" alt="CT 장비"><div class="tour-card-caption">128ch CT</div></figure>
+                <figure class="tour-card"><img src="img/intro-03.png" alt="내시경 장비"><div class="tour-card-caption">고해상도 내시경</div></figure>
+                <figure class="tour-card"><img src="img/intro-04.png" alt="초음파 장비"><div class="tour-card-caption">정밀 초음파</div></figure>
+                <figure class="tour-card"><img src="img/intro-05.png" alt="스마트 검사 장비"><div class="tour-card-caption">스마트 검사 장비</div></figure>
+                <figure class="tour-card"><img src="img/intro-06.png" alt="첨단 진단 장비"><div class="tour-card-caption">첨단 진단 장비</div></figure>
+            </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 장비 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 장비 사진"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
+            <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
         </div>
     </section>
 
-    <section class="w-full bg-white pb-16 pt-8">
-        <div class="max-w-5xl mx-auto px-6">
-            <div data-aos="fade-up" data-aos-delay="100" class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 pb-8 items-stretch">
+    <section class="w-full py-2" data-aos="fade-up">
+        <div class="home-section-heading px-1">
+            <span class="home-section-eyebrow">REAL REVIEW</span>
+            <h2 class="home-section-title">고객 검진 후기</h2>
+            <p class="home-section-description">래피젠헬스케어를 직접 경험한 고객들의 이야기입니다.</p>
+        </div>
+        <div>
+            <div data-aos="fade-up" data-aos-delay="100" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
                 
                 <div class="w-full bg-[#F27405]/5 rounded-[2rem] p-8 relative flex flex-col border border-[#F27405]/20 shadow-sm">
                     <div class="flex-1">
@@ -289,7 +474,7 @@
                             "깔끔하고 조용하고 친절하고 3박자가 딱입니다. 이런곳이 있었다니."
                         </p>
                     </div>
-                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
@@ -306,7 +491,7 @@
                             "직장과 가까운 곳에 검진센터가 생겨서 너무 좋습니다! 시설도 깔끔하고 모두들 친절하셨어요~!"
                         </p>
                     </div>
-                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 예약 리뷰</div>
+                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 예약 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
@@ -323,7 +508,7 @@
                             "기본검사하는데도 꼼꼼히 챙겨주시고 친절하셔서 감동입니다 다음에 이것저것 추가해서 받게된다면 여기로 오고싶어요 동네에 이런 큰병원생겨서 좋아요"
                         </p>
                     </div>
-                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
@@ -331,20 +516,25 @@
         </div>
     </section>
 
-    <section id="location-section" class="w-full max-w-md md:max-w-xl mx-auto mb-10" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
-       <div class="bg-white rounded-[2rem] p-6 md:p-8 shadow-xl shadow-gray-200/50 border border-gray-100">
-            <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-100">
+    <section id="location-section" class="mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
+            <div class="mb-5 px-1">
+                <span class="home-section-eyebrow">VISIT RAPIGEN</span>
+                <h2 class="home-section-title">운영시간 안내</h2>
+                <p class="home-section-description">검진센터와 외래진료 운영시간, 방문 정보를 확인하세요.</p>
+            </div>
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50 md:p-8">
+            <div class="flex flex-col items-start justify-between mb-5 pb-4 border-b border-gray-100 gap-3 sm:flex-row sm:items-center">
                 <div>
                     <h2 class="text-lg md:text-xl font-extrabold text-[#F27405]" itemprop="name">래피젠헬스케어 검진센터</h2>
-                    <p class="text-sm text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
+                    <p class="text-base text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold border border-emerald-200">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-base font-bold border border-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     접수가능
                 </span>
             </div>
 
-            <div class="space-y-3 text-sm mb-6">
+            <div class="space-y-3 text-base mb-6">
                 <div class="flex justify-between items-center text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
                     <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">07:00 ~ 16:00</span>
@@ -353,24 +543,24 @@
                     <span class="font-medium text-gray-500">수, 토요일</span>
                     <span class="font-bold text-gray-500" itemprop="openingHours" content="Sa 08:00-13:00">07:00 ~ 12:00</span>
                 </div>
-                <div class="flex justify-between items-center text-gray-400">
-                    <span class="font-medium">일요일 / 공휴일</span>
-                    <span>휴무 (특수검진 토요일 미진행)</span>
+                <div class="flex justify-between items-start gap-3 text-gray-400">
+                    <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                    <span class="text-right break-keep">휴무 (특수검진 토요일 미진행)</span>
                 </div>
             </div>
 
-            <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-100">
+            <div class="flex flex-col items-start justify-between mb-5 pb-4 border-b border-gray-100 gap-3 sm:flex-row sm:items-center">
                 <div>
                     <h2 class="text-lg md:text-xl font-extrabold text-[#3eaef9]" itemprop="name">래피젠헬스케어 외래진료</h2>
-                    <p class="text-sm text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">다이어트주사, 탈모, 수액 등 내과 진료</p>
+                    <p class="text-base text-gray-500 mt-1 font-light" itemprop="medicalSpecialty">다이어트주사, 탈모, 수액 등 내과 진료</p>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold border border-emerald-200">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-base font-bold border border-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     접수가능
                 </span>
             </div>
 
-            <div class="space-y-3 text-sm mb-6">
+            <div class="space-y-3 text-base mb-6">
                 <div class="flex justify-between items-center text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
                     <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">08:00 ~ 17:00</span>
@@ -379,37 +569,42 @@
                     <span class="font-medium text-gray-500">수, 토요일</span>
                     <span class="font-bold text-gray-500" itemprop="openingHours" content="Sa 08:00-13:00">08:00 ~ 12:00</span>
                 </div>
-                <div class="flex justify-between items-center text-gray-400">
-                    <span class="font-medium">일요일 / 공휴일</span>
-                    <span>휴무 (토요일 격주 휴무, 방문 전 전화)</span>
+                <div class="flex justify-between items-start gap-3 text-gray-400">
+                    <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                    <span class="text-right break-keep">휴무 (토요일 격주 휴무, 방문 전 전화)</span>
                 </div>
             </div>
 
-            <div class="space-y-3 pt-4 border-t border-gray-100 text-sm text-gray-600">
+            <div class="space-y-3 pt-4 border-t border-gray-100 text-base text-gray-600">
                 <a href="https://naver.me/GziL2Dd5" target="_blank">
                     <div class="flex items-start gap-2.5">
                         <svg class="w-5 h-5 text-[#F27405] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         <div>
                             <span class="font-extrabold text-gray-800 block mb-1 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층</span>
-                            <span class="text-gray-400 text-xs break-keep">지하철 1,7호선 가산디지털단지역 8~11번 출구</span>
+                            <span class="text-gray-400 text-base break-keep">지하철 1,7호선 가산디지털단지역 8~11번 출구</span>
                         </div>
                     </div>
                 </a>   
                 <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank">
-                    <div class="mt-4 p-4 rounded-[1rem] bg-gray-50 text-xs md:text-sm text-gray-500 flex items-center gap-2 border border-gray-100 break-keep leading-relaxed">
-                        <span class="font-bold text-gray-700 bg-gray-200 px-2.5 py-1 rounded-md text-xs shrink-0">주차</span>
+                    <div class="p-4 rounded-[1rem] bg-gray-50 text-base md:text-base text-gray-500 flex items-center gap-2 border border-gray-100 break-keep leading-relaxed">
+                        <span class="font-bold text-gray-700 bg-gray-200 px-2.5 py-1 rounded-md text-base shrink-0">주차</span>
                         가산어반워크1차 주차 가능. 검진, 진료 시 주차 지원
                     </div>
                 </a>
-                <div class="flex items-center gap-2.5 pt-2 pb-20">
-                    <svg class="w-5 h-5 text-[#0047FF] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                    <span class="font-extrabold text-gray-800 break-keep" itemprop="telephone">대표 전화 <a href="tel:1544-5189" class="text-blue-500 underline underline-offset-2 py-1 inline-block active:opacity-50">1544-5189</a></span>
-                    <span class="font-extrabold text-gray-800 break-keep" itemprop="telephone">검진 직통 <a href="tel:02-6449-4083" class="text-blue-500 underline underline-offset-2 py-1 inline-block active:opacity-50">02-6449-4083</a></span>
+                <div class="grid grid-cols-2 gap-3 pt-1">
+                    <a href="tel:1544-5189" class="rounded-2xl border border-blue-100 bg-blue-50 p-3 active:scale-95 transition-transform" itemprop="telephone">
+                        <span class="block font-bold text-gray-500">대표 전화</span>
+                        <strong class="mt-1 block font-black text-blue-600">1544-5189</strong>
+                    </a>
+                    <a href="tel:02-6449-4083" class="rounded-2xl border border-blue-100 bg-blue-50 p-3 active:scale-95 transition-transform" itemprop="telephone">
+                        <span class="block font-bold text-gray-500">검진 직통</span>
+                        <strong class="mt-1 block font-black text-blue-600">02-6449-4083</strong>
+                    </a>
                 </div>
             </div>
 <!-- 
             <div id="map" class="w-full h-52 rounded-2xl bg-gray-50 mt-5 overflow-hidden border border-gray-200 relative flex items-center justify-center">
-                <div class="text-center text-gray-400 text-sm">
+                <div class="text-center text-gray-400 text-base">
                     <svg class="w-8 h-8 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                     카카오 지도 영역 (스크립트 자동 로드)
                 </div>
@@ -429,19 +624,19 @@
 
         <div class="p-8 flex-1 overflow-y-auto hide-scrollbar flex flex-col">
             <h2 class="text-2xl font-extrabold text-gray-900 mb-2">빠른 상담 신청</h2>
-            <p class="text-sm text-gray-500 mb-8 font-light break-keep">연락처를 남겨주시면 전문 상담원이 친절하게 안내해 드립니다.</p>
+            <p class="text-base text-gray-500 mb-8 font-light break-keep">연락처를 남겨주시면 전문 상담원이 친절하게 안내해 드립니다.</p>
 
             <form id="bottom-sheet-form" class="space-y-6 flex-1">
                 <input type="hidden" id="sheet_package_name" value="">
 
                 <div class="flex flex-col space-y-6">
                     <div class="flex flex-col gap-2">
-                        <label class="text-sm font-bold text-gray-700">이름</label>
+                        <label class="text-base font-bold text-gray-700">이름</label>
                         <input type="text" id="sheet_user_name" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#F27405] focus:bg-white transition-colors" placeholder="홍길동" required>
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label class="text-sm font-bold text-gray-700">휴대폰 번호</label>
+                        <label class="text-base font-bold text-gray-700">휴대폰 번호</label>
                         <input type="tel" id="sheet_user_phone" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#F27405] focus:bg-white transition-colors" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
                     </div>
                 </div>
@@ -450,7 +645,7 @@
                     <button type="button" onclick="submitBottomSheetForm()" class="w-full py-4 bg-[#F27405] text-white rounded-2xl text-lg font-bold active:scale-95 transition-transform shadow-xl shadow-[#F27405]/30">
                         상담신청하기
                     </button>
-                    <p class="text-[11px] text-gray-400 text-center mt-4">상담 신청 시 개인정보 수집 및 이용에 동의하는 것으로 간주합니다.</p>
+                    <p class="text-base text-gray-400 text-center mt-4">상담 신청 시 개인정보 수집 및 이용에 동의하는 것으로 간주합니다.</p>
                 </div>
             </form>
         </div>
@@ -460,7 +655,7 @@
 
     <div class="fixed bottom-6 right-4 z-[60] flex flex-col items-end gap-2 group pointer-events-auto">
         <div id="quick-bubble" class="bg-white border border-gray-100 rounded-2xl px-4 py-2 shadow-xl relative animate-bounce">
-            <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
+            <p class="text-base font-bold text-gray-800 flex items-center gap-1.5">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
@@ -627,6 +822,117 @@
             }, { passive: true });
 
             startAutoSlide();
+
+            // 래피젠 특징 캐러셀 (3초 자동재생 + 터치 제어)
+            const featureCarousel = document.getElementById('feature-carousel');
+            const featureStatus = document.getElementById('feature-carousel-status');
+            if (featureCarousel && featureStatus) {
+                const originals = Array.from(featureCarousel.querySelectorAll('.feature-card'));
+                const count = originals.length;
+                const firstClone = originals[0].cloneNode(true);
+                const lastClone = originals[count - 1].cloneNode(true);
+                featureCarousel.prepend(lastClone);
+                featureCarousel.append(firstClone);
+                const cards = Array.from(featureCarousel.querySelectorAll('.feature-card'));
+                let position = 1;
+                let timer;
+                let touching = false;
+
+                originals.forEach(() => {
+                    const dot = document.createElement('span');
+                    dot.className = 'feature-carousel-dot';
+                    featureStatus.appendChild(dot);
+                });
+                const logicalIndex = () => position === 0 ? count - 1 : position === count + 1 ? 0 : position - 1;
+                const updateState = () => {
+                    cards.forEach((card, index) => card.classList.toggle('is-active', index === position));
+                    featureStatus.querySelectorAll('.feature-carousel-dot').forEach((dot, index) => dot.classList.toggle('is-active', index === logicalIndex()));
+                };
+                const centerCard = (nextPosition, smooth = true) => {
+                    position = nextPosition;
+                    updateState();
+                    const card = cards[position];
+                    featureCarousel.scrollTo({ left: card.offsetLeft - ((featureCarousel.clientWidth - card.offsetWidth) / 2), behavior: smooth ? 'smooth' : 'auto' });
+                    if (position === 0 || position === count + 1) {
+                        window.setTimeout(() => {
+                            position = position === 0 ? count : 1;
+                            updateState();
+                            const resetCard = cards[position];
+                            featureCarousel.scrollTo({ left: resetCard.offsetLeft - ((featureCarousel.clientWidth - resetCard.offsetWidth) / 2), behavior: 'auto' });
+                        }, 520);
+                    }
+                };
+                const startFeatureTimer = () => {
+                    window.clearInterval(timer);
+                    timer = window.setInterval(() => { if (!touching) centerCard(position + 1); }, 3000);
+                };
+                const centerNearest = () => {
+                    const center = featureCarousel.scrollLeft + featureCarousel.clientWidth / 2;
+                    let nearest = 0;
+                    let distance = Infinity;
+                    cards.forEach((card, index) => {
+                        const nextDistance = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center);
+                        if (nextDistance < distance) { distance = nextDistance; nearest = index; }
+                    });
+                    centerCard(nearest);
+                };
+                featureCarousel.addEventListener('touchstart', () => { touching = true; window.clearInterval(timer); }, { passive: true });
+                featureCarousel.addEventListener('touchend', () => { touching = false; window.setTimeout(centerNearest, 100); startFeatureTimer(); }, { passive: true });
+                requestAnimationFrame(() => { centerCard(1, false); startFeatureTimer(); });
+                window.addEventListener('resize', () => centerCard(position, false));
+            }
+
+            // 시설 / 장비 탭 캐러셀 (자동재생 없음)
+            const tourTabs = document.querySelectorAll('.tour-tab');
+            const tourPanels = document.querySelectorAll('.tour-panel');
+            const setupTourPanel = (panel) => {
+                if (panel.dataset.initialized === 'true') return;
+                panel.dataset.initialized = 'true';
+                const carousel = panel.querySelector('.tour-carousel');
+                const cards = Array.from(carousel.querySelectorAll('.tour-card'));
+                const prev = panel.querySelector('[data-tour-direction="prev"]');
+                const next = panel.querySelector('[data-tour-direction="next"]');
+                const progress = panel.querySelector('.tour-progress-bar');
+                let index = 0;
+                let scrollTimer;
+                const update = () => {
+                    cards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === index));
+                    prev.disabled = index === 0;
+                    next.disabled = index === cards.length - 1;
+                    progress.style.width = `${((index + 1) / cards.length) * 100}%`;
+                };
+                const move = (nextIndex, smooth = true) => {
+                    index = Math.max(0, Math.min(nextIndex, cards.length - 1));
+                    const card = cards[index];
+                    carousel.scrollTo({ left: card.offsetLeft - ((carousel.clientWidth - card.offsetWidth) / 2), behavior: smooth ? 'smooth' : 'auto' });
+                    update();
+                };
+                const selectNearest = () => {
+                    const center = carousel.scrollLeft + carousel.clientWidth / 2;
+                    let distance = Infinity;
+                    cards.forEach((card, cardIndex) => {
+                        const nextDistance = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center);
+                        if (nextDistance < distance) { distance = nextDistance; index = cardIndex; }
+                    });
+                    update();
+                };
+                prev.addEventListener('click', () => move(index - 1));
+                next.addEventListener('click', () => move(index + 1));
+                carousel.addEventListener('scroll', () => { window.clearTimeout(scrollTimer); scrollTimer = window.setTimeout(selectNearest, 100); }, { passive: true });
+                panel.addEventListener('tour:recenter', () => move(index, false));
+                requestAnimationFrame(() => move(0, false));
+            };
+            tourTabs.forEach((tab) => tab.addEventListener('click', () => {
+                const target = tab.dataset.tourTarget;
+                tourTabs.forEach((item) => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); });
+                tourPanels.forEach((panel) => {
+                    const active = panel.dataset.tourPanel === target;
+                    panel.hidden = !active;
+                    if (active) { setupTourPanel(panel); requestAnimationFrame(() => panel.dispatchEvent(new CustomEvent('tour:recenter'))); }
+                });
+            }));
+            const initialTourPanel = document.querySelector('.tour-panel:not([hidden])');
+            if (initialTourPanel) setupTourPanel(initialTourPanel);
         });
     </script>
 </body>

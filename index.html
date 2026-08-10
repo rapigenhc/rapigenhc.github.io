@@ -382,7 +382,7 @@
                     <div class="reservation-card-link text-white"><span>패키지 확인</span><span class="text-[28px]">›</span></div>
                 </a>
 
-                <a href="https://rapigenhc.com/" target="_blank" rel="noopener" class="reservation-card reservation-card--dark group">
+                <a href="https://m.booking.naver.com/booking/13/bizes/1139154/items/6904198" target="_blank" rel="noopener" class="reservation-card reservation-card--dark group">
                     <div>
                         <span class="text-base font-black text-white/80">건강 사전예방</span>
                         <h2 class="reservation-card-title text-white">예방접종 예약</h2>
@@ -533,13 +533,13 @@
             </div>
 
             <div class="mb-7 space-y-3 text-base">
-                <div class="flex justify-between items-center text-gray-700">
+                <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
-                    <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">07:00 ~ 16:00</span>
+                    <span class="font-bold" itemprop="openingHours" content="Mo,Tu,Th,Fr 07:00-16:00">07:00 ~ 16:00</span>
                 </div>
-                <div class="flex justify-between items-center text-gray-700">
+                <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">수, 토요일</span>
-                    <span class="font-bold text-gray-500" itemprop="openingHours" content="Sa 08:00-13:00">07:00 ~ 12:00</span>
+                    <span class="font-bold text-gray-500" itemprop="openingHours" content="We,Sa 07:00-12:00">07:00 ~ 12:00</span>
                 </div>
                 <div class="flex justify-between items-start gap-3 text-gray-400">
                     <span class="shrink-0 font-medium">일요일 / 공휴일</span>
@@ -558,11 +558,11 @@
             </div>
 
             <div class="mb-6 space-y-3 text-base">
-                <div class="flex justify-between items-center text-gray-700">
+                <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
                     <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">08:00 ~ 17:00</span>
                 </div>
-                <div class="flex justify-between items-center text-gray-700">
+                <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">수, 토요일</span>
                     <span class="font-bold text-gray-500" itemprop="openingHours" content="Sa 08:00-13:00">08:00 ~ 12:00</span>
                 </div>
@@ -811,16 +811,22 @@
                 const cards = Array.from(featureCarousel.querySelectorAll('.feature-card'));
                 let position = 1;
                 let timer;
+                let featureScrollTimer;
                 let touching = false;
 
-                originals.forEach(() => {
+                originals.forEach((_, index) => {
                     const dot = document.createElement('span');
                     dot.className = 'feature-carousel-dot';
+                    dot.setAttribute('aria-label', `${index + 1}번째 특징`);
                     featureStatus.appendChild(dot);
                 });
                 const logicalIndex = () => position === 0 ? count - 1 : position === count + 1 ? 0 : position - 1;
                 const updateState = () => {
-                    cards.forEach((card, index) => card.classList.toggle('is-active', index === position));
+                    cards.forEach((card, index) => {
+                        const active = index === position;
+                        card.classList.toggle('is-active', active);
+                        card.setAttribute('aria-hidden', String(!active));
+                    });
                     featureStatus.querySelectorAll('.feature-carousel-dot').forEach((dot, index) => dot.classList.toggle('is-active', index === logicalIndex()));
                 };
                 const centerCard = (nextPosition, smooth = true) => {
@@ -852,7 +858,17 @@
                     centerCard(nearest);
                 };
                 featureCarousel.addEventListener('touchstart', () => { touching = true; window.clearInterval(timer); }, { passive: true });
-                featureCarousel.addEventListener('touchend', () => { touching = false; window.setTimeout(centerNearest, 100); startFeatureTimer(); }, { passive: true });
+                featureCarousel.addEventListener('touchend', () => {
+                    touching = false;
+                    window.clearTimeout(featureScrollTimer);
+                    featureScrollTimer = window.setTimeout(centerNearest, 120);
+                    startFeatureTimer();
+                }, { passive: true });
+                featureCarousel.addEventListener('scroll', () => {
+                    if (!touching) return;
+                    window.clearTimeout(featureScrollTimer);
+                    featureScrollTimer = window.setTimeout(centerNearest, 120);
+                }, { passive: true });
                 requestAnimationFrame(() => { centerCard(1, false); startFeatureTimer(); });
                 window.addEventListener('resize', () => centerCard(position, false));
             }
@@ -908,6 +924,10 @@
             }));
             const initialTourPanel = document.querySelector('.tour-panel:not([hidden])');
             if (initialTourPanel) setupTourPanel(initialTourPanel);
+            window.addEventListener('resize', () => {
+                const visibleTourPanel = document.querySelector('.tour-panel:not([hidden])');
+                if (visibleTourPanel) visibleTourPanel.dispatchEvent(new CustomEvent('tour:recenter'));
+            });
         });
     </script>
 </body>

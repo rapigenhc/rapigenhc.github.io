@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공무원연금공단 제휴 건강검진 | 래피젠헬스케어</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    :root {
+        --brand-primary: #F27405;
+        --brand-primary-dark: #d96400;
+        --brand-primary-soft: #fff7ed;
+        --brand-secondary: #3eaef9;
+        --surface-page: #f8fafc;
+        --surface-card: #ffffff;
+        --text-heading: #111827;
+        --text-body: #4b5563;
+        --text-muted: #9ca3af;
+        --border-soft: #e5e7eb;
+        --radius-card: 1.5rem;
+        --shadow-card: 0 12px 30px -24px rgba(17, 24, 39, 0.45);
+    }
+    .page-section {
+        width: 100%;
+        max-width: 36rem;
+        margin-inline: auto;
+        padding: 3.5rem 1.25rem;
+    }
+    .page-section--compact { padding-block: 2rem; }
+    .section-heading {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .section-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2rem;
+        padding: 0.35rem 0.8rem;
+        border: 1px solid #fed7aa;
+        border-radius: 9999px;
+        background: var(--brand-primary-soft);
+        color: var(--brand-primary);
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: 0.03em;
+    }
+    .section-title {
+        margin-top: 0.75rem;
+        color: var(--text-heading);
+        font-size: 1.5rem;
+        font-weight: 900;
+        line-height: 1.3;
+        letter-spacing: -0.025em;
+        word-break: keep-all;
+    }
+    .section-description {
+        margin-top: 0.5rem;
+        color: var(--text-body);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.7;
+        word-break: keep-all;
+    }
+    .ds-card {
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius-card);
+        background: var(--surface-card);
+        box-shadow: var(--shadow-card);
+    }
+    .package-card h3 { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.025em; }
+    .package-card ul { line-height: 1.65; }
+    .review-grid > article,
+    .review-grid > div {
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+    }
+    @media (min-width: 768px) {
+        .page-section { padding-block: 4.5rem; }
+        .section-title { font-size: 1.875rem; }
+    }
+
+    /* Hero Section 배경 줌인+페이드인 애니메이션 */
+    .hero-animated-bg {
+        position: relative;
+        overflow: hidden; 
+    }
+
+    .hero-animated-bg::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        /* 복지몰 느낌에 맞게 깔끔하고 밝은 라운지/병원 내부 이미지 사용 권장 */
+        background-image: url('/img/interior-pic-01.jpg'); 
+        background-size: cover;
+        background-position: center;
+        
+        background-color: rgba(53, 40, 29, 0.85); /* 약간 더 신뢰감을 주는 네이비/다크 톤 오버레이 */
+        background-blend-mode: overlay;
+        
+        animation: heroZoomInFade 5s ease-out forwards;
+        will-change: transform, opacity; 
+        z-index: 0; 
+    }
+
+    @keyframes heroZoomInFade {
+        0% { opacity: 0.8; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.15); }
+    }
+
+    .hero-animated-bg > div {
+        position: relative;
+        z-index: 10;
+    }
+
+    .package-detail-content { --theme-color: #F27405; }
+    .selection-fieldset {
+        border: 1.5px solid var(--theme-color);
+        border-radius: 0.75rem;
+        padding: 0 1.1rem 1.1rem;
+        margin-top: 1.75rem;
+        background-color: #fff;
+    }
+    .selection-legend {
+        width: max-content;
+        margin: 0 auto;
+        padding: 0.25rem 0.875rem;
+        border-radius: 9999px;
+        background-color: var(--theme-color);
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 800;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .icon-unchecked::before {
+        content: '☐';
+        color: var(--theme-color);
+        margin-right: 0.4rem;
+        font-size: 1.35rem;
+        line-height: 1;
+        vertical-align: text-bottom;
+    }
+    .included-exam-list li {
+        position: relative;
+        padding-left: 1.45rem;
+    }
+    .included-exam-list li::before {
+        content: '☑';
+        position: absolute;
+        left: 0;
+        color: #16a34a;
+        font-weight: 900;
+    }
+    .included-highlight {
+        padding: 1rem;
+        border: 1px solid #fed7aa;
+        border-radius: 1rem;
+        background: #fff7ed;
+    }
+    .included-highlight--premium {
+        border-color: #fdba74;
+        background: linear-gradient(135deg, #fff7ed, #ffedd5);
+        box-shadow: 0 8px 20px -16px rgba(242, 116, 5, 0.8);
+    }
+        /* 래피젠 헬스케어 특징 캐로셀 */
+        .feature-carousel-section {
+            width: 100%;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+            padding: 3.5rem 0 2.5rem;
+            overflow: hidden;
+            background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+        }
+        .feature-carousel-heading { padding-inline: 1.25rem; }
+        .feature-carousel {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            height: 23.75rem;
+            overflow-x: auto;
+            padding: 1rem 0 1.75rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            overscroll-behavior-x: contain;
+            touch-action: pan-x;
+        }
+        .feature-carousel::-webkit-scrollbar { display: none; }
+        .feature-card {
+            position: relative;
+            flex: 0 0 62%;
+            height: 15rem;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+            border-radius: 1.75rem;
+            background: #ffffff;
+            opacity: 0.6;
+            scroll-snap-align: center;
+            box-shadow: 0 8px 24px -18px rgba(17, 24, 39, 0.5);
+            transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        .feature-card.is-active {
+            height: 21rem;
+            opacity: 1;
+            border-color: #F27405;
+            box-shadow: 0 18px 35px -20px rgba(242, 116, 5, 0.65);
+        }
+        .feature-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .feature-card.is-active .feature-card-image { transform: scale(1.04); }
+        .feature-card-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.25rem;
+            background: linear-gradient(180deg, transparent 25%, rgba(17, 24, 39, 0.12) 48%, rgba(17, 24, 39, 0.9) 100%);
+        }
+        .feature-card-copy {
+            opacity: 0;
+            transform: translateY(0.75rem);
+            transition: opacity 0.45s ease 0.12s, transform 0.45s ease 0.12s;
+        }
+        .feature-card.is-active .feature-card-copy {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feature-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.65rem;
+        }
+        .feature-keyword {
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #F27405;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+        .feature-card-title {
+            color: #ffffff;
+            font-size: 1.45rem;
+            font-weight: 900;
+            line-height: 1.25;
+            word-break: keep-all;
+        }
+        .feature-carousel-status {
+            display: flex;
+            justify-content: center;
+            gap: 0.45rem;
+        }
+        .feature-carousel-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background: #d1d5db;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        .feature-carousel-dot.is-active {
+            width: 1.5rem;
+            background: #F27405;
+        }
+        @media (min-width: 768px) {
+            .feature-carousel-section {
+                margin-inline: 0;
+            }
+            .feature-card { flex-basis: 54%; }
+        }
+
+        /* 시설 / 장비 둘러보기 */
+
+        /* 시설 / 장비 둘러보기 */
+        .tour-section {
+            margin: 0 0 2rem;
+            padding: 3.5rem 0 2.5rem;
+            overflow: hidden;
+            background: #f3f6fc;
+        }
+        .tour-heading { padding-inline: 1.25rem; }
+        .tour-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            width: min(20rem, calc(100% - 2.5rem));
+            margin: 1.5rem auto 1.75rem;
+            padding: 0.35rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            background: #ffffff;
+            box-shadow: 0 8px 24px -20px rgba(17, 24, 39, 0.45);
+        }
+        .tour-tab {
+            min-height: 3rem;
+            border-radius: 9999px;
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 900;
+            transition: color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .tour-tab.is-active {
+            color: #ffffff;
+            background: #F27405;
+            box-shadow: 0 6px 15px -8px rgba(242, 116, 5, 0.8);
+        }
+        .tour-panel[hidden] { display: none; }
+        .tour-carousel-wrap { position: relative; }
+        .tour-carousel {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding: 0.5rem 6% 1rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            overscroll-behavior-x: contain;
+            touch-action: pan-x;
+        }
+        .tour-carousel::-webkit-scrollbar { display: none; }
+        .tour-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 88%;
+            overflow: hidden;
+            border: 2px solid #ffffff;
+            border-radius: 1.75rem;
+            background: #e5e7eb;
+            opacity: 0.65;
+            scroll-snap-align: center;
+            box-shadow: 0 14px 28px -20px rgba(17, 24, 39, 0.55);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .tour-card.is-active { opacity: 1; transform: scale(1.01); }
+        .tour-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+        .tour-card-caption {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #f3f4f6;
+            background: #ffffff;
+            color: #111827;
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .tour-arrow {
+            position: absolute;
+            top: 50%;
+            z-index: 10;
+            display: grid;
+            width: 3rem;
+            height: 3rem;
+            place-items: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
+            box-shadow: 0 8px 20px -10px rgba(17, 24, 39, 0.15);
+            transform: translateY(-50%);
+            backdrop-filter: blur(8px);
+        }
+        .tour-arrow:active { transform: translateY(-50%) scale(0.92); }
+        .tour-arrow--prev { left: 0.75rem; }
+        .tour-arrow--next { right: 0.75rem; }
+        .tour-arrow:disabled { opacity: 0.35; cursor: not-allowed; }
+        .tour-progress {
+            width: min(13rem, 55%);
+            height: 0.4rem;
+            margin: 0.75rem auto 0;
+            overflow: hidden;
+            border-radius: 9999px;
+            background: #ffffff;
+        }
+        .tour-progress-bar {
+            height: 100%;
+            border-radius: inherit;
+            background: #F27405;
+            transition: width 0.3s ease;
+        }
+        @media (min-width: 768px) {
+            .tour-section { border-radius: var(--radius-card); }
+            .tour-carousel { padding-inline: 7%; }
+            .tour-card { flex-basis: 86%; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-900 pb-32 overflow-x-hidden" data-package="공무원연금공단복지몰">
+
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="history.back()">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">래피젠헬스케어 건강검진센터</h1>
+            </div>
+            <button class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" onclick="location.href='index.html'">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full flex flex-col items-center bg-gray-50/50 pb-24 overflow-hidden font-sans text-gray-900">
+
+        <section class="relative w-full text-gray-900 pt-12 pb-16 px-6 md:rounded-b-[3rem] rounded-b-[2.5rem] shadow-xl shadow-slate-200/50 flex flex-col items-center hero-animated-bg">
+            <div class="w-full max-w-md md:max-w-xl">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm md:text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
+                        <!-- <span class="w-2.5 h-2.5 rounded-full bg-[#3eaef9] animate-ping"></span> -->
+                        비케어와 래피젠헬스케어가 함께하는
+                    </span>
+                    <a href="https://rapigenhc.com/" target="_blank"><span class="text-sm text-white/80 font-medium">래피젠헬스케어</span></a>
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
+                    공무원연금공단 회원 대상<br>
+                    <span class="text-[#feca9c]">프리미엄 검진</span> 단독 우대
+                </h1>
+                
+                <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
+                    회원 및 가족분들을 위해 최대 할인 혜택을 제공합니다.
+                </p>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm flex flex-col justify-center">
+                        <div class="text-sm text-gray-600 mb-1.5 font-medium">제휴 우대 혜택</div>
+                        <div class="text-lg md:text-xl font-extrabold text-gray-900 break-keep">가족 동일 적용</div>
+                        <div class="text-xs md:text-sm text-[#F27405] mt-1 font-bold">본인 및 가족 모두</div>
+                        <div class="text-xs md:text-sm text-gray-500 mt-1 break-keep font-medium">전용 패키지 혜택</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm flex flex-col justify-center">
+                        <div class="text-sm text-gray-600 mb-1.5 font-medium">화수목 이벤트 (~9월)</div>
+                        <div class="text-lg md:text-xl font-extrabold text-[#0047FF] break-keep">복부대동맥초음파 검사추가</div>
+                        <div class="text-xs md:text-sm text-gray-500 mt-1 break-keep font-medium">놓치기 쉬운 동맥류, 동맥경화를 확인</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full max-w-xl mx-auto px-5 -mt-8 relative z-10 mb-8" data-aos="fade-up">
+            <div class="ds-card p-5 md:p-6 grid grid-cols-3 gap-3 md:gap-4 text-center">
+                
+                <a href="tel:1544-5189" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-[#F27405] flex items-center justify-center mb-3 shadow-sm">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    </div>
+                    <span class="text-sm md:text-base font-bold text-slate-700">전화예약</span>
+                </a>
+
+                <a href="#location-section" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0047FF] flex items-center justify-center mb-3 shadow-sm">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <span class="text-sm md:text-base font-bold text-slate-700">오시는길</span>
+                </a>
+
+                <button type="button" onclick="openBottomSheet('공무원복지몰')" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-gradient-to-b from-[#F27405] to-[#d96400] text-white active:scale-95 transition-all duration-300 shadow-lg shadow-[#F27405]/30">
+                    <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <span class="text-sm md:text-base font-bold">간편예약</span>
+                </button>
+                
+            </div>
+        </section>
+
+        <section class="page-section page-section--compact" data-aos="fade-up">
+            <div class="section-heading text-left">
+                <div>
+                <span class="section-eyebrow">
+                    공무원 맞춤형 제휴 가이드
+                </span>
+                <h2 class="section-title">
+                    바쁜 공직 생활,<br/>
+                    <span class="text-[#F27405]">프리미엄 검진</span>으로 챙기세요.
+                </h2>
+                <p class="section-description">나와 내 가족을 위한 가장 든든한 복지</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="ds-card flex flex-col overflow-hidden">
+            
+                    <div class="w-full h-40 md:h-48 bg-slate-100 relative">
+                        <img src="/img/concept01.jpg" alt="공무원 검진 안내" class="w-full h-full object-cover opacity-100"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent"></div>
+                    </div>
+                    
+                    <div class="p-5 pt-3 flex flex-col space-y-4 flex-1">
+                        <div class="space-y-1">
+                            <span class="text-base font-bold text-[#F27405] bg-orange-50 px-2.5 py-1 rounded-full inline-block mb-1">차원이 다른 혜택</span>
+                            <h3 class="text-lg md:text-xl font-extrabold text-slate-900 break-keep">
+                                복지몰 제휴만의 단독 패키지
+                            </h3>
+                        </div>
+                        <ul class="text-base text-slate-600 space-y-2 flex-1 font-medium leading-relaxed break-keep">
+                            <li class="flex items-start gap-1.5"><span class="text-[#F27405]">✓</span> 100% 예약제, 여유롭고 쾌적한 VIP급 환경</li>
+                            <li class="flex items-start gap-1.5"><span class="text-[#F27405]">✓</span> 3.0T MRI, 128ch CT 등 대학병원급 정밀 장비</li>
+                            <li class="flex items-start gap-1.5"><span class="text-[#F27405]">✓</span> <strong class="text-slate-800">당일 용종 제거, AI 보조 내시경 검사</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section class="page-section">
+        <div class="ds-card p-6 md:p-8" data-aos="fade-up">
+            <div class="section-heading text-left">
+                <span class="section-eyebrow">SPECIAL BENEFIT</span>
+            <h2 class="section-title">
+                공무원연금공단 전용 핵심 혜택
+            </h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4 bg-orange-50/60 p-5 rounded-3xl border border-orange-100">
+                    <div class="grid w-16 h-16 shrink-0 place-items-center rounded-2xl bg-white text-[#F27405] shadow-sm border border-orange-100" aria-hidden="true">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v18m4-15.5C15.1 4.55 13.73 4 12 4 9.79 4 8 5.34 8 7s1.79 3 4 3 4 1.34 4 3-1.79 3-4 3c-1.73 0-3.1-.55-4-1.5M4 19.5h16"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">비용 부담은 낮게</h3>
+                        <p class="text-base text-gray-600 mt-1 leading-relaxed break-keep">제휴 프로그램으로 합리적인 종합검진 구성<br><strong class="text-[#F27405]">초음파 3종, 내시경 수면비용 포함!</strong></p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-orange-50/60 p-5 rounded-3xl border border-orange-100">
+                    <div class="grid w-16 h-16 shrink-0 place-items-center rounded-2xl bg-white text-[#F27405] shadow-sm border border-orange-100" aria-hidden="true">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h9m-9 5h6m-6 5h8M17.5 5.5l1 2 2 .5-1.5 1.5.25 2.25-1.75-1-1.75 1L16 9.5 14.5 8l2-.5 1-2z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">제휴 회원 맞춤 선택검사</h3>
+                        <p class="text-base text-gray-600 mt-1 leading-relaxed break-keep">MRI·CT·초음파 등 선호도 높은 정밀검사 선택 가능</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-orange-50/60 p-5 rounded-3xl border border-orange-100">
+                    <div class="grid w-16 h-16 shrink-0 place-items-center rounded-2xl bg-white text-[#F27405] shadow-sm border border-orange-100" aria-hidden="true">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21h18M5 21V7l7-4 7 4v14M8 10h2m4 0h2m-8 4h2m4 0h2m-6 7v-3h4v3"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">600평 단일층 프리미엄 검진센터</h3>
+                        <p class="text-base text-gray-600 mt-1 leading-relaxed break-keep">공항 라운지처럼 쾌적하고 이동이 편한 검진 공간<br><strong class="text-[#F27405]">대학병원급 장비 보유(3.0T MRI·128ch CT 등)</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="section-heading" data-aos="fade-up">
+            <span class="section-eyebrow">CUSTOM PACKAGE</span>
+            <h2 class="section-title">맞춤 검진 패키지 선택</h2>
+        </div>
+
+        <div class="space-y-6" data-aos="fade-up">
+            <div class="package-card ds-card block relative p-6 md:p-8">
+                <label class="flex items-start justify-between cursor-pointer mb-5">
+                    <div>
+                        <span class="inline-block bg-gray-100 text-gray-700 text-base font-bold px-3 py-1.5 rounded-full mb-3">3040 실속형</span>
+                        <h3 class="text-2xl font-bold text-gray-900">30만원 실속 패키지</h3>
+                    </div>
+                    <input type="radio" name="package_choice" value="30만원 실속 패키지" class="package-checkbox w-7 h-7 text-[#F27405] focus:ring-[#F27405]">
+                </label>
+                
+                <div class="border-t border-gray-100 pt-5">
+                    <div class="text-3xl font-black text-gray-900 mb-4">300,000<span class="text-lg font-bold text-gray-500">원</span></div>
+                    <ul class="space-y-3 text-base text-gray-600 mb-6">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>기초·혈액, 위내시경, 초음파 3종 기본 포함</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>어떤 검사를 골라야 할지 고민이라면!</span>
+                        </li>
+                    </ul>
+                    <button onclick="openDetailModal('30만')" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3.5 rounded-2xl text-base transition-colors flex justify-center items-center gap-2">
+                        <span>패키지 세부 항목 자세히 보기</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="package-card ds-card block relative p-6 md:p-8 border-orange-200">
+                <label class="flex items-start justify-between cursor-pointer mb-5">
+                    <div>
+                        <span class="inline-block bg-orange-100 text-[#F27405] text-base font-bold px-3 py-1.5 rounded-full mb-3">5060 프리미엄</span>
+                        <h3 class="text-2xl font-bold text-gray-900">50만원 프리미엄 패키지</h3>
+                    </div>
+                    <input type="radio" name="package_choice" value="50만원 프리미엄 패키지" checked class="package-checkbox w-7 h-7 text-[#F27405] focus:ring-[#F27405]">
+                </label>
+                
+                <div class="border-t border-gray-100 pt-5">
+                    <div class="text-3xl font-black text-[#F27405] mb-4">500,000<span class="text-lg font-bold text-gray-500">원</span></div>
+                    
+                    <ul class="space-y-3 text-base text-gray-700 mb-6">
+                        <li class="flex items-center gap-2 font-bold text-gray-900">
+                            <svg class="w-5 h-5 text-[#F27405] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>기초·혈액, 위내시경, 초음파 3종, 혈관건강 기본 포함</span>
+                        </li>
+                        <li class="flex items-center gap-2 font-bold text-gray-900">
+                            <svg class="w-5 h-5 text-[#F27405] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>한 번 검사할 때 여러 부위를 정밀하게 검사하고 싶다면!</span>
+                        </li>
+                    </ul>
+                    <button onclick="openDetailModal('50만')" class="w-full bg-[#F27405]/10 hover:bg-[#F27405]/20 text-[#F27405] font-bold py-3.5 rounded-2xl text-base transition-colors flex justify-center items-center gap-2">
+                        <span>프리미엄 세부 항목 자세히 보기</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <button onclick="openBottomSheet()" class="w-full bg-[#F27405] hover:bg-orange-600 text-white font-bold py-5 rounded-2xl shadow-lg shadow-orange-500/20 active:scale-95 transition-all text-lg flex items-center justify-center gap-2">
+                <span>선택한 패키지로 간편 예약하기</span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- 래피젠 헬스케어 특징 캐로셀 -->
+    <section class="feature-carousel-section" data-aos="fade-up" aria-labelledby="feature-carousel-title">
+        <div class="feature-carousel-heading section-heading">
+            <span class="section-eyebrow">RAPIGEN HEALTHCARE</span>
+            <h3 id="feature-carousel-title" class="section-title">래피젠 헬스케어 특징</h3>
+            <p class="section-description">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p>
+        </div>
+
+        <div id="feature-carousel" class="feature-carousel" aria-label="래피젠 헬스케어 특징 슬라이드">
+            <article class="feature-card" data-feature-index="0">
+                <img src="img/concept-mri.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div>
+                    <h4 class="feature-card-title">고해상도 3.0T MRI</h4>
+                </div></div>
+            </article>
+            <article class="feature-card" data-feature-index="1">
+                <img src="img/concept-ct.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div>
+                    <h4 class="feature-card-title">AI 탑재 128ch CT</h4>
+                </div></div>
+            </article>
+            <article class="feature-card" data-feature-index="2">
+                <img src="img/eq-endo.jpg" alt="고해상도 내시경 검사실" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div>
+                    <h4 class="feature-card-title">정밀 내시경 시스템</h4>
+                </div></div>
+            </article>
+            <article class="feature-card" data-feature-index="3">
+                <img src="img/concept-rfid.png" alt="RFID 기반 검진 동선 시스템" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div>
+                    <h4 class="feature-card-title">접수·락커·검진 연계 시스템</h4>
+                </div></div>
+            </article>
+            <article class="feature-card" data-feature-index="4">
+                <img src="img/concept01.jpg" alt="사후관리 서비스" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">상급병원</span><span class="feature-keyword">진료연계</span></div>
+                    <h4 class="feature-card-title">유소견시, 상급병원 진료 예약</h4>
+                </div></div>
+            </article>
+            <article class="feature-card" data-feature-index="5">
+                <img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image">
+                <div class="feature-card-overlay"><div class="feature-card-copy">
+                    <div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div>
+                    <h4 class="feature-card-title">체계적이고 편안한 검진환경</h4>
+                </div></div>
+            </article>
+        </div>
+        <div id="feature-carousel-status" class="feature-carousel-status" aria-label="슬라이드 위치"></div>
+    </section>
+
+    <div class="w-full max-w-xl mx-auto px-5">
+        <section class="tour-section" data-aos="fade-up" aria-labelledby="tour-title">
+            <div class="tour-heading section-heading">
+                <span class="section-eyebrow">SPACE &amp; EQUIPMENT</span>
+                <h3 id="tour-title" class="section-title">래피젠 헬스케어 둘러보기</h3>
+                <p class="section-description">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p>
+            </div>
+
+            <div class="tour-tabs" role="tablist" aria-label="둘러보기 분류">
+                <button type="button" id="tour-facility-tab" class="tour-tab is-active" role="tab" aria-selected="true" aria-controls="tour-facility-panel" data-tour-target="facility">시설</button>
+                <button type="button" id="tour-equipment-tab" class="tour-tab" role="tab" aria-selected="false" aria-controls="tour-equipment-panel" data-tour-target="equipment">장비</button>
+            </div>
+
+            <div id="tour-facility-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-facility-tab" data-tour-panel="facility">
+                <div class="tour-carousel-wrap">
+                    <div class="tour-carousel" aria-label="시설 사진">
+                        <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크"><div class="tour-card-caption">접수, 로비</div></figure>
+                        <figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간"><div class="tour-card-caption">기초검사센터</div></figure>
+                        <figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간"><div class="tour-card-caption">영상의학센터</div></figure>
+                        <figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간"><div class="tour-card-caption">내시경센터</div></figure>
+                        <figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경"><div class="tour-card-caption">특수검진센터</div></figure>
+                    </div>
+                    <button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 시설 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button>
+                    <button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 시설 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button>
+                </div>
+                <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
+            </div>
+
+            <div id="tour-equipment-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-equipment-tab" data-tour-panel="equipment" hidden>
+                <div class="tour-carousel-wrap">
+                    <div class="tour-carousel" aria-label="장비 사진">
+                        <figure class="tour-card"><img src="img/eq-mri.jpg" alt="래피젠 헬스케어 MRI 장비"><div class="tour-card-caption">3.0T MRI</div></figure>
+                        <figure class="tour-card"><img src="img/eq-ct.jpg" alt="래피젠 헬스케어 CT 장비"><div class="tour-card-caption">128ch CT</div></figure>
+                        <figure class="tour-card"><img src="img/eq-endo.jpg" alt="래피젠 헬스케어 내시경 장비"><div class="tour-card-caption">고해상도 내시경</div></figure>
+                        <figure class="tour-card"><img src="img/eq-eye.jpg" alt="래피젠 헬스케어 안구 검사 장비"><div class="tour-card-caption">AI판독보조 안저</div></figure>
+                    </div>
+                    <button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 장비 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button>
+                    <button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 장비 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button>
+                </div>
+                <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
+            </div>
+        </section>
+
+        <section class="w-full py-8 md:py-12" data-aos="fade-up">
+            <div class="section-heading px-1">
+                <span class="section-eyebrow">REAL REVIEW</span>
+                <h2 class="section-title">고객 검진 후기</h2>
+                <p class="section-description">래피젠헬스케어를 직접 경험한 고객들의 이야기입니다.</p>
+            </div>
+            <div>
+                <div data-aos="fade-up" data-aos-delay="100" class="review-grid grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+                    
+                    <div class="w-full bg-[#F27405]/5 rounded-[2rem] p-8 relative flex flex-col border border-[#F27405]/20 shadow-sm">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-1.5 mb-5 text-[#F27405]">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="text-gray-800 font-medium text-base md:text-[17px] leading-loose break-keep">
+                                "깔끔하고 조용하고 친절하고 3박자가 딱입니다. 이런곳이 있었다니."
+                            </p>
+                        </div>
+                        <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                        <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
+                    </div>
+
+                    <div class="w-full bg-[#F27405]/5 rounded-[2rem] p-8 relative flex flex-col border border-[#F27405]/20 shadow-sm">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-1.5 mb-5 text-[#F27405]">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="text-gray-800 font-medium text-base md:text-[17px] leading-loose break-keep">
+                                "소개로 방문했는데 너무 친절하시고 무엇보다 빠른안내 감사드립니다. 부모님도 만족하셨어요. 다음에는 저희 부부도 함께 예약하겠습니다."
+                            </p>
+                        </div>
+                        <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 예약 리뷰</div>
+                        <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
+                    </div>
+
+                    <div class="w-full bg-[#F27405]/5 rounded-[2rem] p-8 relative flex flex-col border border-[#F27405]/20 shadow-sm">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-1.5 mb-5 text-[#F27405]">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="text-gray-800 font-medium text-base md:text-[17px] leading-loose break-keep">
+                                "기본검사하는데도 꼼꼼히 챙겨주시고 친절하셔서 감동입니다 다음에 이것저것 추가해서 받게된다면 여기로 오고싶어요 동네에 이런 큰병원생겨서 좋아요"
+                            </p>
+                        </div>
+                        <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                        <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 운영시간 및 위치 안내 -->
+        <section id="location-section" class="mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
+            <div class="section-heading px-1">
+                <span class="section-eyebrow">VISIT RAPIGEN</span>
+                <h3 class="section-title">운영시간 안내</h3>
+            </div>
+
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50 md:p-8">
+                <div class="mb-5 flex flex-col items-start justify-between border-b border-gray-100 pb-4 gap-3 sm:flex-row sm:items-center">
+                    <div>
+                        <h4 class="text-[18px] md:text-[22px] font-extrabold text-[#F27405]" itemprop="name">래피젠헬스케어 검진센터</h4>
+                        <p class="mt-1 text-base font-medium text-gray-500" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
+                    </div>
+                    <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    </span>
+                </div>
+
+                <div class="mb-7 space-y-3 text-base">
+                    <div class="flex items-center justify-between gap-3 text-gray-700">
+                        <span class="font-medium text-gray-500">월 화 목 금</span>
+                        <span class="font-bold" itemprop="openingHours" content="Mo,Tu,Th,Fr 07:00-16:00">07:00 ~ 16:00</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3 text-gray-700">
+                        <span class="font-medium text-gray-500">수, 토요일</span>
+                        <span class="font-bold text-gray-500" itemprop="openingHours" content="We,Sa 07:00-12:00">07:00 ~ 12:00</span>
+                    </div>
+                    <div class="flex items-start justify-between gap-3 text-gray-400">
+                        <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                        <span class="text-right break-keep">휴무 (특수검진 토요일 미진행)</span>
+                    </div>
+                </div>
+
+                <div class="mb-5 flex flex-col items-start justify-between border-b border-gray-100 pb-4 gap-3 sm:flex-row sm:items-center">
+                    <div>
+                        <h4 class="text-[18px] md:text-[22px] font-extrabold text-[#3eaef9]">래피젠헬스케어 외래진료</h4>
+                        <p class="mt-1 text-base font-medium text-gray-500">다이어트주사, 탈모, 수액 등 내과 진료</p>
+                    </div>
+                    <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    </span>
+                </div>
+
+                <div class="mb-6 space-y-3 text-base">
+                    <div class="flex items-center justify-between gap-3 text-gray-700">
+                        <span class="font-medium text-gray-500">월 화 목 금</span>
+                        <span class="font-bold">08:00 ~ 17:00</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3 text-gray-700">
+                        <span class="font-medium text-gray-500">수, 토요일</span>
+                        <span class="font-bold text-gray-500">08:00 ~ 12:00</span>
+                    </div>
+                    <div class="flex items-start justify-between gap-3 text-gray-400">
+                        <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                        <span class="text-right break-keep">휴무 (토요일 격주 휴무, 방문 전 전화)</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 border-t border-gray-100 pt-5 text-base text-gray-600">
+                    <a href="https://naver.me/GziL2Dd5" target="_blank" rel="noopener" class="flex items-start gap-2.5">
+                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        <span class="font-extrabold leading-relaxed text-gray-800 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층<br><span class="font-medium text-gray-400">지하철 1, 7호선 가산디지털단지역 8~11번 출구</span></span>
+                    </a>
+                    <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-2xl border border-gray-100 bg-gray-50 p-4 leading-relaxed text-gray-500 break-keep">
+                        <span class="shrink-0 rounded-md bg-gray-200 px-2.5 py-1 font-bold text-gray-700">주차</span>
+                        가산어반워크1차 주차 가능 · 검진, 진료 시 주차 지원
+                    </a>
+                    <div class="flex flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:gap-5">
+                        <span class="font-extrabold text-gray-800">대표 전화 <a href="tel:1544-5189" class="text-blue-500 underline underline-offset-2" itemprop="telephone">1544-5189</a></span>
+                        <span class="font-extrabold text-gray-800">검진 직통 <a href="tel:02-6449-4083" class="text-blue-500 underline underline-offset-2">02-6449-4083</a></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 px-5 shadow-lg md:hidden">
+        <div class="flex items-center gap-3 max-w-xl mx-auto">
+            <a href="tel:1600-0000" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-2xl text-base flex items-center justify-center gap-2 transition-colors">
+                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                전화
+            </a>
+            <button onclick="openBottomSheet()" class="w-2/3 bg-[#F27405] hover:bg-orange-600 text-white font-bold py-4 rounded-2xl text-base shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
+                <span>간편예약 신청</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="bottom-sheet-backdrop" onclick="closeBottomSheet()" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="bottom-sheet" class="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2rem] p-8 shadow-2xl transform translate-y-full transition-transform duration-300 ease-out max-w-xl mx-auto">
+        <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto mb-6"></div>
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900">공무원연금공단 3050 검진 신청</h3>
+            <button onclick="closeBottomSheet()" class="text-gray-400 hover:text-gray-600 p-2">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <form id="sheet-reservation-form" onsubmit="submitSheetForm(event)" class="space-y-5">
+            <div>
+                <label class="block text-base font-bold text-gray-700 mb-2">성함</label>
+                <input type="text" id="sheet_user_name" required placeholder="성함을 입력하세요" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-[#F27405]">
+            </div>
+            <div>
+                <label class="block text-base font-bold text-gray-700 mb-2">연락처</label>
+                <input type="tel" id="sheet_user_phone" required placeholder="010-0000-0000" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-[#F27405]">
+            </div>
+            <div class="flex items-center justify-between bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
+                <span class="text-base text-gray-600 font-medium">선택한 패키지</span>
+                <span id="sheet-selected-package-text" class="text-base font-bold text-[#F27405]">50만원 프리미엄 패키지</span>
+            </div>
+            
+            <button type="submit" class="w-full bg-[#F27405] hover:bg-orange-600 text-white font-bold py-4 rounded-2xl text-lg shadow-md transition-colors mt-2">
+                상담 및 예약 신청완료
+            </button>
+        </form>
+    </div>
+
+    <div id="detail-modal-backdrop" onclick="closeDetailModal()" class="fixed inset-0 bg-black/70 z-[60] opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-5">
+        <div id="detail-modal" class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl transform scale-95 opacity-0 transition-all duration-300 relative flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
+            <div class="bg-gray-50 p-6 border-b border-gray-100 flex justify-between items-center shrink-0">
+                <h3 id="detail-modal-title" class="text-xl font-bold text-gray-900">패키지 세부 항목</h3>
+                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 p-2 bg-white rounded-full shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto font-sans text-base text-gray-700 space-y-4 hide-scrollbar">
+                <div class="bg-orange-50 text-[#F27405] font-bold p-4 rounded-xl text-center mb-2">
+                    해당 패키지에 포함된 모든 정밀 검사 항목입니다.
+                </div>
+                <div id="detail-content-30" class="package-detail-content hidden space-y-5">
+                    <h4 class="font-bold text-lg text-gray-900 bg-gray-100 px-3 py-1.5 rounded-md inline-block">기본 포함 검사</h4>
+                    <ul class="included-exam-list space-y-2.5 leading-relaxed">
+                        <li><strong>기초검사</strong> : 신체계측, 체성분, 문진, 시력, 청력, 소변검사, 결과상담 등</li>
+                        <li><strong>혈액·소변검사</strong> : 기본혈액, 종양표지자(간암·대장암·췌장암·전립선암 또는 난소암), 갑상선·간·당뇨·심혈관·신장 기능검사 등</li>
+                        <li><strong>장비검사</strong> : 골밀도(만 40세 이상), 안저·안압, 흉부 X-ray, 심전도(EKG)</li>
+                        <li><strong>국가검진 대상자</strong> : 유방 X-선 촬영(여), 자궁경부암검사(여, Pap Smear), 대변잠혈반응검사(만 50세 이상)</li>
+                    </ul>
+                    <div class="included-highlight">
+                        <h5 class="mb-3 font-black text-[#F27405]">기본 포함 · 초음파 3종</h5>
+                        <ul class="included-exam-list space-y-2 font-bold text-gray-800">
+                            <li>상복부 초음파 <span class="block mt-1 text-sm font-normal text-gray-500">(간, 신장, 췌장, 비장, 담낭)</span></li>
+                            <li>갑상선 초음파</li>
+                            <li>전립선 초음파(남, 만 40세 이상) / 자궁 초음파(여, 만 30세 이상)</li>
+                        </ul>
+                    </div>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">선택검사 (가) · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">수면 대장내시경 <span class="block ml-7 mt-1 text-sm font-normal text-red-500">※ 만 70세 이상 검사 불가</span></span></li>
+                            <li><span class="icon-unchecked">장내 미생물 유전체 분석</span></li>
+                            <li><span class="icon-unchecked">췌장 MRI</span></li>
+                            <li><span class="icon-unchecked">뇌혈관 MRA</span></li>
+                            <li><span class="icon-unchecked">뇌 MRI</span></li>
+                            <li><span class="icon-unchecked">일반암 5종 유전자검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(위암, 대장암, 간암, 폐암, 췌장암)</span></span></li>
+                            <li><span class="icon-unchecked">안과질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">심장질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">장질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">피부질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">올리고머화 아밀로이드 베타 검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(뇌건강 혈액검사)</span></span></li>
+                            <li><span class="icon-unchecked">심장 초음파</span></li>
+                            <li><span class="icon-unchecked">폐섬유화 선별검사(KL-6)</span></li>
+                            <li><span class="icon-unchecked">유방암 조기진단(마스토체크, 여성)</span></li>
+                            <li><span class="icon-unchecked">NK세포 활성도 검사(면역력)</span></li>
+                            <li><span class="icon-unchecked">음식·호흡기 알레르기검사 MAST(108종)</span></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">선택검사 (나) · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">경동맥 초음파</span></li>
+                            <li><span class="icon-unchecked">유방 초음파(여성)</span></li>
+                            <li><span class="icon-unchecked">간섬유화 초음파</span></li>
+                            <li><span class="icon-unchecked">복부대동맥 초음파</span></li>
+                            <li><span class="icon-unchecked">남성/여성 호르몬 검사</span></li>
+                            <li><span class="icon-unchecked">128ch CT<span class="block ml-7 mt-1 text-sm font-normal text-gray-500">뇌, 경추, 요추, 심장(관상동맥석회화), 폐(미국 FDA 인증 저선량) 중 선택</span></span></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">선택검사 (다) · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">여성 HPV검사 + Pap Smear <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(인유두종바이러스 + 자궁경부암검사)</span></span></li>
+                            <li><span class="icon-unchecked">활성산소 + 항산화능력</span></li>
+                            <li><span class="icon-unchecked">비타민D 검사</span></li>
+                            <li><span class="icon-unchecked">동맥경화검사 + 호모시스테인 검사</span></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">위 선택검사 · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">일반 위내시경</span></li>
+                            <li><span class="icon-unchecked">수면 위내시경 <span class="block ml-7 mt-1 text-sm font-normal text-red-500">※ 만 70세 이상 검사 불가</span></span></li>
+                            <li><span class="icon-unchecked">펩시노겐검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(혈액검사, 위장약 복용 시 불가)</span></span></li>
+                        </ul>
+                    </fieldset>
+                </div>
+
+                <div id="detail-content-50" class="package-detail-content hidden space-y-5">
+                    <h4 class="font-bold text-lg text-gray-900 bg-gray-100 px-3 py-1.5 rounded-md inline-block">기본 포함 검사</h4>
+                    <ul class="included-exam-list space-y-2.5 leading-relaxed">
+                        <li><strong>기초검사</strong> : 신체계측, 체성분, 문진, 시력, 청력, 소변검사, 결과상담 등</li>
+                        <li><strong>혈액·소변검사</strong> : 기본혈액, 종양표지자(간암·대장암·췌장암·전립선암 또는 난소암), 갑상선·간·당뇨·심혈관·신장 기능검사 등</li>
+                        <li><strong>장비검사</strong> : 골밀도(만 40세 이상), 안저·안압, 흉부 X-ray, 심전도(EKG)</li>
+                        <li><strong>국가검진 대상자</strong> : 유방 X-선 촬영(여), 자궁경부암검사(여, Pap Smear), 대변잠혈반응검사(만 50세 이상)</li>
+                    </ul>
+                    <div class="included-highlight">
+                        <h5 class="mb-3 font-black text-[#F27405]">기본 포함 · 초음파 3종</h5>
+                        <ul class="included-exam-list space-y-2 font-bold text-gray-800">
+                            <li>상복부 초음파 <span class="block mt-1 text-sm font-normal text-gray-500">(간, 신장, 췌장, 비장, 담낭)</span></li>
+                            <li>갑상선 초음파</li>
+                            <li>전립선 초음파(남, 만 40세 이상) / 자궁 초음파(여, 만 30세 이상)</li>
+                        </ul>
+                    </div>
+                    <div class="included-highlight included-highlight--premium">
+                        <h5 class="mb-3 font-black text-[#F27405]">50만원 패키지 추가 포함 검사</h5>
+                        <ul class="included-exam-list space-y-2 font-bold text-gray-800">
+                            <li>여성 HPV검사 + Pap Smear</li>
+                            <li>활성산소 + 항산화능력</li>
+                            <li>비타민D 검사</li>
+                            <li>동맥경화검사 + 호모시스테인 검사</li>
+                        </ul>
+                    </div>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">선택검사 (가) · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">수면 대장내시경 <span class="block ml-7 mt-1 text-sm font-normal text-red-500">※ 만 70세 이상 검사 불가</span></span></li>
+                            <li><span class="icon-unchecked">장내 미생물 유전체 분석</span></li>
+                            <li><span class="icon-unchecked">췌장 MRI</span></li>
+                            <li><span class="icon-unchecked">뇌혈관 MRA</span></li>
+                            <li><span class="icon-unchecked">뇌 MRI</span></li>
+                            <li><span class="icon-unchecked">일반암 5종 유전자검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(위암, 대장암, 간암, 폐암, 췌장암)</span></span></li>
+                            <li><span class="icon-unchecked">안과질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">심장질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">장질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">피부질환 5종 유전자검사</span></li>
+                            <li><span class="icon-unchecked">올리고머화 아밀로이드 베타 검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(뇌건강 혈액검사)</span></span></li>
+                            <li><span class="icon-unchecked">심장 초음파</span></li>
+                            <li><span class="icon-unchecked">폐섬유화 선별검사(KL-6)</span></li>
+                            <li><span class="icon-unchecked">유방암 조기진단(마스토체크, 여성)</span></li>
+                            <li><span class="icon-unchecked">NK세포 활성도 검사(면역력)</span></li>
+                            <li><span class="icon-unchecked">음식·호흡기 알레르기검사 MAST(108종)</span></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">선택검사 (나) · 2가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">경동맥 초음파</span></li>
+                            <li><span class="icon-unchecked">유방 초음파(여성)</span></li>
+                            <li><span class="icon-unchecked">간섬유화 초음파</span></li>
+                            <li><span class="icon-unchecked">복부대동맥 초음파</span></li>
+                            <li><span class="icon-unchecked">남성/여성 호르몬 검사</span></li>
+                            <li><span class="icon-unchecked">128ch CT<span class="block ml-7 mt-1 text-sm font-normal text-gray-500">뇌, 경추, 요추, 심장(관상동맥석회화), 폐(미국 FDA 인증 저선량) 중 선택</span></span></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="selection-fieldset">
+                        <legend class="selection-legend">위 선택검사 · 1가지</legend>
+                        <ul class="space-y-3 mt-3 font-bold text-gray-800 break-keep">
+                            <li><span class="icon-unchecked">일반 위내시경</span></li>
+                            <li><span class="icon-unchecked">수면 위내시경 <span class="block ml-7 mt-1 text-sm font-normal text-red-500">※ 만 70세 이상 검사 불가</span></span></li>
+                            <li><span class="icon-unchecked">펩시노겐검사 <span class="block ml-7 mt-1 text-sm font-normal text-gray-500">(혈액검사, 위장약 복용 시 불가)</span></span></li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="p-5 border-t border-gray-100 shrink-0">
+                <button onclick="closeDetailModal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-2xl text-lg hover:bg-gray-900 transition-colors">
+                    확인완료
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="common-footer-container"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="./script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 600, once: true });
+            const featureCarousel = document.getElementById('feature-carousel');
+            const featureStatus = document.getElementById('feature-carousel-status');
+            const originalFeatureCards = Array.from(featureCarousel.querySelectorAll('.feature-card'));
+            const featureCount = originalFeatureCards.length;
+            const firstFeatureClone = originalFeatureCards[0].cloneNode(true);
+            const lastFeatureClone = originalFeatureCards[featureCount - 1].cloneNode(true);
+            firstFeatureClone.dataset.clone = 'first';
+            lastFeatureClone.dataset.clone = 'last';
+            featureCarousel.prepend(lastFeatureClone);
+            featureCarousel.append(firstFeatureClone);
+
+            const featureCards = Array.from(featureCarousel.querySelectorAll('.feature-card'));
+            let featurePosition = 1;
+            let featureTimer;
+            let featureScrollTimer;
+            let isFeatureTouching = false;
+
+            originalFeatureCards.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = 'feature-carousel-dot';
+                dot.setAttribute('aria-label', `${index + 1}번째 특징`);
+                featureStatus.appendChild(dot);
+            });
+
+            const getLogicalFeatureIndex = () => {
+                if (featurePosition === 0) return featureCount - 1;
+                if (featurePosition === featureCount + 1) return 0;
+                return featurePosition - 1;
+            };
+
+            const updateFeatureState = () => {
+                featureCards.forEach((card, index) => {
+                    const isActive = index === featurePosition;
+                    card.classList.toggle('is-active', isActive);
+                    card.setAttribute('aria-hidden', String(!isActive));
+                });
+                const logicalIndex = getLogicalFeatureIndex();
+                featureStatus.querySelectorAll('.feature-carousel-dot').forEach((dot, index) => {
+                    dot.classList.toggle('is-active', index === logicalIndex);
+                });
+            };
+
+            const centerFeatureCard = (position, smooth = true) => {
+                featurePosition = position;
+                updateFeatureState();
+                const card = featureCards[featurePosition];
+                const left = card.offsetLeft - ((featureCarousel.clientWidth - card.offsetWidth) / 2);
+                featureCarousel.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+
+                if (position === 0 || position === featureCount + 1) {
+                    window.setTimeout(() => {
+                        featurePosition = position === 0 ? featureCount : 1;
+                        updateFeatureState();
+                        const resetCard = featureCards[featurePosition];
+                        featureCarousel.scrollTo({
+                            left: resetCard.offsetLeft - ((featureCarousel.clientWidth - resetCard.offsetWidth) / 2),
+                            behavior: 'auto'
+                        });
+                    }, 520);
+                }
+            };
+
+            const startFeatureAutoplay = () => {
+                window.clearInterval(featureTimer);
+                featureTimer = window.setInterval(() => {
+                    if (!isFeatureTouching) centerFeatureCard(featurePosition + 1);
+                }, 3000);
+            };
+
+            const centerNearestFeatureCard = () => {
+                const viewportCenter = featureCarousel.scrollLeft + (featureCarousel.clientWidth / 2);
+                let nearestPosition = 0;
+                let nearestDistance = Infinity;
+                featureCards.forEach((card, index) => {
+                    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+                    const distance = Math.abs(cardCenter - viewportCenter);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestPosition = index;
+                    }
+                });
+                centerFeatureCard(nearestPosition);
+            };
+
+            featureCarousel.addEventListener('touchstart', () => {
+                isFeatureTouching = true;
+                window.clearInterval(featureTimer);
+            }, { passive: true });
+            featureCarousel.addEventListener('touchend', () => {
+                isFeatureTouching = false;
+                window.clearTimeout(featureScrollTimer);
+                featureScrollTimer = window.setTimeout(centerNearestFeatureCard, 120);
+                startFeatureAutoplay();
+            }, { passive: true });
+            featureCarousel.addEventListener('scroll', () => {
+                if (!isFeatureTouching) return;
+                window.clearTimeout(featureScrollTimer);
+                featureScrollTimer = window.setTimeout(centerNearestFeatureCard, 120);
+            }, { passive: true });
+            window.addEventListener('resize', () => centerFeatureCard(featurePosition, false));
+
+            requestAnimationFrame(() => {
+                centerFeatureCard(featurePosition, false);
+                startFeatureAutoplay();
+            });
+
+            // 시설 / 장비 둘러보기: 자동재생 없이 탭, 화살표, 터치로만 제어합니다.
+            const tourTabs = document.querySelectorAll('.tour-tab');
+            const tourPanels = document.querySelectorAll('.tour-panel');
+
+            const setupTourPanel = (panel) => {
+                if (panel.dataset.initialized === 'true') return;
+                panel.dataset.initialized = 'true';
+
+                const carousel = panel.querySelector('.tour-carousel');
+                const cards = Array.from(carousel.querySelectorAll('.tour-card'));
+                const prevButton = panel.querySelector('[data-tour-direction="prev"]');
+                const nextButton = panel.querySelector('[data-tour-direction="next"]');
+                const progressBar = panel.querySelector('.tour-progress-bar');
+                let currentIndex = 0;
+                let scrollTimer;
+
+                const updateTourState = () => {
+                    cards.forEach((card, index) => card.classList.toggle('is-active', index === currentIndex));
+                    prevButton.disabled = currentIndex === 0;
+                    nextButton.disabled = currentIndex === cards.length - 1;
+                    progressBar.style.width = `${((currentIndex + 1) / cards.length) * 100}%`;
+                };
+
+                const moveToTourCard = (index, smooth = true) => {
+                    currentIndex = Math.max(0, Math.min(index, cards.length - 1));
+                    const card = cards[currentIndex];
+                    const left = card.offsetLeft - ((carousel.clientWidth - card.offsetWidth) / 2);
+                    carousel.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+                    updateTourState();
+                };
+
+                const selectNearestTourCard = () => {
+                    const viewportCenter = carousel.scrollLeft + (carousel.clientWidth / 2);
+                    let nearestIndex = 0;
+                    let nearestDistance = Infinity;
+                    cards.forEach((card, index) => {
+                        const distance = Math.abs((card.offsetLeft + (card.offsetWidth / 2)) - viewportCenter);
+                        if (distance < nearestDistance) {
+                            nearestDistance = distance;
+                            nearestIndex = index;
+                        }
+                    });
+                    currentIndex = nearestIndex;
+                    updateTourState();
+                };
+
+                prevButton.addEventListener('click', () => moveToTourCard(currentIndex - 1));
+                nextButton.addEventListener('click', () => moveToTourCard(currentIndex + 1));
+                carousel.addEventListener('scroll', () => {
+                    window.clearTimeout(scrollTimer);
+                    scrollTimer = window.setTimeout(selectNearestTourCard, 100);
+                }, { passive: true });
+                panel.addEventListener('tour:recenter', () => moveToTourCard(currentIndex, false));
+
+                requestAnimationFrame(() => moveToTourCard(0, false));
+            };
+
+            tourTabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.tourTarget;
+                    tourTabs.forEach((item) => {
+                        const isActive = item === tab;
+                        item.classList.toggle('is-active', isActive);
+                        item.setAttribute('aria-selected', String(isActive));
+                    });
+                    tourPanels.forEach((panel) => {
+                        const isActive = panel.dataset.tourPanel === target;
+                        panel.hidden = !isActive;
+                        if (isActive) {
+                            setupTourPanel(panel);
+                            requestAnimationFrame(() => panel.dispatchEvent(new CustomEvent('tour:recenter')));
+                        }
+                    });
+                });
+            });
+
+            const initialTourPanel = document.querySelector('.tour-panel:not([hidden])');
+            if (initialTourPanel) setupTourPanel(initialTourPanel);
+            window.addEventListener('resize', () => {
+                const visibleTourPanel = document.querySelector('.tour-panel:not([hidden])');
+                if (visibleTourPanel) visibleTourPanel.dispatchEvent(new CustomEvent('tour:recenter'));
+            });
+        });
+
+        /* 바텀 시트(예약 폼) 제어 */
+        function openBottomSheet() {
+            const selectedRadio = document.querySelector('input[name="package_choice"]:checked');
+            if (selectedRadio) {
+                const pkgName = "공무원연금공단 " + selectedRadio.value;
+                document.body.setAttribute('data-package', pkgName);
+                const sheetPkgText = document.getElementById('sheet-selected-package-text');
+                if(sheetPkgText) sheetPkgText.textContent = selectedRadio.value;
+            }
+            
+            document.getElementById('bottom-sheet-backdrop').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('bottom-sheet').classList.remove('translate-y-full');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBottomSheet() {
+            document.getElementById('bottom-sheet-backdrop').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('bottom-sheet').classList.add('translate-y-full');
+            document.body.style.overflow = '';
+        }
+
+        /* 패키지 세부 항목 모달 제어 */
+        function openDetailModal(type) {
+            const backdrop = document.getElementById('detail-modal-backdrop');
+            const modal = document.getElementById('detail-modal');
+            const title = document.getElementById('detail-modal-title');
+            
+            document.getElementById('detail-content-30').classList.add('hidden');
+            document.getElementById('detail-content-50').classList.add('hidden');
+
+            if(type === '30만') {
+                title.textContent = '30만원 실속 패키지 항목';
+                document.getElementById('detail-content-30').classList.remove('hidden');
+            } else {
+                title.textContent = '50만원 프리미엄 패키지 항목';
+                document.getElementById('detail-content-50').classList.remove('hidden');
+            }
+
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.remove('scale-95', 'opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailModal() {
+            const backdrop = document.getElementById('detail-modal-backdrop');
+            const modal = document.getElementById('detail-modal');
+            
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.add('scale-95', 'opacity-0');
+            document.body.style.overflow = '';
+        }
+
+        function submitSheetForm(e) {
+            e.preventDefault();
+            const footerSubmitBtn = document.querySelector('#footer-reservation-form button[type="submit"]');
+            const nameInput = document.getElementById('sheet_user_name').value;
+            const phoneInput = document.getElementById('sheet_user_phone').value;
+
+            const footerName = document.getElementById('user_name') || document.getElementById('footer_user_name');
+            const footerPhone = document.getElementById('user_phone') || document.getElementById('footer_user_phone');
+
+            if (footerName && footerPhone && footerSubmitBtn) {
+                footerName.value = nameInput;
+                footerPhone.value = phoneInput;
+                footerSubmitBtn.click();
+                closeBottomSheet();
+                document.getElementById('sheet_user_name').value = '';
+                document.getElementById('sheet_user_phone').value = '';
+            } else {
+                alert('예약 시스템을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+            }
+        }
+    </script>
+</body>
+</html>

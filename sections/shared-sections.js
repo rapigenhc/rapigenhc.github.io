@@ -1,5 +1,7 @@
 (async function () {
-    const root = new URL('.', document.currentScript.src);
+    const loaderScript = document.currentScript;
+    const root = new URL('.', loaderScript.src);
+    const requestedSections = loaderScript.dataset.sharedSections || 'all';
     if (!document.querySelector('link[data-shared-sections-style]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
@@ -18,25 +20,66 @@
     const findSectionByText = text => Array.from(document.querySelectorAll('section')).find(section => section.textContent.includes(text));
 
     try {
-        const [feature, tour, hours] = await Promise.all([
-            load('healthcare-features.html'), load('healthcare-tour.html'), load('operating-hours.html')
-        ]);
+        if (requestedSections === 'tour') {
+            const tour = await load('healthcare-tour.html');
+            const placeholder = document.querySelector('[data-shared-section="healthcare-tour"]');
+            const oldTour = document.querySelector('.tour-section');
+            const oldFacility = findSectionByText('센터 주요 시설') || findSectionByText('센터 주요시설');
+            const target = placeholder || oldTour || oldFacility;
+
+            if (target) target.replaceWith(tour);
+            else (document.querySelector('main') || document.body).appendChild(tour);
+
+            initTour();
+            if (window.AOS) window.AOS.refreshHard();
+            return;
+        }
+
+        const includeInjections = requestedSections !== 'core';
+        const sectionNames = [
+            'healthcare-features.html', 'healthcare-tour.html', 'operating-hours.html'
+        ];
+        if (includeInjections) sectionNames.unshift('healthcare-injections.html');
+
+        const loadedSections = await Promise.all(sectionNames.map(load));
+        const [injections, feature, tour, hours] = includeInjections
+            ? loadedSections
+            : [null, ...loadedSections];
         const main = document.querySelector('main') || document.body;
         const oldFacility = findSectionByText('센터 주요 시설') || findSectionByText('센터 주요시설');
+        const oldInjections = document.querySelector('.injection-section');
         const oldFeature = document.querySelector('.feature-carousel-section');
+        const featurePlaceholder = document.querySelector('[data-shared-section="healthcare-features"]');
         const oldTour = document.querySelector('.tour-section');
         const oldHours = document.getElementById('location-section');
 
         if (oldFeature) oldFeature.replaceWith(feature); else if (oldFacility) oldFacility.replaceWith(feature);
-        else main.appendChild(feature);
+        else if (featurePlaceholder) featurePlaceholder.replaceWith(feature); else main.appendChild(feature);
+        if (injections) {
+            if (oldInjections) oldInjections.replaceWith(injections); else feature.before(injections);
+        }
         if (oldTour) oldTour.replaceWith(tour); else feature.after(tour);
         if (oldHours) oldHours.replaceWith(hours); else tour.after(hours);
 
+        if (injections) initInjections();
         initFeature();
         initTour();
         if (window.AOS) window.AOS.refreshHard();
     } catch (error) {
         console.error('[공용 섹션]', error);
+    }
+
+    function initInjections() {
+        const section = document.querySelector('.injection-section');
+        const button = section?.querySelector('.injection-more-button');
+        const label = button?.querySelector('.injection-more-label');
+        if (!section || !button || !label) return;
+
+        button.addEventListener('click', () => {
+            const isCollapsed = section.classList.toggle('is-collapsed');
+            button.setAttribute('aria-expanded', String(!isCollapsed));
+            label.textContent = isCollapsed ? '수액 메뉴 더보기' : '수액 메뉴 접기';
+        });
     }
 
     function initFeature() {

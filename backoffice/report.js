@@ -24,6 +24,7 @@ let trendChartInstance = null;
 let channelChartInstance = null;
 let fpThisWeek = null;
 let fpLastWeek = null;
+let allReservationData = [];
 
 const CHANNEL_COLORS = {
     'dangn': '#F27405',     
@@ -138,7 +139,8 @@ async function buildReportData() {
         const [snapPeriod, snapAll] = await Promise.all([getDocs(qPeriod), getDocs(qAll)]);
         
         const periodDocs = snapPeriod.docs.map(d => d.data());
-        const allDocs = snapAll.docs.map(d => d.data());
+        const allDocs = snapAll.docs.map(d => ({ id: d.id, ...d.data() }));
+        allReservationData = allDocs;
 
         let thisWeekCount = 0;
         let lastWeekCount = 0;
@@ -335,7 +337,106 @@ function renderPackageRanking(packageMap) {
     });
 }
 
+function maskName(name) {
+    const value = String(name || '').trim();
+    if (!value) return '-';
+    if (value.length === 1) return '*';
+    if (value.length === 2) return `${value[0]}*`;
+    return `${value[0]}${'*'.repeat(value.length - 2)}${value[value.length - 1]}`;
+}
+
+function maskPhone(phone) {
+    const digits = String(phone || '').replace(/\D/g, '');
+    if (!digits) return '-';
+
+    const prefix = digits.slice(0, Math.max(0, digits.length - 8));
+    const suffix = digits.slice(-4);
+    return `${prefix}-****-${suffix}`;
+}
+
+function formatExcelDate(timestamp) {
+    if (!timestamp) return '-';
+
+    const date = typeof timestamp.toDate === 'function'
+        ? timestamp.toDate()
+        : new Date(timestamp.seconds * 1000);
+
+    if (Number.isNaN(date.getTime())) return '-';
+
+    return new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    }).format(date);
+}
+
+function getDownloadDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+}
+
+async function downloadAllReservations() {
+    const button = document.getElementById('downloadExcelBtn');
+
+    if (typeof XLSX === 'undefined') {
+        alert("엑셀 생성 모듈을 불러오지 못했습니다. 페이지를 새로고침한 후 다시 시도해주세요.");
+        return;
+    }
+
+    button.disabled = true;
+    const originalText = button.innerText;
+    button.innerText = '전체 데이터 조회 중...';
+
+    try {
+        const snapshot = await getDocs(query(collection(db, "reservations")));
+        allReservationData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        if (allReservationData.length === 0) {
+            alert("다운로드할 예약 데이터가 없습니다.");
+            return;
+        }
+
+        button.innerText = '엑셀 생성 중...';
+        const rows = [...allReservationData]
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+            .map(data => ({
+                '신청일시': formatExcelDate(data.createdAt),
+                '이름': maskName(data.name),
+                '연락처': maskPhone(data.phone),
+                '선택 패키지': data.package || '-',
+                '예약페이지': data.pageName || '-',
+                '유입 채널': data.source || data.utm_source || 'direct',
+                '매체(Medium)': data.utm_medium || data.medium || '-',
+                '처리 상태': data.status || '대기중'
+            }));
+
+        const worksheet = XLSX.utils.json_to_sheet(rows);
+        worksheet['!cols'] = [
+            { wch: 22 }, { wch: 12 }, { wch: 18 }, { wch: 28 },
+            { wch: 22 }, { wch: 14 }, { wch: 18 }, { wch: 14 }
+        ];
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, '전체 예약');
+        XLSX.writeFile(workbook, `전체_예약_데이터_${getDownloadDate()}.xlsx`, { compression: true });
+    } catch (error) {
+        console.error('엑셀 다운로드 실패:', error);
+        alert("엑셀 파일을 생성하는 중 오류가 발생했습니다.");
+    } finally {
+        button.disabled = false;
+        button.innerText = originalText;
+    }
+}
+
 document.getElementById('applyDateBtn').addEventListener('click', buildReportData);
+document.getElementById('downloadExcelBtn').addEventListener('click', downloadAllReservations);
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
     if(confirm("로그아웃 하시겠습니까?")) signOut(auth);

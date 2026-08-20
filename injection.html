@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="래피젠헬스케어 영양 수액 종류와 비용, 건강검진 당일 할인 이벤트 안내">
+    <title>영양 수액 주사 | 래피젠헬스케어</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .injection-page-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+        .injection-page-card:hover { transform: translateY(-3px); border-color: #fdba74; box-shadow: 0 18px 35px -26px rgba(242, 116, 5, .65); }
+        .event-price-list[hidden] { display: none; }
+    </style>
+</head>
+<body data-package="영양수액" class="bg-white text-gray-900 pb-40 overflow-x-hidden">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-md md:max-w-5xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="location.href='index.html'">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">래피젠 헬스케어 건강검진 이벤트</h1>
+            </div>
+            <button type="button" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" onclick="location.href='index.html'" aria-label="홈으로 이동">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 011-1h2a1 1 0 011 1v4m-6 0h6"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full flex flex-col items-center overflow-hidden pb-0">
+        <section class="w-full max-w-5xl mx-auto px-5 pt-8 md:pt-14" aria-labelledby="injection-hero-title">
+            <div class="relative overflow-hidden rounded-[2.5rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-amber-50 p-8 sm:p-14 lg:p-16 shadow-sm">
+                <div class="absolute -right-20 -top-24 w-72 h-72 rounded-full bg-orange-200/30 blur-3xl" aria-hidden="true"></div>
+                <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                    <div class="lg:col-span-7 text-center lg:text-left" data-aos="fade-up">
+                        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[13px] sm:text-sm font-extrabold text-[#F27405] border border-orange-100 shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-[#F27405]"></span>
+                            RAPIGEN NUTRITION CARE
+                        </span>
+                        <h2 id="injection-hero-title" class="mt-6 text-3xl sm:text-[42px] lg:text-[52px] font-black tracking-tight leading-[1.25] break-keep">
+                            지친 일상에 필요한<br><span class="text-[#F27405]">맞춤 영양 수액</span>
+                        </h2>
+                        <p class="mt-6 max-w-2xl mx-auto lg:mx-0 text-[15px] sm:text-lg leading-[1.8] text-gray-600 break-keep">
+                            현재 건강 상태와 회복 목적을 확인한 뒤 의료진의 진료를 통해 개인에게 적합한 영양 수액을 안내합니다.
+                        </p>
+                        <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-3">
+                            <button type="button" onclick="focusReservationForm()" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F27405] px-8 py-4 font-extrabold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-600 active:scale-95 transition-all">
+                                영양 수액 상담 신청
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                            <a href="tel:1544-5189" class="inline-flex items-center justify-center rounded-2xl border border-gray-200 bg-white px-8 py-4 font-extrabold text-gray-700 hover:border-orange-200 hover:text-[#F27405] active:scale-95 transition-all">전화 상담 1544-5189</a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center" data-aos="fade-up" data-aos-delay="100">
+                        <div class="relative w-full max-w-[22rem] aspect-square rounded-[3rem] border-[6px] border-white bg-gradient-to-br from-orange-100 to-amber-50 shadow-2xl flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-x-8 top-10 h-16 rounded-full bg-white/60 blur-xl" aria-hidden="true"></div>
+                            <svg class="relative w-[55%] h-[70%] text-[#F27405]" viewBox="0 0 180 240" fill="none" aria-label="영양 수액 일러스트" role="img">
+                                <path d="M72 18h36v25H72z" fill="white" stroke="currentColor" stroke-width="7" stroke-linejoin="round"></path>
+                                <path d="M56 43h68c11 0 20 9 20 20v102c0 13-10 23-23 23H59c-13 0-23-10-23-23V63c0-11 9-20 20-20Z" fill="white" stroke="currentColor" stroke-width="8"></path>
+                                <path d="M39 119h102v46c0 11-9 20-20 20H59c-11 0-20-9-20-20v-46Z" fill="#FED7AA"></path>
+                                <path d="M90 188v23c0 8 6 14 14 14h16" stroke="currentColor" stroke-width="7" stroke-linecap="round"></path>
+                                <path d="M74 86h32M90 70v32" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
+                                <circle cx="128" cy="225" r="8" fill="currentColor"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full max-w-5xl mx-auto px-5 py-20 md:py-28" aria-labelledby="benefit-title">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-[13px] font-extrabold text-[#F27405]">NUTRITION BENEFITS</span>
+                <h2 id="benefit-title" class="mt-4 text-2xl sm:text-[34px] font-black tracking-tight">영양 수액의 장점</h2>
+                <p class="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-gray-500 break-keep">진료를 통해 현재 상태를 확인하고 목적에 맞는 영양 성분 보충을 도울 수 있습니다.</p>
+            </div>
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">01</div>
+                    <h3 class="mt-5 text-lg font-black">수분·영양 보충</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">수분과 필요한 영양 성분을 보충해 컨디션 관리를 돕습니다.</p>
+                </article>
+                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="50">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">02</div>
+                    <h3 class="mt-5 text-lg font-black">피로 회복 관리</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">업무와 일상으로 지친 몸의 회복과 활력 관리를 지원합니다.</p>
+                </article>
+                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">03</div>
+                    <h3 class="mt-5 text-lg font-black">목적별 구성</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">피로, 항산화, 순환 등 관리 목적에 따라 상담할 수 있습니다.</p>
+                </article>
+                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="150">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">04</div>
+                    <h3 class="mt-5 text-lg font-black">의료진 진료</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">건강 상태와 기저질환 등을 확인한 후 투여 여부를 결정합니다.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="w-full bg-gray-50/70 py-20 md:py-28" aria-labelledby="menu-title">
+            <div class="max-w-5xl mx-auto px-5">
+                <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                    <span class="inline-flex rounded-full bg-white border border-gray-100 px-4 py-2 text-[13px] font-extrabold text-[#F27405]">NUTRITION MENU</span>
+                    <h2 id="menu-title" class="mt-4 text-2xl sm:text-[34px] font-black tracking-tight">영양 수액 리스트</h2>
+                    <p class="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-gray-500 break-keep">진료 후 선택 가능한 영양 수액과 비용을 확인해 보세요.</p>
+                </div>
+
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <article class="injection-page-card md:col-span-2 rounded-[2rem] border border-orange-200 bg-gradient-to-br from-white to-orange-50 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5" data-aos="fade-up">
+                        <div><span class="inline-flex rounded-full bg-[#F27405] px-2.5 py-1 text-[11px] font-black text-white">추천</span><h3 class="mt-3 text-xl sm:text-2xl font-black">프리미엄 수액</h3><p class="mt-2 text-sm sm:text-[15px] leading-relaxed text-gray-500 break-keep">아미노산&amp;비타민 보충, 간기능 회복, 장점막 재생</p></div>
+                        <strong class="shrink-0 text-2xl sm:text-3xl font-black text-[#F27405]">120,000원</strong>
+                    </article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">장건강 영양 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">아미노산 보충, 장세포 증식 및 장점막 재생</p></div><strong class="shrink-0 text-xl font-black text-gray-900">60,000원</strong></article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">스피드 피로회복 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">간기능 회복, 비타민 보충, 피로 회복</p></div><strong class="shrink-0 text-xl font-black text-gray-900">40,000원</strong></article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">혈액 순환 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">혈액 순환 개선, 어지럼증 완화</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">신데렐라 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">항산화 효과, 노화방지</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">백옥 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">항산화 효과, 피부미백</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
+                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">마늘 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">면역력 강화, 피로회복</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full max-w-5xl mx-auto px-5 py-20 md:py-28" aria-labelledby="event-title">
+            <div class="overflow-hidden rounded-[2.5rem] border border-orange-200 bg-gradient-to-br from-orange-500 to-[#F27405] shadow-xl shadow-orange-500/15" data-aos="fade-up">
+                <div class="p-7 sm:p-10 md:p-12 text-white">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                        <div>
+                            <span class="inline-flex rounded-full bg-white/20 px-3 py-1.5 text-xs font-black tracking-wider">CHECKUP BENEFIT</span>
+                            <h2 id="event-title" class="mt-4 text-2xl sm:text-[34px] font-black leading-tight break-keep">건강검진 시, 당일 영양 수액 할인 이벤트</h2>
+                            <p class="mt-3 text-sm sm:text-base text-orange-50 break-keep">검진과 함께 이용할 수 있는 영양 수액 특별 할인가를 확인하세요.</p>
+                        </div>
+                        <button id="event-detail-button" type="button" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-7 py-4 font-black text-[#F27405] shadow-lg hover:bg-orange-50 active:scale-95 transition-all" aria-expanded="false" aria-controls="event-price-list">
+                            <span id="event-detail-label">자세히보기</span>
+                            <svg id="event-detail-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="event-price-list" class="event-price-list bg-white p-5 sm:p-8" hidden>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-orange-50 p-4 sm:col-span-2"><span class="font-extrabold text-gray-800">프리미엄 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">120,000원</s><strong class="text-xl font-black text-[#F27405]">80,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">장건강 영양 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">60,000원</s><strong class="text-lg font-black text-[#F27405]">40,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">스피드 피로회복 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">40,000원</s><strong class="text-lg font-black text-[#F27405]">25,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">혈액 순환 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">신데렐라 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">백옥 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
+                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">마늘 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-4 px-2 text-[10px] sm:text-[11px] leading-relaxed text-gray-400 break-keep">
+                ※ 의사 진단에 따라 수액 종류가 변경되거나 원하시는 수액 투여가 불가할 수 있습니다.
+            </p>
+        </section>
+
+        <div data-shared-section="healthcare-features"></div>
+    </main>
+
+    <div id="common-footer-container"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.AOS) AOS.init({ duration: 600, once: true });
+
+            const detailButton = document.getElementById('event-detail-button');
+            const detailPanel = document.getElementById('event-price-list');
+            const detailLabel = document.getElementById('event-detail-label');
+            const detailIcon = document.getElementById('event-detail-icon');
+
+            detailButton.addEventListener('click', function () {
+                const willOpen = detailPanel.hidden;
+                detailPanel.hidden = !willOpen;
+                detailButton.setAttribute('aria-expanded', String(willOpen));
+                detailLabel.textContent = willOpen ? '할인가 접기' : '자세히보기';
+                detailIcon.classList.toggle('rotate-180', willOpen);
+                if (willOpen && window.AOS) AOS.refresh();
+            });
+        });
+
+        function focusReservationForm() {
+            const input = document.getElementById('userName');
+            if (input) {
+                input.focus();
+                return;
+            }
+            setTimeout(function () {
+                document.getElementById('userName')?.focus();
+            }, 500);
+        }
+    </script>
+    <script src="sections/shared-sections.js" data-shared-sections="core"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
+    <script type="text/javascript">
+        (function () { emailjs.init("UYYZlMnSnF3BsSOfK"); })();
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

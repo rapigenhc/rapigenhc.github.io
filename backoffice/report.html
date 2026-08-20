@@ -8,6 +8,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -75,7 +76,12 @@
                         <input type="hidden" id="lastWeekEnd">
                     </div>
                     
-                    <button id="applyDateBtn" class="ml-auto bg-gray-900 text-white px-6 py-2 rounded-xl text-[13px] font-black hover:bg-black active:scale-95 transition-all">데이터 재집계</button>
+                    <div class="ml-auto flex flex-wrap items-center gap-2">
+                        <button id="downloadExcelBtn" type="button" class="bg-green-600 text-white px-6 py-2 rounded-xl text-[13px] font-black hover:bg-green-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 transition-all">
+                            전체 예약 엑셀 다운로드
+                        </button>
+                        <button id="applyDateBtn" type="button" class="bg-gray-900 text-white px-6 py-2 rounded-xl text-[13px] font-black hover:bg-black active:scale-95 transition-all">데이터 재집계</button>
+                    </div>
                 </div>
             </div>
 

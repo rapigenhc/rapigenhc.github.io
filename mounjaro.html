@@ -334,54 +334,7 @@
         </div>
     </section>
 
-    <section class="w-full max-w-5xl mx-auto px-6 py-6" data-aos="fade-up">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight">센터 주요 시설</h2>
-            <span class="text-sm font-bold text-gray-400">RapigenHealthcare Quality</span>
-        </div>
-
-        <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-4 px-1">
-            
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-01.jpg" alt="접수 로비" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">접수 로비</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-02.jpg" alt="기초검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">기초검사센터</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-03.jpg" alt="영상/초음파검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">영상/초음파검사센터</span>
-                </div>
-            </div>
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-05.jpg" alt="내시경검사센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">내시경검사센터</span>
-                </div>
-            </div>
-
-            <div class="snap-center shrink-0 w-[85%] aspect-[3/2] rounded-2xl overflow-hidden relative shadow-md border border-gray-100">
-                <img src="img/interior-pic-06.jpg" alt="특수검진센터" class="w-full h-full object-cover" loading="lazy" />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <span class="text-sm font-bold text-white tracking-wide">특수검진센터</span>
-                </div>
-            </div>
-            
-        </div>
-        <div class="text-center mt-2 flex justify-center items-center gap-1.5 text-xs text-gray-400">
-            <svg class="w-4 h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            옆으로 밀어서 사진 보기
-        </div>
-    </section>
+    <div data-shared-section="healthcare-tour"></div>
 
     <section id="additional-care" data-aos="fade-up" class="w-full max-w-5xl mx-auto px-6 py-6">
         <div class="text-center sm:text-left space-y-4 px-2 pb-4">
@@ -602,6 +555,7 @@
             AOS.init({ duration: 600, once: true });
         });
     </script>
+    <script src="sections/shared-sections.js" data-shared-sections="tour"></script>
     <div id="common-footer-container"></div>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script type="text/javascript">

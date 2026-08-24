@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="래피젠 임직원 가족·지인 전용 안내">
+    <title>래피젠 임직원 가족·지인 검진 | 래피젠헬스케어</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="래피젠 가족/지인 전용 건강검진 예약">
+    <meta property="og:description" content="임직원 가족을 위한 건강검진 할인">
+    <meta property="og:image" content="img/rapigenfamily-thumb.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root{--brand-primary:#F27405;--brand-dark:#d96400;--brand-soft:#fff7ed;--text-heading:#111827;--text-body:#4b5563;--border-soft:#e5e7eb;--radius-card:1.5rem;--shadow-card:0 12px 30px -24px rgba(17,24,39,.45)}
+        body{-webkit-tap-highlight-color:transparent}
+        .hide-scrollbar{scrollbar-width:none}.hide-scrollbar::-webkit-scrollbar{display:none}
+        .page-section{width:100%;max-width:36rem;margin-inline:auto;padding:3.5rem 1.25rem}
+        .section-heading{margin-bottom:2rem;text-align:center}.section-eyebrow{display:inline-flex;align-items:center;min-height:2rem;padding:.35rem .8rem;border:1px solid #fed7aa;border-radius:9999px;background:var(--brand-soft);color:var(--brand-primary);font-size:1rem;font-weight:800}.section-title{margin-top:.75rem;color:var(--text-heading);font-size:1.5rem;font-weight:900;line-height:1.3;letter-spacing:-.025em;word-break:keep-all}.section-description{margin-top:.5rem;color:var(--text-body);font-size:1rem;font-weight:500;line-height:1.7;word-break:keep-all}
+        .ds-card{border:1px solid var(--border-soft);border-radius:var(--radius-card);background:#fff;box-shadow:var(--shadow-card)}
+        .hero-family{position:relative;isolation:isolate;display:flex;height:50vh;height:50svh;min-height:0;align-items:flex-end;overflow:hidden;background:#172554}.hero-family::before{content:"";position:absolute;z-index:-2;inset:0;background:url('img/interior-pic-01.jpg') center 48%/cover no-repeat;animation:heroZoom 6s ease-out forwards}.hero-family::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(15,23,42,.02) 0%,rgba(15,23,42,.05) 42%,rgba(15,23,42,.58) 74%,rgba(15,23,42,.9) 100%)}.hero-family-content{display:flex;flex-direction:column;align-items:flex-start}@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.035)}}
+        .package-grid{display:grid;gap:1rem}.package-card{display:flex;flex-direction:column}.package-card-body{display:flex;flex:1;flex-direction:column}.package-card-button{margin-top:auto}
+        .check-list li{position:relative;padding-left:1.55rem;line-height:1.65}.check-list li::before{content:"\2713";position:absolute;left:0;color:#F27405;font-weight:900}
+        .detail-group{border:1px solid #fed7aa;border-radius:1rem;padding:1.1rem;background:#fff}.detail-group-title{display:inline-flex;margin-bottom:.8rem;padding:.3rem .7rem;border-radius:9999px;background:#fff7ed;color:#F27405;font-size:1rem;font-weight:900}.detail-list{display:grid;gap:.7rem}.detail-list--single{grid-template-columns:1fr!important}.detail-list li{position:relative;padding-left:1.25rem;color:#374151;font-size:1rem;line-height:1.55;word-break:keep-all}.detail-list li::before{content:"";position:absolute;left:.1rem;top:.55rem;width:.42rem;height:.42rem;border:1.5px solid #F27405;border-radius:.12rem}.exam-name{display:block;color:#1f2937;font-weight:900}.exam-description{display:block;margin-top:.15rem;color:#6b7280;font-weight:500;line-height:1.55}.priority-exam{color:#F27405;font-weight:900}
+        .detail-accordion-set{display:grid;gap:.75rem;padding:1rem;border:1px solid #e5e7eb;border-radius:1.25rem;background:#f8fafc}.detail-accordion-set-title{padding:.15rem .15rem .35rem;color:#111827;font-size:1.1rem;font-weight:900}.detail-accordion-item{overflow:hidden;border:1px solid #fed7aa;border-radius:1rem;background:#fff}.detail-accordion-item.detail-group{padding:0;border-color:#e5e7eb}.detail-accordion-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;text-align:left}.detail-accordion-toggle-title{color:#111827;font-size:1rem;font-weight:900}.detail-accordion-toggle-side{display:inline-flex;flex-shrink:0;align-items:center;gap:.35rem;color:#F27405;font-size:1rem;font-weight:900}.detail-accordion-icon{width:1.1rem;height:1.1rem;transition:transform .25s ease}.detail-accordion-toggle[aria-expanded="true"] .detail-accordion-icon{transform:rotate(180deg)}.detail-accordion-content{display:grid;gap:.75rem;padding:0 1rem 1rem}.detail-accordion-content[hidden]{display:none}
+        .additional-groups{display:grid;gap:1rem}.additional-group{overflow:hidden;border:1px solid #e5e7eb;border-radius:1.25rem;background:#fff}.additional-group-heading{padding:.85rem 1rem;background:#f8fafc;color:#111827;font-size:1rem;font-weight:900}.additional-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.75rem;padding:1rem;border-top:1px solid #f3f4f6}.additional-copy{min-width:0}.additional-name{font-size:1rem;font-weight:900;color:#1f2937;word-break:keep-all}.additional-description{margin-top:.25rem;color:#6b7280;font-size:1rem;line-height:1.55;word-break:keep-all}.additional-prices{display:flex;min-width:5.8rem;flex-direction:column;align-items:flex-end;justify-content:center}.additional-regular{color:#9ca3af;font-size:1rem;font-weight:600;text-decoration:line-through}.additional-sale{color:#F27405;font-size:1.1rem;font-weight:900;white-space:nowrap}
+        .additional-content[hidden],.package-detail[hidden]{display:none}
+        .modal-backdrop.is-open{opacity:1;pointer-events:auto}.modal-panel.is-open{opacity:1;transform:scale(1)}
+        @media(max-width:767px){
+            .page-section{padding:2.5rem 1rem}.section-heading{margin-bottom:1.5rem}.section-eyebrow,.detail-group-title,.detail-list li,.additional-name,.additional-description,.additional-regular{font-size:1rem}.section-description{line-height:1.6}
+            .hero-family{height:50vh;height:50svh;min-height:0;padding:2rem 1rem 2.5rem}.hero-family-title{max-width:22rem}.family-quick{padding-inline:1rem}.family-quick-card{padding:1rem;gap:.5rem}.family-quick-card>a,.family-quick-card>button{padding:.75rem .35rem;border-radius:1.1rem}.family-quick-card svg{width:1.35rem;height:1.35rem}.family-quick-card a>div,.family-quick-card button>div{width:2.75rem;height:2.75rem;margin-bottom:.6rem}
+            .family-benefit-card{display:grid;grid-template-columns:2.5rem minmax(0,1fr);align-items:center;column-gap:.75rem}.family-benefit-card h3{margin-top:0}.family-benefit-card p{grid-column:1/-1;margin-top:.75rem}
+            .page-section>.grid>.ds-card,.package-card{padding:1.25rem!important}.additional-header{padding:1.25rem!important}.additional-content{padding:1rem!important}.additional-group{border-radius:1rem}.additional-group-heading{padding:.8rem .9rem}.additional-row{gap:.6rem;padding:.9rem}.additional-description{margin-top:.35rem;line-height:1.55}.additional-regular{line-height:1.4}.additional-prices{min-width:5.5rem}.detail-group{padding:1rem}.modal-panel-body,.reservation-sheet{padding:1.25rem!important}
+            .family-page .text-xs,.family-page .text-sm,.family-page [class*="text-[11px]"],.family-page [class*="text-[13px]"],.family-page [class*="text-[15px]"]{font-size:1rem!important}
+            .family-page .feature-carousel-section,.family-page .tour-section{padding-block:2.5rem!important}.family-page .shared-location-section{margin-block:2.5rem!important}
+        }
+        @media(min-width:768px){.page-section{max-width:64rem;padding:4.5rem 2rem}.section-title{font-size:1.875rem}.hero-family{height:50vh;height:50svh;padding-top:2rem!important;padding-bottom:3.5rem!important}.hero-family-title{max-width:48rem}.package-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem}.additional-groups{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.additional-group--wide{grid-column:1/-1}.additional-row{padding:1rem 1.25rem}.detail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(min-width:1200px){.page-section{max-width:72rem}.additional-groups{grid-template-columns:repeat(3,minmax(0,1fr))}.additional-group--wide{grid-column:auto}}
+    </style>
+</head>
+<body class="family-page bg-slate-50 text-gray-900 pb-32 overflow-x-hidden" data-package="래피젠 가족지인 25만원 검진 패키지">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-md md:max-w-4xl xl:max-w-6xl mx-auto px-5 md:px-8 h-14 md:h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="history.back()">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight">래피젠헬스케어 건강검진센터</h1>
+            </div>
+            <button type="button" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100" onclick="location.href='index.html'" aria-label="홈으로 이동">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2 7-7 7 7 2 2M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0v-5a1 1 0 011-1h4a1 1 0 011 1v5"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full flex flex-col items-center bg-gray-50/50 pb-24 overflow-hidden">
+        <section class="hero-family relative w-full rounded-b-[2.5rem] px-6 pt-12 pb-16 text-white shadow-xl shadow-slate-300/40">
+            <div class="hero-family-content relative z-10 w-full max-w-md md:max-w-4xl xl:max-w-6xl mx-auto">
+                <h2 class="hero-family-title text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight break-keep">래피젠 가족·지인 전용</h2>
+                <p class="mt-2 text-xl md:text-2xl font-bold text-orange-200 leading-tight break-keep">2026 건강검진 프로그램</p>
+            </div>
+        </section>
+
+        <section class="family-quick w-full max-w-xl md:max-w-4xl xl:max-w-6xl mx-auto -mt-8 relative z-10 px-5" data-aos="fade-up">
+            <div class="family-quick-card ds-card p-5 md:p-6 grid grid-cols-3 gap-3 text-center">
+                <a href="tel:01057505189" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 active:scale-95 transition-all"><div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3l2 5-3 2a16 16 0 009 9l2-3 5 2v3a2 2 0 01-2 2C10 23 1 14 1 5a2 2 0 012-2"></path></svg></div><span class="text-sm md:text-base font-bold text-slate-700">전화예약</span></a>
+                <a href="#location-section" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 active:scale-95 transition-all"><div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-5 7-12a7 7 0 10-14 0c0 7 7 12 7 12Z"></path><circle cx="12" cy="9" r="2"></circle></svg></div><span class="text-sm md:text-base font-bold text-slate-700">오시는길</span></a>
+                <button type="button" onclick="openBottomSheet()" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-gradient-to-b from-[#F27405] to-[#d96400] text-white shadow-lg shadow-orange-500/25 active:scale-95 transition-all"><div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3v4m8-4v4M4 10h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1Z"></path></svg></div><span class="text-sm md:text-base font-bold">간편예약</span></button>
+            </div>
+        </section>
+
+        <section class="page-section" aria-labelledby="benefit-title">
+            <div class="section-heading" data-aos="fade-up"><span class="section-eyebrow">FAMILY BENEFIT</span><h2 id="benefit-title" class="section-title">래피젠 가족·지인 전용 혜택</h2><p class="section-description">가족/지인 전용 할인가로 안내해드립니다.</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-aos="fade-up">
+                <div class="family-benefit-card ds-card p-6"><span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-lg font-black text-[#F27405]">1</span><h3 class="mt-3 text-lg font-black">우대검사 기본 포함</h3><p class="mt-2 text-base leading-relaxed text-gray-500">종양표지자검사, 상복부초음파(간·신장·췌장·비장·담낭), 갑상선초음파 기본검사에 포함</p></div>
+                <div class="family-benefit-card ds-card p-6"><span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-lg font-black text-[#F27405]">2</span><h3 class="mt-3 text-lg font-black">화·수·목 '복부대동맥초음파'제공</h3><p class="mt-2 text-base leading-relaxed text-gray-500">증상이 없는 동맥류·동맥경화를 확인하는 '복부대동맥초음파' 검사 제공 <strong class="text-[#F27405]">~2026년 9월까지</strong></p></div>
+                <div class="family-benefit-card ds-card p-6"><span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-lg font-black text-[#F27405]">3</span><h3 class="mt-3 text-lg font-black">임직원 전용 예약</h3><p class="mt-2 text-base leading-relaxed text-gray-500">전문 상담원이 개인 질환과 가족력에 맞는 검사를 확인하여 안내해드립니다.</p></div>
+            </div>
+        </section>
+
+        <section class="page-section pt-0" aria-labelledby="package-title">
+            <div class="section-heading" data-aos="fade-up"><span class="section-eyebrow">CUSTOM PACKAGE</span><h2 id="package-title" class="section-title">가족·지인 검진 패키지</h2><p class="section-description">원하는 패키지를 선택한 후 간편예약을 신청해 주세요.</p></div>
+            <div class="package-grid" data-aos="fade-up">
+                <article class="package-card ds-card p-6 md:p-8 border-orange-200">
+                    <label class="flex items-start justify-between gap-4 cursor-pointer mb-5"><div><span class="inline-flex rounded-full bg-orange-100 text-[#F27405] px-3 py-1.5 text-sm font-bold">정밀 선택형</span><h3 class="mt-3 text-2xl font-black">래피젠가족 패키지</h3></div><input type="radio" name="package_choice" value="래피젠 가족지인 25만원" checked class="package-checkbox w-7 h-7 accent-[#F27405]"></label>
+                    <div class="package-card-body border-t border-gray-100 pt-5"><div class="text-3xl font-black text-[#F27405] mb-4">250,000<span class="text-lg text-gray-500">원</span></div><ul class="check-list space-y-3 mb-6 text-base text-gray-700"><li>기초·혈액·초음파·장비검사 기본 포함</li><li>선택 (가)·(나)·(다) 각 1가지</li><li>위검사 1가지 선택</li><li>화·수·목 복부대동맥초음파 제공 (~2026.09)</li></ul><button type="button" onclick="openPackageDetail('family')" class="package-card-button w-full rounded-2xl bg-orange-50 py-3.5 font-bold text-[#F27405] hover:bg-orange-100">패키지 세부 항목 자세히보기</button></div>
+                </article>
+                <article class="package-card ds-card p-6 md:p-8">
+                    <label class="flex items-start justify-between gap-4 cursor-pointer mb-5"><div><span class="inline-flex rounded-full bg-blue-50 text-blue-600 px-3 py-1.5 text-sm font-bold">2026 공단검진</span><h3 class="mt-3 text-2xl font-black">국가검진 패키지</h3></div><input type="radio" name="package_choice" value="래피젠 가족지인 2026 국가검진 패키지" class="package-checkbox w-7 h-7 accent-[#F27405]"></label>
+                    <div class="package-card-body border-t border-gray-100 pt-5"><div class="mb-5 rounded-2xl border-2 border-orange-300 bg-orange-50 p-4"><span class="inline-flex rounded-full bg-[#F27405] px-3 py-1 text-base font-black text-white">~2026.12 EVENT</span><strong class="mt-3 block text-xl font-black text-[#F27405]">상복부초음파 추가 제공</strong><p class="mt-1 text-base leading-relaxed text-gray-600">국가검진 1차 대상자 · 간·신장·췌장·비장·담낭</p></div><ul class="check-list space-y-3 mb-6 text-base text-gray-700"><li>일반건강검진·해당 암검진 포함</li><li>화·수·목 상복부초음파 제공 (~2026.09)</li><li>예방접종·비만치료제 가족·지인 우대</li></ul><button type="button" onclick="openPackageDetail('national')" class="package-card-button w-full rounded-2xl bg-gray-100 py-3.5 font-bold text-gray-700 hover:bg-gray-200">국가검진 항목 자세히보기</button></div>
+                </article>
+            </div>
+            <button type="button" onclick="openBottomSheet()" class="mt-7 w-full rounded-2xl bg-[#F27405] py-5 text-lg font-bold text-white shadow-lg shadow-orange-500/20 active:scale-[.99] transition-all">선택한 패키지로 간편 예약하기</button>
+        </section>
+
+        <section class="page-section pt-0" aria-labelledby="national-special-title">
+            <div class="section-heading" data-aos="fade-up"><span class="section-eyebrow">FAMILY SPECIAL</span><h2 id="national-special-title" class="section-title">예방접종·비만치료제 우대 혜택</h2><p class="section-description">국가검진 패키지 이용 가족·지인에게 적용되는 공개 가격입니다.</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-aos="fade-up">
+                <article class="ds-card overflow-hidden">
+                    <div class="bg-orange-50 p-5 md:p-6"><span class="inline-flex rounded-full bg-[#F27405] px-3 py-1 text-base font-black text-white">예방접종</span><h3 class="mt-3 text-xl font-black">가족·지인 백신 우대가</h3></div>
+                    <div class="divide-y divide-gray-100 px-5 md:px-6">
+                        <div class="flex items-center justify-between gap-4 py-5"><div><strong class="block text-base font-black">독감 예방접종</strong><span class="mt-1 block text-base text-gray-500">2026년 9월부터</span></div><strong class="text-base font-black text-[#F27405]">최저가 예정</strong></div>
+                        <div class="flex items-center justify-between gap-4 py-5"><div><strong class="block text-base font-black">가다실9가</strong><span class="mt-1 block text-base text-gray-500">자궁경부암 백신 · 3회 일시불</span></div><div class="text-right"><s class="block text-base text-gray-400">69만원</s><strong class="block text-xl font-black text-[#F27405]">50만원</strong></div></div>
+                        <div class="flex items-center justify-between gap-4 py-5"><div><strong class="block text-base font-black">싱그릭스</strong><span class="mt-1 block text-base text-gray-500">대상포진 백신 · 2회 일시불</span></div><div class="text-right"><s class="block text-base text-gray-400">54만원</s><strong class="block text-xl font-black text-[#F27405]">36만원</strong></div></div>
+                    </div>
+                </article>
+                <article class="ds-card overflow-hidden">
+                    <div class="bg-blue-50 p-5 md:p-6"><span class="inline-flex rounded-full bg-blue-600 px-3 py-1 text-base font-black text-white">비만치료제</span><h3 class="mt-3 text-xl font-black">마운자로 용량별 우대가</h3><p class="mt-2 text-base leading-relaxed text-gray-500">GIP·GLP-1 수용체에 이중 작용하여 식욕 억제와 포만감 유지에 도움</p></div>
+                    <div class="divide-y divide-gray-100 px-5 md:px-6">
+                        <div class="flex items-center justify-between gap-4 py-5"><strong class="text-base font-black">마운자로 2.5mg</strong><strong class="text-xl font-black text-[#F27405]">31만원</strong></div>
+                        <div class="flex items-center justify-between gap-4 py-5"><strong class="text-base font-black">마운자로 5mg</strong><strong class="text-xl font-black text-[#F27405]">41만원</strong></div>
+                        <div class="flex items-center justify-between gap-4 py-5"><strong class="text-base font-black">마운자로 7.5mg</strong><strong class="text-xl font-black text-[#F27405]">55만원</strong></div>
+                        <div class="flex items-center justify-between gap-4 py-5"><strong class="text-base font-black">마운자로 10mg</strong><strong class="text-xl font-black text-[#F27405]">55만원</strong></div>
+                    </div>
+                    <p class="border-t border-gray-100 px-5 py-4 text-base text-gray-500 md:px-6">※ 표시 가격은 진료비 포함입니다.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="page-section pt-0" aria-labelledby="additional-title">
+            <div class="ds-card overflow-hidden" data-aos="fade-up">
+                <div class="additional-header p-6 md:p-9 bg-gradient-to-br from-slate-900 to-slate-700 text-white"><span class="inline-flex rounded-full bg-white/10 px-3 py-1.5 text-xs font-black">FAMILY SPECIAL PRICE</span><h2 id="additional-title" class="mt-4 text-2xl md:text-3xl font-black">추가검사 가족·지인 할인가</h2><p class="mt-2 text-sm md:text-base text-slate-300">검진 진행 시 적용되는 전용 추가검사 혜택입니다.</p><button id="additional-toggle" type="button" class="mt-6 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 font-black text-slate-800" aria-expanded="false" aria-controls="additional-content"><span id="additional-toggle-label">추가검사 전체 자세히보기</span><svg id="additional-toggle-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m6 9 6 6 6-6"></path></svg></button></div>
+                <div id="additional-content" class="additional-content p-4 md:p-7 bg-white" hidden>
+                    <p class="mb-5 text-xs text-gray-400">※ 비급여 수가는 작은 회색 취소선, 가족·지인 할인가는 주황색으로 표시됩니다.</p>
+                    <div class="additional-groups">
+                        <section class="additional-group"><h3 class="additional-group-heading">3.0T MRI (비조영)</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">뇌 MRI (Full scan)</h4><p class="additional-description">뇌종양, 뇌경색, 급성뇌출혈 등 뇌질환 조기 진단</p></div><div class="additional-prices"><s class="additional-regular">45만원</s><strong class="additional-sale">30만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">뇌혈관 MRA</h4><p class="additional-description">뇌경색, 뇌출혈 등 뇌혈관질환</p></div><div class="additional-prices"><s class="additional-regular">45만원</s><strong class="additional-sale">30만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">뇌 MRI + 뇌혈관 MRA (Full scan)</h4><p class="additional-description">뇌출혈, 뇌혈관, 뇌동맥류, 뇌졸중, 뇌경색, 뇌의 악성·양성종양</p></div><div class="additional-prices"><s class="additional-regular">80만원</s><strong class="additional-sale">55만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">췌장 MRI</h4><p class="additional-description">췌장암, 췌장염, 췌장 내 질환 등</p></div><div class="additional-prices"><s class="additional-regular">45만원</s><strong class="additional-sale">30만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">경추 C-Spine MRI (Full scan)</h4><p class="additional-description">목 디스크, 경추 협착증, 신경 압박, 퇴행성 경추질환 등</p></div><div class="additional-prices"><s class="additional-regular">45만원</s><strong class="additional-sale">30만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">요추 L-Spine MRI (Full scan)</h4><p class="additional-description">허리 디스크, 척추관 협착증, 신경 압박, 퇴행성 요추질환 등</p></div><div class="additional-prices"><s class="additional-regular">45만원</s><strong class="additional-sale">30만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">컴퓨터 단층촬영 (MDCT)</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">뇌 CT</h4><p class="additional-description">뇌출혈, 뇌경색, 뇌졸중, 뇌의 악성·양성종양</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">8만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">경추 C-Spine CT</h4><p class="additional-description">목 디스크, 척추관협착증, 척추분리증, 척추암</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">8만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">요추 L-Spine CT</h4><p class="additional-description">허리 디스크, 척추관협착증, 척추분리증, 척추암종양</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">8만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">저선량 폐 CT</h4><p class="additional-description">폐암, 폐 종양</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">8만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">Ca-scoring CT (심장칼슘수치 CT)</h4><p class="additional-description">심근경색증의 위험인자인 심장혈관 석회화(칼슘) 측정</p></div><div class="additional-prices"><s class="additional-regular">17만원</s><strong class="additional-sale">8만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">초음파 검사</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">상복부초음파</h4><p class="additional-description">간, 담낭, 췌장, 비장, 신장 초음파 검사</p></div><div class="additional-prices"><s class="additional-regular">10만원</s><strong class="additional-sale">4만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">갑상선 초음파</h4><p class="additional-description">갑상선종괴, 갑상선암</p></div><div class="additional-prices"><s class="additional-regular">9만원</s><strong class="additional-sale">5만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">경동맥 초음파</h4><p class="additional-description">뇌졸중 및 경동맥 내 동맥경화성 변화</p></div><div class="additional-prices"><s class="additional-regular">12만원</s><strong class="additional-sale">5만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">유방 초음파</h4><p class="additional-description">유방암, 유방결절, 유방낭종, 유방석회화</p></div><div class="additional-prices"><s class="additional-regular">12만원</s><strong class="additional-sale">6만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">심장 초음파</h4><p class="additional-description">심부전, 판막질환, 심장의 선천성기형</p></div><div class="additional-prices"><s class="additional-regular">16만원</s><strong class="additional-sale">6만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">상/하/갑 초음파</h4><p class="additional-description">상복부 + 하복부(남:전립선/여:자궁) + 갑상선 초음파 3종</p></div><div class="additional-prices"><s class="additional-regular">28만원</s><strong class="additional-sale">8만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">소화기 검사</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">위내시경 (수면)</h4><p class="additional-description">식도, 위, 십이지장의 암·궤양 등</p></div><div class="additional-prices"><s class="additional-regular">14만원</s><strong class="additional-sale">7만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">대장내시경 (수면)</h4><p class="additional-description">대장암, 대장용종, 직장암 등 제질환</p></div><div class="additional-prices"><s class="additional-regular">23만원</s><strong class="additional-sale">13만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">위+대장 내시경 (수면)</h4><p class="additional-description">식도·위·십이지장과 대장의 암, 궤양, 용종 등 확인<br>※ 70세 이상 수면내시경 검사 불가</p></div><div class="additional-prices"><s class="additional-regular">37만원</s><strong class="additional-sale">16만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">대장내시경 시 복용 알약 (오라팡)</h4><p class="additional-description">대장내시경 하제 알약 (28정)</p></div><div class="additional-prices"><s class="additional-regular">3만5천원</s><strong class="additional-sale">3만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">부인과 정밀검사</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">HPV (인유두종바이러스)</h4><p class="additional-description">자궁경부암을 일으키는 인유두바이러스(HPV) 확인</p></div><div class="additional-prices"><s class="additional-regular">10만원</s><strong class="additional-sale">4만원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">유방암 위험도 감별 검사 (마스토체크)</h4><p class="additional-description">조기 유방암 발병 여부를 높은 정확도로 제시하는 암 검사</p></div><div class="additional-prices"><s class="additional-regular">12만원</s><strong class="additional-sale">6만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">알러지</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">알러지 MAST 108종 (음식&amp;호흡기)</h4><p class="additional-description">알레르기를 일으키는 원인물질을 진단</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">7만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">항산화</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">TAS/TOS 항산화능력/산화스트레스</h4><p class="additional-description">노화, 각종 암, 만성질환 원인의 활성산소 및 항산화능력</p></div><div class="additional-prices"><s class="additional-regular">12만원</s><strong class="additional-sale">7만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">유전자</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">유전자검사 (5종)</h4><p class="additional-description">일반암, 심장질환, 눈질환, 피부질환, 남성/여성암질환 등</p></div><div class="additional-prices"><s class="additional-regular">20만원</s><strong class="additional-sale">6만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">노화</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">알츠온 (올리고머화아밀로이드베타검사)</h4><p class="additional-description">알츠하이머 초기 위험도를 평가</p></div><div class="additional-prices"><s class="additional-regular">20만원</s><strong class="additional-sale">8만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">면역</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">NK세포활성도(면역력)검사</h4><p class="additional-description">암, 바이러스 면역세포 활성도 검사 및 면역기능 평가</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">6만원</strong></div></div></section>
+                        <section class="additional-group"><h3 class="additional-group-heading">예방접종</h3><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">A형 간염 예방접종</h4><p class="additional-description">A형간염 예방 · 1회 접종 비용 (총 2회접종 요함)</p></div><div class="additional-prices"><s class="additional-regular">7만원</s><strong class="additional-sale">4만5천원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">B형 간염 예방접종</h4><p class="additional-description">B형간염 예방 · 1회 접종 비용 (총 3회접종 요함)</p></div><div class="additional-prices"><s class="additional-regular">2만5천원</s><strong class="additional-sale">1만3천원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">Tdap백신 (파상풍+디프테리아+백일해)</h4><p class="additional-description">파상풍·디프테리아·백일해 예방 · 1회 접종 비용</p></div><div class="additional-prices"><s class="additional-regular">5만원</s><strong class="additional-sale">3만6천원</strong></div></div><div class="additional-row"><div class="additional-copy"><h4 class="additional-name">폐렴 (프리베나20)</h4><p class="additional-description">폐렴구균 감염 예방 · 1회 접종 비용</p></div><div class="additional-prices"><s class="additional-regular">15만원</s><strong class="additional-sale">12만원</strong></div></div></section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div data-shared-section="healthcare-features"></div>
+    </main>
+
+    <div class="fixed z-[40] w-full max-w-md md:max-w-4xl left-1/2 -translate-x-1/2 pointer-events-none px-4 md:px-8" style="bottom: 11rem;">
+        <div class="flex flex-col items-end gap-3 pointer-events-auto">
+            <div id="kakao-bubble" class="relative rounded-2xl border border-gray-100 bg-white px-4 py-2 shadow-xl animate-bounce-subtle">
+                <p class="flex items-center gap-1.5 text-base font-bold text-gray-800"><span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-400 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-yellow-500"></span></span>빠른 채팅 상담하기</p>
+                <span class="absolute -bottom-1.5 right-4 h-3 w-3 rotate-45 border-b border-r border-gray-100 bg-white" aria-hidden="true"></span>
+            </div>
+            <a href="http://pf.kakao.com/_IHgin/chat" target="_blank" rel="noopener" aria-label="카카오톡 채팅 상담하기" class="flex h-14 w-14 items-center justify-center rounded-full bg-[#FEE500] shadow-2xl ring-4 ring-white/50 transition-all duration-300 hover:scale-110 active:scale-95">
+                <svg class="h-7 w-7 text-[#3A1D1D]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.71 4.795 4.305 6.054-.184.68-.664 2.45-.76 2.81-.12.45.152.445.32.332.132-.088 2.108-1.43 2.944-2.003.39.055.794.085 1.205.085 4.97 0 9-3.186 9-7.115S16.97 3 12 3z"></path></svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 px-5 shadow-lg md:hidden"><div class="flex items-center gap-3 max-w-xl mx-auto"><a href="tel:01057505189" class="w-1/3 bg-gray-100 text-gray-800 font-bold py-4 rounded-2xl text-base text-center">전화</a><button type="button" onclick="openBottomSheet()" class="w-2/3 bg-[#F27405] text-white font-bold py-4 rounded-2xl text-base shadow-md">간편예약 신청</button></div></div>
+
+    <div id="bottom-sheet-backdrop" onclick="closeBottomSheet()" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="bottom-sheet" class="reservation-sheet fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2rem] p-8 shadow-2xl translate-y-full transition-transform duration-300 max-w-xl mx-auto"><div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto mb-6"></div><div class="flex items-center justify-between mb-6"><div><h3 class="text-xl font-black">가족·지인 검진 신청</h3><p class="mt-1 text-sm text-gray-500">선택 패키지: <strong id="sheet-selected-package-text" class="text-[#F27405]">25만원 검진 패키지</strong></p></div><button type="button" onclick="closeBottomSheet()" class="p-2 text-gray-400" aria-label="닫기"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"></path></svg></button></div><form onsubmit="submitSheetForm(event)" class="space-y-5"><div><label for="sheet_user_name" class="block text-sm font-bold text-gray-700 mb-2">성함</label><input id="sheet_user_name" type="text" required class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#F27405] outline-none" placeholder="성함을 입력하세요"></div><div><label for="sheet_user_phone" class="block text-sm font-bold text-gray-700 mb-2">연락처</label><input id="sheet_user_phone" type="tel" required maxlength="11" inputmode="numeric" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#F27405] outline-none" placeholder="01012345678"></div><button type="submit" class="w-full bg-[#F27405] text-white font-bold py-4 rounded-2xl text-lg">상담 및 예약 신청하기</button></form></div>
+
+    <div id="package-modal-backdrop" class="modal-backdrop fixed inset-0 z-[60] bg-black/70 opacity-0 pointer-events-none transition-opacity flex items-center justify-center p-4" onclick="closePackageDetail()"><div id="package-modal" class="modal-panel w-full max-w-4xl max-h-[88vh] overflow-hidden rounded-3xl bg-white opacity-0 scale-95 transition-all flex flex-col" onclick="event.stopPropagation()"><div class="flex items-center justify-between border-b border-gray-100 bg-gray-50 p-5 md:p-6"><h3 id="package-modal-title" class="text-xl font-black">패키지 세부 항목</h3><button type="button" onclick="closePackageDetail()" class="p-2 text-gray-400" aria-label="닫기"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"></path></svg></button></div><div class="modal-panel-body overflow-y-auto p-5 md:p-7 hide-scrollbar">
+        <div id="package-detail-family" class="package-detail space-y-4" hidden>
+            <div class="rounded-2xl bg-orange-50 p-4 text-base font-bold text-[#F27405]">선택 (가) 1가지 + (나) 1가지 + (다) 1가지 + 위검사 1가지</div>
+
+            <div class="detail-accordion-item" data-detail-accordion>
+                <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="family-basic-tests"><span class="detail-accordion-toggle-title">기본 검사</span><span class="detail-accordion-toggle-side"><span class="detail-accordion-label">자세히보기</span><svg class="detail-accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m6 9 6 6 6-6"></path></svg></span></button>
+                <div id="family-basic-tests" class="detail-accordion-content" hidden>
+            <div class="detail-group">
+                <span class="detail-group-title">기초검사</span>
+                <ul class="detail-list detail-list--single">
+                    <li>키, 몸무게, 체성분, 혈압, 문진상담, 시력, 청력, 소변검사 등</li>
+                </ul>
+            </div>
+            <div class="detail-group">
+                <span class="detail-group-title">혈액</span>
+                <ul class="detail-list">
+                    <li><strong class="exam-name">기본혈액</strong></li>
+                    <li><strong class="exam-name priority-exam">종양표지자</strong><span class="exam-description">간암, 대장암, 췌장암, 전립선암 또는 난소암 검사</span></li>
+                    <li><strong class="exam-name priority-exam">갑상선 기능검사</strong></li>
+                    <li><strong class="exam-name">간 기능 및 간염검사</strong></li>
+                    <li><strong class="exam-name">혈당(Glucose)검사</strong></li>
+                    <li><strong class="exam-name">심혈관 기능검사</strong><span class="exam-description">콜레스테롤·중성지방</span></li>
+                    <li><strong class="exam-name">신장 기능검사 등</strong></li>
+                </ul>
+            </div>
+            <div class="detail-group">
+                <span class="detail-group-title">장비</span>
+                <ul class="detail-list">
+                    <li><strong class="exam-name priority-exam">상복부초음파</strong><span class="exam-description">간, 신장, 췌장, 비장, 담낭</span></li>
+                    <li><strong class="exam-name">골밀도</strong><span class="exam-description">만 40세 이상</span></li>
+                    <li><strong class="exam-name">흉부X-RAY</strong></li>
+                    <li><strong class="exam-name priority-exam">심전도(EKG)</strong></li>
+                    <li><strong class="exam-name priority-exam">갑상선초음파</strong></li>
+                    <li><strong class="exam-name">전립선초음파</strong><span class="exam-description">남, 만 40세 이상</span></li>
+                    <li><strong class="exam-name">자궁초음파</strong><span class="exam-description">여, 만 30세 이상</span></li>
+                    <li><strong class="exam-name">안저·안압</strong></li>
+                </ul>
+            </div>
+            <div class="detail-group">
+                <span class="detail-group-title">국가검진 대상자</span>
+                <ul class="detail-list">
+                    <li><strong class="exam-name">유방X-선</strong><span class="exam-description">여, 통증 최소화 최신 Mammography 장비</span></li>
+                    <li><strong class="exam-name">자궁경부암검사</strong><span class="exam-description">여, Pap Smear</span></li>
+                </ul>
+            </div>
+                </div>
+            </div>
+
+            <div class="detail-accordion-set" data-detail-accordion-group>
+                <h3 class="detail-accordion-set-title">선택 검사</h3>
+            <div class="detail-group detail-accordion-item" data-detail-accordion data-default-open="true">
+                <button type="button" class="detail-accordion-toggle" aria-expanded="true" aria-controls="family-select-a"><span class="detail-accordion-toggle-title">선택 (가) · 1가지</span><span class="detail-accordion-toggle-side"><span class="detail-accordion-label">접기</span><svg class="detail-accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m6 9 6 6 6-6"></path></svg></span></button>
+                <div id="family-select-a" class="detail-accordion-content">
+                <ul class="detail-list">
+                    <li><strong class="exam-name">대장내시경(수면)</strong><span class="exam-description">대장암, 대장용종, 직장암 등 제질환</span></li>
+                    <li><strong class="exam-name">장내미생물 유전체 분석</strong><span class="exam-description">분변검사</span></li>
+                    <li><strong class="exam-name">폐섬유화 선별검사(KL-6)</strong><span class="exam-description">혈액으로 폐섬유화 위험 평가</span></li>
+                    <li><strong class="exam-name">뇌MRI-T2</strong><span class="exam-description">뇌질환 조기 감별. 고해상도 3.0T MRI 검사</span></li>
+                    <li><strong class="exam-name">뇌혈관 MRA</strong><span class="exam-description">뇌혈관을 확인하여 뇌졸중 조기 예방</span></li>
+                    <li><strong class="exam-name">췌장MRI</strong><span class="exam-description">췌장 염증, 췌장암을 확인하는 고해상도 검사</span></li>
+                    <li><strong class="exam-name">경동맥 초음파</strong><span class="exam-description">뇌졸중 및 경동맥 내 동맥경화성 변화</span></li>
+                    <li><strong class="exam-name">NK세포 활성도</strong><span class="exam-description">혈액으로 면역력 확인</span></li>
+                    <li><strong class="exam-name">경추(C-Spine)MRI-T2</strong><span class="exam-description">목 디스크, 경추 협착증, 신경 압박, 퇴행성 경추질환 등</span></li>
+                    <li><strong class="exam-name">요추(L-Spine)MRI-T2</strong><span class="exam-description">허리 디스크, 척추관 협착증, 신경 압박, 퇴행성 요추질환 등</span></li>
+                    <li><strong class="exam-name">TAS/TOS 항산화/산화</strong><span class="exam-description">혈액으로 노화, 암 등 위험도 예측</span></li>
+                    <li><strong class="exam-name">유방초음파(여성)</strong><span class="exam-description">치밀유방 조직 및 유방 병변 확인</span></li>
+                    <li><strong class="exam-name">유방암 위험도 감별 검사(마스토체크)</strong><span class="exam-description">혈액 검사 방식</span></li>
+                    <li><strong class="exam-name">일반암 5종(위암, 대장암, 간암, 폐암, 췌장암) 유전자 검사</strong><span class="exam-description">혈액검사</span></li>
+                    <li><strong class="exam-name">눈질환 5종 유전자 검사</strong><span class="exam-description">혈액검사</span></li>
+                    <li><strong class="exam-name">장질환 5종 유전자 검사</strong><span class="exam-description">혈액검사</span></li>
+                    <li><strong class="exam-name">피부질환 5종 유전자 검사</strong><span class="exam-description">혈액검사</span></li>
+                    <li><strong class="exam-name">심장질환 5종 유전자 검사</strong><span class="exam-description">혈액검사</span></li>
+                </ul>
+                <p class="mt-3 text-base text-gray-400">※ MRI-T2 : 감별검사로 진행됩니다.</p>
+                <p class="mt-3 text-base text-gray-400">※ 만 70세 이상 수면검사 불가.</p>
+                </div>
+            </div>
+            <div class="detail-group detail-accordion-item" data-detail-accordion>
+                <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="family-select-b"><span class="detail-accordion-toggle-title">선택 (나) · 1가지</span><span class="detail-accordion-toggle-side"><span class="detail-accordion-label">자세히보기</span><svg class="detail-accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m6 9 6 6 6-6"></path></svg></span></button>
+                <div id="family-select-b" class="detail-accordion-content" hidden>
+                <ul class="detail-list">
+                    <li><strong class="exam-name">뇌CT</strong><span class="exam-description">뇌종양, 뇌경색, 뇌출혈 등 확인. 고해상도 128ch CT 검사</span></li>
+                    <li><strong class="exam-name">저선량 흉부(폐)CT</strong><span class="exam-description">폐결핵, 폐기종, 기관지염, 폐암 등 진단</span></li>
+                    <li><strong class="exam-name">경추CT</strong><span class="exam-description">경추 협착증, 목디스크 이상 유무</span></li>
+                    <li><strong class="exam-name">요추CT</strong><span class="exam-description">허리디스크, 허리 종양 이상 유무</span></li>
+                    <li><strong class="exam-name">심장칼슘스코어링CT</strong><span class="exam-description">심근경색, 협심증 등 심장혈관 검사</span></li>
+                    <li><strong class="exam-name">복부대동맥초음파</strong><span class="exam-description">복부대동맥류 및 동맥경화 유무</span></li>
+                    <li><strong class="exam-name">HPV(인유두종바이러스)</strong><span class="exam-description">자궁경부암 관련 HPV 감염 여부 확인</span></li>
+                    <li><strong class="exam-name">호르몬 검사 (남성 3종 / 여성 3종)</strong><span class="exam-description">혈액검사 방식</span></li>
+                </ul>
+                </div>
+            </div>
+            <div class="detail-group detail-accordion-item" data-detail-accordion>
+                <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="family-select-c"><span class="detail-accordion-toggle-title">선택 (다) · 1가지</span><span class="detail-accordion-toggle-side"><span class="detail-accordion-label">자세히보기</span><svg class="detail-accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m6 9 6 6 6-6"></path></svg></span></button>
+                <div id="family-select-c" class="detail-accordion-content" hidden>
+                <ul class="detail-list">
+                    <li><strong class="exam-name">동맥경화도 검사</strong><span class="exam-description">혈액검사. 혈관 탄력도 및 동맥경화 위험도</span></li>
+                    <li><strong class="exam-name">호모시스테인검사</strong><span class="exam-description">혈액검사. 뇌혈관질환, 심혈관질환 위험도</span></li>
+                    <li><strong class="exam-name">당화혈색소 검사(당뇨, HbA1c)</strong><span class="exam-description">평균 혈당 및 당뇨병 위험 평가</span></li>
+                    <li><strong class="exam-name">비타민D 혈액검사</strong><span class="exam-description">비타민D 결핍 및 골 건강 상태 확인</span></li>
+                </ul>
+                </div>
+            </div>
+            </div>
+            <div class="detail-group">
+                <span class="detail-group-title">위 선택검사 · 1가지</span>
+                <ul class="detail-list">
+                    <li><strong class="exam-name">위 내시경(일반/수면)</strong><span class="exam-description">만 70세 이상 수면 검사 불가</span></li>
+                    <li><strong class="exam-name">펩시노겐 검사</strong><span class="exam-description">혈액검사. 위축성 위염 및 위 점막 상태 평가</span></li>
+                </ul>
+            </div>
+        </div>
+        <div id="package-detail-national" class="package-detail space-y-4" hidden><div class="detail-group"><span class="detail-group-title">대상자·기본검사</span><ul class="detail-list"><li>건강보험가입자(지역·피부양·직장가입자)</li><li>의료급여수급자: 2년마다 1회(비사무직 매년)</li><li>진찰·상담·신체계측·시력·청력·소변·혈압</li><li>혈액검사·흉부 X-RAY</li></ul></div><div class="detail-group"><span class="detail-group-title">특정암 검진</span><ul class="detail-list"><li>위암: 만 40세 이상, 2년마다</li><li>대장암: 만 50세 이상, 1년마다</li><li>간암: 만 40세 이상 고위험군, 6개월마다</li><li>유방암: 만 40세 이상 여성, 2년마다</li><li>자궁경부암: 만 20세 이상 여성, 2년마다</li></ul></div><div class="detail-group"><span class="detail-group-title">임직원 가족·지인 추가 우대</span><ul class="detail-list"><li>가다실9가: 69만원 → <strong class="text-[#F27405]">50만원</strong> (3회 일시불)</li><li>싱그릭스: 54만원 → <strong class="text-[#F27405]">36만원</strong> (2회 일시불)</li><li>9월~ 독감접종 최저가 혜택 예정</li><li>마운자로 2.5mg 31만원 / 5mg 41만원</li><li>마운자로 7.5mg·10mg 55만원 (진료비 포함)</li></ul></div><p class="px-1 text-[11px] text-gray-400">※ 비급여 시술 시 본인부담 비용이 발생할 수 있습니다.</p></div>
+    </div><div class="border-t border-gray-100 p-5"><button type="button" onclick="closePackageDetail()" class="w-full rounded-2xl bg-gray-900 py-4 font-bold text-white">확인완료</button></div></div></div>
+
+    <div id="common-footer-container"></div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        function selectedPackage() { return document.querySelector('input[name="package_choice"]:checked'); }
+        function openBottomSheet() { const selected=selectedPackage(); if(selected){document.body.dataset.package=selected.value;document.getElementById('sheet-selected-package-text').textContent=selected.closest('.package-card').querySelector('h3').textContent;} document.getElementById('bottom-sheet-backdrop').classList.remove('opacity-0','pointer-events-none');document.getElementById('bottom-sheet').classList.remove('translate-y-full');document.body.style.overflow='hidden'; }
+        function closeBottomSheet() { document.getElementById('bottom-sheet-backdrop').classList.add('opacity-0','pointer-events-none');document.getElementById('bottom-sheet').classList.add('translate-y-full');document.body.style.overflow=''; }
+        function submitSheetForm(event) { event.preventDefault(); const name=document.getElementById('sheet_user_name').value.trim();const phone=document.getElementById('sheet_user_phone').value.replace(/\D/g,'');const footerName=document.getElementById('userName');const footerPhone=document.getElementById('userPhone');const footerAgree=document.getElementById('agree');const footerSubmit=document.getElementById('submitBtn');if(!footerName||!footerPhone||!footerSubmit){alert('예약 시스템을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');return;}footerName.value=name;footerPhone.value=phone;if(footerAgree)footerAgree.checked=true;footerSubmit.click();closeBottomSheet(); }
+        function setDetailAccordion(item, open) { const button=item.querySelector('.detail-accordion-toggle');if(!button)return;const content=document.getElementById(button.getAttribute('aria-controls'));const label=button.querySelector('.detail-accordion-label');button.setAttribute('aria-expanded',String(open));if(content)content.hidden=!open;if(label)label.textContent=open?'접기':'자세히보기'; }
+        function resetFamilyAccordions() { document.querySelectorAll('#package-detail-family [data-detail-accordion]').forEach(item=>setDetailAccordion(item,item.dataset.defaultOpen==='true')); }
+        document.addEventListener('click',function(event){const button=event.target.closest('.detail-accordion-toggle');if(!button)return;const item=button.closest('[data-detail-accordion]');const willOpen=button.getAttribute('aria-expanded')!=='true';const group=item.closest('[data-detail-accordion-group]');if(willOpen&&group){Array.from(group.children).filter(child=>child.matches('[data-detail-accordion]')&&child!==item).forEach(child=>setDetailAccordion(child,false));}setDetailAccordion(item,willOpen);},true);
+        function openPackageDetail(type) { const title=type==='family'?'25만원 검진 패키지 세부 항목':'2026 국가검진 패키지 세부 항목';document.getElementById('package-modal-title').textContent=title;document.querySelectorAll('.package-detail').forEach(el=>el.hidden=true);document.getElementById('package-detail-'+type).hidden=false;if(type==='family')resetFamilyAccordions();document.getElementById('package-modal-backdrop').classList.add('is-open');document.getElementById('package-modal').classList.add('is-open');document.body.style.overflow='hidden'; }
+        function closePackageDetail() { document.getElementById('package-modal-backdrop').classList.remove('is-open');document.getElementById('package-modal').classList.remove('is-open');document.body.style.overflow=''; }
+        document.addEventListener('DOMContentLoaded',function(){if(window.AOS)AOS.init({duration:600,once:true});const toggle=document.getElementById('additional-toggle');const content=document.getElementById('additional-content');toggle.addEventListener('click',function(){const open=content.hidden;content.hidden=!open;toggle.setAttribute('aria-expanded',String(open));document.getElementById('additional-toggle-label').textContent=open?'추가검사 접기':'추가검사 전체 자세히보기';document.getElementById('additional-toggle-icon').classList.toggle('rotate-180',open);if(open&&window.AOS)AOS.refresh();});document.addEventListener('keydown',function(event){if(event.key==='Escape'){closePackageDetail();closeBottomSheet();}});});
+    </script>
+    <script src="sections/shared-sections.js" data-shared-sections="core"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
+    <script type="text/javascript">(function(){emailjs.init("UYYZlMnSnF3BsSOfK");})();</script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

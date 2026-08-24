@@ -36,10 +36,11 @@
         }
 
         const includeInjections = requestedSections !== 'core';
+        const injectionSection = loaderScript.dataset.injectionSection || 'healthcare-injections.html';
         const sectionNames = [
             'healthcare-features.html', 'healthcare-tour.html', 'operating-hours.html'
         ];
-        if (includeInjections) sectionNames.unshift('healthcare-injections.html');
+        if (includeInjections) sectionNames.unshift(injectionSection);
 
         const loadedSections = await Promise.all(sectionNames.map(load));
         const [injections, feature, tour, hours] = includeInjections

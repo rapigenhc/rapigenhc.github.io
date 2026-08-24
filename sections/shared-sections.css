@@ -11,3 +11,9 @@
 @media(min-width:640px){.injection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.injection-card{padding:1rem 1.15rem}.injection-card--featured{grid-column:1/-1}.injection-card--featured .injection-card-copy{max-width:none}.injection-card--featured .injection-price-box{min-width:9rem;padding-left:1rem;border-left-color:#fed7aa}}
 @media(min-width:768px){.injection-section{max-width:64rem;padding:2.25rem 2rem}}
 @media(min-width:1024px){.injection-section{width:calc(100% - 4rem);max-width:96rem;padding:2.5rem 2rem}.injection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.injection-card--featured{grid-column:1/-1}.injection-card{padding:1.1rem 1.25rem}.injection-card-title{font-size:1.1rem}}
+
+.feature-carousel-section,.tour-section,.injection-section,.shared-location-section{width:100%;max-width:36rem}
+@media(min-width:768px){.feature-carousel-section,.tour-section,.injection-section,.shared-location-section{max-width:64rem}}
+@media(min-width:1200px){.feature-carousel-section,.tour-section,.injection-section,.shared-location-section{max-width:72rem}}
+
+@media(max-width:767px){.injection-card-badge,.injection-card-title,.injection-card-description,.injection-regular-price,.injection-regular-price s,.injection-sale-label,.injection-sale-price,.injection-more-button{font-size:1rem}}

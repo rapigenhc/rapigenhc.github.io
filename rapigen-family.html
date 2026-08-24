@@ -102,7 +102,7 @@
         </section>
 
         <section class="page-section pt-0" aria-labelledby="national-special-title">
-            <div class="section-heading" data-aos="fade-up"><span class="section-eyebrow">FAMILY SPECIAL</span><h2 id="national-special-title" class="section-title">예방접종·비만치료제 우대 혜택</h2><p class="section-description">국가검진 패키지 이용 가족·지인에게 적용되는 공개 가격입니다.</p></div>
+            <div class="section-heading" data-aos="fade-up"><span class="section-eyebrow">FAMILY SPECIAL</span><h2 id="national-special-title" class="section-title">예방접종·비만치료제 우대 혜택</h2><p class="section-description">래피젠 임직원, 가족·지인에게 적용되는 할인 가격입니다.</p></div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-aos="fade-up">
                 <article class="ds-card overflow-hidden">
                     <div class="bg-orange-50 p-5 md:p-6"><span class="inline-flex rounded-full bg-[#F27405] px-3 py-1 text-base font-black text-white">예방접종</span><h3 class="mt-3 text-xl font-black">가족·지인 백신 우대가</h3></div>
@@ -296,7 +296,7 @@
         function closePackageDetail() { document.getElementById('package-modal-backdrop').classList.remove('is-open');document.getElementById('package-modal').classList.remove('is-open');document.body.style.overflow=''; }
         document.addEventListener('DOMContentLoaded',function(){if(window.AOS)AOS.init({disable:true});const toggle=document.getElementById('additional-toggle');const content=document.getElementById('additional-content');toggle.addEventListener('click',function(){const open=content.hidden;content.hidden=!open;toggle.setAttribute('aria-expanded',String(open));document.getElementById('additional-toggle-label').textContent=open?'추가검사 접기':'추가검사 전체 자세히보기';document.getElementById('additional-toggle-icon').classList.toggle('rotate-180',open);});document.addEventListener('keydown',function(event){if(event.key==='Escape'){closePackageDetail();closeBottomSheet();}});});
     </script>
-    <script src="sections/shared-sections.js" data-shared-sections="all"></script>
+    <script src="sections/shared-sections.js" data-shared-sections="all" data-injection-section="family-injections.html"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script type="text/javascript">(function(){emailjs.init("UYYZlMnSnF3BsSOfK");})();</script>
     <script type="module" src="script.js"></script>

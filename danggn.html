@@ -10,6 +10,8 @@
     <script type="module" src="./ga_tracking.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sections/shared-sections.css" data-shared-sections-style>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
     /* 기존 아코디언 및 슬라이드 CSS 유지 */
@@ -38,20 +40,46 @@
         content: '';
         position: absolute;
         inset: 0;
-        background-image: url('/img/interior-pic-01.jpg');
-        background-size: cover;
-        background-position: center;
-        
-        /* 메인 히어로 섹션 */
-        background-color: rgba(31, 25, 20, 0.8);
-        background-blend-mode: overlay;
-
-        
-        /* 애니메이션 유지 */
-        animation: heroZoomInFade 5s ease-out forwards;
-        will-change: transform, opacity; 
+        background: transparent;
         z-index: 0; 
     }
+
+    @keyframes heroCarousel {
+        0%, 32.999% { background-image: url('img/interior-pic-06.jpg'); }
+        33%, 65.999% { background-image: url('img/interior-pic-01.jpg'); }
+        66%, 99.999% { background-image: url('img/interior-pic-02.jpg'); }
+        100% { background-image: url('img/interior-pic-06.jpg'); }
+    }
+
+    .hero-animated-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0) 20%,
+            rgba(255,255,255,1) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-slide-track {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        background-image: url('img/interior-pic-06.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        animation: heroCarousel 12s step-end infinite;
+    }
+    .hero-speech-bubble { position: relative; align-self: flex-start; margin-bottom: 1rem; padding: .5rem 1rem; border: 1px solid #dc6804; border-radius: 1rem !important; background: #F27405; color: #fff; box-shadow: 0 10px 24px -12px rgba(17,24,39,.45); font-size: .9rem; font-weight: 600; line-height: 1.4; }
+    .hero-speech-bubble::after { content: ''; position: absolute; left: 1rem; bottom: -.4rem; width: .75rem; height: .75rem; border-right: 1px solid #dc6804; border-bottom: 1px solid #dc6804; background: #F27405; transform: rotate(45deg); }
 
     @keyframes heroZoomInFade {
         0% {
@@ -138,9 +166,157 @@
         .feature-card-image { position: absolute; inset: 0; }
         .tour-card { flex: 0 0 max(28.125rem,calc((100% - 1rem)/2)); min-width: 28.125rem; }
     }
+
+    /* Editorial Premium page system */
+    @font-face {
+        font-family: 'Pretendard';
+        font-style: normal;
+        font-weight: 100 900;
+        src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2');
+        font-display: swap;
+    }
+    .danggn-page {
+        --layout-gutter-pc: 72px;
+        --layout-gutter-mo: 20px;
+        --color-text: #111111;
+        --color-text-secondary: #6e7072;
+        --color-line: rgba(17,17,17,.12);
+        --color-accent: #F27405;
+        --space-section: clamp(50px, 6vw, 90px);
+        font-family: 'Pretendard', sans-serif;
+        color: var(--color-text);
+    }
+    .danggn-page h1,
+    .danggn-page h2,
+    .danggn-page h3,
+    .danggn-page h4,
+    .danggn-page button,
+    .danggn-page a,
+    .danggn-page summary { font-family: 'Pretendard', sans-serif; }
+    .danggn-page .hero-animated-bg {
+        height: clamp(32rem, 60vh, 42rem);
+        min-height: clamp(32rem, 60vh, 42rem);
+        overflow: visible;
+        border-radius: 0;
+        box-shadow: none;
+        align-items: stretch;
+    }
+    .danggn-page .hero-animated-bg::before { display: none; }
+    .danggn-page .hero-animated-bg > div { max-width: 1200px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+    .danggn-page .hero-animated-bg > .hero-slide-track { position: absolute; inset: 0; z-index: 0; display: block; width: 100%; height: 100%; max-width: none; flex: none; }
+    .danggn-page .hero-animated-bg h1 { color: #111 !important; font-weight: 600; letter-spacing: -.035em; text-shadow: none; filter: none !important; }
+    .danggn-page .hero-animated-bg h1 span { color: #F27405 !important; }
+    .danggn-page .hero-animated-bg p { color: #111 !important; text-shadow: none; }
+    .danggn-page .hero-animated-bg > div:not(.hero-slide-track) { z-index: 2; transform: translateY(10%); }
+    .danggn-page .hero-animated-bg .grid > div { border-radius: 0; box-shadow: none; }
+    .danggn-page header *,
+    .danggn-page main *,
+    .danggn-page > .fixed { border-radius: 0 !important; }
+    .danggn-page .hero-speech-bubble { border-radius: 1rem !important; }
+    .danggn-page .section-heading { margin-bottom: clamp(1.75rem, 3.5vw, 3rem); text-align: center; }
+    .danggn-page .section-eyebrow {
+        min-height: 2rem;
+        padding: .35rem .8rem;
+        border: 1px solid #fed7aa;
+        border-radius: 9999px !important;
+        background: #fff7ed;
+        color: var(--color-accent);
+        font-family: 'Jost', sans-serif;
+        font-size: .875rem;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: .08em;
+    }
+    .danggn-page .section-title {
+        margin-top: 1.25rem;
+        color: var(--color-text);
+        font-size: clamp(1.75rem, 3vw, 2.75rem);
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: -.035em;
+    }
+    .danggn-page .section-description { color: var(--color-text-secondary); font-size: 1.125rem; font-weight: 400; line-height: 1.65; }
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section),
+    .danggn-page .feature-carousel-section,
+    .danggn-page .desktop-content-wrap { margin-bottom: 0; }
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-top: var(--space-section); padding-bottom: var(--space-section); }
+    .danggn-page .feature-carousel-section { padding-top: var(--space-section); padding-bottom: var(--space-section); }
+    .danggn-page .feature-card,
+    .danggn-page .tour-card,
+    .danggn-page .tour-section,
+    .danggn-page details,
+    .danggn-page main > section > div > div > div,
+    .danggn-page main > section > div > div > article { border-radius: 4px; box-shadow: none; }
+    .danggn-page .feature-card,
+    .danggn-page .tour-card { border: 1px solid var(--color-line); }
+    .danggn-page .feature-card.is-active { border-color: var(--color-accent); box-shadow: none; }
+    .danggn-page .tour-section { margin-bottom: 1rem; padding-top: 1.75rem; padding-bottom: 1.25rem; background: #f7f4f0; }
+    .danggn-page .tour-tabs { border-radius: 9999px !important; box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
+    .danggn-page .tour-tab,
+    .danggn-page .tour-tab.is-active { border-radius: 9999px !important; }
+    .danggn-page .tour-tab.is-active { box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
+    .danggn-page .tour-progress { height: 1px; border-radius: 0; background: var(--color-line); }
+    .danggn-page .tour-progress-bar { border-radius: 0; }
+    .danggn-page .tour-arrow { border-radius: 0; box-shadow: none; background: transparent; }
+    .danggn-page .tour-card-caption { font-weight: 600; }
+    .danggn-page details summary { font-weight: 600; }
+    .danggn-page .feature-keyword { border-radius: 9999px !important; font-family: 'Jost', sans-serif; font-weight: 500; }
+    .danggn-page .feature-carousel-dot { border-radius: 9999px !important; }
+    .danggn-page .feature-carousel-dot.is-active { width: 2.5rem; border-radius: 9999px !important; }
+    .danggn-page details summary > span > span:first-child { border-radius: 9999px !important; }
+    .danggn-page #kakao-bubble { border-radius: 1rem !important; }
+    .danggn-page #kakao-bubble + a { border-radius: 9999px !important; }
+    .kakao-bubble-icon { display: inline-block; width: .65rem; height: .65rem; flex: 0 0 .65rem; border-radius: 50% !important; background: #FEE500; }
+    .danggn-quick-actions > a,
+    .danggn-quick-actions > button { padding: .75rem !important; }
+    .danggn-quick-actions > a > div,
+    .danggn-quick-actions > button > div { margin-bottom: .5rem !important; }
+    .danggn-page .danggn-event-banner { margin: 0 !important; padding: 0 !important; }
+    .danggn-page .shared-location-section { width: 100% !important; max-width: 36rem; margin-inline: auto; padding-inline: 0 !important; }
+    .danggn-page .shared-location-section > div:last-child { border-radius: 2rem !important; box-shadow: 0 20px 25px -5px rgba(209,213,219,.5), 0 8px 10px -6px rgba(209,213,219,.5); }
+    .danggn-page .shared-location-section span.inline-flex,
+    .danggn-page .shared-location-section span.inline-flex > span { border-radius: 9999px !important; }
+    .danggn-page .shared-location-section a[href*="blog.naver.com"] { border-radius: 1rem !important; }
+    .danggn-page .shared-location-section a[href*="blog.naver.com"] > span { border-radius: .375rem !important; }
+    @media (min-width: 1025px) {
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) > div,
+        .danggn-page #location-section > div { max-width: 1200px; }
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { width: calc(100% - var(--layout-gutter-pc) * 2); margin-inline: auto; }
+        .danggn-page .desktop-content-wrap { width: calc(100% - var(--layout-gutter-pc) * 2); max-width: 1476px; }
+        .danggn-page .feature-carousel-section { width: calc(100% - var(--layout-gutter-pc) * 2); max-width: 1476px; }
+        .danggn-page .feature-carousel-heading,
+        .danggn-page .tour-heading { padding-inline: 0; }
+        .danggn-page .section-heading { text-align: center; }
+    }
+    @media (min-width: 768px) {
+        .danggn-page .shared-location-section { width: calc(100% - 4rem) !important; max-width: 64rem; }
+    }
+    @media (min-width: 1200px) {
+        .danggn-page .shared-location-section { max-width: 72rem; }
+    }
+    @media (max-width: 1024px) {
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-inline: var(--layout-gutter-mo); }
+        .danggn-page .feature-carousel-section { padding-inline: var(--layout-gutter-mo); }
+    }
+    @media (max-width: 600px) {
+        .danggn-page .hero-animated-bg { min-height: 34rem; padding-inline: var(--layout-gutter-mo); }
+        .danggn-page .hero-animated-bg > div { max-width: none; }
+        .danggn-page .hero-animated-bg h1 { font-size: 2rem; }
+        .danggn-page .hero-speech-bubble { font-size: 1rem; }
+        .danggn-page .section-title { font-size: 1.625rem; }
+        .danggn-page .section-description { font-size: 1rem; }
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-top: 3.125rem; padding-bottom: 3.125rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .danggn-page .hero-animated-bg::before,
+        .danggn-page .hero-slide-track,
+        .danggn-page [data-aos],
+        .danggn-page .feature-card,
+        .danggn-page .feature-card-image { animation: none !important; transition: none !important; transform: none !important; }
+    }
 </style>
 </head>
-<body class="bg-white text-gray-900 pb-32 overflow-x-hidden">
+<body class="danggn-page bg-white text-gray-900 pb-32 overflow-x-hidden">
 
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
@@ -159,61 +335,41 @@
 <main class="w-full flex flex-col items-center bg-gray-50/50 pb-24 overflow-hidden font-sans text-gray-900" data-package="국가검진">
 
     <section class="relative w-full text-gray-900 pt-12 pb-16 px-6 md:rounded-b-[3rem] rounded-b-[2.5rem] shadow-xl shadow-slate-200/50 flex flex-col items-center hero-animated-bg">
-        
+        <div class="hero-slide-track" aria-hidden="true"></div>
         <div class="w-full max-w-md md:max-w-xl">
-            <div class="flex items-center justify-between mb-5">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm md:text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#fff] animate-ping"></span>
-                    국가검진 지정기관
-                </span>
-                <a href="https://rapigenhc.com/" target="_blank"><span class="text-sm text-white/80 font-medium">래피젠헬스케어</span></a>
-            </div>
-
+            <div class="hero-speech-bubble">당근 이웃님을 위한</div>
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
                 2026년 국가건강검진<br>
                 <span class="text-[#feca9c]">대상자 확인</span> & 예약
             </h1>
             
-            <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
+            <p class="text-base md:text-lg text-white/90 leading-relaxed break-keep font-medium">
                 올해 검진 대상자인지 지금 확인하세요.<br class="hidden sm:block">
                 국가검진 받으시면 프리미엄 종합검진 추가 할인 혜택까지!
             </p>
 
-            <div class="grid grid-cols-2 gap-2">
-                <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm">
-                    <div class="text-sm text-gray-600 mb-1.5 font-medium">올해 검진 대상자</div>
-                    <div class="text-lg md:text-xl font-extrabold text-gray-900 break-keep">짝수년도 출생자</div>
-                    <div class="text-xs md:text-sm text-[#F27405] mt-1 font-bold">예: 1966, 1990년생</br>만 20세 이상</div>
-                    <div class="text-xs md:text-sm text-gray-400 mt-1 break-keep font-medium">또는 작년 미수검자</div>
-                </div>
-                <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm">
-                    <div class="text-sm text-gray-600 mb-1.5 font-medium">화수목 이벤트 (~9월)</div>
-                    <div class="text-lg md:text-xl font-extrabold text-blue-600 break-keep">복부대동맥초음파 검사추가</div>
-                    <div class="text-xs md:text-sm text-gray-400 mt-1 break-keep font-medium">국가검진 1차, 위암대상자 본인희망시</div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section class="w-full max-w-md md:max-w-xl mx-auto px-6 -mt-8 relative z-10 mb-12" data-aos="fade-up">
-        <div class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/60 border border-slate-100 grid grid-cols-3 gap-4 text-center">
+    <section class="danggn-quick-actions w-full max-w-md md:max-w-xl mx-auto px-6 relative z-10" data-aos="fade-up">
+        <div class="grid grid-cols-3 gap-3 text-center translate-y-[20%]">
             
             <a href="tel:1544-5189" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl bg-amber-50 text-[#F27405] flex items-center justify-center mb-3 shadow-sm">
+                <div class="text-[#F27405] mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold text-slate-700">전화하기</span>
             </a>
 
             <a href="#location-section" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0047FF] flex items-center justify-center mb-3 shadow-sm">
+                <div class="text-[#0047FF] mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold text-slate-700">오시는길</span>
             </a>
 
             <button type="button" onclick="openBottomSheet('국가검진')" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-gradient-to-b from-[#F27405] to-[#d96400] text-white active:scale-95 transition-all duration-300 shadow-lg shadow-[#F27405]/30">
-                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-3">
+                <div class="text-white mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold">간편예약</span>
@@ -222,8 +378,8 @@
         </div>
     </section>
 
-    <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up" aria-label="2026년 국가검진 대상자 이벤트">
-        <img src="img/202608event-national.jpg" alt="2026년 국가검진 대상자 화수목요일 복부대동맥초음파 이벤트" width="800" height="600" loading="lazy" class="block w-full h-auto rounded-[1.5rem] border border-slate-100 shadow-lg shadow-slate-200/50">
+    <section class="danggn-event-banner w-full max-w-md md:max-w-xl" data-aos="fade-up" aria-label="2026년 9월 건강검진 이벤트">
+        <img src="img/202609event-popup.jpg" alt="2026년 9월 복부대동맥 초음파 및 개인종합검진 CT 이벤트" width="720" height="960" loading="lazy" class="block w-full h-auto">
     </section>
 
     <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up">
@@ -244,7 +400,7 @@
             <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 flex flex-col overflow-hidden">
         
                 <div class="w-full h-40 md:h-48 bg-slate-100 relative">
-                    <img src="/img/concept01.jpg" alt="국가검진 안내" class="w-full h-full object-cover opacity-100"/>
+                    <img src="img/concept01.jpg" alt="국가검진 안내" class="w-full h-full object-cover opacity-100"/>
                     <div class="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent"></div>
                 </div>
                 
@@ -265,7 +421,7 @@
                 <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 flex flex-col overflow-hidden">
             
                     <div class="w-full h-40 md:h-48 bg-amber-50 relative">
-                        <img src="/img/concept02.jpg" alt="추가검사 혜택 안내" class="w-full h-full object-cover opacity-100"/>
+                        <img src="img/concept02.jpg" alt="추가검사 혜택 안내" class="w-full h-full object-cover opacity-100"/>
                         <div class="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent"></div>
                     </div>
 
@@ -290,7 +446,7 @@
     <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalProcedure">
         <div class="flex items-center justify-between mb-6">
             <div>
-                <div class="w-36 pb-2"><img src="/img/nhis_logo.png"></div>
+                <div class="w-36 pb-2"><img src="img/nhis_logo.png"></div>
                 <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight break-keep" itemprop="name">2026 국가건강검진 안내</h2>
                 <p class="text-base text-gray-500 mt-1 font-light">국민건강보험공단 지정 주요 검진항목</p>
             </div>
@@ -491,7 +647,7 @@
         </section>
     </div>
 
-    <section class="w-full bg-white pb-24 pt-8">
+    <section class="w-full bg-white pb-24 pt-8" data-shared-section="customer-reviews">
         <div class="max-w-5xl mx-auto px-6">
             <div data-aos="fade-up" data-aos-delay="100" class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 pb-8 items-stretch">
                 
@@ -550,7 +706,7 @@
         </div>
     </section>
 
-    <section id="location-section" class="w-full max-w-md md:max-w-3xl mx-auto px-6 mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
+    <section id="location-section" class="shared-location-section mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
         <div class="section-heading px-1">
             <span class="section-eyebrow">VISIT RAPIGEN</span>
             <h2 class="section-title">운영시간 안내</h2>
@@ -563,7 +719,7 @@
                     <p class="mt-1 text-base font-medium text-gray-500" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
                 </div>
                 <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>신청 가능
                 </span>
             </div>
 
@@ -588,7 +744,7 @@
                     <p class="mt-1 text-base font-medium text-gray-500">다이어트주사, 탈모, 수액 등 내과 진료</p>
                 </div>
                 <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>신청 가능
                 </span>
             </div>
 
@@ -609,7 +765,7 @@
 
             <div class="space-y-4 border-t border-gray-100 pt-5 text-base text-gray-600">
                 <a href="https://naver.me/GziL2Dd5" target="_blank" rel="noopener" class="flex items-start gap-2.5">
-                    <svg class="mt-0.5 h-5 w-5 shrink-0 text-[#F27405]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                    <span class="text-[#F27405]">●</span>
                     <span class="font-extrabold leading-relaxed text-gray-800 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층<br><span class="font-medium text-gray-400">지하철 1, 7호선 가산디지털단지역 8~11번 출구</span></span>
                 </a>
                 <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-2xl border border-gray-100 bg-gray-50 p-4 leading-relaxed text-gray-500 break-keep">
@@ -665,10 +821,7 @@
         <div class="flex flex-col items-end gap-3 group pointer-events-auto">
             <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative animate-bounce-subtle">
                 <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                    </span>
+                    <span class="kakao-bubble-icon" aria-hidden="true"></span>
                     <span id="bubble-text">빠른 채팅 상담하기</span>
                 </p>
                 <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45"></div>

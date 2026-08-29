@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 100 900;
+    src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2');
+    font-display: swap;
+}
+
+@keyframes danggnHeroCarousel {
+    0%, 32.999% { background-image: url('img/interior-pic-06.jpg'); }
+    33%, 65.999% { background-image: url('img/interior-pic-01.jpg'); }
+    66%, 99.999% { background-image: url('img/interior-pic-02.jpg'); }
+    100% { background-image: url('img/interior-pic-06.jpg'); }
+}
+
+.danggn-page {
+    --layout-gutter-pc: 72px;
+    --layout-gutter-mo: 20px;
+    --color-text: #111111;
+    --color-text-secondary: #6e7072;
+    --color-line: rgba(17,17,17,.12);
+    --color-accent: #F27405;
+    --space-section: clamp(50px, 6vw, 90px);
+    color: var(--color-text);
+    font-family: 'Pretendard', sans-serif;
+}
+
+.danggn-page h1,
+.danggn-page h2,
+.danggn-page h3,
+.danggn-page h4,
+.danggn-page button,
+.danggn-page a,
+.danggn-page summary { font-family: 'Pretendard', sans-serif; }
+
+.danggn-page .hero-animated-bg {
+    position: relative;
+    min-height: clamp(32rem, 60vh, 42rem);
+    overflow: visible;
+    border-radius: 0;
+    box-shadow: none;
+    align-items: stretch;
+}
+.danggn-page .hero-animated-bg::before { display: none; }
+.danggn-page .hero-animated-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 20%, #fff 100%);
+    pointer-events: none;
+}
+.danggn-page .hero-slide-track {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    background: center / cover no-repeat url('img/interior-pic-06.jpg');
+    animation: danggnHeroCarousel 12s step-end infinite;
+}
+.danggn-page .hero-animated-bg > div:not(.hero-slide-track) { position: relative; z-index: 2; }
+.danggn-page .hero-animated-bg h1 { color: #111 !important; font-weight: 600; letter-spacing: -.035em; text-shadow: none; filter: none !important; }
+.danggn-page .hero-animated-bg h1 span { color: var(--color-accent) !important; }
+.danggn-page .hero-animated-bg p { color: #111 !important; text-shadow: none; }
+.danggn-page .hero-speech-bubble { position: relative; display: inline-flex; align-items: center; align-self: flex-start; margin-bottom: 1rem; padding: .5rem 1rem; border: 1px solid #dc6804; border-radius: 1rem !important; background: #F27405; color: #fff; box-shadow: 0 10px 24px -12px rgba(17,24,39,.45); font-size: .9rem; font-weight: 600; line-height: 1.4; }
+.danggn-page .hero-speech-bubble::after { content: ''; position: absolute; left: 1rem; bottom: -.4rem; width: .75rem; height: .75rem; border-right: 1px solid #dc6804; border-bottom: 1px solid #dc6804; background: #F27405; transform: rotate(45deg); }
+
+.danggn-page header *,
+.danggn-page main *,
+.danggn-page > .fixed { border-radius: 0 !important; }
+.danggn-page #kakao-bubble { border-radius: 1rem !important; }
+.danggn-page #kakao-bubble + a,
+.danggn-page .section-eyebrow,
+.danggn-page .feature-keyword,
+.danggn-page .feature-carousel-dot,
+.danggn-page .tour-tabs,
+.danggn-page .tour-tab { border-radius: 9999px !important; }
+.danggn-page .kakao-bubble-icon { display: inline-block; width: .65rem; height: .65rem; flex: 0 0 .65rem; border-radius: 50% !important; background: #FEE500; }
+
+.danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section):not(.customer-reviews-section),
+.danggn-page .feature-carousel-section,
+.danggn-page .customer-reviews-section { margin-bottom: 0; padding-top: var(--space-section); padding-bottom: var(--space-section); }
+.danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section):not(.customer-reviews-section) { padding-inline: var(--layout-gutter-mo); }
+.danggn-page .feature-carousel-section,
+.danggn-page .customer-reviews-section { width: 100%; }
+
+.danggn-page .feature-card,
+.danggn-page .tour-card,
+.danggn-page .injection-card,
+.danggn-page .customer-review-card,
+.danggn-page details { border-radius: 4px !important; box-shadow: none; }
+.danggn-page .tour-section { background: #f7f4f0; }
+.danggn-page .tour-tabs { box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
+.danggn-page .tour-tab.is-active { border-radius: 9999px !important; box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
+
+.myfit-page .package-checkbox + div > div.flex.flex-col.items-start,
+.myfit-page .package-checkbox + div > div.flex.flex-col.items-start > span:first-child,
+.myfit-page .package-checkbox ~ div span.inline-flex,
+.myfit-page .package-checkbox ~ div span.inline-flex > span { border-radius: 9999px !important; }
+
+.danggn-page .shared-location-section { width: 100% !important; max-width: 36rem; margin-inline: auto; padding-inline: 0 !important; }
+.danggn-page .shared-location-section > div:last-child { border-radius: 2rem !important; box-shadow: 0 20px 25px -5px rgba(209,213,219,.5), 0 8px 10px -6px rgba(209,213,219,.5); }
+.danggn-page .shared-location-section span.inline-flex,
+.danggn-page .shared-location-section span.inline-flex > span { border-radius: 9999px !important; }
+.danggn-page .shared-location-section a[href*="blog.naver.com"] { border-radius: 1rem !important; }
+.danggn-page .shared-location-section a[href*="blog.naver.com"] > span { border-radius: .375rem !important; }
+
+.myfit-page .hero-animated-bg { height: clamp(32rem, 60vh, 42rem); min-height: clamp(32rem, 60vh, 42rem); }
+.myfit-page .hero-animated-bg > div:not(.hero-slide-track) { max-width: 1200px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; transform: translateY(10%); }
+
+@media (min-width: 768px) {
+    .danggn-page .shared-location-section { width: calc(100% - 4rem) !important; max-width: 64rem; }
+}
+
+@media (min-width: 1025px) {
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section):not(.customer-reviews-section) { width: calc(100% - var(--layout-gutter-pc) * 2); margin-inline: auto; padding-inline: 0; }
+    .danggn-page .feature-carousel-section,
+    .danggn-page .customer-reviews-section { width: calc(100% - var(--layout-gutter-pc) * 2); max-width: 1476px; }
+}
+
+@media (min-width: 1200px) {
+    .danggn-page .shared-location-section { max-width: 72rem; }
+}
+
+@media (max-width: 600px) {
+    .danggn-page .hero-animated-bg { padding-inline: var(--layout-gutter-mo); }
+    .danggn-page .hero-animated-bg h1 { font-size: 2rem; }
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section):not(.customer-reviews-section),
+    .danggn-page .feature-carousel-section,
+    .danggn-page .customer-reviews-section { padding-top: 3.125rem; padding-bottom: 3.125rem; }
+    .myfit-page .hero-animated-bg { min-height: 34rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .danggn-page .hero-slide-track { animation: none !important; }
+}

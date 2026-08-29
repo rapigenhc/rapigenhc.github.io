@@ -38,12 +38,12 @@
         const includeInjections = requestedSections !== 'core';
         const injectionSection = loaderScript.dataset.injectionSection || 'healthcare-injections.html';
         const sectionNames = [
-            'healthcare-features.html', 'healthcare-tour.html', 'operating-hours.html'
+            'healthcare-features.html', 'healthcare-tour.html', 'customer-reviews.html', 'operating-hours.html'
         ];
         if (includeInjections) sectionNames.unshift(injectionSection);
 
         const loadedSections = await Promise.all(sectionNames.map(load));
-        const [injections, feature, tour, hours] = includeInjections
+        const [injections, feature, tour, reviews, hours] = includeInjections
             ? loadedSections
             : [null, ...loadedSections];
         const main = document.querySelector('main') || document.body;
@@ -52,6 +52,7 @@
         const oldFeature = document.querySelector('.feature-carousel-section');
         const featurePlaceholder = document.querySelector('[data-shared-section="healthcare-features"]');
         const oldTour = document.querySelector('.tour-section');
+        const oldReviews = document.querySelector('.customer-reviews-section') || document.querySelector('[data-shared-section="customer-reviews"]') || findSectionByText('네이버 영수증 리뷰');
         const oldHours = document.getElementById('location-section');
 
         if (oldFeature) oldFeature.replaceWith(feature); else if (oldFacility) oldFacility.replaceWith(feature);
@@ -60,7 +61,9 @@
             if (oldInjections) oldInjections.replaceWith(injections); else feature.before(injections);
         }
         if (oldTour) oldTour.replaceWith(tour); else feature.after(tour);
-        if (oldHours) oldHours.replaceWith(hours); else tour.after(hours);
+        if (oldReviews) oldReviews.replaceWith(reviews);
+        else (tour.closest('.desktop-content-wrap') || tour).after(reviews);
+        if (oldHours) oldHours.replaceWith(hours); else reviews.after(hours);
 
         if (injections) initInjections();
         initFeature();

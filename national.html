@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026년 국가검진 예약 | 래피젠헬스케어</title>
+    <title>당근마켓 이벤트 | 래피젠헬스케어</title>
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="./ga_tracking.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sections/shared-sections.css" data-shared-sections-style>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
     /* 기존 아코디언 및 슬라이드 CSS 유지 */
@@ -38,20 +40,46 @@
         content: '';
         position: absolute;
         inset: 0;
-        background-image: url('/img/interior-pic-01.jpg');
-        background-size: cover;
-        background-position: center;
-        
-        /* 메인 히어로 섹션 */
-        background-color: rgba(31, 25, 20, 0.8);
-        background-blend-mode: overlay;
-
-        
-        /* 애니메이션 유지 */
-        animation: heroZoomInFade 5s ease-out forwards;
-        will-change: transform, opacity; 
+        background: transparent;
         z-index: 0; 
     }
+
+    @keyframes heroCarousel {
+        0%, 32.999% { background-image: url('img/interior-pic-06.jpg'); }
+        33%, 65.999% { background-image: url('img/interior-pic-01.jpg'); }
+        66%, 99.999% { background-image: url('img/interior-pic-02.jpg'); }
+        100% { background-image: url('img/interior-pic-06.jpg'); }
+    }
+
+    .hero-animated-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0) 20%,
+            rgba(255,255,255,1) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-slide-track {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        background-image: url('img/interior-pic-06.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        animation: heroCarousel 12s step-end infinite;
+    }
+    .hero-speech-bubble { position: relative; align-self: flex-start; margin-bottom: 1rem; padding: .5rem 1rem; border: 1px solid #dc6804; border-radius: 1rem !important; background: #F27405; color: #fff; box-shadow: 0 10px 24px -12px rgba(17,24,39,.45); font-size: .9rem; font-weight: 600; line-height: 1.4; }
+    .hero-speech-bubble::after { content: ''; position: absolute; left: 1rem; bottom: -.4rem; width: .75rem; height: .75rem; border-right: 1px solid #dc6804; border-bottom: 1px solid #dc6804; background: #F27405; transform: rotate(45deg); }
 
     @keyframes heroZoomInFade {
         0% {
@@ -69,51 +97,226 @@
         z-index: 10;
     }
 
-    :root { --radius-card: 1.5rem; --shadow-card: 0 12px 30px -24px rgba(17,24,39,.45); }
+    :root {
+        --radius-card: 1.5rem;
+        --shadow-card: 0 12px 30px -24px rgba(17, 24, 39, 0.45);
+    }
     .section-heading { margin-bottom: 2rem; text-align: center; }
-    .section-eyebrow { display: inline-flex; align-items: center; min-height: 2rem; padding: .35rem .8rem; border: 1px solid #fed7aa; border-radius: 9999px; background: #fff7ed; color: #F27405; font-size: 1rem; font-weight: 800; line-height: 1.2; letter-spacing: .03em; }
+    .section-eyebrow {
+        display: inline-flex; align-items: center; min-height: 2rem; padding: .35rem .8rem;
+        border: 1px solid #fed7aa; border-radius: 9999px; background: #fff7ed;
+        color: #F27405; font-size: 1rem; font-weight: 800; line-height: 1.2; letter-spacing: .03em;
+    }
     .section-title { margin-top: .75rem; color: #111827; font-size: 1.5rem; font-weight: 900; line-height: 1.3; letter-spacing: -.025em; word-break: keep-all; }
     .section-description { margin-top: .5rem; color: #4b5563; font-size: 1rem; font-weight: 500; line-height: 1.7; word-break: keep-all; }
-    .feature-carousel-section { width: 100%; max-width: 36rem; margin: 0 auto; padding: 3.5rem 0; overflow: hidden; }
+
+    .feature-carousel-section {
+        width: 100%; max-width: 36rem; margin: 0 auto 2rem; padding: 3.5rem 0 2.5rem;
+        overflow: hidden;
+    }
     .feature-carousel-heading { padding-inline: 1.25rem; }
-    .feature-carousel { display: flex; align-items: flex-start; gap: .875rem; height: 23.75rem; overflow-x: auto; padding: 1rem max(1.25rem,calc((100% - 19rem)/2)) 1.75rem; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x; }
+    .feature-carousel { display: flex; align-items: flex-start; gap: .875rem; height: 23.75rem; overflow-x: auto; padding: 1rem max(1.25rem, calc((100% - 19rem) / 2)) 1.75rem; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x; }
     .feature-carousel::-webkit-scrollbar, .tour-carousel::-webkit-scrollbar { display: none; }
-    .feature-card { position: relative; flex: 0 0 clamp(16rem,72vw,19rem); height: 15rem; overflow: hidden; border: 2px solid #e5e7eb; border-radius: 1.75rem; background: #fff; opacity: .6; scroll-snap-align: center; box-shadow: 0 8px 24px -18px rgba(17,24,39,.5); transition: height .45s cubic-bezier(.4,0,.2,1),opacity .35s,border-color .35s,box-shadow .35s; }
+    .feature-card { position: relative; flex: 0 0 clamp(16rem, 72vw, 19rem); height: 15rem; overflow: hidden; border: 2px solid #e5e7eb; border-radius: 1.75rem; background: #fff; opacity: .6; scroll-snap-align: center; box-shadow: 0 8px 24px -18px rgba(17,24,39,.5); transition: height .45s cubic-bezier(.4,0,.2,1), opacity .35s ease, border-color .35s ease, box-shadow .35s ease; }
     .feature-card.is-active { height: 21rem; opacity: 1; border-color: #F27405; box-shadow: 0 18px 35px -20px rgba(242,116,5,.65); }
-    .feature-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .feature-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
     .feature-card.is-active .feature-card-image { transform: scale(1.04); }
-    .feature-card-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; background: linear-gradient(180deg,transparent 25%,rgba(17,24,39,.12) 48%,rgba(17,24,39,.9) 100%); }
-    .feature-card-copy { opacity: 0; transform: translateY(.75rem); transition: opacity .45s ease .12s,transform .45s ease .12s; }
-    .feature-card.is-active .feature-card-copy { opacity: 1; transform: none; }
+    .feature-card-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; background: linear-gradient(180deg, transparent 25%, rgba(17,24,39,.12) 48%, rgba(17,24,39,.9) 100%); }
+    .feature-card-copy { opacity: 0; transform: translateY(.75rem); transition: opacity .45s ease .12s, transform .45s ease .12s; }
+    .feature-card.is-active .feature-card-copy { opacity: 1; transform: translateY(0); }
     .feature-keywords { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .65rem; }
     .feature-keyword { padding: .25rem .6rem; border-radius: 9999px; background: rgba(255,255,255,.92); color: #F27405; font-size: 1rem; font-weight: 900; }
     .feature-card-title { color: #fff; font-size: 1.45rem; font-weight: 900; line-height: 1.25; word-break: keep-all; }
     .feature-carousel-status { display: flex; justify-content: center; gap: .45rem; min-height: .5rem; }
-    .feature-carousel-dot { width: .5rem; height: .5rem; border-radius: 9999px; background: #d1d5db; transition: width .3s,background-color .3s; }
+    .feature-carousel-dot { width: .5rem; height: .5rem; border-radius: 9999px; background: #d1d5db; transition: width .3s ease, background-color .3s ease; }
     .feature-carousel-dot.is-active { width: 1.5rem; background: #F27405; }
+
     .desktop-content-wrap { width: 100%; max-width: 36rem; margin-inline: auto; }
-    .tour-section { padding: 3.5rem 0; overflow: hidden; background: #f3f6fc; box-shadow: var(--shadow-card); }
+    .tour-section { margin: 0 0 2rem; padding: 3.5rem 0 2.5rem; overflow: hidden; background: #f3f6fc; box-shadow: var(--shadow-card); }
     .tour-heading { padding-inline: 1.25rem; }
-    .tour-tabs { display: grid; grid-template-columns: repeat(2,1fr); width: min(20rem,calc(100% - 2.5rem)); margin: 1.5rem auto 1.75rem; padding: .35rem; border: 1px solid #e5e7eb; border-radius: 9999px; background: #fff; box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
-    .tour-tab { min-height: 3rem; border-radius: 9999px; color: #6b7280; font-size: 1rem; font-weight: 900; transition: color .25s,background-color .25s,box-shadow .25s; }
+    .tour-tabs { display: grid; grid-template-columns: repeat(2,1fr); width: min(20rem, calc(100% - 2.5rem)); margin: 1.5rem auto 1.75rem; padding: .35rem; border: 1px solid #e5e7eb; border-radius: 9999px; background: #fff; box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
+    .tour-tab { min-height: 3rem; border-radius: 9999px; color: #6b7280; font-size: 1rem; font-weight: 900; transition: color .25s ease, background-color .25s ease, box-shadow .25s ease; }
     .tour-tab.is-active { color: #fff; background: #F27405; box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
     .tour-panel[hidden] { display: none; }
     .tour-carousel-wrap { position: relative; }
     .tour-carousel { display: flex; gap: .75rem; overflow-x: auto; padding: .5rem max(1.25rem,6%) 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x; }
-    .tour-card { display: flex; flex-direction: column; flex: 0 0 clamp(17rem,86vw,30rem); overflow: hidden; border: 2px solid #fff; border-radius: 1.75rem; background: #e5e7eb; opacity: .65; scroll-snap-align: center; box-shadow: 0 14px 28px -20px rgba(17,24,39,.55); transition: opacity .3s,transform .3s; }
+    .tour-card { position: relative; display: flex; flex-direction: column; flex: 0 0 clamp(17rem,86vw,30rem); overflow: hidden; border: 2px solid #fff; border-radius: 1.75rem; background: #e5e7eb; opacity: .65; scroll-snap-align: center; box-shadow: 0 14px 28px -20px rgba(17,24,39,.55); transition: opacity .3s ease, transform .3s ease; }
     .tour-card.is-active { opacity: 1; transform: scale(1.01); }
     .tour-card img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-    .tour-card-caption { flex: 1; padding: 1rem 1.25rem; border-top: 1px solid #f3f4f6; background: #fff; color: #111827; font-size: 1rem; font-weight: 900; }
+    .tour-card-caption { flex: 1; padding: 1rem 1.25rem; border-top: 1px solid #f3f4f6; background: #fff; color: #111827; font-size: 1rem; font-weight: 900; line-height: 1.5; text-align: left; }
     .tour-arrow { position: absolute; top: 50%; z-index: 10; display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid #e5e7eb; border-radius: 9999px; background: rgba(255,255,255,.92); color: #111827; box-shadow: 0 8px 20px -10px rgba(17,24,39,.15); transform: translateY(-50%); backdrop-filter: blur(8px); }
-    .tour-arrow--prev { left: .75rem; } .tour-arrow--next { right: .75rem; } .tour-arrow:disabled { opacity: .35; }
+    .tour-arrow:active { transform: translateY(-50%) scale(.92); }
+    .tour-arrow--prev { left: .75rem; } .tour-arrow--next { right: .75rem; }
+    .tour-arrow:disabled { opacity: .35; cursor: not-allowed; }
     .tour-progress { width: min(13rem,55%); height: .4rem; margin: .75rem auto 0; overflow: hidden; border-radius: 9999px; background: #fff; }
-    .tour-progress-bar { height: 100%; border-radius: inherit; background: #F27405; transition: width .3s; }
-    .review-section { padding-inline: 1.25rem; }
-    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } .feature-carousel-section { max-width: 64rem; padding-top: 4.5rem; } .feature-carousel-heading,.tour-heading { padding-inline: 2rem; } .feature-carousel { gap: 1rem; height: 25rem; padding-inline: 2rem; } .feature-card { flex-basis: 42%; height: 17rem; } .feature-card.is-active { height: 22rem; } .desktop-content-wrap { max-width: 64rem; padding-inline: 2rem; } .tour-section { border-radius: var(--radius-card); } .tour-carousel { gap: 1rem; padding-inline: 2rem; } .tour-card { flex-basis: 48%; } .review-section { padding-inline: 2rem; } }
-    @media (min-width: 1024px) { .desktop-content-wrap { width: calc(100vw - 4rem); max-width: 96rem; padding: 0; } .feature-carousel-section,.tour-section { max-width: 96rem; } .feature-carousel-section { width: calc(100% - 4rem); } .feature-carousel { height: auto; align-items: stretch; gap: 1rem; padding: 1rem 2rem 1.75rem; } .feature-card,.feature-card.is-active { flex: 0 0 max(28.125rem,calc((100% - 2rem)/3)); min-width: 28.125rem; height: auto; aspect-ratio: 4/3; } .feature-card-image { position: absolute; inset: 0; } .tour-card { flex: 0 0 max(28.125rem,calc((100% - 1rem)/2)); min-width: 28.125rem; } .review-section { max-width: 96rem; } }
+    .tour-progress-bar { height: 100%; border-radius: inherit; background: #F27405; transition: width .3s ease; }
+    @media (min-width: 640px) { .feature-carousel { padding-inline: 2rem; } .feature-card { flex-basis: 46%; } .tour-card { flex-basis: 62%; } }
+    @media (min-width: 768px) {
+        .section-title { font-size: 1.875rem; }
+        .feature-carousel-section { max-width: 64rem; padding-top: 4.5rem; } .feature-carousel-heading, .tour-heading { padding-inline: 2rem; }
+        .feature-carousel { gap: 1rem; height: 25rem; padding-inline: 2rem; } .feature-card { flex-basis: 42%; height: 17rem; } .feature-card.is-active { height: 22rem; }
+        .desktop-content-wrap { max-width: 64rem; padding-inline: 2rem; } .tour-section { border-radius: var(--radius-card); } .tour-carousel { gap: 1rem; padding-inline: 2rem; } .tour-card { flex-basis: 48%; }
+    }
+    @media (min-width: 1024px) {
+        .desktop-content-wrap { width: calc(100vw - 4rem); max-width: 96rem; padding-inline: 0; }
+        .feature-carousel-section, .tour-section { max-width: 96rem; }
+        .feature-carousel-section { width: calc(100% - 4rem); }
+        .feature-carousel { height: auto; align-items: stretch; gap: 1rem; padding: 1rem 2rem 1.75rem; }
+        .feature-card, .feature-card.is-active { flex: 0 0 max(28.125rem,calc((100% - 2rem)/3)); min-width: 28.125rem; height: auto; aspect-ratio: 4/3; }
+        .feature-card-image { position: absolute; inset: 0; }
+        .tour-card { flex: 0 0 max(28.125rem,calc((100% - 1rem)/2)); min-width: 28.125rem; }
+    }
+
+    /* Editorial Premium page system */
+    @font-face {
+        font-family: 'Pretendard';
+        font-style: normal;
+        font-weight: 100 900;
+        src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2');
+        font-display: swap;
+    }
+    .danggn-page {
+        --layout-gutter-pc: 72px;
+        --layout-gutter-mo: 20px;
+        --color-text: #111111;
+        --color-text-secondary: #6e7072;
+        --color-line: rgba(17,17,17,.12);
+        --color-accent: #F27405;
+        --space-section: clamp(50px, 6vw, 90px);
+        font-family: 'Pretendard', sans-serif;
+        color: var(--color-text);
+    }
+    .danggn-page h1,
+    .danggn-page h2,
+    .danggn-page h3,
+    .danggn-page h4,
+    .danggn-page button,
+    .danggn-page a,
+    .danggn-page summary { font-family: 'Pretendard', sans-serif; }
+    .danggn-page .hero-animated-bg {
+        height: clamp(32rem, 60vh, 42rem);
+        min-height: clamp(32rem, 60vh, 42rem);
+        overflow: visible;
+        border-radius: 0;
+        box-shadow: none;
+        align-items: stretch;
+    }
+    .danggn-page .hero-animated-bg::before { display: none; }
+    .danggn-page .hero-animated-bg > div { max-width: 1200px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+    .danggn-page .hero-animated-bg > .hero-slide-track { position: absolute; inset: 0; z-index: 0; display: block; width: 100%; height: 100%; max-width: none; flex: none; }
+    .danggn-page .hero-animated-bg h1 { color: #111 !important; font-weight: 600; letter-spacing: -.035em; text-shadow: none; filter: none !important; }
+    .danggn-page .hero-animated-bg h1 span { color: #F27405 !important; }
+    .danggn-page .hero-animated-bg p { color: #111 !important; text-shadow: none; }
+    .danggn-page .hero-animated-bg > div:not(.hero-slide-track) { z-index: 2; transform: translateY(10%); }
+    .danggn-page .hero-animated-bg .grid > div { border-radius: 0; box-shadow: none; }
+    .danggn-page header *,
+    .danggn-page main *,
+    .danggn-page > .fixed { border-radius: 0 !important; }
+    .danggn-page .hero-speech-bubble { border-radius: 1rem !important; }
+    .danggn-page .section-heading { margin-bottom: clamp(1.75rem, 3.5vw, 3rem); text-align: center; }
+    .danggn-page .section-eyebrow {
+        min-height: 2rem;
+        padding: .35rem .8rem;
+        border: 1px solid #fed7aa;
+        border-radius: 9999px !important;
+        background: #fff7ed;
+        color: var(--color-accent);
+        font-family: 'Jost', sans-serif;
+        font-size: .875rem;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: .08em;
+    }
+    .danggn-page .section-title {
+        margin-top: 1.25rem;
+        color: var(--color-text);
+        font-size: clamp(1.75rem, 3vw, 2.75rem);
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: -.035em;
+    }
+    .danggn-page .section-description { color: var(--color-text-secondary); font-size: 1.125rem; font-weight: 400; line-height: 1.65; }
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section),
+    .danggn-page .feature-carousel-section,
+    .danggn-page .desktop-content-wrap { margin-bottom: 0; }
+    .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-top: var(--space-section); padding-bottom: var(--space-section); }
+    .danggn-page .feature-carousel-section { padding-top: var(--space-section); padding-bottom: var(--space-section); }
+    .danggn-page .feature-card,
+    .danggn-page .tour-card,
+    .danggn-page .tour-section,
+    .danggn-page details,
+    .danggn-page main > section > div > div > div,
+    .danggn-page main > section > div > div > article { border-radius: 4px; box-shadow: none; }
+    .danggn-page .feature-card,
+    .danggn-page .tour-card { border: 1px solid var(--color-line); }
+    .danggn-page .feature-card.is-active { border-color: var(--color-accent); box-shadow: none; }
+    .danggn-page .tour-section { margin-bottom: 1rem; padding-top: 1.75rem; padding-bottom: 1.25rem; background: #f7f4f0; }
+    .danggn-page .tour-tabs { border-radius: 9999px !important; box-shadow: 0 8px 24px -20px rgba(17,24,39,.45); }
+    .danggn-page .tour-tab,
+    .danggn-page .tour-tab.is-active { border-radius: 9999px !important; }
+    .danggn-page .tour-tab.is-active { box-shadow: 0 6px 15px -8px rgba(242,116,5,.8); }
+    .danggn-page .tour-progress { height: 1px; border-radius: 0; background: var(--color-line); }
+    .danggn-page .tour-progress-bar { border-radius: 0; }
+    .danggn-page .tour-arrow { border-radius: 0; box-shadow: none; background: transparent; }
+    .danggn-page .tour-card-caption { font-weight: 600; }
+    .danggn-page details summary { font-weight: 600; }
+    .danggn-page .feature-keyword { border-radius: 9999px !important; font-family: 'Jost', sans-serif; font-weight: 500; }
+    .danggn-page .feature-carousel-dot { border-radius: 9999px !important; }
+    .danggn-page .feature-carousel-dot.is-active { width: 2.5rem; border-radius: 9999px !important; }
+    .danggn-page details summary > span > span:first-child { border-radius: 9999px !important; }
+    .danggn-page #kakao-bubble { border-radius: 1rem !important; }
+    .danggn-page #kakao-bubble + a { border-radius: 9999px !important; }
+    .kakao-bubble-icon { display: inline-block; width: .65rem; height: .65rem; flex: 0 0 .65rem; border-radius: 50% !important; background: #FEE500; }
+    .danggn-quick-actions > a,
+    .danggn-quick-actions > button { padding: .75rem !important; }
+    .danggn-quick-actions > a > div,
+    .danggn-quick-actions > button > div { margin-bottom: .5rem !important; }
+    .danggn-page .danggn-event-banner { margin: 0 !important; padding: 0 !important; }
+    .danggn-page .shared-location-section { width: 100% !important; max-width: 36rem; margin-inline: auto; padding-inline: 0 !important; }
+    .danggn-page .shared-location-section > div:last-child { border-radius: 2rem !important; box-shadow: 0 20px 25px -5px rgba(209,213,219,.5), 0 8px 10px -6px rgba(209,213,219,.5); }
+    .danggn-page .shared-location-section span.inline-flex,
+    .danggn-page .shared-location-section span.inline-flex > span { border-radius: 9999px !important; }
+    .danggn-page .shared-location-section a[href*="blog.naver.com"] { border-radius: 1rem !important; }
+    .danggn-page .shared-location-section a[href*="blog.naver.com"] > span { border-radius: .375rem !important; }
+    @media (min-width: 1025px) {
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) > div,
+        .danggn-page #location-section > div { max-width: 1200px; }
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { width: calc(100% - var(--layout-gutter-pc) * 2); margin-inline: auto; }
+        .danggn-page .desktop-content-wrap { width: calc(100% - var(--layout-gutter-pc) * 2); max-width: 1476px; }
+        .danggn-page .feature-carousel-section { width: calc(100% - var(--layout-gutter-pc) * 2); max-width: 1476px; }
+        .danggn-page .feature-carousel-heading,
+        .danggn-page .tour-heading { padding-inline: 0; }
+        .danggn-page .section-heading { text-align: center; }
+    }
+    @media (min-width: 768px) {
+        .danggn-page .shared-location-section { width: calc(100% - 4rem) !important; max-width: 64rem; }
+    }
+    @media (min-width: 1200px) {
+        .danggn-page .shared-location-section { max-width: 72rem; }
+    }
+    @media (max-width: 1024px) {
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-inline: var(--layout-gutter-mo); }
+        .danggn-page .feature-carousel-section { padding-inline: var(--layout-gutter-mo); }
+    }
+    @media (max-width: 600px) {
+        .danggn-page .hero-animated-bg { min-height: 34rem; padding-inline: var(--layout-gutter-mo); }
+        .danggn-page .hero-animated-bg > div { max-width: none; }
+        .danggn-page .hero-animated-bg h1 { font-size: 2rem; }
+        .danggn-page .hero-speech-bubble { font-size: 1rem; }
+        .danggn-page .section-title { font-size: 1.625rem; }
+        .danggn-page .section-description { font-size: 1rem; }
+        .danggn-page main > section:not(.hero-animated-bg):not(.feature-carousel-section) { padding-top: 3.125rem; padding-bottom: 3.125rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .danggn-page .hero-animated-bg::before,
+        .danggn-page .hero-slide-track,
+        .danggn-page [data-aos],
+        .danggn-page .feature-card,
+        .danggn-page .feature-card-image { animation: none !important; transition: none !important; transform: none !important; }
+    }
 </style>
 </head>
-<body class="bg-white text-gray-900 pb-32 overflow-x-hidden">
+<body class="danggn-page bg-white text-gray-900 pb-32 overflow-x-hidden">
 
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
@@ -132,61 +335,40 @@
 <main class="w-full flex flex-col items-center bg-gray-50/50 pb-24 overflow-hidden font-sans text-gray-900" data-package="국가검진">
 
     <section class="relative w-full text-gray-900 pt-12 pb-16 px-6 md:rounded-b-[3rem] rounded-b-[2.5rem] shadow-xl shadow-slate-200/50 flex flex-col items-center hero-animated-bg">
-        
+        <div class="hero-slide-track" aria-hidden="true"></div>
         <div class="w-full max-w-md md:max-w-xl">
-            <div class="flex items-center justify-between mb-5">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm md:text-base font-bold border border-white/20 backdrop-blur-sm shadow-sm">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#fff] animate-ping"></span>
-                    국가검진 지정기관
-                </span>
-                <a href="https://rapigenhc.com/" target="_blank"><span class="text-sm text-white/80 font-medium">래피젠헬스케어</span></a>
-            </div>
-
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 break-keep text-white drop-shadow-md">
                 2026년 국가건강검진<br>
                 <span class="text-[#feca9c]">대상자 확인</span> & 예약
             </h1>
             
-            <p class="text-base md:text-lg text-white/90 mb-8 leading-relaxed break-keep font-medium">
+            <p class="text-base md:text-lg text-white/90 leading-relaxed break-keep font-medium">
                 올해 검진 대상자인지 지금 확인하세요.<br class="hidden sm:block">
                 국가검진 받으시면 프리미엄 종합검진 추가 할인 혜택까지!
             </p>
 
-            <div class="grid grid-cols-2 gap-2">
-                <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm">
-                    <div class="text-sm text-gray-600 mb-1.5 font-medium">올해 검진 대상자</div>
-                    <div class="text-lg md:text-xl font-extrabold text-gray-900 break-keep">짝수년도 출생자</div>
-                    <div class="text-xs md:text-sm text-[#F27405] mt-1 font-bold">예: 1966, 1990년생</br>만 20세 이상</div>
-                    <div class="text-xs md:text-sm text-gray-400 mt-1 break-keep font-medium">또는 작년 미수검자</div>
-                </div>
-                <div class="bg-white/80 backdrop-blur-md p-5 rounded-[1.5rem] border border-white/100 shadow-sm">
-                    <div class="text-sm text-gray-600 mb-1.5 font-medium">화수목 이벤트 (~9월)</div>
-                    <div class="text-lg md:text-xl font-extrabold text-blue-600 break-keep">복부대동맥초음파 검사추가</div>
-                    <div class="text-xs md:text-sm text-gray-400 mt-1 break-keep font-medium">국가검진 1차, 위암대상자 본인희망시</div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section class="w-full max-w-md md:max-w-xl mx-auto px-6 -mt-8 relative z-10 mb-12" data-aos="fade-up">
-        <div class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/60 border border-slate-100 grid grid-cols-3 gap-4 text-center">
+    <section class="danggn-quick-actions w-full max-w-md md:max-w-xl mx-auto px-6 relative z-10" data-aos="fade-up">
+        <div class="grid grid-cols-3 gap-3 text-center translate-y-[20%]">
             
             <a href="tel:1544-5189" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl bg-amber-50 text-[#F27405] flex items-center justify-center mb-3 shadow-sm">
+                <div class="text-[#F27405] mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold text-slate-700">전화하기</span>
             </a>
 
             <a href="#location-section" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-slate-100 active:scale-95 transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0047FF] flex items-center justify-center mb-3 shadow-sm">
+                <div class="text-[#0047FF] mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold text-slate-700">오시는길</span>
             </a>
 
             <button type="button" onclick="openBottomSheet('국가검진')" class="flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-gradient-to-b from-[#F27405] to-[#d96400] text-white active:scale-95 transition-all duration-300 shadow-lg shadow-[#F27405]/30">
-                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-3">
+                <div class="text-white mb-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <span class="text-sm md:text-base font-bold">간편예약</span>
@@ -195,8 +377,8 @@
         </div>
     </section>
 
-    <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up" aria-label="2026년 국가검진 대상자 이벤트">
-        <img src="img/202608event-national.jpg" alt="2026년 국가검진 대상자 화수목요일 복부대동맥초음파 이벤트" width="800" height="600" loading="lazy" class="block w-full h-auto rounded-[1.5rem] border border-slate-100 shadow-lg shadow-slate-200/50">
+    <section class="danggn-event-banner w-full max-w-md md:max-w-xl" data-aos="fade-up" aria-label="2026년 9월 건강검진 이벤트">
+        <img src="img/202609event-popup.jpg" alt="2026년 9월 복부대동맥 초음파 및 개인종합검진 CT 이벤트" width="720" height="960" loading="lazy" class="block w-full h-auto">
     </section>
 
     <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up">
@@ -217,7 +399,7 @@
             <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 flex flex-col overflow-hidden">
         
                 <div class="w-full h-40 md:h-48 bg-slate-100 relative">
-                    <img src="/img/concept01.jpg" alt="국가검진 안내" class="w-full h-full object-cover opacity-100"/>
+                    <img src="img/concept01.jpg" alt="국가검진 안내" class="w-full h-full object-cover opacity-100"/>
                     <div class="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent"></div>
                 </div>
                 
@@ -238,7 +420,7 @@
                 <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 flex flex-col overflow-hidden">
             
                     <div class="w-full h-40 md:h-48 bg-amber-50 relative">
-                        <img src="/img/concept02.jpg" alt="추가검사 혜택 안내" class="w-full h-full object-cover opacity-100"/>
+                        <img src="img/concept02.jpg" alt="추가검사 혜택 안내" class="w-full h-full object-cover opacity-100"/>
                         <div class="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent"></div>
                     </div>
 
@@ -263,7 +445,7 @@
     <section class="w-full max-w-md md:max-w-xl mx-auto px-6 mb-14" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalProcedure">
         <div class="flex items-center justify-between mb-6">
             <div>
-                <div class="w-36 pb-2"><img src="/img/nhis_logo.png"></div>
+                <div class="w-36 pb-2"><img src="img/nhis_logo.png"></div>
                 <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight break-keep" itemprop="name">2026 국가건강검진 안내</h2>
                 <p class="text-base text-gray-500 mt-1 font-light">국민건강보험공단 지정 주요 검진항목</p>
             </div>
@@ -297,15 +479,15 @@
                 <ul class="px-6 pb-6 pt-3 text-base md:text-lg text-gray-600 border-t border-gray-50 leading-loose space-y-3 break-keep">
                     <li class="flex items-start gap-2">
                         <span class="text-[#F27405] font-bold shrink-0">1.</span>
-                        <span><strong class="text-gray-800">기본 :</strong> 문진, 키, 몸무게, 허리둘레, 체질량지수, 시력, 청력, 혈압 등</span>
+                        <span><strong class="text-gray-800">기본 :</strong> 문진, 신체계측, 시력, 청력, 혈압 등</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <span class="text-[#F27405] font-bold shrink-0">2.</span>
-                        <span><strong class="text-gray-800">혈액 :</strong> 혈색소, 공복혈당, AST, ALT, 감마지티피, 혈청 크레아티닌 등</span>
+                        <span><strong class="text-gray-800">혈액 :</strong> AST, ALT, 감마지티피, 공복혈당</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <span class="text-[#F27405] font-bold shrink-0">3.</span>
-                        <span><strong class="text-gray-800">소변 :</strong> 요단백</span>
+                        <span><strong class="text-gray-800">소변 :</strong> 요단백, 요잠혈, 혈청 크레아티닌 등</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <span class="text-[#F27405] font-bold shrink-0">4.</span>
@@ -415,38 +597,58 @@
     </section>
 
     <section class="feature-carousel-section" data-aos="fade-up" aria-labelledby="feature-carousel-title">
-        <div class="feature-carousel-heading section-heading"><span class="section-eyebrow">RAPIGEN HEALTHCARE</span><h2 id="feature-carousel-title" class="section-title">래피젠 헬스케어 특징</h2><p class="section-description">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p></div>
+        <div class="feature-carousel-heading section-heading">
+            <span class="section-eyebrow">RAPIGEN HEALTHCARE</span>
+            <h2 id="feature-carousel-title" class="section-title">래피젠 헬스케어 특징</h2>
+            <p class="section-description">정밀 장비부터 편리한 예약과 사후관리까지, 검진의 전 과정을 세심하게 설계했습니다.</p>
+        </div>
         <div id="feature-carousel" class="feature-carousel" aria-label="래피젠 헬스케어 특징 슬라이드">
-            <article class="feature-card"><img src="img/concept-mri.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div><h3 class="feature-card-title">고해상도 3.0T MRI</h3></div></div></article>
-            <article class="feature-card"><img src="img/concept-ct.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div><h3 class="feature-card-title">AI 탑재 128ch CT</h3></div></div></article>
-            <article class="feature-card"><img src="img/eq-endo.jpg" alt="고해상도 내시경 검사실" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div><h3 class="feature-card-title">정밀 내시경 시스템</h3></div></div></article>
-            <article class="feature-card"><img src="img/concept-rfid.png" alt="RFID 기반 검진 동선 시스템" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div><h3 class="feature-card-title">접수·락커·검진 연계 시스템</h3></div></div></article>
-            <article class="feature-card"><img src="img/concept01.jpg" alt="사후관리 서비스" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">상급병원</span><span class="feature-keyword">진료연계</span></div><h3 class="feature-card-title">유소견시, 상급병원 진료 예약</h3></div></div></article>
-            <article class="feature-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div><h3 class="feature-card-title">체계적이고 편안한 검진환경</h3></div></div></article>
+            <article class="feature-card" data-feature-index="0"><img src="img/concept-mri.jpg" alt="3.0T MRI 검사 장비" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">대학병원급</span><span class="feature-keyword">3.0T</span></div><h3 class="feature-card-title">고해상도 3.0T MRI</h3></div></div></article>
+            <article class="feature-card" data-feature-index="1"><img src="img/concept-ct.jpg" alt="AI 기반 128채널 CT 검사 장비" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">AI 진단보조</span><span class="feature-keyword">128채널</span></div><h3 class="feature-card-title">AI 탑재 128ch CT</h3></div></div></article>
+            <article class="feature-card" data-feature-index="2"><img src="img/eq-endo.jpg" alt="고해상도 내시경 검사실" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">실시간 AI분석</span><span class="feature-keyword">고해상도</span></div><h3 class="feature-card-title">정밀 내시경 시스템</h3></div></div></article>
+            <article class="feature-card" data-feature-index="3"><img src="img/concept-rfid.png" alt="RFID 기반 검진 동선 시스템" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">RFID</span><span class="feature-keyword">검진연계</span></div><h3 class="feature-card-title">접수·락커·검진 연계 시스템</h3></div></div></article>
+            <article class="feature-card" data-feature-index="4"><img src="img/concept01.jpg" alt="사후관리 서비스" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">상급병원</span><span class="feature-keyword">진료연계</span></div><h3 class="feature-card-title">유소견시, 상급병원 진료 예약</h3></div></div></article>
+            <article class="feature-card" data-feature-index="5"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 검진 공간" class="feature-card-image" loading="lazy"><div class="feature-card-overlay"><div class="feature-card-copy"><div class="feature-keywords"><span class="feature-keyword">공항테마</span><span class="feature-keyword">쾌적한 동선</span></div><h3 class="feature-card-title">체계적이고 편안한 검진환경</h3></div></div></article>
         </div>
         <div id="feature-carousel-status" class="feature-carousel-status" aria-label="슬라이드 위치"></div>
     </section>
 
     <div class="desktop-content-wrap">
         <section class="tour-section" data-aos="fade-up" aria-labelledby="tour-title">
-            <div class="tour-heading section-heading"><span class="section-eyebrow">SPACE &amp; EQUIPMENT</span><h2 id="tour-title" class="section-title">래피젠 헬스케어 둘러보기</h2><p class="section-description">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p></div>
-            <div class="tour-tabs" role="tablist" aria-label="둘러보기 분류"><button type="button" id="tour-facility-tab" class="tour-tab is-active" role="tab" aria-selected="true" aria-controls="tour-facility-panel" data-tour-target="facility">시설</button><button type="button" id="tour-equipment-tab" class="tour-tab" role="tab" aria-selected="false" aria-controls="tour-equipment-panel" data-tour-target="equipment">장비</button></div>
-            <div id="tour-facility-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-facility-tab" data-tour-panel="facility"><div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="시설 사진">
-                <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크" loading="lazy"><figcaption class="tour-card-caption">접수, 로비</figcaption></figure><figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간" loading="lazy"><figcaption class="tour-card-caption">기초검사센터</figcaption></figure><figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간" loading="lazy"><figcaption class="tour-card-caption">영상의학센터</figcaption></figure><figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간" loading="lazy"><figcaption class="tour-card-caption">내시경센터</figcaption></figure><figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경" loading="lazy"><figcaption class="tour-card-caption">특수검진센터</figcaption></figure>
-            </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 시설 사진">‹</button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 시설 사진">›</button></div><div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div></div>
-            <div id="tour-equipment-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-equipment-tab" data-tour-panel="equipment" hidden><div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="장비 사진">
-                <figure class="tour-card"><img src="img/eq-mri.jpg" alt="래피젠 헬스케어 MRI 장비" loading="lazy"><figcaption class="tour-card-caption">3.0T MRI</figcaption></figure><figure class="tour-card"><img src="img/eq-ct.jpg" alt="래피젠 헬스케어 CT 장비" loading="lazy"><figcaption class="tour-card-caption">128ch CT</figcaption></figure><figure class="tour-card"><img src="img/eq-endo.jpg" alt="래피젠 헬스케어 내시경 장비" loading="lazy"><figcaption class="tour-card-caption">고해상도 내시경</figcaption></figure><figure class="tour-card"><img src="img/eq-eye.jpg" alt="래피젠 헬스케어 안구 검사 장비" loading="lazy"><figcaption class="tour-card-caption">AI판독보조 안저</figcaption></figure>
-            </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 장비 사진">‹</button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 장비 사진">›</button></div><div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div></div>
-        </section>
-
-        <section class="review-section w-full py-8 md:py-12" data-aos="fade-up">
-            <div class="section-heading px-1">
-                <span class="section-eyebrow">REAL REVIEW</span>
-                <h2 class="section-title">고객 검진 후기</h2>
-                <p class="section-description">래피젠헬스케어를 직접 경험한 고객들의 이야기입니다.</p>
+            <div class="tour-heading section-heading">
+                <span class="section-eyebrow">SPACE &amp; EQUIPMENT</span>
+                <h2 id="tour-title" class="section-title">래피젠 헬스케어 둘러보기</h2>
+                <p class="section-description">쾌적한 검진 시설과 정밀 장비를 직접 확인해 보세요.</p>
             </div>
-            <div>
-            <div data-aos="fade-up" data-aos-delay="100" class="review-grid grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+            <div class="tour-tabs" role="tablist" aria-label="둘러보기 분류">
+                <button type="button" id="tour-facility-tab" class="tour-tab is-active" role="tab" aria-selected="true" aria-controls="tour-facility-panel" data-tour-target="facility">시설</button>
+                <button type="button" id="tour-equipment-tab" class="tour-tab" role="tab" aria-selected="false" aria-controls="tour-equipment-panel" data-tour-target="equipment">장비</button>
+            </div>
+            <div id="tour-facility-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-facility-tab" data-tour-panel="facility">
+                <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="시설 사진">
+                    <figure class="tour-card"><img src="img/interior-pic-01.jpg" alt="래피젠 헬스케어 안내 데스크" loading="lazy"><figcaption class="tour-card-caption">접수, 로비</figcaption></figure>
+                    <figure class="tour-card"><img src="img/interior-pic-02.jpg" alt="래피젠 헬스케어 대기 공간" loading="lazy"><figcaption class="tour-card-caption">기초검사센터</figcaption></figure>
+                    <figure class="tour-card"><img src="img/interior-pic-03.jpg" alt="래피젠 헬스케어 검진 공간" loading="lazy"><figcaption class="tour-card-caption">영상의학센터</figcaption></figure>
+                    <figure class="tour-card"><img src="img/interior-pic-05.jpg" alt="래피젠 헬스케어 상담 공간" loading="lazy"><figcaption class="tour-card-caption">내시경센터</figcaption></figure>
+                    <figure class="tour-card"><img src="img/interior-pic-06.jpg" alt="래피젠 헬스케어 내부 전경" loading="lazy"><figcaption class="tour-card-caption">특수검진센터</figcaption></figure>
+                </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 시설 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 시설 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
+                <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
+            </div>
+            <div id="tour-equipment-panel" class="tour-panel" role="tabpanel" aria-labelledby="tour-equipment-tab" data-tour-panel="equipment" hidden>
+                <div class="tour-carousel-wrap"><div class="tour-carousel" aria-label="장비 사진">
+                    <figure class="tour-card"><img src="img/eq-mri.jpg" alt="래피젠 헬스케어 MRI 장비" loading="lazy"><figcaption class="tour-card-caption">3.0T MRI</figcaption></figure>
+                    <figure class="tour-card"><img src="img/eq-ct.jpg" alt="래피젠 헬스케어 CT 장비" loading="lazy"><figcaption class="tour-card-caption">128ch CT</figcaption></figure>
+                    <figure class="tour-card"><img src="img/eq-endo.jpg" alt="래피젠 헬스케어 내시경 장비" loading="lazy"><figcaption class="tour-card-caption">고해상도 내시경</figcaption></figure>
+                    <figure class="tour-card"><img src="img/eq-eye.jpg" alt="래피젠 헬스케어 안구 검사 장비" loading="lazy"><figcaption class="tour-card-caption">AI판독보조 안저</figcaption></figure>
+                </div><button type="button" class="tour-arrow tour-arrow--prev" data-tour-direction="prev" aria-label="이전 장비 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg></button><button type="button" class="tour-arrow tour-arrow--next" data-tour-direction="next" aria-label="다음 장비 사진"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></button></div>
+                <div class="tour-progress" aria-hidden="true"><div class="tour-progress-bar"></div></div>
+            </div>
+        </section>
+    </div>
+
+    <section class="w-full bg-white pb-24 pt-8" data-shared-section="customer-reviews">
+        <div class="max-w-5xl mx-auto px-6">
+            <div data-aos="fade-up" data-aos-delay="100" class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 pb-8 items-stretch">
                 
                 <div class="w-full bg-[#F27405]/5 rounded-[2rem] p-8 relative flex flex-col border border-[#F27405]/20 shadow-sm">
                     <div class="flex-1">
@@ -461,7 +663,7 @@
                             "깔끔하고 조용하고 친절하고 3박자가 딱입니다. 이런곳이 있었다니."
                         </p>
                     </div>
-                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
@@ -475,10 +677,10 @@
                             <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <p class="text-gray-800 font-medium text-base md:text-[17px] leading-loose break-keep">
-                            "소개로 방문했는데 너무 친절하시고 무엇보다 빠른안내 감사드립니다. 부모님도 만족하셨어요. 다음에는 저희 부부도 함께 예약하겠습니다."
+                            "직장과 가까운 곳에 검진센터가 생겨서 너무 좋습니다! 시설도 깔끔하고 모두들 친절하셨어요~!"
                         </p>
                     </div>
-                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 예약 리뷰</div>
+                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 예약 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
@@ -495,17 +697,20 @@
                             "기본검사하는데도 꼼꼼히 챙겨주시고 친절하셔서 감동입니다 다음에 이것저것 추가해서 받게된다면 여기로 오고싶어요 동네에 이런 큰병원생겨서 좋아요"
                         </p>
                     </div>
-                    <div class="mt-6 text-base text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
+                    <div class="mt-6 text-sm text-gray-500 border-t border-[#F27405]/20 pt-4">네이버 영수증 리뷰</div>
                     <div class="absolute -bottom-3 left-10 w-6 h-6 bg-[#fff7f0] border-b border-r border-[#F27405]/20 rotate-45"></div>
                 </div>
 
             </div>
         </div>
-        </section>
-    </div>
+    </section>
 
-    <section id="location-section" class="w-full max-w-md md:max-w-3xl mx-auto px-6 mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
-        <div class="section-heading px-1"><span class="section-eyebrow">VISIT RAPIGEN</span><h2 class="section-title">운영시간 안내</h2></div>
+    <section id="location-section" class="shared-location-section mb-12" data-aos="fade-up" itemscope itemtype="https://schema.org/MedicalClinic">
+        <div class="section-heading px-1">
+            <span class="section-eyebrow">VISIT RAPIGEN</span>
+            <h2 class="section-title">운영시간 안내</h2>
+        </div>
+
         <div class="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50 md:p-8">
             <div class="mb-5 flex flex-col items-start justify-between border-b border-gray-100 pb-4 gap-3 sm:flex-row sm:items-center">
                 <div>
@@ -513,7 +718,7 @@
                     <p class="mt-1 text-base font-medium text-gray-500" itemprop="medicalSpecialty">국가검진 / 종합검진 / 특수검진</p>
                 </div>
                 <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>신청 가능
                 </span>
             </div>
 
@@ -527,7 +732,8 @@
                     <span class="font-bold text-gray-500" itemprop="openingHours" content="We,Sa 07:00-12:00">07:00 ~ 12:00</span>
                 </div>
                 <div class="flex items-start justify-between gap-3 text-gray-400">
-                    <span class="shrink-0 font-medium">일요일 / 공휴일</span><span class="text-right break-keep">휴무 (특수검진 토요일 미진행)</span>
+                    <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                    <span class="text-right break-keep">휴무 (특수검진 토요일 미진행)</span>
                 </div>
             </div>
 
@@ -537,55 +743,39 @@
                     <p class="mt-1 text-base font-medium text-gray-500">다이어트주사, 탈모, 수액 등 내과 진료</p>
                 </div>
                 <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-base font-bold text-emerald-600">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>접수가능
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>신청 가능
                 </span>
             </div>
 
             <div class="mb-6 space-y-3 text-base">
                 <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">월 화 목 금</span>
-                    <span class="font-bold" itemprop="openingHours" content="Mo-Fr 08:00-17:00">08:00 ~ 17:00</span>
+                    <span class="font-bold">08:00 ~ 17:00</span>
                 </div>
                 <div class="flex items-center justify-between gap-3 text-gray-700">
                     <span class="font-medium text-gray-500">수, 토요일</span>
-                    <span class="font-bold text-gray-500" itemprop="openingHours" content="Sa 08:00-13:00">08:00 ~ 12:00</span>
+                    <span class="font-bold text-gray-500">08:00 ~ 12:00</span>
                 </div>
                 <div class="flex items-start justify-between gap-3 text-gray-400">
-                    <span class="shrink-0 font-medium">일요일 / 공휴일</span><span class="text-right break-keep">휴무 (토요일 격주 휴무, 방문 전 전화)</span>
+                    <span class="shrink-0 font-medium">일요일 / 공휴일</span>
+                    <span class="text-right break-keep">휴무 (토요일 격주 휴무, 방문 전 전화)</span>
                 </div>
             </div>
 
             <div class="space-y-4 border-t border-gray-100 pt-5 text-base text-gray-600">
-                <a href="https://naver.me/GziL2Dd5" target="_blank" rel="noopener">
-                    <div class="flex items-start gap-2.5">
-                        <svg class="w-5 h-5 text-[#F27405] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                        <div>
-                            <span class="font-extrabold text-gray-800 block mb-1 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층</span>
-                            <span class="text-gray-400 text-xs break-keep">지하철 1,7호선 가산디지털단지역 8~11번 출구</span>
-                        </div>
-                    </div>
-                </a>   
-                <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank" rel="noopener">
-                    <div class="mt-4 p-4 rounded-[1rem] bg-gray-50 text-xs md:text-sm text-gray-500 flex items-center gap-2 border border-gray-100 break-keep leading-relaxed">
-                        <span class="font-bold text-gray-700 bg-gray-200 px-2.5 py-1 rounded-md text-xs shrink-0">주차</span>
-                        가산어반워크1차 주차 가능. 검진, 진료 시 주차 지원
-                    </div>
+                <a href="https://naver.me/GziL2Dd5" target="_blank" rel="noopener" class="flex items-start gap-2.5">
+                    <span class="text-[#F27405]">●</span>
+                    <span class="font-extrabold leading-relaxed text-gray-800 break-keep" itemprop="address">서울특별시 금천구 가산디지털2로 135 가산어반워크1차 2층<br><span class="font-medium text-gray-400">지하철 1, 7호선 가산디지털단지역 8~11번 출구</span></span>
                 </a>
-                <div class="flex items-center gap-2.5 pt-2">
-                    <svg class="w-5 h-5 text-[#0047FF] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                    <span class="font-extrabold text-gray-800 break-keep" itemprop="telephone">대표 전화 <a href="tel:1544-5189" class="text-blue-500 underline underline-offset-2 py-1 inline-block active:opacity-50">1544-5189</a></span>
-                    <span class="font-extrabold text-gray-800 break-keep" itemprop="telephone">검진 직통 <a href="tel:02-6449-4083" class="text-blue-500 underline underline-offset-2 py-1 inline-block active:opacity-50">02-6449-4083</a></span>
+                <a href="https://blog.naver.com/nanoclinic/224036741007" target="_blank" rel="noopener" class="flex items-center gap-2 rounded-2xl border border-gray-100 bg-gray-50 p-4 leading-relaxed text-gray-500 break-keep">
+                    <span class="shrink-0 rounded-md bg-gray-200 px-2.5 py-1 font-bold text-gray-700">주차</span>
+                    가산어반워크1차 주차 가능 · 검진, 진료 시 주차 지원
+                </a>
+                <div class="flex flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:gap-5">
+                    <span class="font-extrabold text-gray-800">대표 전화 <a href="tel:1544-5189" class="text-blue-500 underline underline-offset-2" itemprop="telephone">1544-5189</a></span>
+                    <span class="font-extrabold text-gray-800">검진 직통 <a href="tel:02-6449-4083" class="text-blue-500 underline underline-offset-2">02-6449-4083</a></span>
                 </div>
             </div>
-<!-- 
-            <div id="map" class="w-full h-52 rounded-2xl bg-gray-50 mt-5 overflow-hidden border border-gray-200 relative flex items-center justify-center">
-                <div class="text-center text-gray-400 text-sm">
-                    <svg class="w-8 h-8 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                    카카오 지도 영역 (스크립트 자동 로드)
-                </div>
-            </div> -->
-
-
         </div>
     </section>
 
@@ -630,10 +820,7 @@
         <div class="flex flex-col items-end gap-3 group pointer-events-auto">
             <div id="kakao-bubble" class="bg-white px-4 py-2 rounded-2xl shadow-xl border border-gray-100 relative animate-bounce-subtle">
                 <p class="text-[13px] font-bold text-gray-800 flex items-center gap-1.5">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                    </span>
+                    <span class="kakao-bubble-icon" aria-hidden="true"></span>
                     <span id="bubble-text">빠른 채팅 상담하기</span>
                 </p>
                 <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45"></div>
@@ -734,65 +921,123 @@
             const featureCarousel = document.getElementById('feature-carousel');
             const featureStatus = document.getElementById('feature-carousel-status');
             if (featureCarousel && featureStatus) {
+                const originals = Array.from(featureCarousel.querySelectorAll('.feature-card'));
+                const count = originals.length;
+                const firstClone = originals[0].cloneNode(true);
+                const lastClone = originals[count - 1].cloneNode(true);
+                featureCarousel.prepend(lastClone);
+                featureCarousel.append(firstClone);
                 const cards = Array.from(featureCarousel.querySelectorAll('.feature-card'));
-                let index = 0;
-                let timer;
-                cards.forEach((_, dotIndex) => {
+                let position = 1;
+                let autoplay;
+                let scrollTimer;
+                let touching = false;
+
+                originals.forEach((_, index) => {
                     const dot = document.createElement('span');
                     dot.className = 'feature-carousel-dot';
-                    dot.setAttribute('aria-label', `${dotIndex + 1}번째 특징`);
+                    dot.setAttribute('aria-label', `${index + 1}번째 특징`);
                     featureStatus.appendChild(dot);
                 });
-                const move = (next, smooth = true) => {
-                    index = (next + cards.length) % cards.length;
-                    cards.forEach((card, cardIndex) => {
-                        card.classList.toggle('is-active', cardIndex === index);
-                        card.setAttribute('aria-hidden', String(cardIndex !== index));
+                const logicalIndex = () => position === 0 ? count - 1 : position === count + 1 ? 0 : position - 1;
+                const update = () => {
+                    cards.forEach((card, index) => {
+                        card.classList.toggle('is-active', index === position);
+                        card.setAttribute('aria-hidden', String(index !== position));
                     });
-                    featureStatus.querySelectorAll('.feature-carousel-dot').forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
-                    const card = cards[index];
-                    featureCarousel.scrollTo({ left: card.offsetLeft - (featureCarousel.clientWidth - card.offsetWidth) / 2, behavior: smooth ? 'smooth' : 'auto' });
+                    featureStatus.querySelectorAll('.feature-carousel-dot').forEach((dot, index) => dot.classList.toggle('is-active', index === logicalIndex()));
                 };
-                const start = () => { window.clearInterval(timer); timer = window.setInterval(() => move(index + 1), 3000); };
-                featureCarousel.addEventListener('pointerdown', () => window.clearInterval(timer));
-                featureCarousel.addEventListener('pointerup', start);
-                window.addEventListener('resize', () => move(index, false));
-                requestAnimationFrame(() => { move(0, false); start(); });
+                const center = (next, smooth = true) => {
+                    position = next;
+                    update();
+                    const card = cards[position];
+                    featureCarousel.scrollTo({ left: card.offsetLeft - ((featureCarousel.clientWidth - card.offsetWidth) / 2), behavior: smooth ? 'smooth' : 'auto' });
+                    if (position === 0 || position === count + 1) window.setTimeout(() => {
+                        position = position === 0 ? count : 1;
+                        update();
+                        const resetCard = cards[position];
+                        featureCarousel.scrollTo({ left: resetCard.offsetLeft - ((featureCarousel.clientWidth - resetCard.offsetWidth) / 2), behavior: 'auto' });
+                    }, 520);
+                };
+                const nearest = () => {
+                    const centerPoint = featureCarousel.scrollLeft + featureCarousel.clientWidth / 2;
+                    let next = 0;
+                    let distance = Infinity;
+                    cards.forEach((card, index) => {
+                        const current = Math.abs(card.offsetLeft + card.offsetWidth / 2 - centerPoint);
+                        if (current < distance) { distance = current; next = index; }
+                    });
+                    center(next);
+                };
+                const start = () => {
+                    window.clearInterval(autoplay);
+                    autoplay = window.setInterval(() => { if (!touching) center(position + 1); }, 3000);
+                };
+                featureCarousel.addEventListener('touchstart', () => { touching = true; window.clearInterval(autoplay); }, { passive: true });
+                featureCarousel.addEventListener('touchend', () => { touching = false; window.clearTimeout(scrollTimer); scrollTimer = window.setTimeout(nearest, 120); start(); }, { passive: true });
+                window.addEventListener('resize', () => center(position, false));
+                requestAnimationFrame(() => { center(position, false); start(); });
             }
 
             const tourTabs = document.querySelectorAll('.tour-tab');
             const tourPanels = document.querySelectorAll('.tour-panel');
-            const setupTour = panel => {
-                if (panel.dataset.initialized) return;
+            const setupTourPanel = (panel) => {
+                if (panel.dataset.initialized === 'true') return;
                 panel.dataset.initialized = 'true';
                 const carousel = panel.querySelector('.tour-carousel');
-                const cards = Array.from(panel.querySelectorAll('.tour-card'));
+                const cards = Array.from(carousel.querySelectorAll('.tour-card'));
                 const prev = panel.querySelector('[data-tour-direction="prev"]');
                 const next = panel.querySelector('[data-tour-direction="next"]');
                 const progress = panel.querySelector('.tour-progress-bar');
                 let index = 0;
+                let timer;
                 const update = () => {
                     cards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === index));
                     prev.disabled = index === 0;
                     next.disabled = index === cards.length - 1;
-                    progress.style.width = `${(index + 1) / cards.length * 100}%`;
+                    progress.style.width = `${((index + 1) / cards.length) * 100}%`;
                 };
-                const move = target => {
+                const move = (target, smooth = true) => {
                     index = Math.max(0, Math.min(target, cards.length - 1));
                     const card = cards[index];
-                    carousel.scrollTo({ left: card.offsetLeft - (carousel.clientWidth - card.offsetWidth) / 2, behavior: 'smooth' });
+                    carousel.scrollTo({ left: card.offsetLeft - ((carousel.clientWidth - card.offsetWidth) / 2), behavior: smooth ? 'smooth' : 'auto' });
+                    update();
+                };
+                const selectNearest = () => {
+                    const centerPoint = carousel.scrollLeft + carousel.clientWidth / 2;
+                    let nearestIndex = 0;
+                    let nearestDistance = Infinity;
+                    cards.forEach((card, cardIndex) => {
+                        const distance = Math.abs(card.offsetLeft + card.offsetWidth / 2 - centerPoint);
+                        if (distance < nearestDistance) { nearestDistance = distance; nearestIndex = cardIndex; }
+                    });
+                    index = nearestIndex;
                     update();
                 };
                 prev.addEventListener('click', () => move(index - 1));
                 next.addEventListener('click', () => move(index + 1));
-                requestAnimationFrame(() => move(0));
+                carousel.addEventListener('scroll', () => { window.clearTimeout(timer); timer = window.setTimeout(selectNearest, 100); }, { passive: true });
+                panel.addEventListener('tour:recenter', () => move(index, false));
+                requestAnimationFrame(() => move(0, false));
             };
             tourTabs.forEach(tab => tab.addEventListener('click', () => {
-                tourTabs.forEach(item => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); });
-                tourPanels.forEach(panel => { const active = panel.dataset.tourPanel === tab.dataset.tourTarget; panel.hidden = !active; if (active) setupTour(panel); });
+                tourTabs.forEach(item => {
+                    const active = item === tab;
+                    item.classList.toggle('is-active', active);
+                    item.setAttribute('aria-selected', String(active));
+                });
+                tourPanels.forEach(panel => {
+                    const active = panel.dataset.tourPanel === tab.dataset.tourTarget;
+                    panel.hidden = !active;
+                    if (active) { setupTourPanel(panel); requestAnimationFrame(() => panel.dispatchEvent(new CustomEvent('tour:recenter'))); }
+                });
             }));
-            const initialTour = document.querySelector('.tour-panel:not([hidden])');
-            if (initialTour) setupTour(initialTour);
+            const initialTourPanel = document.querySelector('.tour-panel:not([hidden])');
+            if (initialTourPanel) setupTourPanel(initialTourPanel);
+            window.addEventListener('resize', () => {
+                const visiblePanel = document.querySelector('.tour-panel:not([hidden])');
+                if (visiblePanel) visiblePanel.dispatchEvent(new CustomEvent('tour:recenter'));
+            });
         });
     </script>
     <div id="common-footer-container"></div>

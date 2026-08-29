@@ -270,6 +270,84 @@
             0% { transform: scale(1); }
             100% { transform: scale(1.15); }
         }
+
+        :root {
+            --popup-overlay-bg: rgba(0, 0, 0, 0.65);
+            --popup-content-max-width: 42rem;
+            --popup-side-gap: 1.25rem;
+            --popup-control-size: 3.25rem;
+            --popup-control-gap: 0.75rem;
+            --popup-text-color: #ffffff;
+            --popup-transition-duration: 180ms;
+        }
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 110;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100vw;
+            height: 100dvh;
+            padding: 1.25rem;
+            background: var(--popup-overlay-bg);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--popup-transition-duration) ease, visibility var(--popup-transition-duration) ease;
+        }
+        .popup-overlay.is-open { opacity: 1; visibility: visible; }
+        .popup-stage {
+            display: flex;
+            width: min(var(--popup-content-max-width), calc(100vw - 2.5rem));
+            max-height: calc(100dvh - 7.5rem);
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .popup-toolbar { display: flex; align-items: center; justify-content: space-between; min-height: var(--popup-control-size); }
+        .popup-counter { color: var(--popup-text-color); font-size: 1rem; font-weight: 700; }
+        .popup-navigation { display: flex; gap: var(--popup-control-gap); }
+        .popup-navigation button {
+            display: grid;
+            width: var(--popup-control-size);
+            height: var(--popup-control-size);
+            place-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--popup-text-color);
+            transition: background-color var(--popup-transition-duration) ease;
+        }
+        .popup-navigation button:hover,
+        .popup-navigation button:focus-visible { background: rgba(255, 255, 255, 0.14); }
+        .popup-navigation svg { width: 1.5rem; height: 1.5rem; }
+        .popup-content { display: flex; min-height: 0; flex: 1; align-items: center; justify-content: center; overflow: hidden; }
+        .popup-content img { display: block; width: auto; max-width: 100%; height: auto; max-height: calc(100dvh - 13rem); object-fit: contain; }
+        .popup-footer { display: flex; width: min(var(--popup-content-max-width), calc(100vw - 2.5rem)); align-items: center; justify-content: space-between; gap: 1rem; color: var(--popup-text-color); }
+        .popup-hide-today,
+        .popup-close { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.5rem; color: var(--popup-text-color); font-size: 0.95rem; font-weight: 700; white-space: nowrap; }
+        .popup-hide-today { padding: 0.4rem 0; }
+        .popup-hide-today:hover,
+        .popup-close:hover,
+        .popup-hide-today:focus-visible,
+        .popup-close:focus-visible { opacity: 0.78; }
+        .popup-check { display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border: 1.5px solid rgba(255, 255, 255, 0.9); border-radius: 50%; }
+        .popup-check svg { width: 0.85rem; height: 0.85rem; opacity: 0; }
+        .popup-hide-today.is-selected .popup-check { background: #ffffff; color: #111827; }
+        .popup-hide-today.is-selected .popup-check svg { opacity: 1; }
+        .popup-close { padding: 0.4rem 0; }
+        .popup-close svg { width: 1.35rem; height: 1.35rem; }
+        @media (max-width: 390px) {
+            .popup-overlay { padding-inline: 1rem; }
+            .popup-stage, .popup-footer { width: calc(100vw - 2rem); }
+            .popup-stage { gap: 0.5rem; }
+            .popup-navigation button { width: 2.9rem; height: 2.9rem; }
+            .popup-content img { max-height: calc(100dvh - 12rem); }
+            .popup-hide-today, .popup-close { font-size: 0.875rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .popup-overlay, .popup-navigation button { transition: none; }
+        }
     </style>
 </head>
 <body class="bg-gray-50/50 text-gray-900 overflow-x-hidden selection:bg-[#F27405] selection:text-white pb-52 md:pb-28">
@@ -648,6 +726,35 @@
 
     <div id="common-footer-container"></div>
 
+    <div id="popup-overlay" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-counter" aria-hidden="true">
+        <div class="popup-stage" onclick="event.stopPropagation()">
+            <div class="popup-toolbar">
+                <span id="popup-counter" class="popup-counter" aria-live="polite">1 / 2</span>
+                <div class="popup-navigation" aria-label="팝업 탐색">
+                    <button id="popup-prev" type="button" aria-label="이전 팝업">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18-6-6 6-6"></path></svg>
+                    </button>
+                    <button id="popup-next" type="button" aria-label="다음 팝업">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18 6-6-6-6"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="popup-content">
+                <img id="popup-image" src="img/202609event-popup.jpg" alt="이벤트 팝업">
+            </div>
+        </div>
+        <div class="popup-footer" onclick="event.stopPropagation()">
+            <button id="popup-hide-today" type="button" class="popup-hide-today" aria-label="오늘 하루 팝업 보지 않기" aria-pressed="false">
+                <span class="popup-check"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m5 12 4 4L19 6"></path></svg></span>
+                <span>오늘 하루 그만 보기</span>
+            </button>
+            <button id="popup-close" type="button" class="popup-close" aria-label="팝업 닫기">
+                <span>닫기</span>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linecap="round" stroke-width="2.5" d="M6 6 18 18M18 6 6 18"></path></svg>
+            </button>
+        </div>
+    </div>
+
     <script>
         /* 바텀 시트 컨트롤 JS */
         const overlay = document.getElementById('booking-bottom-sheet-overlay');
@@ -928,6 +1035,87 @@
                 const visibleTourPanel = document.querySelector('.tour-panel:not([hidden])');
                 if (visibleTourPanel) visibleTourPanel.dispatchEvent(new CustomEvent('tour:recenter'));
             });
+
+            const popupItems = [
+                'img/202609event-popup.jpg',
+                'img/20260910off-popup.jpg'
+            ];
+            const popupOverlay = document.getElementById('popup-overlay');
+            const popupStage = popupOverlay?.querySelector('.popup-stage');
+            const popupFooter = popupOverlay?.querySelector('.popup-footer');
+            const popupImage = document.getElementById('popup-image');
+            const popupCounter = document.getElementById('popup-counter');
+            const popupPrev = document.getElementById('popup-prev');
+            const popupNext = document.getElementById('popup-next');
+            const popupHideToday = document.getElementById('popup-hide-today');
+            const popupClose = document.getElementById('popup-close');
+            const popupHiddenDateKey = 'popupHiddenDate';
+            let popupIndex = 0;
+            let popupReturnFocus = null;
+            let popupScrollY = 0;
+
+            const getToday = () => new Date().toISOString().slice(0, 10);
+            const isPopupHiddenToday = () => localStorage.getItem(popupHiddenDateKey) === getToday();
+            const updatePopup = () => {
+                popupImage.src = popupItems[popupIndex];
+                popupCounter.textContent = `${popupIndex + 1} / ${popupItems.length}`;
+            };
+            const movePopup = (step) => {
+                popupIndex = (popupIndex + step + popupItems.length) % popupItems.length;
+                updatePopup();
+            };
+            const trapPopupFocus = (event) => {
+                if (event.key !== 'Tab' || !popupOverlay.classList.contains('is-open')) return;
+                const focusable = Array.from(popupOverlay.querySelectorAll('button, [tabindex]:not([tabindex="-1"])')).filter((element) => !element.disabled);
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+            };
+            const closePopup = () => {
+                popupOverlay.classList.remove('is-open');
+                popupOverlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                window.scrollTo(0, popupScrollY);
+                document.removeEventListener('keydown', handlePopupKeydown);
+                if (popupReturnFocus && typeof popupReturnFocus.focus === 'function') popupReturnFocus.focus();
+            };
+            const openPopup = () => {
+                if (!popupItems.length || isPopupHiddenToday()) return;
+                popupReturnFocus = document.activeElement;
+                popupScrollY = window.scrollY;
+                updatePopup();
+                popupOverlay.classList.add('is-open');
+                popupOverlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                document.addEventListener('keydown', handlePopupKeydown);
+                popupPrev.focus();
+            };
+            const handlePopupKeydown = (event) => {
+                if (!popupOverlay.classList.contains('is-open')) return;
+                if (event.key === 'Escape') closePopup();
+                else if (event.key === 'ArrowLeft') movePopup(-1);
+                else if (event.key === 'ArrowRight') movePopup(1);
+                trapPopupFocus(event);
+            };
+
+            popupPrev.addEventListener('click', () => movePopup(-1));
+            popupNext.addEventListener('click', () => movePopup(1));
+            popupClose.addEventListener('click', closePopup);
+            popupOverlay.addEventListener('click', closePopup);
+            popupHideToday.addEventListener('click', () => {
+                localStorage.setItem(popupHiddenDateKey, getToday());
+                popupHideToday.classList.add('is-selected');
+                popupHideToday.setAttribute('aria-pressed', 'true');
+                closePopup();
+            });
+            if (popupItems.length <= 1) {
+                popupCounter.hidden = true;
+                popupPrev.hidden = true;
+                popupNext.hidden = true;
+            }
+            window.setTimeout(openPopup, 250);
         });
     </script>
     <script src="sections/shared-sections.js"></script>

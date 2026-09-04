@@ -382,17 +382,26 @@ function getDownloadDate() {
     return `${year}${month}${day}`;
 }
 
-async function downloadAllReservations() {
-    const button = document.getElementById('downloadExcelBtn');
+function getOriginalValue(value) {
+    const original = String(value ?? '').trim();
+    return original || '-';
+}
+
+async function downloadAllReservations({ includePersonalData = false, button } = {}) {
+    const downloadButtons = [
+        document.getElementById('downloadExcelBtn'),
+        document.getElementById('downloadOriginalExcelBtn')
+    ].filter(Boolean);
 
     if (typeof XLSX === 'undefined') {
         alert("엑셀 생성 모듈을 불러오지 못했습니다. 페이지를 새로고침한 후 다시 시도해주세요.");
         return;
     }
 
-    button.disabled = true;
-    const originalText = button.innerText;
-    button.innerText = '전체 데이터 조회 중...';
+    const activeButton = button || document.getElementById('downloadExcelBtn');
+    const originalText = activeButton.innerText;
+    downloadButtons.forEach(downloadButton => { downloadButton.disabled = true; });
+    activeButton.innerText = '전체 데이터 조회 중...';
 
     try {
         const snapshot = await getDocs(query(collection(db, "reservations")));
@@ -403,13 +412,13 @@ async function downloadAllReservations() {
             return;
         }
 
-        button.innerText = '엑셀 생성 중...';
+        activeButton.innerText = '엑셀 생성 중...';
         const rows = [...allReservationData]
             .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
             .map(data => ({
                 '신청일시': formatExcelDate(data.createdAt),
-                '이름': maskName(data.name),
-                '연락처': maskPhone(data.phone),
+                '이름': includePersonalData ? getOriginalValue(data.name) : maskName(data.name),
+                '연락처': includePersonalData ? getOriginalValue(data.phone) : maskPhone(data.phone),
                 '선택 패키지': data.package || '-',
                 '예약페이지': data.pageName || '-',
                 '유입 채널': data.source || data.utm_source || 'direct',
@@ -424,19 +433,80 @@ async function downloadAllReservations() {
         ];
 
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, '전체 예약');
-        XLSX.writeFile(workbook, `전체_예약_데이터_${getDownloadDate()}.xlsx`, { compression: true });
+        const sheetName = includePersonalData ? '전체 예약 원본' : '전체 예약';
+        const fileName = includePersonalData
+            ? `전체_예약_원본_데이터_${getDownloadDate()}.xlsx`
+            : `전체_예약_데이터_${getDownloadDate()}.xlsx`;
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        XLSX.writeFile(workbook, fileName, { compression: true });
     } catch (error) {
         console.error('엑셀 다운로드 실패:', error);
         alert("엑셀 파일을 생성하는 중 오류가 발생했습니다.");
     } finally {
-        button.disabled = false;
-        button.innerText = originalText;
+        downloadButtons.forEach(downloadButton => { downloadButton.disabled = false; });
+        activeButton.innerText = originalText;
     }
 }
 
+const ORIGINAL_DOWNLOAD_PASSWORD = '5189';
+const originalDownloadModal = document.getElementById('originalDownloadModal');
+const originalDownloadForm = document.getElementById('originalDownloadForm');
+const originalDownloadPassword = document.getElementById('originalDownloadPassword');
+const originalDownloadError = document.getElementById('originalDownloadError');
+
+function openOriginalDownloadModal() {
+    originalDownloadPassword.value = '';
+    originalDownloadError.classList.add('hidden');
+    originalDownloadModal.classList.remove('hidden');
+    originalDownloadModal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    window.setTimeout(() => originalDownloadPassword.focus(), 0);
+}
+
+function closeOriginalDownloadModal() {
+    originalDownloadModal.classList.add('hidden');
+    originalDownloadModal.classList.remove('flex');
+    originalDownloadPassword.value = '';
+    originalDownloadError.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
 document.getElementById('applyDateBtn').addEventListener('click', buildReportData);
-document.getElementById('downloadExcelBtn').addEventListener('click', downloadAllReservations);
+document.getElementById('downloadExcelBtn').addEventListener('click', (event) => {
+    downloadAllReservations({ button: event.currentTarget });
+});
+document.getElementById('downloadOriginalExcelBtn').addEventListener('click', openOriginalDownloadModal);
+document.getElementById('cancelOriginalDownloadBtn').addEventListener('click', closeOriginalDownloadModal);
+
+originalDownloadModal.addEventListener('click', (event) => {
+    if (event.target === originalDownloadModal) closeOriginalDownloadModal();
+});
+
+originalDownloadPassword.addEventListener('input', () => {
+    originalDownloadPassword.value = originalDownloadPassword.value.replace(/\D/g, '').slice(0, 4);
+    originalDownloadError.classList.add('hidden');
+});
+
+originalDownloadForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    if (originalDownloadPassword.value !== ORIGINAL_DOWNLOAD_PASSWORD) {
+        originalDownloadError.classList.remove('hidden');
+        originalDownloadPassword.focus();
+        originalDownloadPassword.select();
+        return;
+    }
+
+    const originalButton = document.getElementById('downloadOriginalExcelBtn');
+    closeOriginalDownloadModal();
+    downloadAllReservations({ includePersonalData: true, button: originalButton });
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !originalDownloadModal.classList.contains('hidden')) {
+        closeOriginalDownloadModal();
+    }
+});
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
     if(confirm("로그아웃 하시겠습니까?")) signOut(auth);

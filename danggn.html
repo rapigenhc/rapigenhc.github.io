@@ -8,7 +8,7 @@
       content="국가건강검진, 종합검진, 외래진료를 안내하는 래피젠헬스케어 건강검진센터입니다."
     />
     <title>래피젠헬스케어의원 | 건강검진센터</title>
-    <link rel="icon" href="../img/favicon.png" />
+    <link rel="icon" href="img/favicon.png" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -473,11 +473,11 @@
         background:
           linear-gradient(
             90deg,
-            rgba(48, 48, 48, 0.94),
-            rgba(48, 48, 48, 0.73) 46%,
-            rgba(48, 48, 48, 0.1) 78%
+            rgba(108, 67, 48, 0.94),
+            rgba(108, 67, 48, 0.73) 46%,
+            rgba(108, 67, 48, 0.1) 78%
           ),
-          linear-gradient(0deg, rgba(48, 48, 48, 0.52), transparent 48%);
+          linear-gradient(0deg, rgba(108, 67, 48, 0.52), transparent 48%);
       }
       .hero-content {
         position: relative;
@@ -816,13 +816,12 @@
         font-size: 15px;
       }
       .tour-layout {
-        display: grid;
-        grid-template-columns: 1.35fr 0.65fr;
-        gap: 18px;
+        display: block;
       }
       .tour-list {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1.15fr 1fr 1fr;
+        grid-template-rows: repeat(2, minmax(270px, 1fr));
         gap: 18px;
       }
       .tour-card {
@@ -833,8 +832,24 @@
         margin: 0;
       }
       .tour-card:first-child {
+        grid-column: 1;
         grid-row: span 2;
         min-height: 558px;
+      }
+      .tour-card:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .tour-card:nth-child(3) {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .tour-card:nth-child(4) {
+        grid-column: 2 / span 2;
+        grid-row: 2;
+      }
+      .tour-card:nth-child(4) img {
+        object-position: center 58%;
       }
       .tour-card img {
         position: absolute;
@@ -880,13 +895,9 @@
       }
       .location-grid {
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        min-height: 520px;
-        overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        background: #fff;
-        box-shadow: 0 10px 30px rgba(48, 48, 48, 0.07);
+        grid-template-columns: minmax(0, 1fr) minmax(24rem, 0.8fr);
+        gap: clamp(36px, 6vw, 82px);
+        align-items: center;
       }
       .map-panel {
         position: relative;
@@ -894,6 +905,7 @@
         min-height: 440px;
         place-items: center;
         overflow: hidden;
+        border-radius: var(--radius);
         background: linear-gradient(145deg, #f1f1f1, #efb09b);
       }
       .map-panel:before {
@@ -952,7 +964,7 @@
         font-weight: 800;
       }
       .location-info {
-        padding: clamp(32px, 5vw, 58px);
+        padding: 24px 0;
       }
       .location-info h2 {
         margin: 0 0 28px;
@@ -1209,7 +1221,7 @@
         text-decoration: underline;
         text-underline-offset: 3px;
       }
-      .location-section {
+      .hours-section {
         background:
           radial-gradient(
             circle at 12% 16%,
@@ -1222,6 +1234,9 @@
             transparent 30%
           ),
           linear-gradient(150deg, #fff 0%, #f1f1f1 100%);
+      }
+      .location-section {
+        background: #fff;
       }
       @media (max-width: 920px) {
         .hours-grid {
@@ -1349,15 +1364,16 @@
           min-height: 0;
         }
         .hero-media {
-          object-position: 44% center;
+          object-position: 68% center;
+          object-fit:cover;
         }
         .hero-shade {
           background: linear-gradient(
-            0deg,
-            rgba(148, 148, 148, 0.74),
-            rgba(255, 255, 255, 0.45) 66%,
-            rgba(255, 255, 255)
-          );
+            90deg,
+            rgba(80, 67, 48, 0.8),
+            rgba(80, 67, 48, 0.45) 60%,
+            rgba(80, 67, 48, 0)
+          )
         }
         .hero-content {
           display: flex;
@@ -1463,16 +1479,16 @@
       }
     </style>
   </head>
-  <body data-page-name="test.html">
+  <body data-page-name="danggn.html">
     <header class="site-header" id="site-header">
       <div class="shell header-inner">
         <a class="logo" href="#top" aria-label="래피젠헬스케어 처음으로"
-          ><span class="logo-mark"><img src="/img/favicon.png" /></span
+          ><span class="logo-mark"><img src="img/favicon.png" alt="" /></span
           ><span>(재)한국산업의학연구소 래피젠헬스케어의원</span></a
         >
         <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
-          <a href="#services">검진안내</a><a href="../program.html">종합검진</a
-          ><a href="../mounjaro.html">외래진료</a><a href="#equipment">장비</a
+          <a href="#services">검진안내</a><a href="program.html">종합검진</a
+          ><a href="mounjaro.html">외래진료</a><a href="#equipment">장비</a
           ><a href="#location">오시는 길</a
           ><a class="button header-cta" href="#booking">예약 신청</a>
         </nav>
@@ -1492,7 +1508,7 @@
       <section class="hero" aria-labelledby="hero-title">
         <img
           class="hero-media"
-          src="../img/interior-pic-02.jpg"
+          src="img/hero-concept-img.png"
           alt="래피젠헬스케어 건강검진센터의 쾌적한 로비"
         />
         <div class="hero-shade"></div>
@@ -1517,7 +1533,7 @@
         </div>
         <aside class="hero-note" aria-label="빠른 연락처와 운영시간">
           <div><small>검진 상담</small><strong>1544-5189</strong></div>
-          <div><small>평일 운영</small><strong>07:00 – 16:00</strong></div>
+          <div><small>월화목금</small><strong>07:00 – 16:00</strong></br><small>수,토요일</small><strong>07:00 – 12:00</strong></div>
         </aside>
       </section>
       <section
@@ -1645,16 +1661,16 @@
             <p class="section-copy">건강검진, 외래진료 안내</p>
           </div>
           <div class="service-grid">
-            <a class="service-card" href="../national.html"
-              ><img src="../img/concept01.jpg" alt="국가건강검진 안내" />
+            <a class="service-card" href="national.html"
+              ><img src="img/concept01.jpg" alt="국가건강검진 안내" />
               <div class="service-content">
                 <span class="service-index">01</span>
                 <h3>국가검진·암검진</h3>
                 <p>2026년 국가(공단)검진 대상자 안내</p>
                 <span class="text-link">자세히 보기 →</span>
               </div></a
-            ><a class="service-card" href="../program.html"
-              ><img src="../img/concept-mri.jpg" alt="종합검진 프로그램 안내" />
+            ><a class="service-card" href="program.html"
+              ><img src="img/concept-mri.jpg" alt="종합검진 프로그램 안내" />
               <div class="service-content">
                 <span class="service-index">02</span>
                 <h3>개인 맞춤 종합검진</h3>
@@ -1663,9 +1679,9 @@
                 </p>
                 <span class="text-link">프로그램 보기 →</span>
               </div></a
-            ><a class="service-card" href="../mounjaro.html"
+            ><a class="service-card" href="mounjaro.html"
               ><img
-                src="../img/mjr-main.jpg"
+                src="img/mjr-main.jpg"
                 alt="외래진료 및 마운자로 상담 안내"
               />
               <div class="service-content">
@@ -1692,7 +1708,7 @@
           </div>
           <div class="equipment-list">
             <article class="equipment-card">
-              <img src="../img/eq-mri.jpg" alt="3.0T MRI 장비" />
+              <img src="img/eq-mri.jpg" alt="3.0T MRI 장비" />
               <div class="equipment-copy">
                 <small>MAGNETIC RESONANCE</small>
                 <h3>3.0T MRI</h3>
@@ -1700,7 +1716,7 @@
               </div>
             </article>
             <article class="equipment-card">
-              <img src="../img/eq-ct.jpg" alt="128채널 CT 장비" />
+              <img src="img/eq-ct.jpg" alt="128채널 CT 장비" />
               <div class="equipment-copy">
                 <small>COMPUTED TOMOGRAPHY</small>
                 <h3>128채널 CT</h3>
@@ -1710,7 +1726,7 @@
               </div>
             </article>
             <article class="equipment-card">
-              <img src="../img/eq-endo.jpg" alt="고해상도 내시경 장비" />
+              <img src="img/eq-endo.jpg" alt="고해상도 내시경 장비" />
               <div class="equipment-copy">
                 <small>ENDOSCOPY</small>
                 <h3>고해상도 내시경</h3>
@@ -1718,7 +1734,7 @@
               </div>
             </article>
             <article class="equipment-card">
-              <img src="../img/eq-eye.jpg" alt="AI 판독 보조 안저 장비" />
+              <img src="img/eq-eye.jpg" alt="AI 판독 보조 안저 장비" />
               <div class="equipment-copy">
                 <small>FUNDUS CAMERA</small>
                 <h3>AI 보조 안저</h3>
@@ -1743,21 +1759,21 @@
             <div class="tour-list">
               <figure class="tour-card">
                 <img
-                  src="../img/interior-pic-01.jpg"
+                  src="img/interior-pic-01.jpg"
                   alt="접수 로비와 대기 공간"
                 />
                 <figcaption>접수 · 대기 공간</figcaption>
               </figure>
               <figure class="tour-card">
-                <img src="../img/interior-pic-02.jpg" alt="기초검사센터" />
+                <img src="img/interior-pic-02.jpg" alt="기초검사센터" />
                 <figcaption>기초검사센터</figcaption>
               </figure>
               <figure class="tour-card">
-                <img src="../img/interior-pic-03.jpg" alt="영상의학센터" />
+                <img src="img/interior-pic-03.jpg" alt="영상의학센터" />
                 <figcaption>영상의학센터</figcaption>
               </figure>
               <figure class="tour-card">
-                <img src="../img/interior-pic-05.jpg" alt="내시경검사센터" />
+                <img src="img/interior-pic-05.jpg" alt="내시경검사센터" />
                 <figcaption>내시경검사센터</figcaption>
               </figure>
             </div>
@@ -1773,20 +1789,18 @@
         </div>
       </section>
       <section
-        class="section location-section"
-        id="location"
-        aria-labelledby="location-title"
+        class="section hours-section"
+        id="hours"
+        aria-labelledby="hours-title"
         itemscope
         itemtype="https://schema.org/MedicalClinic"
       >
         <div class="shell">
           <div class="section-head">
-            <p class="eyebrow">Visit Rapigen</p>
-            <h2 class="section-title" id="location-title">
-              운영시간 안내 · 오시는 길
-            </h2>
+            <p class="eyebrow">Operating Hours</p>
+            <h2 class="section-title" id="hours-title">운영시간 안내</h2>
             <p class="section-copy">
-              건강검진과 외래진료의 운영시간 및 방문 정보를 확인해 주세요.
+              건강검진과 외래진료의 운영시간을 확인해 주세요.
             </p>
           </div>
           <div class="hours-grid">
@@ -1847,6 +1861,23 @@
               </dl>
             </article>
           </div>
+        </div>
+      </section>
+      <section
+        class="section location-section"
+        id="location"
+        aria-labelledby="location-title"
+        itemscope
+        itemtype="https://schema.org/MedicalClinic"
+      >
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">Visit Rapigen</p>
+            <h2 class="section-title" id="location-title">오시는 길</h2>
+            <p class="section-copy">
+              대중교통과 주차 정보를 확인해 편안하게 방문해 주세요.
+            </p>
+          </div>
           <div class="location-grid">
             <a
               class="map-panel"
@@ -1858,7 +1889,6 @@
               ><span class="map-label">가산어반워크1차 2층</span></a
             >
             <div class="location-info">
-              <h2>오시는 길</h2>
               <div class="visit-details">
                 <a
                   href="https://naver.me/GziL2Dd5"
@@ -1911,7 +1941,7 @@
           <div class="footer-brand">래피젠헬스케어</div>
           <div class="footer-links">
             <a href="#privacy" id="footer-privacy">개인정보처리방침</a
-            ><a href="../index.html">공식 홈페이지</a>
+            ><a href="index.html">공식 홈페이지</a>
           </div>
         </div>
         <div class="footer-copy">
@@ -2020,14 +2050,14 @@
           submit.textContent = "신청 중입니다…";
           try {
             const query = new URLSearchParams(location.search),
-              response = await fetch("../api/reservations.php", {
+              response = await fetch("/api/reservations.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   name,
                   phone: digits,
                   package: "건강검진 상담",
-                  pageName: "test.html",
+                  pageName: "danggn.html",
                   source: query.get("utm_source") || "direct",
                   medium: query.get("utm_medium") || "-",
                   userAgent: navigator.userAgent,

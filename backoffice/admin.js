@@ -3,7 +3,7 @@
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, orderBy, limit, startAfter, getDocs, updateDoc, serverTimestamp, where, Timestamp, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs, updateDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
@@ -22,12 +22,14 @@ const PAGE_SIZE = 10;
 const BLOCK_SIZE = 10; 
 let currentIdx = 1;
 let totalPages = 1;
-let currentBaseConstraints = [];
-let pageCursors = {}; 
-let isFetching = false;
+let periodReservations = [];
+let loadedPeriod = null;
+let fetchVersion = 0;
 
 let currentDateMode = 'week'; 
 let fpInstance = null;
+
+const formatLocalDate = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
 const setInitialDates = (range = 'week') => {
     const end = new Date();
@@ -43,8 +45,8 @@ const setInitialDates = (range = 'week') => {
         end.setDate(0); 
     }
     
-    document.getElementById('filterStartDate').value = start.toISOString().substring(0, 10);
-    document.getElementById('filterEndDate').value = end.toISOString().substring(0, 10);
+    document.getElementById('filterStartDate').value = formatLocalDate(start);
+    document.getElementById('filterEndDate').value = formatLocalDate(end);
     
     if(fpInstance) {
         fpInstance.setDate([start, end], false); 
@@ -111,110 +113,80 @@ async function fetchUserRole(uid) {
     }
 }
 
-window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) {
-    if (isFetching) return;
-    isFetching = true;
+const CANCEL_STATUSES = ['본인취소', '예약중복취소', '기타취소'];
+const SUMMARY_STATUSES = {
+    'count-total': '전체',
+    'count-waiting': '대기중',
+    'count-considering': '고민중',
+    'count-absent': '부재',
+    'count-confirmed': '확정',
+    'count-noresponse': '미응답',
+    'count-cancel': '취소합계'
+};
 
-    const listContainer = document.getElementById('reservation-list');
+function normalizeStatus(status) {
+    return status === '보류' ? '고민중' : (status || '대기중');
+}
+
+function matchesStatus(item, status) {
+    const value = normalizeStatus(item.status);
+    return status === '전체' || (status === '취소합계'
+        ? CANCEL_STATUSES.includes(value) : value === status);
+}
+
+function renderFilteredReservations(targetPage = 1) {
     const searchTerm = document.getElementById('searchTerm').value.trim();
-    
-    try {
-        if (isNewSearch) {
-            pageCursors = {}; 
-            currentIdx = 1;
-            targetPage = 1;
-        }
+    const status = document.getElementById('filterStatus').value;
+    const searched = periodReservations.filter(item => !searchTerm ||
+        (item.name || '').includes(searchTerm) || (item.phone || '').includes(searchTerm));
 
-        const startDate = new Date(document.getElementById('filterStartDate').value + "T00:00:00");
-        const endDate = new Date(document.getElementById('filterEndDate').value + "T23:59:59");
-        const status = document.getElementById('filterStatus').value;
-
-        currentBaseConstraints = [
-            where("createdAt", ">=", Timestamp.fromDate(startDate)),
-            where("createdAt", "<=", Timestamp.fromDate(endDate))
-        ];
-
-        if (isNewSearch) updateSummaryCounts(currentBaseConstraints);
-
-        let listConstraints = [...currentBaseConstraints];
-        if (status !== '전체') listConstraints.push(where("status", "==", status));
-
-        if (isNewSearch) {
-            if (searchTerm) {
-                totalPages = 1;
-            } else {
-                const countSnap = await getCountFromServer(query(collection(db, "reservations"), ...listConstraints));
-                totalPages = Math.max(1, Math.ceil(countSnap.data().count / PAGE_SIZE));
-            }
-        }
-
-        let qConstraints = [...listConstraints, orderBy("createdAt", "desc")];
-        
-        if (searchTerm) {
-            qConstraints.push(limit(100)); 
-            const snapshot = await getDocs(query(collection(db, "reservations"), ...qConstraints));
-            let list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            list = list.filter(item => (item.name && item.name.includes(searchTerm)) || (item.phone && item.phone.includes(searchTerm)));
-            renderList(list);
-            currentIdx = 1;
-            updatePaginationUI();
-            isFetching = false;
-            return;
-        }
-
-        if (targetPage > 1 && pageCursors[targetPage - 1]) {
-            qConstraints.push(startAfter(pageCursors[targetPage - 1]));
-            qConstraints.push(limit(PAGE_SIZE));
-        } else {
-            qConstraints.push(limit(targetPage * PAGE_SIZE));
-        }
-
-        const snapshot = await getDocs(query(collection(db, "reservations"), ...qConstraints));
-        const docs = snapshot.docs;
-
-        for (let i = 1; i <= targetPage; i++) {
-            let lastIdx = (i * PAGE_SIZE) - 1;
-            if (lastIdx < docs.length) pageCursors[i] = docs[lastIdx];
-            else pageCursors[i] = docs[docs.length - 1]; 
-        }
-
-        let pageDocs = [];
-        if (targetPage > 1 && pageCursors[targetPage - 1] && docs.length <= PAGE_SIZE) {
-            pageDocs = docs;
-        } else {
-            const startIndex = (targetPage - 1) * PAGE_SIZE;
-            pageDocs = docs.slice(startIndex, startIndex + PAGE_SIZE);
-        }
-
-        currentIdx = targetPage;
-        renderList(pageDocs.map(d => ({ id: d.id, ...d.data() })));
-        updatePaginationUI();
-
-    } catch (error) {
-        listContainer.innerHTML = `<tr><td colspan="8" class="p-20 text-center font-bold">오류가 발생했습니다.</td></tr>`;
-    } finally {
-        isFetching = false;
+    for (const [id, summaryStatus] of Object.entries(SUMMARY_STATUSES)) {
+        document.getElementById(id).innerText = searched.filter(item => matchesStatus(item, summaryStatus)).length;
     }
+    document.querySelectorAll('.status-summary').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.status === status));
+    });
+
+    const filtered = searched.filter(item => matchesStatus(item, status));
+    totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    currentIdx = Math.max(1, Math.min(targetPage, totalPages));
+    renderList(filtered.slice((currentIdx - 1) * PAGE_SIZE, currentIdx * PAGE_SIZE));
+    document.getElementById('list-result-count').innerText = `조회 결과 ${filtered.length}명 · ${currentIdx} / ${totalPages}페이지`;
+    updatePaginationUI();
 }
 
-async function updateSummaryCounts(baseConstraints) {
+window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) {
+    const version = ++fetchVersion;
+    const start = document.getElementById('filterStartDate').value;
+    const end = document.getElementById('filterEndDate').value;
+    const period = `${start}/${end}`;
     try {
-        const statuses = ['대기중', '확정', '미응답', '본인취소', '예약중복취소', '기타취소'];
-        const counts = {};
-        let totalCount = 0;
-
-        await Promise.all(statuses.map(async (st) => {
-            const snap = await getCountFromServer(query(collection(db, "reservations"), ...baseConstraints, where("status", "==", st)));
-            counts[st] = snap.data().count;
-            totalCount += counts[st];
-        }));
-
-        const cancelCount = (counts['본인취소'] || 0) + (counts['예약중복취소'] || 0) + (counts['기타취소'] || 0);
-
-        const ids = { 'count-total': totalCount, 'count-waiting': counts['대기중']||0, 'count-confirmed': counts['확정']||0, 'count-noresponse': counts['미응답']||0, 'count-cancel': cancelCount };
-        for (let [id, val] of Object.entries(ids)) { if(document.getElementById(id)) document.getElementById(id).innerText = val; }
-    } catch (error) {}
-}
+        if (isNewSearch || loadedPeriod !== period) {
+            const startDate = new Date(start + 'T00:00:00');
+            const endExclusive = new Date(end + 'T00:00:00');
+            endExclusive.setDate(endExclusive.getDate() + 1);
+            const snapshot = await getDocs(query(collection(db, 'reservations'),
+                where('createdAt', '>=', Timestamp.fromDate(startDate)),
+                where('createdAt', '<', Timestamp.fromDate(endExclusive)),
+                orderBy('createdAt', 'desc')));
+            if (version !== fetchVersion) return;
+            periodReservations = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+            loadedPeriod = period;
+        }
+        renderFilteredReservations(isNewSearch ? 1 : targetPage);
+    } catch (error) {
+        if (version !== fetchVersion) return;
+        loadedPeriod = null;
+        periodReservations = [];
+        for (const id of Object.keys(SUMMARY_STATUSES)) document.getElementById(id).innerText = '—';
+        document.getElementById('reservation-list').innerHTML = `<tr><td colspan="8" class="p-20 text-center font-bold">오류가 발생했습니다. 조건 조회를 눌러 다시 시도해주세요.</td></tr>`;
+        document.getElementById('list-result-count').innerText = '조회 실패';
+        currentIdx = 1;
+        totalPages = 1;
+        updatePaginationUI();
+        console.error('예약 조회 실패:', error);
+    }
+};
 
 // [수정 2] renderList 함수 전체 교체 (데이터 매핑 및 td 8개로 확장)
 function renderList(items) {
@@ -234,7 +206,7 @@ function renderList(items) {
         const page = data.pageName || '-'; // 예약페이지 데이터 (Firestore 필드명에 맞게 조정 가능)
         const source = data.source || data.utm_source || 'direct';
         const medium = data.utm_medium || data.medium || '-';
-        const status = data.status || '대기중';
+        const status = normalizeStatus(data.status);
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-all border-b border-gray-50";
@@ -247,8 +219,10 @@ function renderList(items) {
             <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>            
             <td class="px-6 py-5 text-center"><span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-[10px] font-bold border border-gray-100 uppercase">${medium}</span></td>          
             <td class="px-6 py-5 text-center">
-                <select data-id="${data.id}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
+                <select data-id="${data.id}" data-status="${status}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
                     <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
+                    <option value="고민중" ${status === '고민중' ? 'selected' : ''}>고민중</option>
+                    <option value="부재" ${status === '부재' ? 'selected' : ''}>부재</option>
                     <option value="확정" ${status === '확정' ? 'selected' : ''}>확정</option>
                     <option value="미응답" ${status === '미응답' ? 'selected' : ''}>미응답</option>
                     <option value="본인취소" ${status === '본인취소' ? 'selected' : ''}>본인취소</option>
@@ -264,6 +238,8 @@ function renderList(items) {
 function getStatusColor(status) {
     if(status === '확정') return 'bg-green-100 text-green-700';
     if(status === '미응답') return 'bg-red-100 text-red-700';
+    if(status === '고민중') return 'bg-purple-100 text-purple-700';
+    if(status === '부재') return 'bg-blue-100 text-blue-700';
     if(status.includes('취소')) return 'bg-gray-200 text-gray-500';
     return 'bg-orange-50 text-[#F27405]';
 }
@@ -348,6 +324,12 @@ async function handleLogin(e) {
 
 // 클릭 이벤트 위임
 document.addEventListener('click', async (e) => {
+    const summary = e.target.closest('.status-summary');
+    if (summary) {
+        document.getElementById('filterStatus').value = summary.dataset.status;
+        fetchFromFirestore(1);
+        return;
+    }
     if (e.target.id === 'filterSearchBtn') fetchFromFirestore(1, true);
     
     if (e.target.classList.contains('date-quick-btn')) {
@@ -374,14 +356,27 @@ document.addEventListener('click', async (e) => {
 
 // 상태 변경 이벤트 위임
 document.addEventListener('change', async (e) => {
+    if (e.target.id === 'filterStatus') {
+        fetchFromFirestore(1);
+        return;
+    }
     if (e.target.classList.contains('status-select')) {
         const id = e.target.dataset.id;
         const newStatus = e.target.value;
+        const previousStatus = e.target.dataset.status;
+        e.target.disabled = true;
         try {
             await updateDoc(doc(db, "reservations", id), { status: newStatus, updatedAt: serverTimestamp() });
-            e.target.className = `status-select text-[11px] font-black px-4 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(newStatus)}`;
-            updateSummaryCounts(currentBaseConstraints);
-        } catch (err) { alert("수정 권한이 없습니다."); }
+            const item = periodReservations.find(item => item.id === id);
+            if (item) item.status = newStatus;
+            renderFilteredReservations(currentIdx);
+            await fetchFromFirestore(1, true);
+        } catch (err) {
+            e.target.value = previousStatus;
+            alert("상태 저장에 실패했습니다. 권한 또는 네트워크 연결을 확인해주세요.");
+        } finally {
+            e.target.disabled = false;
+        }
     }
 });
 

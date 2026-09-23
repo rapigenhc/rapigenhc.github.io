@@ -23,6 +23,8 @@
         .source-qr { background-color: #EFF6FF; color: rgb(150, 1, 176); border: 1px solid #ffeefb; }
         .source-direct { background-color: #F9FAFB; color: #6B7280; border: 1px solid #F3F4F6; }
 
+        .status-summary[aria-pressed="true"] { outline: 2px solid #374151; outline-offset: 2px; }
+
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -81,8 +83,11 @@
                     <select id="filterStatus" class="text-[13px] font-bold px-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-[#F27405] outline-none min-w-[120px]">
                         <option value="전체">전체 상태</option>
                         <option value="대기중" selected>대기중</option>
+                        <option value="고민중">고민중</option>
+                        <option value="부재">부재</option>
                         <option value="확정">확정</option>
                         <option value="미응답">미응답</option>
+                        <option value="취소합계">취소합계</option>
                         <option value="본인취소">본인취소</option>
                         <option value="예약중복취소">예약중복취소</option>
                         <option value="기타취소">기타취소</option>
@@ -96,28 +101,37 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-                <div class="bg-white p-4 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
-                    <span class="text-[12px] font-black text-gray-400 mb-1">기간 내 전체</span>
+            <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3 mb-6" role="group" aria-label="처리 상태별 조회">
+                <button type="button" data-status="전체" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
+                    <span class="text-[12px] font-black text-gray-500 mb-1">기간 내 전체</span>
                     <span class="text-2xl font-black text-gray-900" id="count-total">0</span>
-                </div>
-                <div class="bg-white p-4 rounded-[1.5rem] border border-orange-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
+                </button>
+                <button type="button" data-status="대기중" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-orange-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
                     <span class="text-[12px] font-black text-[#F27405] mb-1">대기중</span>
                     <span class="text-2xl font-black text-gray-900" id="count-waiting">0</span>
-                </div>
-                <div class="bg-white p-4 rounded-[1.5rem] border border-green-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
+                </button>
+                <button type="button" data-status="고민중" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-purple-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
+                    <span class="text-[12px] font-black text-purple-700 mb-1">고민중</span>
+                    <span class="text-2xl font-black text-gray-900" id="count-considering">0</span>
+                </button>
+                <button type="button" data-status="부재" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-blue-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
+                    <span class="text-[12px] font-black text-blue-700 mb-1">부재</span>
+                    <span class="text-2xl font-black text-gray-900" id="count-absent">0</span>
+                </button>
+                <button type="button" data-status="확정" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-green-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
                     <span class="text-[12px] font-black text-green-600 mb-1">확정</span>
                     <span class="text-2xl font-black text-gray-900" id="count-confirmed">0</span>
-                </div>
-                <div class="bg-white p-4 rounded-[1.5rem] border border-red-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
+                </button>
+                <button type="button" data-status="미응답" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-red-100 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
                     <span class="text-[12px] font-black text-red-500 mb-1">미응답</span>
                     <span class="text-2xl font-black text-gray-900" id="count-noresponse">0</span>
-                </div>
-                <div class="bg-white p-4 rounded-[1.5rem] border border-gray-200 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
-                    <span class="text-[12px] font-black text-gray-500 mb-1">취소 합계</span>
+                </button>
+                <button type="button" data-status="취소합계" aria-pressed="false" class="status-summary bg-white p-4 rounded-[1.5rem] border border-gray-200 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-500">
+                    <span class="text-[12px] font-black text-gray-500 mb-1">취소합계</span>
                     <span class="text-2xl font-black text-gray-900" id="count-cancel">0</span>
-                </div>
+                </button>
             </div>
+            <p id="list-result-count" class="text-[13px] font-bold text-gray-500 mb-3" aria-live="polite"></p>
 
             <div class="bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-50 overflow-hidden">
                 <div class="overflow-x-auto no-scrollbar">

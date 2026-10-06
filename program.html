@@ -2104,6 +2104,9 @@
         font-size: clamp(18px, 2vw, 22px);
       }
       .october-event-benefit {
+        display: block;
+        color: inherit;
+        text-decoration: none;
         padding: clamp(24px, 4vw, 40px);
         border: 1px solid var(--peach-light);
         border-radius: 24px;
@@ -2210,11 +2213,17 @@
             </p>
             <a
               class="button brand"
-              href="블로그링크"
+              href="https://blog.naver.com/nanoclinic/224432587631"
               style="margin-top: 24px"
-            >CT검사 자세히보기</a>
+            >CT검사란 무엇인가요?</a>
           </div>
-          <div class="october-event-benefit">
+          <a
+            class="october-event-benefit"
+            href="https://blog.naver.com/nanoclinic/224432587631"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="128ch CT 1부위 제공 안내 (새 탭에서 열기)"
+          >
             <h3>128ch CT 1부위 제공</h3>
             <p>희망 시, 아래 4가지 중 1부위를 선택하실 수 있습니다.</p>
             <ul class="october-event-options" aria-label="선택 가능한 CT 검사 부위">
@@ -2223,7 +2232,7 @@
               <li>경추</li>
               <li>요추</li>
             </ul>
-          </div>
+          </a>
         </div>
       </section>
       <section

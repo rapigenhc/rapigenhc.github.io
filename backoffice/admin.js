@@ -1,3 +1,4 @@
+import { anonymizeReservation } from './privacy.js';
 /**
  * 래피젠헬스케어 Admin JS - 스마트 커서 및 Flatpickr 날짜 최적화
  */
@@ -170,7 +171,7 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
                 where('createdAt', '<', Timestamp.fromDate(endExclusive)),
                 orderBy('createdAt', 'desc')));
             if (version !== fetchVersion) return;
-            periodReservations = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+            periodReservations = snapshot.docs.map(d => anonymizeReservation({ ...d.data(), id: d.id }));
             loadedPeriod = period;
         }
         renderFilteredReservations(isNewSearch ? 1 : targetPage);

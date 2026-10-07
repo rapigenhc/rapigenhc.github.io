@@ -1,3 +1,4 @@
+import { anonymizeReservation, maskName, maskPhone } from './privacy.js';
 /**
  * 래피젠헬스케어 Report JS - 주간 스냅 엔진
  */
@@ -138,8 +139,8 @@ async function buildReportData() {
 
         const [snapPeriod, snapAll] = await Promise.all([getDocs(qPeriod), getDocs(qAll)]);
         
-        const periodDocs = snapPeriod.docs.map(d => d.data());
-        const allDocs = snapAll.docs.map(d => ({ id: d.id, ...d.data() }));
+        const periodDocs = snapPeriod.docs.map(d => anonymizeReservation(d.data()));
+        const allDocs = snapAll.docs.map(d => anonymizeReservation({ id: d.id, ...d.data() }));
         allReservationData = allDocs;
 
         let thisWeekCount = 0;
@@ -337,23 +338,6 @@ function renderPackageRanking(packageMap) {
     });
 }
 
-function maskName(name) {
-    const value = String(name || '').trim();
-    if (!value) return '-';
-    if (value.length === 1) return '*';
-    if (value.length === 2) return `${value[0]}*`;
-    return `${value[0]}${'*'.repeat(value.length - 2)}${value[value.length - 1]}`;
-}
-
-function maskPhone(phone) {
-    const digits = String(phone || '').replace(/\D/g, '');
-    if (!digits) return '-';
-
-    const prefix = digits.slice(0, Math.max(0, digits.length - 8));
-    const suffix = digits.slice(-4);
-    return `${prefix}-****-${suffix}`;
-}
-
 function formatExcelDate(timestamp) {
     if (!timestamp) return '-';
 
@@ -405,7 +389,7 @@ async function downloadAllReservations({ includePersonalData = false, button } =
 
     try {
         const snapshot = await getDocs(query(collection(db, "reservations")));
-        allReservationData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        allReservationData = snapshot.docs.map(d => anonymizeReservation({ id: d.id, ...d.data() }));
 
         if (allReservationData.length === 0) {
             alert("다운로드할 예약 데이터가 없습니다.");

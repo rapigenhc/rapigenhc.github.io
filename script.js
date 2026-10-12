@@ -181,6 +181,9 @@ const setButtonLoading = (isLoading) => {
 /* ---------------------------------------------------------
    [핵심] 폼 제출 및 패키지 스마트 인입 로직
 --------------------------------------------------------- */
+let reservationInFlight = false;
+let reservationLastSuccess = 0;
+
 function bindReservationEvent() {
     const submitBtn = document.getElementById('submitBtn');
     if (!submitBtn || submitBtn.dataset.bound === "true") return;
@@ -189,9 +192,11 @@ function bindReservationEvent() {
     submitBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const lastSubmit = localStorage.getItem('last_submit_time');
-        if (window.isSubmitting || (lastSubmit && Date.now() - lastSubmit < 60000)) {
-            return window.showAlert("현재 접수가 원활하지 않습니다.\n상담을 원하시면 1544-5189로 연락주세요.\n감사합니다.");
+        if (reservationInFlight) return;
+        let lastSubmit = reservationLastSuccess;
+        try { lastSubmit = Math.max(lastSubmit, Number(localStorage.getItem('last_submit_time')) || 0); } catch {}
+        if (lastSubmit && Date.now() - lastSubmit < 60000) {
+            return window.showAlert("이미 상담 신청이 접수되었습니다.\n담당자가 순차적으로 연락드리겠습니다.");
         }
 
         const userNameEl = document.getElementById('userName');
@@ -279,6 +284,7 @@ function bindReservationEvent() {
         };
 
         try {
+            reservationInFlight = true;
             window.isSubmitting = true;
             setButtonLoading(true);
 
@@ -299,11 +305,16 @@ function bindReservationEvent() {
             // 2. EmailJS 발송 함수 호출
             sendEmailNotification(formData);
 
+            reservationLastSuccess = Date.now();
+            try { localStorage.setItem('last_submit_time', String(reservationLastSuccess)); } catch {}
+            try {
             if (typeof gtag === 'function') {
                 gtag('event', 'generate_lead', { 'event_label': formData.package });
             }
 
-            localStorage.setItem('last_submit_time', Date.now());
+
+
+            } catch (analyticsError) { console.warn('분석 이벤트 전송 실패'); }
 
             // 3. 신청완료 모달 활성화
             const successModal = document.getElementById('successModal');
@@ -327,6 +338,7 @@ function bindReservationEvent() {
         } finally {
             setButtonLoading(false);
             window.isSubmitting = false;
+            reservationInFlight = false;
         }
     });
 }

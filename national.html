@@ -1581,8 +1581,15 @@
             phone.value = `${digits.slice(0, 3)}-${digits.slice(3)}`;
           else phone.value = digits;
         });
+        let reservationPending = false;
+        let reservationSubmittedAt = 0;
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
+          if (reservationPending) return;
+          if (Date.now() - reservationSubmittedAt < 60000) {
+            message.textContent = "이미 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
+            return;
+          }
           message.className = "form-message";
           const name = document.querySelector("#user-name").value.trim(),
             digits = phone.value.replace(/\D/g, ""),
@@ -1603,11 +1610,12 @@
             return;
           }
           const submit = form.querySelector('[type="submit"]');
+          reservationPending = true;
           submit.disabled = true;
           submit.textContent = "신청 중입니다…";
           try {
             const query = new URLSearchParams(location.search),
-              response = await fetch("/api/reservations.php", {
+              response = await (await import("./reservation-api.js")).submitReservation("/api/reservations.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "same-origin",
@@ -1624,8 +1632,9 @@
                 }),
               }),
               result = await response.json().catch(() => ({}));
-            if (!response.ok || result.ok === false)
+            if (!response.ok || result.ok !== true)
               throw new Error(result.error || "request_failed");
+            reservationSubmittedAt = Date.now();
             form.reset();
             message.textContent =
               "예약 신청이 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
@@ -1637,6 +1646,7 @@
                 : "현재 접수가 원활하지 않습니다. 1544-5189로 연락해 주세요.";
             message.classList.add("error");
           } finally {
+            reservationPending = false;
             submit.disabled = false;
             submit.innerHTML =
               '예약 신청하기 <span aria-hidden="true">→</span>';

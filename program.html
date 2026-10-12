@@ -4798,13 +4798,20 @@
           if (event.target === dialog) dialog.close();
         });
 
+        let reservationPending = false;
+        let reservationSubmittedAt = 0;
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
+          if (reservationPending) return;
+          if (Date.now() - reservationSubmittedAt < 60000) {
+            message.textContent = "이미 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
+            return;
+          }
           message.className = "form-message";
           const name = document.querySelector("#user-name").value.trim();
           const digits = phone.value.replace(/\D/g, "");
           const agreed = document.querySelector("#privacy-consent").checked;
-          if (name.length < 2) {
+          if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
             message.textContent = "성함을 두 글자 이상 입력해 주세요.";
             message.classList.add("error");
             return;
@@ -4820,11 +4827,12 @@
             return;
           }
           const submit = form.querySelector('[type="submit"]');
+          reservationPending = true;
           submit.disabled = true;
           submit.textContent = "신청 중입니다…";
           try {
             const query = new URLSearchParams(location.search);
-            const response = await fetch("/api/reservations.php", {
+            const response = await (await import("./reservation-api.js")).submitReservation("/api/reservations.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -4840,6 +4848,7 @@
             const result = await response.json().catch(() => ({}));
             if (!response.ok || !result.ok)
               throw new Error(result.error || "request_failed");
+            reservationSubmittedAt = Date.now();
             form.reset();
             message.textContent =
               "예약 신청이 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
@@ -4851,6 +4860,7 @@
                 : "신청을 완료하지 못했습니다. 1544-5189로 연락해 주세요.";
             message.classList.add("error");
           } finally {
+            reservationPending = false;
             submit.disabled = false;
             submit.innerHTML = '예약 신청하기 <span class="arrow">→</span>';
           }

@@ -3035,7 +3035,7 @@
           submit.textContent = "신청 중입니다…";
           try {
             const query = new URLSearchParams(location.search);
-            const { submitFamilyReservation } = await import("./script.js");
+            const { submitFamilyReservation } = await import("./script.js?v=family-20261019");
             await submitFamilyReservation({
               name,
               phone: digits,

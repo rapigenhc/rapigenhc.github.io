@@ -650,3 +650,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Keep the family page's inline form on this site's existing Firebase reservation backend.
+export async function submitFamilyReservation(data) {
+    const reservation = {
+        name: escapeHTML(data.name),
+        phone: data.phone.replace(/\D/g, ''),
+        package: escapeHTML(data.package),
+        pageName: 'rapigen-family.html',
+        source: data.source || 'direct',
+        medium: data.medium || '-',
+        userAgent: data.userAgent,
+        status: '대기중',
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+    };
+    await addDoc(collection(db, 'reservations'), reservation);
+    sendEmailNotification(reservation);
+    try {
+        if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {event_label: reservation.package});
+        }
+    } catch (analyticsError) {
+        console.warn('분석 이벤트 전송 실패');
+    }
+}

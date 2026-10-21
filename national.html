@@ -14,7 +14,6 @@
     <title>2026 국가건강검진 | 래피젠헬스케어</title>
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="apple-touch-icon" href="img/favicon.png" />
-    <script type="module" src="./ga_tracking.js"></script>
     <style>
       :root {
         --brand: #ff641f;
@@ -1092,7 +1091,18 @@
           transition: none !important;
         }
       }
-    </style>
+
+/* GitHub Pages: clinic reservation handoff without collecting personal data. */
+.static-booking { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.static-booking h3 { margin: 0; color: var(--ink); font-size: 24px; line-height: 1.4; }
+.static-booking p { margin: 0; color: var(--copy); font-size: 16px; line-height: 1.75; }
+.static-booking .button { width: 100%; min-height: 54px; }
+.static-booking .static-phone { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.static-booking p.static-booking-note { font-size: 13px; }
+.static-booking .static-booking-choice { color: var(--brand-dark, #dc4810); font-size: 14px; font-weight: 800; }
+@media (max-width: 620px) { .static-booking h3 { font-size: 21px; } .static-booking p { font-size: 15px; } }
+
+</style>
   </head>
   <body data-package="국가검진">
     <header class="site-header" id="site-header">
@@ -1153,55 +1163,20 @@
               국가검진 예약 신청
             </h2>
             <p class="section-copy" style="font-weight: 600">
-              연락받을 성함과 휴대전화번호를 남겨주시면 예약 담당자가 순차적으로
-              안내해 드립니다.
+              홈페이지 예약 또는 전화로 검진 항목과 일정을 상담해 보세요.
             </p>
             <div class="booking-phone">
               <small>전화로 바로 상담하기</small
               ><a href="tel:1544-5189">1544-5189</a>
             </div>
           </div>
-          <form class="booking-form" id="reservation-form" novalidate>
-            <div class="field">
-              <label for="user-name">이름</label
-              ><input
-                id="user-name"
-                name="name"
-                type="text"
-                maxlength="20"
-                autocomplete="name"
-                placeholder="성함을 입력해 주세요"
-                required
-              />
-            </div>
-            <div class="field">
-              <label for="user-phone">휴대전화번호</label
-              ><input
-                id="user-phone"
-                name="phone"
-                type="tel"
-                maxlength="13"
-                inputmode="numeric"
-                autocomplete="tel"
-                placeholder="010-0000-0000"
-                required
-              />
-            </div>
-            <label class="consent"
-              ><input id="privacy-consent" type="checkbox" required /><span
-                >예약 안내를 위한 개인정보 수집 및 이용에 동의합니다.
-                <button type="button" data-open-privacy>내용 보기</button></span
-              ></label
-            ><button class="button dark submit" type="submit">
-              예약 신청하기 <span aria-hidden="true">→</span>
-            </button>
-            <p
-              class="form-message"
-              id="form-message"
-              role="status"
-              aria-live="polite"
-            ></p>
-          </form>
+          <div class="booking-form static-booking" aria-label="예약 신청 안내">
+      <h3>검진 예약을 신청해 보세요</h3>
+      <p>공식 홈페이지에서 성함과 연락처를 남겨주시면 예약 담당자가 순차적으로 안내해 드립니다.</p>
+      <a class="button brand static-reservation-link" href="http://reservation.rapigenhc.com/national.html#reservation" target="_blank" rel="noopener noreferrer">홈페이지 예약 신청 <span aria-hidden="true">↗</span></a>
+      <a class="button static-phone" href="tel:1544-5189">전화 상담 · 1544-5189</a>
+      <p class="static-booking-note">예약은 담당자 확인 후 확정됩니다. </p>
+    </div>
         </div>
       </section>
 
@@ -1300,19 +1275,19 @@
               <del>19만원~</del><strong>10만원~</strong>
             </div>
             <p class="discount-note">
-              위대장내시경 / 128ch CT / 3T MRI / 초음파 등
+              혈액종합검사, 종양표지자 검사, 초음파 검사추가 할인
             </p>
             <a
               class="button brand"
-              href="myfit2026.html"
+              href="2026plus.html"
               style="margin-top: 1.5rem"
               >이벤트 할인가 확인하기 <span aria-hidden="true">→</span></a
             >
           </div>
           <div class="discount-visual">
             <img
-              src="img/concept-ct.jpg"
-              alt="래피젠헬스케어 128채널 CT 검사 장비"
+              src="img/eq-ultrasound.jpg"
+              alt="래피젠헬스케어 초음파 검사 모습"
               loading="lazy"
             />
           </div>
@@ -1558,99 +1533,11 @@
     </script>
     <script>
       (() => {
-        const form = document.querySelector("#reservation-form"),
-          phone = document.querySelector("#user-phone"),
-          message = document.querySelector("#form-message"),
-          dialog = document.querySelector("#privacy-dialog");
-        document
-          .querySelectorAll("[data-open-privacy]")
-          .forEach((button) =>
-            button.addEventListener("click", () => dialog.showModal()),
-          );
-        document
-          .querySelector("#privacy-close")
-          .addEventListener("click", () => dialog.close());
+        const dialog = document.querySelector("#privacy-dialog");
+        document.querySelector("#privacy-close").addEventListener("click", () => dialog.close());
         dialog.addEventListener("click", (event) => {
-          if (event.target === dialog) dialog.close();
-        });
-        phone.addEventListener("input", () => {
-          const digits = phone.value.replace(/\D/g, "").slice(0, 11);
-          if (digits.length > 7)
-            phone.value = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
-          else if (digits.length > 3)
-            phone.value = `${digits.slice(0, 3)}-${digits.slice(3)}`;
-          else phone.value = digits;
-        });
-        let reservationPending = false;
-        let reservationSubmittedAt = 0;
-        form.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          if (reservationPending) return;
-          if (Date.now() - reservationSubmittedAt < 60000) {
-            message.textContent = "이미 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
-            return;
-          }
-          message.className = "form-message";
-          const name = document.querySelector("#user-name").value.trim(),
-            digits = phone.value.replace(/\D/g, ""),
-            agreed = document.querySelector("#privacy-consent").checked;
-          if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
-            message.textContent = "성함을 두 글자 이상 정확히 입력해 주세요.";
-            message.classList.add("error");
-            return;
-          }
-          if (!/^01[016789]\d{7,8}$/.test(digits)) {
-            message.textContent = "휴대전화번호를 정확히 입력해 주세요.";
-            message.classList.add("error");
-            return;
-          }
-          if (!agreed) {
-            message.textContent = "개인정보 수집 및 이용에 동의해 주세요.";
-            message.classList.add("error");
-            return;
-          }
-          const submit = form.querySelector('[type="submit"]');
-          reservationPending = true;
-          submit.disabled = true;
-          submit.textContent = "신청 중입니다…";
-          try {
-            const query = new URLSearchParams(location.search),
-              response = await (await import("./reservation-api.js")).submitReservation("/api/reservations.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                  name,
-                  phone: digits,
-                  package: "국가검진",
-                  pageName: "national.html",
-                  source:
-                    query.get("utm_source") || query.get("source") || "direct",
-                  medium: query.get("utm_medium") || query.get("medium") || "-",
-                  userAgent: navigator.userAgent,
-                  website: "",
-                }),
-              }),
-              result = await response.json().catch(() => ({}));
-            if (!response.ok || result.ok !== true)
-              throw new Error(result.error || "request_failed");
-            reservationSubmittedAt = Date.now();
-            form.reset();
-            message.textContent =
-              "예약 신청이 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
-            message.classList.add("success");
-          } catch (error) {
-            message.textContent =
-              error.message === "too_many_requests"
-                ? "잠시 후 다시 신청해 주세요. 빠른 상담은 1544-5189로 연락해 주세요."
-                : "현재 접수가 원활하지 않습니다. 1544-5189로 연락해 주세요.";
-            message.classList.add("error");
-          } finally {
-            reservationPending = false;
-            submit.disabled = false;
-            submit.innerHTML =
-              '예약 신청하기 <span aria-hidden="true">→</span>';
-          }
+          const bounds = dialog.getBoundingClientRect();
+          if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close();
         });
       })();
     </script>

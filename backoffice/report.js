@@ -1,4 +1,5 @@
 import { anonymizeReservation, maskName, maskPhone } from './privacy.js';
+import { buildWeeklyRankings, RANKING_DIMENSIONS } from './report-rankings.js';
 /**
  * 래피젠헬스케어 Report JS - 주간 스냅 엔진
  */
@@ -26,6 +27,8 @@ let channelChartInstance = null;
 let fpThisWeek = null;
 let fpLastWeek = null;
 let allReservationData = [];
+
+const formatLocalDate = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
 const CHANNEL_COLORS = {
     'dangn': '#F27405',     
@@ -90,10 +93,10 @@ function initDateInputs() {
     const lastStart = new Date(lastEnd);
     lastStart.setDate(lastStart.getDate() - 6); 
 
-    document.getElementById('thisWeekStart').value = thisStart.toISOString().substring(0,10);
-    document.getElementById('thisWeekEnd').value = thisEnd.toISOString().substring(0,10);
-    document.getElementById('lastWeekStart').value = lastStart.toISOString().substring(0,10);
-    document.getElementById('lastWeekEnd').value = lastEnd.toISOString().substring(0,10);
+    document.getElementById('thisWeekStart').value = formatLocalDate(thisStart);
+    document.getElementById('thisWeekEnd').value = formatLocalDate(thisEnd);
+    document.getElementById('lastWeekStart').value = formatLocalDate(lastStart);
+    document.getElementById('lastWeekEnd').value = formatLocalDate(lastEnd);
 
     // UI 동기화
     fpThisWeek.setDate([thisStart, thisEnd], false);
@@ -123,17 +126,17 @@ async function buildReportData() {
 
     try {
         const thisStart = new Date(document.getElementById('thisWeekStart').value + "T00:00:00");
-        const thisEnd = new Date(document.getElementById('thisWeekEnd').value + "T23:59:59");
+        const thisEnd = new Date(document.getElementById('thisWeekEnd').value + "T23:59:59.999");
         
         const lastStart = new Date(document.getElementById('lastWeekStart').value + "T00:00:00");
-        const lastEnd = new Date(document.getElementById('lastWeekEnd').value + "T23:59:59");
+        const lastEnd = new Date(document.getElementById('lastWeekEnd').value + "T23:59:59.999");
 
         const fetchStart = lastStart < thisStart ? lastStart : thisStart;
-        const fetchEnd = lastEnd > thisEnd ? lastEnd : thisEnd;
+        const fetchEndExclusive = new Date(Math.max(lastEnd.getTime(), thisEnd.getTime()) + 1);
 
         const qPeriod = query(collection(db, "reservations"), 
             where("createdAt", ">=", Timestamp.fromDate(fetchStart)),
-            where("createdAt", "<=", Timestamp.fromDate(fetchEnd))
+            where("createdAt", "<", Timestamp.fromDate(fetchEndExclusive))
         );
         const qAll = query(collection(db, "reservations"));
 
@@ -147,8 +150,10 @@ async function buildReportData() {
         let lastWeekCount = 0;
         
         let totalWaiting = 0, totalConfirmed = 0, totalCancel = 0;
-        let channelMap = {}; 
-        let packageMap = {}; 
+        const channelMap = Object.create(null);
+        const thisWeekDocs = [];
+        const lastWeekDocs = [];
+        const channelDimension = RANKING_DIMENSIONS.find(dimension => dimension.id === 'channel');
 
         const thisLabels = generateDateLabels(thisStart, thisEnd);
         const lastLabels = generateDateLabels(lastStart, lastEnd);
@@ -158,20 +163,24 @@ async function buildReportData() {
 
         periodDocs.forEach(data => {
             if(!data.createdAt) return;
-            const docDate = new Date(data.createdAt.seconds * 1000);
+            const docDate = typeof data.createdAt.toDate === 'function'
+                ? data.createdAt.toDate()
+                : new Date(data.createdAt.seconds * 1000 + (data.createdAt.nanoseconds || 0) / 1e6);
             
             if (docDate >= thisStart && docDate <= thisEnd) {
                 thisWeekCount++;
+                thisWeekDocs.push(data);
                 const mmdd = getMMDD(docDate);
                 const idx = thisLabels.indexOf(mmdd);
                 if (idx !== -1) trendThisWeek[idx]++;
                 
-                const src = data.source || 'direct';
+                const src = channelDimension.value(data);
                 channelMap[src] = (channelMap[src] || 0) + 1;
             }
             
             if (docDate >= lastStart && docDate <= lastEnd) {
                 lastWeekCount++;
+                lastWeekDocs.push(data);
                 const mmdd = getMMDD(docDate);
                 const idx = lastLabels.indexOf(mmdd);
                 if (idx !== -1) trendLastWeek[idx]++;
@@ -182,9 +191,6 @@ async function buildReportData() {
             if (data.status === '대기중') totalWaiting++;
             if (data.status === '확정') totalConfirmed++;
             if (data.status && data.status.includes('취소')) totalCancel++;
-            
-            const pkg = data.package || '기타';
-            packageMap[pkg] = (packageMap[pkg] || 0) + 1;
         });
 
         document.getElementById('stat-this-week').innerText = `${thisWeekCount}건`;
@@ -209,7 +215,7 @@ async function buildReportData() {
 
         renderTrendLine(thisLabels, trendThisWeek, lastLabels, trendLastWeek);
         renderChannelDoughnut(channelMap);
-        renderPackageRanking(packageMap);
+        renderWeeklyRankings(buildWeeklyRankings(thisWeekDocs, lastWeekDocs));
 
     } catch(err) {
         alert("데이터를 집계하는 중 오류가 발생했습니다.");
@@ -303,38 +309,72 @@ function renderChannelDoughnut(channelMap) {
     });
 }
 
-function renderPackageRanking(packageMap) {
-    const ul = document.getElementById('packageRankingList');
-    ul.innerHTML = ''; 
+function renderWeeklyRankings(rankings) {
+    const container = document.getElementById('weeklyRankings');
+    container.replaceChildren();
+    const weekDefinitions = [
+        { key: 'thisWeek', label: '기준 주간', otherLabel: '비교', color: 'text-[#0047FF]', background: 'bg-blue-50' },
+        { key: 'lastWeek', label: '비교 주간', otherLabel: '기준', color: 'text-gray-600', background: 'bg-gray-100' }
+    ];
 
-    const sorted = Object.entries(packageMap).sort((a, b) => b[1] - a[1]);
-    const top5 = sorted.slice(0, 5);
-
-    if (top5.length === 0) {
-        ul.innerHTML = '<li class="text-center text-gray-400 font-bold text-[13px] py-10">데이터가 없습니다.</li>';
-        return;
+    function element(tag, className, text) {
+        const node = document.createElement(tag);
+        node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
     }
 
-    top5.forEach((item, index) => {
-        const rank = index + 1;
-        const pkgName = item[0];
-        const count = item[1];
-        
-        let rankClass = 'rank-other';
-        if (rank === 1) rankClass = 'rank-1';
-        else if (rank === 2) rankClass = 'rank-2';
-        else if (rank === 3) rankClass = 'rank-3';
+    rankings.forEach(ranking => {
+        const card = element('article', 'min-w-0 bg-white p-5 md:p-6 rounded-[2rem] border border-gray-100 shadow-sm');
+        const title = element('h3', 'text-[16px] font-black text-gray-900 mb-5', `${ranking.label} TOP 5`);
+        title.id = `${ranking.id}RankingTitle`;
+        card.setAttribute('aria-labelledby', title.id);
+        card.appendChild(title);
+        const weeks = element('div', 'ranking-weeks');
 
-        const li = document.createElement('li');
-        li.className = "flex items-center justify-between p-3 rounded-xl bg-gray-50/50 hover:bg-gray-50 transition-colors";
-        li.innerHTML = `
-            <div class="flex items-center gap-3">
-                <span class="w-7 h-7 flex items-center justify-center rounded-lg text-[12px] font-black ${rankClass}">${rank}</span>
-                <span class="text-[14px] font-bold text-gray-800">${pkgName}</span>
-            </div>
-            <span class="text-[14px] font-black text-gray-900">${count}<span class="text-[11px] font-bold text-gray-400 ml-1">건</span></span>
-        `;
-        ul.appendChild(li);
+        weekDefinitions.forEach(week => {
+            const column = element('div', 'min-w-0');
+            const heading = element('h4', `rounded-xl p-3 mb-3 ${week.background}`);
+            heading.appendChild(element('span', `block text-[12px] font-black ${week.color}`, week.label));
+            const start = document.getElementById(`${week.key}Start`).value;
+            const end = document.getElementById(`${week.key}End`).value;
+            heading.appendChild(element('span', 'block mt-1 text-[10px] font-bold text-gray-500', `${start} ~ ${end}`));
+            column.appendChild(heading);
+
+            if (!ranking[week.key].length) {
+                column.appendChild(element('p', 'py-10 text-center text-[12px] text-gray-400 font-bold', '해당 주간 신청 데이터가 없습니다.'));
+            } else {
+                const list = element('ol', 'space-y-2');
+                ranking[week.key].forEach(item => {
+                    const row = element('li', 'rounded-xl border border-gray-100 p-3');
+                    const summary = element('div', 'flex items-start gap-2');
+                    const rankClass = item.rank <= 3 ? `rank-${item.rank}` : 'rank-other';
+                    const rank = element('span', `shrink-0 w-6 h-6 flex items-center justify-center rounded-lg text-[11px] font-black ${rankClass}`, item.rank);
+                    rank.setAttribute('aria-label', `${item.rank}위`);
+                    summary.appendChild(rank);
+                    summary.appendChild(element('span', 'ranking-name min-w-0 flex-1 text-[13px] font-bold leading-6 text-gray-800', item.name));
+                    summary.appendChild(element('span', 'shrink-0 text-[13px] font-black leading-6 text-gray-900', `${item.count.toLocaleString('ko-KR')}건`));
+                    row.appendChild(summary);
+
+                    const otherText = item.otherRank === null ? `${week.otherLabel} 신청 없음`
+                        : `${week.otherLabel} ${item.otherRank}위 · ${item.otherCount.toLocaleString('ko-KR')}건`;
+                    row.appendChild(element('p', 'mt-2 text-[10px] font-bold text-gray-400', otherText));
+                    if (week.key === 'thisWeek') {
+                        const movement = item.rankChange === null ? '신규'
+                            : item.rankChange > 0 ? `▲ ${item.rankChange}위 상승`
+                            : item.rankChange < 0 ? `▼ ${Math.abs(item.rankChange)}위 하락` : '순위 유지';
+                        const change = `${item.countChange > 0 ? '+' : ''}${item.countChange.toLocaleString('ko-KR')}건`;
+                        const color = item.countChange > 0 ? 'text-blue-600' : item.countChange < 0 ? 'text-red-500' : 'text-gray-500';
+                        row.appendChild(element('p', `mt-1 text-[10px] font-bold ${color}`, `${movement} · ${change}`));
+                    }
+                    list.appendChild(row);
+                });
+                column.appendChild(list);
+            }
+            weeks.appendChild(column);
+        });
+        card.appendChild(weeks);
+        container.appendChild(card);
     });
 }
 
@@ -502,7 +542,8 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
  * @param {number} direction - -1(이전주) 또는 1(다음주)
  */
 window.shiftWeek = function(target, direction) {
-    const startInput = document.getElementById(target + 'Start');
+    const prefix = target === 'this' ? 'thisWeek' : 'lastWeek';
+    const startInput = document.getElementById(prefix + 'Start');
     
     // 타겟에 맞는 인스턴스 선택
     const picker = (target === 'this') ? fpThisWeek : fpLastWeek;
@@ -512,7 +553,7 @@ window.shiftWeek = function(target, direction) {
         return;
     }
 
-    const startDate = new Date(startInput.value);
+    const startDate = new Date(startInput.value + 'T00:00:00');
     startDate.setDate(startDate.getDate() + (direction * 7));
     
     const endDate = new Date(startDate);
@@ -521,7 +562,3 @@ window.shiftWeek = function(target, direction) {
     // Flatpickr 업데이트 (화면 UI와 Hidden Input이 동시에 갱신됨)
     picker.setDate([startDate, endDate], true); 
 };
-
-// [주의] report.js 하단의 이벤트 핸들러 부분에 '적용' 버튼 클릭 이벤트와 충돌하지 않도록 보강하십시오.
-// 기존 buildReportData 함수가 모든 기간 입력(Hidden Input)을 읽어오므로, 
-// shiftWeek 함수만 호출해도 정상적으로 재집계됩니다.

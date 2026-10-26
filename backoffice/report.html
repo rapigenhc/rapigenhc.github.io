@@ -21,6 +21,9 @@
         .rank-2 { background-color: #F9FAFB; color: #4B5563; border: 1px solid #E5E7EB; }
         .rank-3 { background-color: #F9FAFB; color: #6B7280; border: 1px solid #F3F4F6; }
         .rank-other { background-color: transparent; color: #9CA3AF; border: 1px solid transparent; }
+        .ranking-weeks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+        .ranking-name { overflow-wrap: anywhere; }
+        @media (max-width: 479px) { .ranking-weeks { grid-template-columns: minmax(0, 1fr); } }
     </style>
 </head>
 <body class="bg-[#F9FAFB] text-gray-900 antialiased">
@@ -121,7 +124,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+            <div class="mb-6">
                 <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col">
                     <h2 class="text-[16px] font-black text-gray-900 mb-6 flex items-center gap-2">
                         <span class="w-1.5 h-1.5 bg-[#F27405] rounded-full"></span>
@@ -131,17 +134,15 @@
                         <canvas id="channelChart"></canvas>
                     </div>
                 </div>
-                
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col">
-                    <h2 class="text-[16px] font-black text-gray-900 mb-6 flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span>
-                        선택 패키지 TOP 5 (전체 누적)
-                    </h2>
-                    <div class="flex-1 flex flex-col justify-center">
-                        <ul id="packageRankingList" class="space-y-3"></ul>
-                    </div>
-                </div>
             </div>
+
+            <section class="mb-20" aria-labelledby="weeklyRankingTitle">
+                <div class="mb-5">
+                    <h2 id="weeklyRankingTitle" class="text-lg font-black text-gray-900">주간 순위 TOP 5 비교</h2>
+                    <p class="mt-2 text-[12px] leading-relaxed text-gray-500">각 주간 신청 건수순 상위 5개입니다. 동률은 항목명순으로 표시하며, 순위 변동은 비교 주간의 전체 순위와 비교합니다. 신규는 비교 주간 신청이 0건인 항목입니다.</p>
+                </div>
+                <div id="weeklyRankings" class="grid grid-cols-1 lg:grid-cols-2 gap-6" aria-live="polite"></div>
+            </section>
         </main>
     </div>
 

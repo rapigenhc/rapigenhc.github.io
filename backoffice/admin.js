@@ -1,4 +1,4 @@
-import { anonymizeReservation } from './privacy.js';
+import { anonymizeReservation } from './privacy.js?v=20261102-2';
 /**
  * 래피젠헬스케어 Admin JS - 스마트 커서 및 Flatpickr 날짜 최적화
  */

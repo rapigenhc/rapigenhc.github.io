@@ -1,4 +1,4 @@
-import { anonymizeReservation, maskName, maskPhone } from './privacy.js';
+import { anonymizeReservation, maskName, maskPhone } from './privacy.js?v=20261102-2';
 import { buildWeeklyRankings, RANKING_DIMENSIONS } from './report-rankings.js';
 /**
  * 래피젠헬스케어 Report JS - 주간 스냅 엔진

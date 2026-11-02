@@ -1,6 +1,6 @@
-// 신청일 기준 2026년 4~8월 고객정보는 한국시간으로 익명 처리합니다.
+// 신청일 기준 2026년 4~9월 고객정보는 한국시간으로 익명 처리합니다.
 const START = Date.parse('2026-04-01T00:00:00+09:00');
-const END = Date.parse('2026-09-01T00:00:00+09:00');
+const END = Date.parse('2026-10-01T00:00:00+09:00');
 
 export function maskName(name) {
     const chars = Array.from(String(name ?? '').trim());

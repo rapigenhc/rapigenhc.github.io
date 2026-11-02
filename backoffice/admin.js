@@ -27,19 +27,33 @@ let periodReservations = [];
 let loadedPeriod = null;
 let fetchVersion = 0;
 
-let currentDateMode = 'week'; 
+let currentDateMode = 'all';
 let fpInstance = null;
 
 const formatLocalDate = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
 const setInitialDates = (range = 'week') => {
+    currentDateMode = range;
+    document.querySelectorAll('.date-quick-btn').forEach(button => {
+        const active = button.dataset.range === range;
+        button.classList.toggle('bg-white', active);
+        button.classList.toggle('text-[#F27405]', active);
+        button.classList.toggle('text-gray-500', !active);
+    });
+    if (range === 'all') {
+        document.getElementById('filterStartDate').value = '';
+        document.getElementById('filterEndDate').value = '';
+        fpInstance?.clear(false);
+        document.getElementById('dateRangeDisplay').value = '';
+        return;
+    }
     const end = new Date();
     const start = new Date();
     
     if(range === 'day') {
         start.setDate(end.getDate());
     } else if(range === 'week') {
-        start.setDate(end.getDate() - 6);
+        start.setDate(end.getDate() - 7);
     } else if(range === 'month') {
         start.setDate(1); 
         end.setMonth(start.getMonth() + 1);
@@ -66,7 +80,7 @@ const initFlatpickr = () => {
                     instance.setDate([start, start], true);
                 } else if (currentDateMode === 'week') {
                     const end = new Date(start);
-                    end.setDate(start.getDate() + 6);
+                    end.setDate(start.getDate() + 7);
                     instance.setDate([start, end], true);
                 } else if (currentDateMode === 'month') {
                     const firstDay = new Date(start.getFullYear(), start.getMonth(), 1);
@@ -97,7 +111,9 @@ onAuthStateChanged(auth, async (user) => {
         
         await fetchUserRole(user.uid);
         initFlatpickr(); 
-        setInitialDates('week'); 
+        document.getElementById('filterStatus').value = '대기중';
+        document.getElementById('searchTerm').value = '';
+        setInitialDates('all');
         fetchFromFirestore(1, true); 
     } else {
         document.getElementById('login-screen').classList.remove('hidden');
@@ -163,13 +179,18 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
     const period = `${start}/${end}`;
     try {
         if (isNewSearch || loadedPeriod !== period) {
-            const startDate = new Date(start + 'T00:00:00');
-            const endExclusive = new Date(end + 'T00:00:00');
-            endExclusive.setDate(endExclusive.getDate() + 1);
+            const constraints = [];
+            if (start || end) {
+                const startDate = new Date(start + 'T00:00:00');
+                const endExclusive = new Date(end + 'T00:00:00');
+                endExclusive.setDate(endExclusive.getDate() + 1);
+                constraints.push(
+                    where('createdAt', '>=', Timestamp.fromDate(startDate)),
+                    where('createdAt', '<', Timestamp.fromDate(endExclusive))
+                );
+            }
             const snapshot = await getDocs(query(collection(db, 'reservations'),
-                where('createdAt', '>=', Timestamp.fromDate(startDate)),
-                where('createdAt', '<', Timestamp.fromDate(endExclusive)),
-                orderBy('createdAt', 'desc')));
+                ...constraints, orderBy('createdAt', 'desc')));
             if (version !== fetchVersion) return;
             periodReservations = snapshot.docs.map(d => anonymizeReservation({ ...d.data(), id: d.id }));
             loadedPeriod = period;
@@ -328,21 +349,14 @@ document.addEventListener('click', async (e) => {
     const summary = e.target.closest('.status-summary');
     if (summary) {
         document.getElementById('filterStatus').value = summary.dataset.status;
-        fetchFromFirestore(1);
+        setInitialDates('week');
+        await fetchFromFirestore(1);
         return;
     }
     if (e.target.id === 'filterSearchBtn') fetchFromFirestore(1, true);
     
     if (e.target.classList.contains('date-quick-btn')) {
-        document.querySelectorAll('.date-quick-btn').forEach(b => {
-            b.classList.remove('bg-white', 'text-[#F27405]');
-            b.classList.add('text-gray-500');
-        });
-        e.target.classList.remove('text-gray-500');
-        e.target.classList.add('bg-white', 'text-[#F27405]');
-        
-        currentDateMode = e.target.dataset.range; 
-        setInitialDates(currentDateMode); 
+        setInitialDates(e.target.dataset.range);
         fetchFromFirestore(1, true); 
     }
 
@@ -358,7 +372,8 @@ document.addEventListener('click', async (e) => {
 // 상태 변경 이벤트 위임
 document.addEventListener('change', async (e) => {
     if (e.target.id === 'filterStatus') {
-        fetchFromFirestore(1);
+        setInitialDates('week');
+        await fetchFromFirestore(1);
         return;
     }
     if (e.target.classList.contains('status-select')) {

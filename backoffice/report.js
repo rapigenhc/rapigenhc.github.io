@@ -386,15 +386,18 @@ function formatExcelDate(timestamp) {
 
     if (Number.isNaN(date.getTime())) return '-';
 
-    return new Intl.DateTimeFormat('ko-KR', {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat('ko-KR', {
+        timeZone: 'Asia/Seoul',
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: false
-    }).format(date);
+        hourCycle: 'h23'
+    }).formatToParts(date).map(({ type, value }) => [type, value]));
+
+    return `${parts.year}.${parts.month}.${parts.day}. ${parts.hour}:${parts.minute}:${parts.second}`;
 }
 
 function getDownloadDate() {

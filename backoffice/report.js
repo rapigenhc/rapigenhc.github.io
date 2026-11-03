@@ -39,18 +39,23 @@ const CHANNEL_COLORS = {
     'direct': '#6B7280'     
 };
 
-// [신규] 리포트 페이지는 '주간 비교'이므로 항상 7일이 강제로 스냅되는 공통 설정 사용
+function getWeekRange(date) {
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    return [start, end];
+}
+
+// 선택한 날짜가 속한 월요일~일요일을 주간 비교 범위로 사용합니다.
 const reportFlatpickrConfig = {
     mode: "range",
-    locale: "ko",
+    locale: { ...flatpickr.l10ns.ko, firstDayOfWeek: 1 },
     dateFormat: "Y-m-d",
     onChange: function(selectedDates, dateStr, instance) {
         if (selectedDates.length === 1) {
-            // 한 날짜를 클릭하면 무조건 그날부터 7일(1주)을 강제 지정
-            const start = selectedDates[0];
-            const end = new Date(start);
-            end.setDate(start.getDate() + 6);
-            instance.setDate([start, end], true);
+            instance.setDate(getWeekRange(selectedDates[0]), true);
         } else if (selectedDates.length === 2) {
             const elId = instance.element.id;
             const prefix = elId === 'thisWeekPicker' ? 'thisWeek' : 'lastWeek';
@@ -82,16 +87,10 @@ function initDateInputs() {
     fpThisWeek = flatpickr("#thisWeekPicker", reportFlatpickrConfig);
     fpLastWeek = flatpickr("#lastWeekPicker", reportFlatpickrConfig);
 
-    const today = new Date();
-    
-    const thisEnd = new Date(today);
-    const thisStart = new Date(today);
-    thisStart.setDate(thisEnd.getDate() - 6); 
-
-    const lastEnd = new Date(thisStart);
-    lastEnd.setDate(lastEnd.getDate() - 1);
-    const lastStart = new Date(lastEnd);
-    lastStart.setDate(lastStart.getDate() - 6); 
+    const [thisStart, thisEnd] = getWeekRange(new Date());
+    const previousWeek = new Date(thisStart);
+    previousWeek.setDate(previousWeek.getDate() - 7);
+    const [lastStart, lastEnd] = getWeekRange(previousWeek);
 
     document.getElementById('thisWeekStart').value = formatLocalDate(thisStart);
     document.getElementById('thisWeekEnd').value = formatLocalDate(thisEnd);

@@ -32,6 +32,15 @@ let fpInstance = null;
 
 const formatLocalDate = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
+function getWeekRange(date) {
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    return [start, end];
+}
+
 const setInitialDates = (range = 'week') => {
     currentDateMode = range;
     document.querySelectorAll('.date-quick-btn').forEach(button => {
@@ -47,13 +56,12 @@ const setInitialDates = (range = 'week') => {
         document.getElementById('dateRangeDisplay').value = '';
         return;
     }
-    const end = new Date();
-    const start = new Date();
+    const [start, end] = range === 'week'
+        ? getWeekRange(new Date())
+        : [new Date(), new Date()];
     
     if(range === 'day') {
         start.setDate(end.getDate());
-    } else if(range === 'week') {
-        start.setDate(end.getDate() - 7);
     } else if(range === 'month') {
         start.setDate(1); 
         end.setMonth(start.getMonth() + 1);
@@ -71,7 +79,7 @@ const setInitialDates = (range = 'week') => {
 const initFlatpickr = () => {
     fpInstance = flatpickr("#dateRangeDisplay", {
         mode: "range",
-        locale: "ko", 
+        locale: { ...flatpickr.l10ns.ko, firstDayOfWeek: 1 },
         dateFormat: "Y-m-d",
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length === 1) {
@@ -79,9 +87,7 @@ const initFlatpickr = () => {
                 if (currentDateMode === 'day') {
                     instance.setDate([start, start], true);
                 } else if (currentDateMode === 'week') {
-                    const end = new Date(start);
-                    end.setDate(start.getDate() + 7);
-                    instance.setDate([start, end], true);
+                    instance.setDate(getWeekRange(start), true);
                 } else if (currentDateMode === 'month') {
                     const firstDay = new Date(start.getFullYear(), start.getMonth(), 1);
                     const lastDay = new Date(start.getFullYear(), start.getMonth() + 1, 0);

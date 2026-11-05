@@ -1,205 +1,1019 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="래피젠헬스케어 영양 수액 종류와 비용, 건강검진 당일 할인 이벤트 안내">
-    <title>영양 수액 주사 | 래피젠헬스케어</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="래피젠헬스케어 영양 수액 종류와 비용, 건강검진 당일 할인 이벤트 안내"
+    />
+    <title>영양 수액 안내 | 래피젠헬스케어의원</title>
+    <link
+      rel="canonical"
+      href="https://reservation.rapigenhc.com/injection.html"
+    />
+    <link rel="icon" href="img/favicon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
-        body { -webkit-tap-highlight-color: transparent; }
-        .injection-page-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-        .injection-page-card:hover { transform: translateY(-3px); border-color: #fdba74; box-shadow: 0 18px 35px -26px rgba(242, 116, 5, .65); }
-        .event-price-list[hidden] { display: none; }
+      :root {
+        --ink: #303030;
+        --copy: #686868;
+        --line: #dddddd;
+        --paper: #ffffff;
+        --soft: #f1f1f1;
+        --warm: #f5f5f5;
+        --brand: #ff641f;
+        --brand-dark: #dc4810;
+        --brand-soft: #fff0e9;
+        --peach: #efb09b;
+        --peach-light: #ffe0d7;
+        --shadow: 0 20px 55px rgba(48, 48, 48, 0.1);
+        --content: 1180px;
+        --space: clamp(72px, 9vw, 120px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
+      }
+      body {
+        margin: 0;
+        padding-bottom: 110px;
+        overflow-x: clip;
+        color: var(--ink);
+        background: var(--paper);
+        font-family:
+          Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 17px;
+        line-height: 1.65;
+        letter-spacing: -0.015em;
+        word-break: keep-all;
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        display: block;
+        width: 100%;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        -webkit-tap-highlight-color: transparent;
+      }
+      :focus-visible {
+        outline: 3px solid rgba(255, 100, 31, 0.38);
+        outline-offset: 4px;
+      }
+      .shell {
+        width: min(calc(100% - 40px), var(--content));
+        margin-inline: auto;
+      }
+      .section {
+        padding-block: var(--space);
+      }
+      .soft {
+        background:
+          radial-gradient(
+            circle at 88% 8%,
+            rgba(239, 176, 155, 0.4),
+            transparent 28%
+          ),
+          linear-gradient(145deg, #fff 0%, #f1f1f1 100%);
+      }
+      .warm {
+        background:
+          radial-gradient(
+            circle at 15% 18%,
+            rgba(255, 100, 31, 0.14),
+            transparent 26%
+          ),
+          linear-gradient(145deg, #f7f7f7 0%, #fff 60%, #f1f1f1 100%);
+      }
+      .section-head {
+        max-width: 700px;
+        margin: 0 0 clamp(32px, 5vw, 54px);
+      }
+      .section-head.center {
+        margin-inline: auto;
+        text-align: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 18px;
+        color: var(--brand-dark);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .eyebrow::before {
+        width: 24px;
+        height: 2px;
+        background: currentColor;
+        content: "";
+      }
+      .section-head.center .eyebrow::before {
+        display: none;
+      }
+      .section-title {
+        margin: 0;
+        font-size: clamp(32px, 4.4vw, 54px);
+        line-height: 1.17;
+        letter-spacing: -0.045em;
+      }
+      .section-copy {
+        margin: 18px 0 0;
+        color: var(--copy);
+        font-size: clamp(17px, 2vw, 21px);
+      }
+      .button {
+        display: inline-flex;
+        min-height: 56px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 24px;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 800;
+        transition: 0.2s;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+      }
+      .button.brand {
+        background: var(--brand);
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(255, 100, 31, 0.24);
+      }
+      .button.brand:hover {
+        background: var(--brand-dark);
+      }
+      .button.outline {
+        border-color: var(--line);
+        background: #fff;
+        color: var(--ink);
+      }
+      .site-header {
+        position: fixed;
+        z-index: 50;
+        top: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+        color: #fff;
+        transition: 0.25s;
+      }
+      .site-header.scrolled {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.94);
+        color: var(--ink);
+        box-shadow: 0 8px 28px rgba(48, 48, 48, 0.06);
+        backdrop-filter: blur(16px);
+      }
+      .header-inner {
+        display: flex;
+        min-height: 78px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 17px;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+      .logo-mark {
+        display: grid;
+        width: 39px;
+        height: 39px;
+        flex: 0 0 auto;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 14px;
+        background: var(--brand);
+      }
+      .logo-mark img {
+        height: 100%;
+        object-fit: cover;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(16px, 2.2vw, 30px);
+      }
+      .nav a {
+        font-size: 14px;
+        font-weight: 750;
+      }
+      .nav .header-cta {
+        min-height: 44px;
+        padding-inline: 18px;
+        background: var(--brand);
+        color: #fff;
+      }
+      .menu-button {
+        display: none;
+        width: 46px;
+        height: 46px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+      }
+      .menu-button span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        margin: 5px auto;
+        background: currentColor;
+      }
+      .hero {
+        position: relative;
+        display: flex;
+        min-height: min(760px, 92svh);
+        align-items: center;
+        overflow: hidden;
+        background: #34302d;
+        color: #fff;
+      }
+      .hero-media,
+      .hero-shade {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .hero-media {
+        object-fit: cover;
+        object-position: center;
+      }
+      .hero-shade {
+        background: linear-gradient(
+          90deg,
+          rgba(25, 24, 23, 0.78) 0%,
+          rgba(25, 24, 23, 0.55) 54%,
+          rgba(25, 24, 23, 0.15) 100%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding-block: 150px 100px;
+      }
+      .hero-copy {
+        max-width: 720px;
+      }
+      .hero-label {
+        margin: 0 0 22px;
+        color: #ffd2be;
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+      }
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(44px, 7vw, 82px);
+        font-weight: 900;
+        line-height: 1.13;
+        letter-spacing: -0.055em;
+      }
+      .hero h1 span {
+        color: #ffb18e;
+      }
+      .hero-lead {
+        max-width: 600px;
+        margin: 24px 0 0;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: clamp(17px, 2vw, 21px);
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 34px;
+      }
+      .hero-actions .button.outline {
+        border-color: rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        backdrop-filter: blur(10px);
+      }
+      .benefit-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .benefit-card,
+      .price-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+        box-shadow: 0 12px 30px -24px rgba(48, 48, 48, 0.45);
+        transition:
+          transform 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .benefit-card:hover,
+      .price-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--peach);
+        box-shadow: var(--shadow);
+      }
+      .benefit-card {
+        min-height: 205px;
+        padding: 26px;
+      }
+      .benefit-number {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 13px;
+        background: var(--brand-soft);
+        color: var(--brand-dark);
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .benefit-card h3,
+      .price-card h3 {
+        margin: 18px 0 0;
+        font-size: 19px;
+        font-weight: 900;
+      }
+      .benefit-card p,
+      .price-card p {
+        margin: 8px 0 0;
+        color: var(--copy);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .price-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .price-card {
+        display: flex;
+        min-height: 145px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 24px;
+      }
+      .price-card.featured {
+        grid-column: 1 / -1;
+        min-height: 176px;
+        border-color: var(--peach);
+        background:
+          radial-gradient(
+            circle at 92% 10%,
+            rgba(255, 100, 31, 0.12),
+            transparent 38%
+          ),
+          #fff;
+      }
+      .price-card h3 {
+        margin: 0;
+      }
+      .price-badge {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--brand);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .price-value {
+        flex: 0 0 auto;
+        color: var(--brand-dark);
+        font-size: 23px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+      .price-value small {
+        display: block;
+        margin-bottom: 2px;
+        color: #999;
+        font-size: 13px;
+        font-weight: 650;
+        text-align: right;
+      }
+      .event-card {
+        overflow: hidden;
+        border: 1px solid var(--peach-light);
+        border-radius: 22px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+      .event-intro {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: clamp(28px, 5vw, 54px);
+        background:
+          radial-gradient(
+            circle at 90% 10%,
+            rgba(255, 255, 255, 0.2),
+            transparent 30%
+          ),
+          linear-gradient(125deg, var(--brand-dark), var(--brand));
+        color: #fff;
+      }
+      .event-intro .eyebrow {
+        color: #ffe0d1;
+      }
+      .event-intro h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.2;
+        letter-spacing: -0.04em;
+      }
+      .event-intro p:not(.eyebrow) {
+        margin: 14px 0 0;
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .event-intro .button {
+        flex: 0 0 auto;
+        border: 0;
+        background: #fff;
+        color: var(--brand-dark);
+      }
+      .event-price-list {
+        padding: 24px;
+      }
+      .event-price-list[hidden] {
+        display: none;
+      }
+      .discount-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .discount-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 13px;
+        background: var(--warm);
+        font-weight: 800;
+      }
+      .discount-item.featured {
+        grid-column: 1 / -1;
+        background: var(--brand-soft);
+      }
+      .discount-item > span:last-child {
+        display: grid;
+        justify-items: end;
+        color: var(--brand-dark);
+        font-size: 19px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+      .discount-item s {
+        color: #999;
+        font-size: 12px;
+        font-weight: 650;
+      }
+      .medical-note {
+        margin: 16px 0 0;
+        color: var(--copy);
+        font-size: 13px;
+      }
+      .site-footer {
+        padding: 42px 0 36px;
+        background: #303030;
+        color: #fff;
+      }
+      .footer-inner {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .footer-brand {
+        font-weight: 900;
+      }
+      .footer-links {
+        display: flex;
+        gap: 18px;
+        margin-top: 15px;
+        color: #ffd2be;
+        font-size: 14px;
+        font-weight: 750;
+      }
+      .footer-copy {
+        max-width: 560px;
+        color: #d3d3d3;
+        font-size: 13px;
+      }
+      .footer-copy p {
+        margin: 0 0 8px;
+      }
+      @media (max-width: 950px) {
+        .header-inner {
+          min-height: 68px;
+        }
+        .menu-button {
+          display: block;
+        }
+        .nav {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          left: 0;
+          display: none;
+          align-items: stretch;
+          padding: 16px 20px 22px;
+          border-bottom: 1px solid var(--line);
+          background: #fff;
+          color: var(--ink);
+        }
+        .nav.open {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+        .nav a:not(.header-cta) {
+          padding: 13px 4px;
+        }
+        .nav .header-cta {
+          margin-top: 8px;
+        }
+        .hero {
+          min-height: 700px;
+        }
+        .benefit-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 640px) {
+        body {
+          font-size: 16px;
+        }
+        .shell {
+          width: min(calc(100% - 36px), var(--content));
+        }
+        .logo {
+          gap: 9px;
+          font-size: 13px;
+        }
+        .logo-mark {
+          width: 34px;
+          height: 34px;
+          border-radius: 12px;
+        }
+        .hero {
+          min-height: 650px;
+          min-height: 88svh;
+          align-items: flex-end;
+        }
+        .hero-media {
+          object-position: 63% center;
+        }
+        .hero-shade {
+          background: linear-gradient(
+            0deg,
+            rgba(25, 24, 23, 0.82),
+            rgba(25, 24, 23, 0.12) 100%
+          );
+        }
+        .hero-content {
+          padding-block: 130px 82px;
+        }
+        .hero-label {
+          margin-bottom: 16px;
+          font-size: 11px;
+        }
+        .hero h1 {
+          font-size: clamp(42px, 12vw, 60px);
+        }
+        .hero-lead {
+          margin-top: 18px;
+          font-size: 16px;
+        }
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          margin-top: 24px;
+        }
+        .hero-actions .button {
+          width: 100%;
+        }
+        .benefit-grid,
+        .price-grid,
+        .discount-grid {
+          grid-template-columns: 1fr;
+        }
+        .benefit-card {
+          min-height: auto;
+        }
+        .price-card,
+        .price-card.featured {
+          grid-column: auto;
+          min-height: 130px;
+          padding: 20px;
+        }
+        .price-value {
+          font-size: 19px;
+        }
+        .event-intro {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .event-intro .button {
+          width: 100%;
+        }
+        .event-price-list {
+          padding: 14px;
+        }
+        .discount-item.featured {
+          grid-column: auto;
+        }
+        .discount-item {
+          padding: 14px;
+          font-size: 14px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 18px;
+        }
+      }
+      #bottom-form {
+        border-color: var(--line) !important;
+        box-shadow: 0 -8px 28px rgba(48, 48, 48, 0.08) !important;
+      }
+      #bottom-form > div {
+        display: grid;
+        width: min(100%, var(--content));
+        max-width: var(--content);
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 18px;
+        padding: 12px 20px;
+      }
+      #bottom-form > div > div:first-child {
+        width: auto;
+        margin: 0;
+      }
+      #bottom-form > div > div:nth-child(2) {
+        min-width: 0;
+      }
+      #bottom-form .speech-bubble {
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        z-index: 10;
+        padding: 6px 10px;
+        border-radius: 6px;
+        background: #ef4444;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(10px);
+        transition: 0.2s;
+        visibility: hidden;
+      }
+      #bottom-form .speech-bubble.show {
+        opacity: 1;
+        transform: translateX(-50%);
+        visibility: visible;
+      }
+      #bottom-form input[type="text"],
+      #bottom-form input[type="tel"] {
+        min-height: 48px;
+        border-color: var(--line);
+        border-radius: 10px;
+        font: inherit;
+        font-size: 15px;
+      }
+      #bottom-form #submitBtn {
+        min-height: 48px;
+        padding-block: 8px;
+        border-radius: 10px;
+        background: var(--brand) !important;
+        font-size: 15px;
+        font-weight: 850;
+        line-height: 1.3;
+      }
+      #bottom-form #submitBtn:hover {
+        background: var(--brand-dark) !important;
+      }
+      @media (max-width: 640px) {
+        body {
+          padding-bottom: 180px;
+        }
+        #bottom-form > div {
+          grid-template-columns: 1fr;
+          gap: 8px;
+          padding: 8px 14px;
+        }
+        #bottom-form > div > div:nth-child(2) {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        #bottom-form > div > div:nth-child(2) > div {
+          min-width: 0;
+        }
+        #bottom-form > div > div:nth-child(2) > div > div:first-child {
+          width: 40%;
+        }
+        #bottom-form > div > div:nth-child(2) > div > div:nth-child(2) {
+          width: 60%;
+        }
+        #bottom-form #submitBtn {
+          width: 100%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
     </style>
-</head>
-<body data-package="영양수액" class="bg-white text-gray-900 pb-40 overflow-x-hidden">
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div class="max-w-md md:max-w-5xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="location.href='index.html'">
-                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">래피젠 헬스케어 건강검진 이벤트</h1>
-            </div>
-            <button type="button" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" onclick="location.href='index.html'" aria-label="홈으로 이동">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 011-1h2a1 1 0 011 1v4m-6 0h6"></path></svg>
-            </button>
-        </div>
+  </head>
+  <body data-page-name="injection.html" data-package="영양수액">
+    <header class="site-header" id="site-header">
+      <div class="shell header-inner">
+        <a class="logo" href="index.html" aria-label="래피젠헬스케어 홈페이지">
+          <span class="logo-mark"><img src="img/favicon.png" alt="" /></span>
+          <span>래피젠헬스케어의원</span>
+        </a>
+        <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
+          <a href="index.html#services">검진안내</a>
+          <a href="program.html">종합검진</a>
+          <a href="ambulatorycare.html">외래진료</a>
+          <a href="index.html#location">오시는 길</a>
+          <a class="button header-cta" href="index.html#booking">예약 신청</a>
+        </nav>
+        <button
+          class="menu-button"
+          id="menu-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="메뉴 열기"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
-    <main class="w-full flex flex-col items-center overflow-hidden pb-0">
-        <section class="w-full max-w-5xl mx-auto px-5 pt-8 md:pt-14" aria-labelledby="injection-hero-title">
-            <div class="relative overflow-hidden rounded-[2.5rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-amber-50 p-8 sm:p-14 lg:p-16 shadow-sm">
-                <div class="absolute -right-20 -top-24 w-72 h-72 rounded-full bg-orange-200/30 blur-3xl" aria-hidden="true"></div>
-                <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                    <div class="lg:col-span-7 text-center lg:text-left" data-aos="fade-up">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[13px] sm:text-sm font-extrabold text-[#F27405] border border-orange-100 shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-[#F27405]"></span>
-                            RAPIGEN NUTRITION CARE
-                        </span>
-                        <h2 id="injection-hero-title" class="mt-6 text-3xl sm:text-[42px] lg:text-[52px] font-black tracking-tight leading-[1.25] break-keep">
-                            지친 일상에 필요한<br><span class="text-[#F27405]">맞춤 영양 수액</span>
-                        </h2>
-                        <p class="mt-6 max-w-2xl mx-auto lg:mx-0 text-[15px] sm:text-lg leading-[1.8] text-gray-600 break-keep">
-                            현재 건강 상태와 회복 목적을 확인한 뒤 의료진의 진료를 통해 개인에게 적합한 영양 수액을 안내합니다.
-                        </p>
-                        <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-3">
-                            <button type="button" onclick="focusReservationForm()" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F27405] px-8 py-4 font-extrabold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-600 active:scale-95 transition-all">
-                                영양 수액 상담 신청
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                            </button>
-                            <a href="tel:1544-5189" class="inline-flex items-center justify-center rounded-2xl border border-gray-200 bg-white px-8 py-4 font-extrabold text-gray-700 hover:border-orange-200 hover:text-[#F27405] active:scale-95 transition-all">전화 상담 1544-5189</a>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 flex justify-center" data-aos="fade-up" data-aos-delay="100">
-                        <div class="relative w-full max-w-[22rem] aspect-square rounded-[3rem] border-[6px] border-white bg-gradient-to-br from-orange-100 to-amber-50 shadow-2xl flex items-center justify-center overflow-hidden">
-                            <div class="absolute inset-x-8 top-10 h-16 rounded-full bg-white/60 blur-xl" aria-hidden="true"></div>
-                            <svg class="relative w-[55%] h-[70%] text-[#F27405]" viewBox="0 0 180 240" fill="none" aria-label="영양 수액 일러스트" role="img">
-                                <path d="M72 18h36v25H72z" fill="white" stroke="currentColor" stroke-width="7" stroke-linejoin="round"></path>
-                                <path d="M56 43h68c11 0 20 9 20 20v102c0 13-10 23-23 23H59c-13 0-23-10-23-23V63c0-11 9-20 20-20Z" fill="white" stroke="currentColor" stroke-width="8"></path>
-                                <path d="M39 119h102v46c0 11-9 20-20 20H59c-11 0-20-9-20-20v-46Z" fill="#FED7AA"></path>
-                                <path d="M90 188v23c0 8 6 14 14 14h16" stroke="currentColor" stroke-width="7" stroke-linecap="round"></path>
-                                <path d="M74 86h32M90 70v32" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
-                                <circle cx="128" cy="225" r="8" fill="currentColor"></circle>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="w-full max-w-5xl mx-auto px-5 py-20 md:py-28" aria-labelledby="benefit-title">
-            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
-                <span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-[13px] font-extrabold text-[#F27405]">NUTRITION BENEFITS</span>
-                <h2 id="benefit-title" class="mt-4 text-2xl sm:text-[34px] font-black tracking-tight">영양 수액의 장점</h2>
-                <p class="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-gray-500 break-keep">진료를 통해 현재 상태를 확인하고 목적에 맞는 영양 성분 보충을 도울 수 있습니다.</p>
-            </div>
-            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">01</div>
-                    <h3 class="mt-5 text-lg font-black">수분·영양 보충</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">수분과 필요한 영양 성분을 보충해 컨디션 관리를 돕습니다.</p>
-                </article>
-                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="50">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">02</div>
-                    <h3 class="mt-5 text-lg font-black">피로 회복 관리</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">업무와 일상으로 지친 몸의 회복과 활력 관리를 지원합니다.</p>
-                </article>
-                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">03</div>
-                    <h3 class="mt-5 text-lg font-black">목적별 구성</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">피로, 항산화, 순환 등 관리 목적에 따라 상담할 수 있습니다.</p>
-                </article>
-                <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm" data-aos="fade-up" data-aos-delay="150">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-[#F27405] flex items-center justify-center text-xl font-black">04</div>
-                    <h3 class="mt-5 text-lg font-black">의료진 진료</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">건강 상태와 기저질환 등을 확인한 후 투여 여부를 결정합니다.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="w-full bg-gray-50/70 py-20 md:py-28" aria-labelledby="menu-title">
-            <div class="max-w-5xl mx-auto px-5">
-                <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
-                    <span class="inline-flex rounded-full bg-white border border-gray-100 px-4 py-2 text-[13px] font-extrabold text-[#F27405]">NUTRITION MENU</span>
-                    <h2 id="menu-title" class="mt-4 text-2xl sm:text-[34px] font-black tracking-tight">영양 수액 리스트</h2>
-                    <p class="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-gray-500 break-keep">진료 후 선택 가능한 영양 수액과 비용을 확인해 보세요.</p>
-                </div>
-
-                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <article class="injection-page-card md:col-span-2 rounded-[2rem] border border-orange-200 bg-gradient-to-br from-white to-orange-50 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5" data-aos="fade-up">
-                        <div><span class="inline-flex rounded-full bg-[#F27405] px-2.5 py-1 text-[11px] font-black text-white">추천</span><h3 class="mt-3 text-xl sm:text-2xl font-black">프리미엄 수액</h3><p class="mt-2 text-sm sm:text-[15px] leading-relaxed text-gray-500 break-keep">아미노산&amp;비타민 보충, 간기능 회복, 장점막 재생</p></div>
-                        <strong class="shrink-0 text-2xl sm:text-3xl font-black text-[#F27405]">120,000원</strong>
-                    </article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">장건강 영양 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">아미노산 보충, 장세포 증식 및 장점막 재생</p></div><strong class="shrink-0 text-xl font-black text-gray-900">60,000원</strong></article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">스피드 피로회복 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">간기능 회복, 비타민 보충, 피로 회복</p></div><strong class="shrink-0 text-xl font-black text-gray-900">40,000원</strong></article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">혈액 순환 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">혈액 순환 개선, 어지럼증 완화</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">신데렐라 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">항산화 효과, 노화방지</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">백옥 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">항산화 효과, 피부미백</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
-                    <article class="injection-page-card rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4" data-aos="fade-up"><div><h3 class="text-lg font-black">마늘 수액</h3><p class="mt-2 text-sm leading-relaxed text-gray-500 break-keep">면역력 강화, 피로회복</p></div><strong class="shrink-0 text-xl font-black text-gray-900">30,000원</strong></article>
-                </div>
-            </div>
-        </section>
-
-        <section class="w-full max-w-5xl mx-auto px-5 py-20 md:py-28" aria-labelledby="event-title">
-            <div class="overflow-hidden rounded-[2.5rem] border border-orange-200 bg-gradient-to-br from-orange-500 to-[#F27405] shadow-xl shadow-orange-500/15" data-aos="fade-up">
-                <div class="p-7 sm:p-10 md:p-12 text-white">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div>
-                            <span class="inline-flex rounded-full bg-white/20 px-3 py-1.5 text-xs font-black tracking-wider">CHECKUP BENEFIT</span>
-                            <h2 id="event-title" class="mt-4 text-2xl sm:text-[34px] font-black leading-tight break-keep">건강검진 시, 당일 영양 수액 할인 이벤트</h2>
-                            <p class="mt-3 text-sm sm:text-base text-orange-50 break-keep">검진과 함께 이용할 수 있는 영양 수액 특별 할인가를 확인하세요.</p>
-                        </div>
-                        <button id="event-detail-button" type="button" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-7 py-4 font-black text-[#F27405] shadow-lg hover:bg-orange-50 active:scale-95 transition-all" aria-expanded="false" aria-controls="event-price-list">
-                            <span id="event-detail-label">자세히보기</span>
-                            <svg id="event-detail-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="event-price-list" class="event-price-list bg-white p-5 sm:p-8" hidden>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-orange-50 p-4 sm:col-span-2"><span class="font-extrabold text-gray-800">프리미엄 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">120,000원</s><strong class="text-xl font-black text-[#F27405]">80,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">장건강 영양 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">60,000원</s><strong class="text-lg font-black text-[#F27405]">40,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">스피드 피로회복 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">40,000원</s><strong class="text-lg font-black text-[#F27405]">25,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">혈액 순환 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">신데렐라 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">백옥 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
-                        <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 p-4"><span class="font-extrabold text-gray-800">마늘 수액</span><span class="shrink-0 flex flex-col items-end"><s class="text-[11px] font-medium text-gray-400">30,000원</s><strong class="text-lg font-black text-[#F27405]">20,000원</strong></span></div>
-                    </div>
-                </div>
-            </div>
-
-            <p class="mt-4 px-2 text-[10px] sm:text-[11px] leading-relaxed text-gray-400 break-keep">
-                ※ 의사 진단에 따라 수액 종류가 변경되거나 원하시는 수액 투여가 불가할 수 있습니다.
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero-media"
+          src="img/injection.jpg"
+          alt="래피젠헬스케어 영양 수액 안내"
+        />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="shell hero-content">
+          <div class="hero-copy">
+            <p class="hero-label">RAPIGEN NUTRITION CARE</p>
+            <h1 id="hero-title">지친 일상에 필요한<br /><span>맞춤 영양 수액</span></h1>
+            <p class="hero-lead">
+              현재 건강 상태와 회복 목적을 확인한 뒤 의료진 진료를 통해 적합한
+              영양 수액을 안내합니다.
             </p>
-        </section>
+            <div class="hero-actions">
+              <a class="button brand" href="#menu">수액 종류와 비용 보기 <span>→</span></a>
+              <a class="button outline" href="tel:1544-5189">전화 상담 1544-5189</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <div data-shared-section="healthcare-features"></div>
+      <section class="section" aria-labelledby="benefit-title">
+        <div class="shell">
+          <div class="section-head center">
+            <p class="eyebrow">Nutrition Care</p>
+            <h2 class="section-title" id="benefit-title">건강 상태에 맞춘 영양 관리</h2>
+            <p class="section-copy">
+              진료를 통해 현재 상태를 확인하고 목적에 맞는 영양 성분 보충을
+              상담합니다.
+            </p>
+          </div>
+          <div class="benefit-grid">
+            <article class="benefit-card">
+              <span class="benefit-number">01</span>
+              <h3>수분·영양 보충</h3>
+              <p>수분과 필요한 영양 성분을 보충해 컨디션 관리를 돕습니다.</p>
+            </article>
+            <article class="benefit-card">
+              <span class="benefit-number">02</span>
+              <h3>피로 회복 관리</h3>
+              <p>업무와 일상으로 지친 몸의 회복과 활력 관리를 지원합니다.</p>
+            </article>
+            <article class="benefit-card">
+              <span class="benefit-number">03</span>
+              <h3>목적별 구성</h3>
+              <p>피로, 항산화, 순환 등 관리 목적에 따라 상담할 수 있습니다.</p>
+            </article>
+            <article class="benefit-card">
+              <span class="benefit-number">04</span>
+              <h3>의료진 진료</h3>
+              <p>건강 상태와 기저질환 등을 확인한 후 투여 여부를 결정합니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="menu" aria-labelledby="menu-title">
+        <div class="shell">
+          <div class="section-head center">
+            <p class="eyebrow">Nutrition Menu</p>
+            <h2 class="section-title" id="menu-title">영양 수액 종류와 비용</h2>
+            <p class="section-copy">진료 후 선택 가능한 영양 수액을 확인해 보세요.</p>
+          </div>
+          <div class="price-grid">
+            <article class="price-card featured">
+              <div>
+                <span class="price-badge">추천</span>
+                <h3>프리미엄 수액</h3>
+                <p>아미노산·비타민 보충, 간기능 회복, 장점막 재생</p>
+              </div>
+              <strong class="price-value">120,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>장건강 영양 수액</h3>
+                <p>아미노산 보충, 장세포 증식 및 장점막 재생</p>
+              </div>
+              <strong class="price-value">60,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>스피드 피로회복 수액</h3>
+                <p>간기능 회복, 비타민 보충, 피로 회복</p>
+              </div>
+              <strong class="price-value">40,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>혈액 순환 수액</h3>
+                <p>혈액 순환 개선, 어지럼증 완화</p>
+              </div>
+              <strong class="price-value">30,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>신데렐라 수액</h3>
+                <p>항산화 관리</p>
+              </div>
+              <strong class="price-value">30,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>백옥 수액</h3>
+                <p>항산화 관리</p>
+              </div>
+              <strong class="price-value">30,000원</strong>
+            </article>
+            <article class="price-card">
+              <div>
+                <h3>마늘 수액</h3>
+                <p>영양 보충 및 피로 관리</p>
+              </div>
+              <strong class="price-value">30,000원</strong>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="event" aria-labelledby="event-title">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">Checkup Benefit</p>
+            <h2 class="section-title" id="event-title">건강검진 당일 할인 혜택</h2>
+            <p class="section-copy">
+              건강검진과 함께 이용할 수 있는 영양 수액 특별 할인가를 확인하세요.
+            </p>
+          </div>
+          <div class="event-card">
+            <div class="event-intro">
+              <div>
+                <p class="eyebrow">Same-day Event</p>
+                <h2>검진 당일 영양 수액 할인</h2>
+                <p>검진 당일 이용 시 적용되는 할인 가격입니다.</p>
+              </div>
+              <button
+                id="event-detail-button"
+                class="button"
+                type="button"
+                aria-expanded="false"
+                aria-controls="event-price-list"
+              >
+                <span id="event-detail-label">할인가 확인하기</span>
+                <span id="event-detail-icon" aria-hidden="true">⌄</span>
+              </button>
+            </div>
+            <div id="event-price-list" class="event-price-list" hidden>
+              <div class="discount-grid">
+                <div class="discount-item featured">
+                  <span>프리미엄 수액</span>
+                  <span><s>120,000원</s>80,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>장건강 영양 수액</span>
+                  <span><s>60,000원</s>40,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>스피드 피로회복 수액</span>
+                  <span><s>40,000원</s>25,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>혈액 순환 수액</span>
+                  <span><s>30,000원</s>20,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>신데렐라 수액</span>
+                  <span><s>30,000원</s>20,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>백옥 수액</span>
+                  <span><s>30,000원</s>20,000원</span>
+                </div>
+                <div class="discount-item">
+                  <span>마늘 수액</span>
+                  <span><s>30,000원</s>20,000원</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="medical-note">
+            ※ 의사 진단에 따라 수액 종류가 변경되거나 원하시는 수액 투여가
+            불가할 수 있습니다.
+          </p>
+        </div>
+      </section>
+
+      <div data-shared-section="healthcare-features"></div>
     </main>
 
     <div id="common-footer-container"></div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="./ga_tracking.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (window.AOS) AOS.init({ duration: 600, once: true });
+      (() => {
+        const header = document.querySelector("#site-header");
+        const menu = document.querySelector("#menu-button");
+        const nav = document.querySelector("#primary-nav");
+        const detailButton = document.querySelector("#event-detail-button");
+        const detailPanel = document.querySelector("#event-price-list");
+        const detailLabel = document.querySelector("#event-detail-label");
+        const detailIcon = document.querySelector("#event-detail-icon");
 
-            const detailButton = document.getElementById('event-detail-button');
-            const detailPanel = document.getElementById('event-price-list');
-            const detailLabel = document.getElementById('event-detail-label');
-            const detailIcon = document.getElementById('event-detail-icon');
+        const syncHeader = () =>
+          header.classList.toggle("scrolled", window.scrollY > 24);
+        syncHeader();
+        window.addEventListener("scroll", syncHeader, { passive: true });
 
-            detailButton.addEventListener('click', function () {
-                const willOpen = detailPanel.hidden;
-                detailPanel.hidden = !willOpen;
-                detailButton.setAttribute('aria-expanded', String(willOpen));
-                detailLabel.textContent = willOpen ? '할인가 접기' : '자세히보기';
-                detailIcon.classList.toggle('rotate-180', willOpen);
-                if (willOpen && window.AOS) AOS.refresh();
-            });
+        menu.addEventListener("click", () => {
+          const isOpen = nav.classList.toggle("open");
+          menu.setAttribute("aria-expanded", String(isOpen));
+          menu.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+        });
+        nav.addEventListener("click", (event) => {
+          if (!event.target.closest("a")) return;
+          nav.classList.remove("open");
+          menu.setAttribute("aria-expanded", "false");
+          menu.setAttribute("aria-label", "메뉴 열기");
         });
 
-        function focusReservationForm() {
-            const input = document.getElementById('userName');
-            if (input) {
-                input.focus();
-                return;
-            }
-            setTimeout(function () {
-                document.getElementById('userName')?.focus();
-            }, 500);
-        }
+        detailButton.addEventListener("click", () => {
+          const willOpen = detailPanel.hidden;
+          detailPanel.hidden = !willOpen;
+          detailButton.setAttribute("aria-expanded", String(willOpen));
+          detailLabel.textContent = willOpen ? "할인가 접기" : "할인가 확인하기";
+          detailIcon.textContent = willOpen ? "⌃" : "⌄";
+        });
+
+      })();
     </script>
-    <script src="sections/shared-sections.js" data-shared-sections="core"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
-    <script type="text/javascript">
-        (function () { emailjs.init("UYYZlMnSnF3BsSOfK"); })();
-    </script>
+    <script src="sections/shared-sections.js?v=20261105-injection" data-shared-sections="injection"></script>
     <script type="module" src="script.js"></script>
-</body>
+  </body>
 </html>

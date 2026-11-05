@@ -8,64 +8,59 @@
       content="가정의학과 진료, 감기·장염·탈모약 상담, 비만·다이어트 상담, 영양수액을 안내합니다. 래피젠헬스케어의원 외래진료 예약 및 운영시간을 확인하세요."
     />
     <title>외래진료 | 래피젠헬스케어의원</title>
-    <link rel="canonical" href="https://reservation.rapigenhc.com/ambulatorycare.html" />
+    <link
+      rel="canonical"
+      href="https://reservation.rapigenhc.com/ambulatorycare.html"
+    />
     <link rel="icon" href="img/favicon.png" />
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "MedicalClinic",
-      "@id": "https://reservation.rapigenhc.com/#clinic",
-      "name": "재단법인 한국산업의학연구소 래피젠헬스케어의원",
-      "url": "https://reservation.rapigenhc.com/",
-      "telephone": "1544-5189",
-      "medicalSpecialty": "https://schema.org/PrimaryCare",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "가산디지털2로 135 가산어반워크1차 2층",
-        "addressLocality": "금천구",
-        "addressRegion": "서울특별시",
-        "addressCountry": "KR"
-      },
-      "image": "https://reservation.rapigenhc.com/img/interior-pic-01.jpg",
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Thursday",
-            "Friday"
-          ],
-          "opens": "07:30",
-          "closes": "16:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Wednesday",
-            "Saturday"
-          ],
-          "opens": "07:30",
-          "closes": "12:00",
-          "description": "토요일 격주 휴무. 방문 전 전화 문의."
-        }
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://reservation.rapigenhc.com/ambulatorycare.html#webpage",
-      "url": "https://reservation.rapigenhc.com/ambulatorycare.html",
-      "name": "외래진료 | 래피젠헬스케어의원",
-      "description": "가정의학과, 비만·다이어트 상담, 영양수액 안내 및 외래진료 예약 신청",
-      "inLanguage": "ko-KR",
-      "about": {
-        "@id": "https://reservation.rapigenhc.com/#clinic"
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "MedicalClinic",
+            "@id": "https://reservation.rapigenhc.com/#clinic",
+            "name": "재단법인 한국산업의학연구소 래피젠헬스케어의원",
+            "url": "https://reservation.rapigenhc.com/",
+            "telephone": "1544-5189",
+            "medicalSpecialty": "https://schema.org/PrimaryCare",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "가산디지털2로 135 가산어반워크1차 2층",
+              "addressLocality": "금천구",
+              "addressRegion": "서울특별시",
+              "addressCountry": "KR"
+            },
+            "image": "https://reservation.rapigenhc.com/img/interior-pic-01.jpg",
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday"],
+                "opens": "07:30",
+                "closes": "16:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Wednesday", "Saturday"],
+                "opens": "07:30",
+                "closes": "12:00",
+                "description": "토요일 격주 휴무. 방문 전 전화 문의."
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://reservation.rapigenhc.com/ambulatorycare.html#webpage",
+            "url": "https://reservation.rapigenhc.com/ambulatorycare.html",
+            "name": "외래진료 | 래피젠헬스케어의원",
+            "description": "가정의학과, 비만·다이어트 상담, 영양수액 안내 및 외래진료 예약 신청",
+            "inLanguage": "ko-KR",
+            "about": {
+              "@id": "https://reservation.rapigenhc.com/#clinic"
+            }
+          }
+        ]
       }
-    }
-  ]
-}
     </script>
     <style>
       :root {
@@ -649,6 +644,23 @@
         border-radius: var(--radius);
         color: #fff;
       }
+      .service-card-detail {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+      }
+      .service-card--split .service-content {
+        z-index: 3;
+        pointer-events: none;
+      }
+      .service-card--split .service-booking {
+        position: relative;
+        pointer-events: auto;
+      }
+      .service-card--split:focus-within {
+        outline: 3px solid var(--accent);
+        outline-offset: 4px;
+      }
       .service-card img {
         position: absolute;
         inset: 0;
@@ -657,7 +669,8 @@
         transition: transform 0.5s;
       }
       .service-card:hover img,
-      .service-card:focus-visible img {
+      .service-card:focus-visible img,
+      .service-card:focus-within img {
         transform: scale(1.04);
       }
       .service-card:after {
@@ -1568,16 +1581,25 @@
       }
       body[data-page-name="ambulatorycare.html"] .shared-national-directions,
       body[data-page-name="ambulatorycare.html"] .shared-national-directions h2,
-      body[data-page-name="ambulatorycare.html"] .shared-national-directions .parking strong {
+      body[data-page-name="ambulatorycare.html"]
+        .shared-national-directions
+        .parking
+        strong {
         color: var(--ink);
       }
-      body[data-page-name="ambulatorycare.html"] .shared-national-directions .eyebrow {
+      body[data-page-name="ambulatorycare.html"]
+        .shared-national-directions
+        .eyebrow {
         color: var(--accent-dark);
       }
-      body[data-page-name="ambulatorycare.html"] .shared-national-directions .parking {
+      body[data-page-name="ambulatorycare.html"]
+        .shared-national-directions
+        .parking {
         background: var(--soft);
       }
-      body[data-page-name="ambulatorycare.html"] .shared-national-directions .button.map-button {
+      body[data-page-name="ambulatorycare.html"]
+        .shared-national-directions
+        .button.map-button {
         background: var(--brand);
       }
     </style>
@@ -1585,7 +1607,10 @@
   <body data-page-name="ambulatorycare.html">
     <header class="site-header" id="site-header">
       <div class="shell header-inner">
-        <a class="logo" href="index.html" aria-label="래피젠헬스케어 메인 페이지"
+        <a
+          class="logo"
+          href="index.html"
+          aria-label="래피젠헬스케어 메인 페이지"
           ><span class="logo-mark"><img src="img/favicon.png" alt="" /></span
           ><span>(재)한국산업의학연구소 래피젠헬스케어의원</span></a
         >
@@ -1611,14 +1636,16 @@
       <section class="hero" aria-labelledby="hero-title">
         <img
           class="hero-media"
-          src="img/ambulatorycare_bg.jpg"
+          src="img/ambulatorycare.jpg"
           alt="의료진과 환자의 외래진료 상담 모습"
         />
         <div class="hero-shade"></div>
         <div class="shell hero-content">
           <div class="hero-copy">
             <p class="hero-label">RAPIGEN OUTPATIENT CARE</p>
-            <h1 id="hero-title">일상 속 건강,<br /><span>가까이에서 돌봅니다</span></h1>
+            <h1 id="hero-title">
+              일상 속 건강,<br /><span>가까이에서 돌봅니다</span>
+            </h1>
             <p class="hero-lead">
               감기·장염부터 다이어트·영양수액까지, 가정의학과 진료 안내
             </p>
@@ -1636,7 +1663,12 @@
         </div>
         <aside class="hero-note" aria-label="빠른 연락처와 운영시간">
           <div><small>외래진료 상담</small><strong>1544-5189</strong></div>
-          <div><small>월화목금 · 점심 13:00–14:00</small><strong>07:30 – 16:00</strong><br /><small>수,토요일 · 토요일 격주 휴무</small><strong>07:30 – 12:00</strong></div>
+          <div>
+            <small>월화목금 · 점심 13:00–14:00</small
+            ><strong>07:30 – 16:00</strong><br /><small
+              >수,토요일 · 토요일 격주 휴무</small
+            ><strong>07:30 – 12:00</strong>
+          </div>
         </aside>
       </section>
       <section
@@ -1708,11 +1740,15 @@
               <div class="field">
                 <label for="consultation-type">진료과목</label>
                 <select id="consultation-type" name="package">
-                  <option value="외래진료 상담">진료과목 상담이 필요해요</option>
-                  <option value="외래-가정의학과">감기/장염 진료</option>
-                  <option value="탈모약 처방">탈모약 처방</option>
+                  <option value="외래진료 상담">
+                    진료과목 상담이 필요해요
+                  </option>
+                  <option value="감기장염진료">감기/장염 진료</option>
+                  <option value="가정의학과진료">가정의학과 진료</option>
                   <option value="비만·다이어트 상담">비만·다이어트 상담</option>
-                  <option value="다이어트 체크 프로그램">다이어트 체크 프로그램</option>
+                  <option value="다이어트 체크 프로그램">
+                    다이어트 체크 프로그램
+                  </option>
                   <option value="영양수액">영양 수액 상담</option>
                 </select>
               </div>
@@ -1761,59 +1797,107 @@
           </div>
         </div>
       </section>
-      <section class="section soft" id="services" aria-labelledby="services-title">
+      <section
+        class="section soft"
+        id="services"
+        aria-labelledby="services-title"
+      >
         <div class="shell">
           <div class="section-head center">
             <p class="eyebrow">Outpatient Services</p>
-            <h2 class="section-title" id="services-title">나에게 필요한<br />외래진료 안내</h2>
+            <h2 class="section-title" id="services-title">
+              나에게 필요한<br />외래진료 안내
+            </h2>
             <p class="section-copy">감기·장염 진료 · 약 처방 · 영양수액</p>
           </div>
           <div class="service-grid">
-            <a class="service-card" href="#booking" data-booking-package="외래-가정의학과" aria-labelledby="service-cold-title" aria-describedby="service-cold-description">
-              <img src="img/cold.jpg" alt="감기 증상으로 휴식 중인 모습" loading="lazy" />
+            <a
+              class="service-card"
+              href="#booking"
+              data-booking-package="감기장염진료"
+              aria-labelledby="service-cold-title"
+              aria-describedby="service-cold-description"
+            >
+              <img
+                src="img/cold.jpg"
+                alt="감기 증상으로 휴식 중인 모습"
+                loading="lazy"
+              />
               <div class="service-content">
                 <h3 id="service-cold-title">감기/장염 진료</h3>
-                <p id="service-cold-description">감기·기침·인후통, 장염·복통·설사</p>
-                <span class="text-link">진료 예약하기 <span aria-hidden="true">→</span></span>
+                <p id="service-cold-description">
+                  감기·기침·인후통, 장염·복통·설사
+                </p>
+                <span class="text-link"
+                  >진료 예약하기 <span aria-hidden="true">→</span></span
+                >
               </div>
             </a>
-            <a class="service-card" href="#booking" data-booking-package="탈모약 처방" aria-labelledby="service-prescription-title" aria-describedby="service-prescription-description">
-              <img src="img/concept01.jpg" alt="약 처방을 위한 의료진 상담" loading="lazy" />
+            <a
+              class="service-card"
+              href="#booking"
+              data-booking-package="가정의학과진료"
+              aria-labelledby="service-prescription-title"
+              aria-describedby="service-prescription-description"
+            >
+              <img
+                src="img/ambulatorycare_card.jpg"
+                alt="약 처방을 위한 의료진 상담"
+                loading="lazy"
+              />
               <div class="service-content">
-                <h3 id="service-prescription-title">탈모약 처방</h3>
-                <p id="service-prescription-description">탈모·발기부전 등 약 처방이 필요하신 분</p>
-                <span class="text-link">진료 예약하기 <span aria-hidden="true">→</span></span>
+                <h3 id="service-prescription-title">가정의학과 진료</h3>
+                <p id="service-prescription-description">
+                  고혈압, 당뇨, 탈모, 발기부전 등 외래진료
+                </p>
+                <span class="text-link"
+                  >진료 예약하기 <span aria-hidden="true">→</span></span
+                >
               </div>
             </a>
-            <a class="service-card" href="#booking" data-booking-package="영양수액" aria-labelledby="service-infusion-title" aria-describedby="service-infusion-description">
+            <article class="service-card service-card--split" aria-labelledby="service-infusion-title">
+              <a class="service-card-detail" href="injection.html" aria-labelledby="service-infusion-title" aria-describedby="service-infusion-description"></a>
               <img src="img/injection.jpg" alt="영양수액 상담 및 수액실 안내" loading="lazy" />
               <div class="service-content">
                 <h3 id="service-infusion-title">영양 수액 상담</h3>
                 <p id="service-infusion-description">피로·체력 저하·영양 보충·컨디션 관리</p>
-                <span class="text-link">진료 예약하기 <span aria-hidden="true">→</span></span>
+                <a class="text-link service-booking" href="#booking" data-booking-package="영양수액">진료 예약하기 <span aria-hidden="true">→</span></a>
               </div>
-            </a>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section diet-event" id="diet-check-event" aria-labelledby="diet-check-title">
+      <section
+        class="section diet-event"
+        id="diet-check-event"
+        aria-labelledby="diet-check-title"
+      >
         <div class="shell diet-event-layout">
           <div class="diet-event-copy">
             <p class="eyebrow">Special Event · 체중관리 건강 체크</p>
-            <h2 id="diet-check-title">다이어트 체크<br /><span>프로그램</span></h2>
+            <h2 id="diet-check-title">
+              다이어트 체크<br /><span>프로그램</span>
+            </h2>
             <p class="diet-event-lead">눈바디보다 중요한 건, 몸속 건강!</p>
             <p class="diet-event-description">
-              체중감량 전·후 건강지표를 비교하고,<br />간·췌장 등 주요 장기의 건강을 확인해 보세요.
+              체중감량 전·후 건강지표를 비교하고,<br />간·췌장 등 주요 장기의
+              건강을 확인해 보세요.
             </p>
             <dl class="diet-event-tests">
               <div>
                 <dt>기본 항목</dt>
-                <dd>혈액검사, 혈당, 콜레스테롤, 간·신장·췌장·갑상선 기능, 요산(통풍)</dd>
+                <dd>
+                  혈액검사, 혈당, 콜레스테롤, 간·신장·췌장·갑상선 기능,
+                  요산(통풍)
+                </dd>
               </div>
               <div>
                 <dt>선택 항목</dt>
-                <dd>복부지방 CT 또는 상복부 초음파(간·담낭·췌장 등)</dd>
+                <dd>
+                  <strong>복부지방 CT</strong> 또는
+                  <strong>상복부 초음파</strong>(간·담낭·췌장 등)
+                </dd>
               </div>
             </dl>
             <dl class="diet-event-prices" aria-label="검사비용">
@@ -1826,13 +1910,25 @@
                 <dd><strong>10</strong>만원</dd>
               </div>
             </dl>
-            <a class="button brand" href="#booking" data-booking-package="다이어트 체크 프로그램">
+            <a
+              class="button brand"
+              href="#booking"
+              data-booking-package="다이어트 체크 프로그램"
+            >
               다이어트 체크 예약하기 <span aria-hidden="true">→</span>
             </a>
           </div>
           <figure class="diet-event-visual">
-            <img src="img/mjr-main.jpg" alt="체중관리를 위한 마운자로 주사 이미지" width="1200" height="800" loading="lazy" />
-            <figcaption>*이해를 돕기위한 이미지로 실제와 다를 수 있습니다.</figcaption>
+            <img
+              src="img/dietcheck.jpg"
+              alt="체중관리 전 후 의사 상담 이미지"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <figcaption>
+              *이해를 돕기위한 이미지로 실제와 다를 수 있습니다.
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -1885,9 +1981,21 @@
             </article>
           </div>
           <aside class="coverage-note" aria-labelledby="coverage-title">
-            <h3 id="coverage-title">진찰 후 필요시, 급여 기준에 따른 검사 안내</h3>
-            <p>의료진의 진찰 후 CT, MRI, 초음파 등의 검사가 필요한 경우 건강보험 급여 기준에 해당하면 급여 진료가 가능합니다. 검사 부위와 증상, 진단에 따라 적용 여부와 본인부담금이 달라지며, 검사 전 안내해 드립니다.</p>
-            <p><strong>건강검진 목적으로 시행하는 CT·MRI·초음파 등의 검사는 비급여로 진행됩니다.</strong></p>
+            <h3 id="coverage-title">
+              진찰 후 필요시, 급여 기준에 따른 검사 안내
+            </h3>
+            <p>
+              의료진의 진찰 후 CT, MRI, 초음파 등의 검사가 필요한 경우 건강보험
+              급여 기준에 해당하면 급여 진료가 가능합니다. 검사 부위와 증상,
+              진단에 따라 적용 여부와 본인부담금이 달라지며, 검사 전 안내해
+              드립니다.
+            </p>
+            <p>
+              <strong
+                >건강검진 목적으로 시행하는 CT·MRI·초음파 등의 검사는 비급여로
+                진행됩니다.</strong
+              >
+            </p>
           </aside>
         </div>
       </section>
@@ -2085,7 +2193,9 @@
     <footer class="site-footer">
       <div class="shell footer-inner">
         <div>
-          <div class="footer-brand">재단법인 한국산업의학연구소 래피젠헬스케어의원</div>
+          <div class="footer-brand">
+            재단법인 한국산업의학연구소 래피젠헬스케어의원
+          </div>
           <div class="footer-links">
             <a href="#privacy" id="footer-privacy">개인정보처리방침</a
             ><a href="index.html">공식 홈페이지</a>
@@ -2174,7 +2284,8 @@
         });
         document.querySelectorAll("[data-booking-package]").forEach((link) => {
           link.addEventListener("click", () => {
-            document.querySelector("#consultation-type").value = link.dataset.bookingPackage;
+            document.querySelector("#consultation-type").value =
+              link.dataset.bookingPackage;
           });
         });
         let reservationPending = false;
@@ -2183,7 +2294,8 @@
           e.preventDefault();
           if (reservationPending) return;
           if (Date.now() - reservationSubmittedAt < 60000) {
-            message.textContent = "이미 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
+            message.textContent =
+              "이미 접수되었습니다. 담당자가 순차적으로 연락드리겠습니다.";
             return;
           }
           message.className = "form-message";
@@ -2246,5 +2358,9 @@
         });
       })();
     </script>
+    <script
+      src="sections/shared-sections.js?v=20261105-injection"
+      data-shared-sections="directions"
+    ></script>
   </body>
 </html>

@@ -2,11 +2,18 @@
     const loaderScript = document.currentScript;
     const root = new URL('.', loaderScript.src);
     const requestedSections = loaderScript.dataset.sharedSections || 'all';
-    if (!document.querySelector('link[data-shared-sections-style]')) {
+    if (requestedSections !== 'directions' && !document.querySelector('link[data-shared-sections-style]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = new URL('shared-sections.css', root).href;
         link.dataset.sharedSectionsStyle = '';
+        document.head.appendChild(link);
+    }
+    if ((requestedSections === 'directions' || requestedSections === 'injection') && !document.querySelector('link[data-shared-directions-style]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = new URL('shared-directions.css', root).href;
+        link.dataset.sharedDirectionsStyle = '';
         document.head.appendChild(link);
     }
 
@@ -20,6 +27,62 @@
     const findSectionByText = text => Array.from(document.querySelectorAll('section')).find(section => section.textContent.includes(text));
 
     try {
+        if (requestedSections === 'directions') {
+            const directions = await load('national-directions.html');
+            const existing = document.querySelectorAll('#directions, #location');
+            if (existing.length) {
+                existing[0].replaceWith(directions);
+                existing.forEach((section, index) => {
+                    if (index > 0) section.remove();
+                });
+            } else {
+                (document.querySelector('main') || document.body).appendChild(directions);
+            }
+            return;
+        }
+
+        if (requestedSections === 'injection') {
+            const [feature, tour, reviews, hours, directions] = await Promise.all([
+                load('program-lifetime-care.html'),
+                load('national-tour.html'),
+                load('customer-reviews.html'),
+                load('national-hours.html'),
+                load('national-directions.html')
+            ]);
+            const main = document.querySelector('main') || document.body;
+            const featurePlaceholder = document.querySelector('[data-shared-section="healthcare-features"]');
+            const oldFeature = document.querySelector('.feature-carousel-section');
+            if (featurePlaceholder) featurePlaceholder.replaceWith(feature);
+            else if (oldFeature) oldFeature.replaceWith(feature);
+            else main.appendChild(feature);
+
+            const oldTour = document.querySelector('.tour-section, .shared-national-tour, #interior');
+            if (oldTour) oldTour.replaceWith(tour);
+            else feature.after(tour);
+
+            const oldReviews = document.querySelector('.customer-reviews-section, [data-shared-section="customer-reviews"]');
+            if (oldReviews) oldReviews.replaceWith(reviews);
+            else tour.after(reviews);
+
+            const oldHours = document.querySelector('#hours, #location-section');
+            if (oldHours) oldHours.replaceWith(hours);
+            else reviews.after(hours);
+
+            const oldDirections = document.querySelectorAll('#directions, #location');
+            if (oldDirections.length) {
+                oldDirections[0].replaceWith(directions);
+                oldDirections.forEach((section, index) => {
+                    if (index > 0) section.remove();
+                });
+            } else {
+                hours.after(directions);
+            }
+
+            initFeature();
+            if (window.AOS) window.AOS.refreshHard();
+            return;
+        }
+
         if (requestedSections === 'tour') {
             const tour = await load('healthcare-tour.html');
             const placeholder = document.querySelector('[data-shared-section="healthcare-tour"]');

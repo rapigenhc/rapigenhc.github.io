@@ -26,3 +26,6 @@
 .reservation-table-caption span{font-size:12px;color:#8b95a4;font-weight:500}
 .reservation-table-caption b{color:#ef790d;font-weight:800}
 .reservation-table-caption i{font-style:normal;color:#bcc4d0}
+
+.reservation-status-readonly{display:inline-block;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
+.reservation-status-note{display:block;margin-top:4px;color:#9ca3af;font-size:10px;white-space:nowrap}

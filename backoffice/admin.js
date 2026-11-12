@@ -1,4 +1,4 @@
-import { renderReservationTable, groupReservations, paginateReservationGroups } from './reservation-table.js?v=20261112-1';
+import { renderReservationTable, groupReservations, paginateReservationGroups } from './reservation-table.js?v=20261112-2';
 import { anonymizeReservation } from './privacy.js?v=20261102-2';
 /**
  * 래피젠헬스케어 Admin JS - 스마트 커서 및 Flatpickr 날짜 최적화
@@ -175,7 +175,8 @@ function renderFilteredReservations(targetPage = 1) {
     const tablePage = paginateReservationGroups(filtered, targetPage, PAGE_SIZE);
     totalPages = tablePage.totalPages;
     currentIdx = tablePage.page;
-    renderList(tablePage.items);
+    const visibleGroupIds = new Set(tablePage.items.map(item => item.displayGroupId));
+    renderList(periodReservations.filter(item => visibleGroupIds.has(item.displayGroupId)));
     document.getElementById('list-result-count').innerText = `조회 결과 ${filtered.length}명 · ${currentIdx} / ${totalPages}페이지`;
     updatePaginationUI();
 }
@@ -206,7 +207,9 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
                 return { ...data, id: d.id, medium: data.utm_medium || data.medium || '-' };
             });
             periodReservations = groupReservations(rawItems).flatMap(group => group.records.map(item => ({
-                ...anonymizeReservation(item), displayGroupId: group.id
+                ...anonymizeReservation(item), displayGroupId: group.id,
+                latestReservationId: String(group.records.at(-1).id),
+                canEditStatus: String(item.id) === String(group.records.at(-1).id)
             })));
             loadedPeriod = period;
         }
@@ -351,6 +354,24 @@ document.addEventListener('click', async (e) => {
     }
 });
 
+// Recheck the stored day/person before saving, since a newer application may have arrived.
+// The server callable in _functions provides the authoritative transaction once Functions is deployed.
+async function assertLatestStoredReservation(id) {
+    const target = await getDoc(doc(db, 'reservations', id));
+    if (!target.exists()) throw new Error('reservation_not_found');
+    const data = target.data();
+    const phone = String(data.phone || '').replace(/[-\s]/g, '');
+    if (!/^\d{10,11}$/.test(phone)) return;
+    const formatted = phone.length === 11
+        ? `${phone.slice(0, 3)}-${phone.slice(3, 7)}-${phone.slice(7)}`
+        : `${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6)}`;
+    const phones = [...new Set([String(data.phone || '').trim(), phone, formatted])];
+    const snapshot = await getDocs(query(collection(db, 'reservations'), where('phone', 'in', phones)));
+    const rawItems = snapshot.docs.map(item => ({ ...item.data(), id: item.id, displayGroupId: undefined }));
+    const group = groupReservations(rawItems).find(item => item.records.some(record => record.id === id));
+    if (!group || String(group.records.at(-1).id) !== id) throw new Error('reservation_superseded');
+}
+
 // 상태 변경 이벤트 위임
 document.addEventListener('change', async (e) => {
     if (e.target.id === 'filterStatus') {
@@ -364,6 +385,7 @@ document.addEventListener('change', async (e) => {
         const previousStatus = e.target.dataset.status;
         e.target.disabled = true;
         try {
+            await assertLatestStoredReservation(id);
             await updateDoc(doc(db, "reservations", id), { status: newStatus, updatedAt: serverTimestamp() });
             const item = periodReservations.find(item => item.id === id);
             if (item) item.status = newStatus;
@@ -371,7 +393,10 @@ document.addEventListener('change', async (e) => {
             await fetchFromFirestore(1, true);
         } catch (err) {
             e.target.value = previousStatus;
-            alert("상태 저장에 실패했습니다. 권한 또는 네트워크 연결을 확인해주세요.");
+            alert(err.message === 'reservation_superseded'
+                ? '새로운 신청이 접수되어 이전 신청의 상태는 변경할 수 없습니다. 최신 신청을 확인해주세요.'
+                : '상태 저장에 실패했습니다. 권한 또는 네트워크 연결을 확인해주세요.');
+            await fetchFromFirestore(1, true);
         } finally {
             e.target.disabled = false;
         }

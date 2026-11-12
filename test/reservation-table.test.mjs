@@ -26,6 +26,17 @@ test('masked and missing identities stay separate; trusted display IDs preserve 
     assert.equal(groupReservations([row(1, 'invalid'), row(2, 'invalid')]).length, 2);
 });
 
+test('Firestore nanoseconds select the newest without rounding across Korean midnight', () => {
+    const seconds = Date.parse('2026-11-11T14:59:59Z') / 1000;
+    const older = row('z', 'invalid', { createdAt: { seconds, nanoseconds: 999999998 } });
+    const newer = row('a', 'invalid', { createdAt: { seconds, nanoseconds: 999999999 } });
+    const midnight = row('next', '2026-11-11T15:00:00Z');
+    const groups = groupReservations([older, midnight, newer]);
+    assert.equal(groups.length, 2);
+    assert.equal(groups[1].records.at(-1).id, 'a');
+    assert.equal(formatReservationTime(newer), '2026.11.11. 23:59:59');
+});
+
 test('pagination retains a complete interleaved history rather than cutting at ten raw records', () => {
     const items = Array.from({ length: 23 }, (_, i) => row(i + 1, `2026-11-12T10:${String(i).padStart(2, '0')}:00+09:00`));
     for (let i = 0; i < 11; i++) items.push(row(100 + i, '2026-11-12T11:00:00+09:00', { name: `예시${i}` }));
@@ -38,7 +49,7 @@ test('pagination retains a complete interleaved history rather than cutting at t
     assert.equal(historyPage.items.filter(r => r.name === '김예시').length, 23);
 });
 
-test('table retains every timestamp, original controls, changed fields and escaped content', () => {
+test('table retains every timestamp and change while only the latest status is editable', () => {
     const container = { innerHTML: '' };
     const items = [row(3, '2026-11-12T13:05:40+09:00', { package: '프리미엄 검진', pageName: 'national.html', source: 'naver', medium: 'cpc' }),
         row(1, '2026-11-12T09:12:05+09:00'),
@@ -48,13 +59,19 @@ test('table retains every timestamp, original controls, changed fields and escap
     assert.equal((html.match(/reservation-change-label/g) || []).length, 4);
     assert.equal((html.match(/reservation-unchanged/g) || []).length, 4);
     assert.equal((html.match(/class="reservation-checkbox"/g) || []).length, 3);
-    assert.equal((html.match(/class="status-select /g) || []).length, 3);
+    assert.equal((html.match(/class="status-select /g) || []).length, 1);
+    assert.equal((html.match(/reservation-status-readonly/g) || []).length, 2);
     assert.equal((html.match(/rowspan="3"/g) || []).length, 2);
     for (const item of items) {
-        assert.ok(html.includes(`data-id="${item.id}"`));
+        assert.ok(html.includes(`value="${item.id}"`));
         assert.ok(html.includes(formatReservationTime(item)));
     }
     assert.ok(html.indexOf('09:12:05') < html.indexOf('10:24:18'));
+    assert.ok(html.includes('data-id="3"'));
+    assert.ok(!html.includes('data-id="1"'));
+    renderReservationTable(container, [{ ...items[1], canEditStatus: false, latestReservationId: '3' }]);
+    assert.ok(!container.innerHTML.includes('<select'));
+    assert.ok(container.innerHTML.includes('이전 신청 · 변경 불가'));
     renderReservationTable(container, [row('x" onfocus="bad', '2026-11-12T10:00:00+09:00', { package: '<img src=x onerror=bad>' })]);
     assert.ok(!container.innerHTML.includes('<img'));
     assert.ok(container.innerHTML.includes('&lt;img'));

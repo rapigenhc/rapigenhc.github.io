@@ -1,0 +1,8 @@
+{
+  "functions": [{
+    "source": "_functions",
+    "codebase": "reservation-duplicates",
+    "ignore": ["node_modules", ".git", "*.test.cjs", "README.md"],
+    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" test"]
+  }]
+}

@@ -11,8 +11,8 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
 export function reservationTime(item) {
     const value = item.createdAt;
     if (value == null || value === '') return null;
-    const time = typeof value?.toMillis === 'function' ? value.toMillis()
-        : typeof value?.seconds === 'number' ? value.seconds * 1000
+    const time = typeof value?.seconds === 'number' ? value.seconds * 1000 + Math.floor((value.nanoseconds || 0) / 1e6)
+        : typeof value?.toMillis === 'function' ? value.toMillis()
         : value instanceof Date ? value.getTime()
         : typeof value === 'number' ? value : Date.parse(value);
     return Number.isFinite(time) ? time : null;
@@ -27,6 +27,14 @@ export function formatReservationTime(item) {
     if (time === null) return '-';
     const p = parts(time);
     return `${p.year}.${p.month}.${p.day}. ${p.hour}:${p.minute}:${p.second}`;
+}
+
+function compareCreated(a, b) {
+    const first = reservationTime(a) ?? 0, second = reservationTime(b) ?? 0;
+    if (first !== second) return first - second;
+    const nanos = item => typeof item.createdAt?.seconds === 'number'
+        ? (item.createdAt.nanoseconds || 0) : ((reservationTime(item) ?? 0) % 1000) * 1e6;
+    return nanos(a) - nanos(b) || String(a.id).localeCompare(String(b.id), 'en', { numeric: true });
 }
 
 export function groupReservations(items) {
@@ -44,13 +52,11 @@ export function groupReservations(items) {
         groups.get(key).records.push(item);
     });
     return [...groups.values()].map(group => {
-        group.records.sort((a, b) => (reservationTime(a) ?? 0) - (reservationTime(b) ?? 0)
-            || String(a.id).localeCompare(String(b.id), 'en', { numeric: true }));
+        group.records.sort(compareCreated);
         group.id = String(group.records[0].id);
         group.latest = reservationTime(group.records.at(-1)) ?? 0;
         return group;
-    }).sort((a, b) => b.latest - a.latest
-        || String(b.records.at(-1).id).localeCompare(String(a.records.at(-1).id), 'en', { numeric: true }));
+    }).sort((a, b) => compareCreated(b.records.at(-1), a.records.at(-1)));
 }
 
 export function paginateReservationGroups(items, page = 1, pageSize = 10) {
@@ -84,6 +90,7 @@ export function renderReservationTable(container, items, { selection = false, st
     }
     container.innerHTML = groupReservations(items).map(group => {
         const count = group.records.length;
+        const latestId = String(group.records.find(item => item.latestReservationId)?.latestReservationId || group.records.at(-1).id);
         return group.records.map((item, index) => {
             const current = fields(item);
             const previous = index ? fields(group.records[index - 1]) : null;
@@ -103,8 +110,14 @@ export function renderReservationTable(container, items, { selection = false, st
                     : `<span class="reservation-change"><span class="reservation-change-label">(변경)</span>${value}</span>`) : value;
                 html += '</td>';
             }
-            // Keep the original record ID on every control; a visual group never changes stored statuses together.
-            html += `<td class="reservation-status"><select data-id="${escape(item.id)}" data-status="${escape(status)}" aria-label="${escape(item.name)} ${escape(formatReservationTime(item))} 처리 상태" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${escape(statusColor(status))}">${statuses.map(option => `<option value="${option}"${status === option ? ' selected' : ''}>${option}</option>`).join('')}</select></td></tr>`;
+            const editable = item.canEditStatus !== false && String(item.id) === latestId;
+            html += '<td class="reservation-status">';
+            if (editable) {
+                html += `<select data-id="${escape(item.id)}" data-status="${escape(status)}" aria-label="${escape(item.name)} ${escape(formatReservationTime(item))} 최신 신청 처리 상태" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${escape(statusColor(status))}">${statuses.map(option => `<option value="${option}"${status === option ? ' selected' : ''}>${option}</option>`).join('')}</select>`;
+            } else {
+                html += `<span class="reservation-status-readonly ${escape(statusColor(status))}">${escape(status)}</span><small class="reservation-status-note">이전 신청 · 변경 불가</small>`;
+            }
+            html += '</td></tr>';
             return html;
         }).join('');
     }).join('');

@@ -1,0 +1,28 @@
+.reservation-history-table{min-width:1320px}
+.reservation-history-table thead th{padding:18px 15px;white-space:nowrap}
+.reservation-history-table td{height:63px;padding:14px 15px;font-size:12px;line-height:1.55;vertical-align:middle}
+.reservation-history-table .reservation-group-start{border-top:1px solid #e9edf3}
+.reservation-history-table .reservation-history>td{border-top:1px dashed #edf0f4;background:#fffcf8}
+.reservation-history-table .reservation-time{color:#7e8a9d;font-size:11px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.reservation-history-table .reservation-person,.reservation-history-table .reservation-phone{vertical-align:top;padding-top:20px}
+.reservation-person strong{display:block;color:#111827;font-size:14px;font-weight:900}
+.reservation-repeat{display:block;color:#99a2b1;font-size:11px;margin-top:6px;white-space:nowrap}
+.reservation-phone{color:#526174;font-weight:700;white-space:nowrap;text-align:center}
+.reservation-centered,.reservation-status,.reservation-selection{text-align:center}
+.reservation-tag{display:inline-block;padding:5px 9px;border-radius:7px;font-size:11px;font-weight:700;white-space:nowrap}
+.reservation-tag-package{border:1px solid #e6ebf0;color:#536176;background:#fff}
+.reservation-tag-pageName{border:1px solid #e5e4fe;background:#f3f2ff;color:#645ed2}
+.reservation-tag-medium{border:1px solid #e6ebf0;background:#f8f9fb;color:#7a8699}
+.reservation-change{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.reservation-change-label{color:#ef790d;font-size:11px;font-weight:800}
+.reservation-unchanged{color:#bcc4d0}
+.reservation-status select{font-size:11px;font-weight:800;max-width:145px}
+.reservation-selection input{width:16px;height:16px;accent-color:#ef4444;cursor:pointer}
+.reservation-history-table .reservation-empty{padding:80px;text-align:center;color:#9ca3af;font-weight:700}
+
+.reservation-table-caption{caption-side:top;text-align:left;background:#fff;border-bottom:1px solid #edf0f4}
+.reservation-table-caption>div{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:21px 24px}
+.reservation-table-caption strong{font-size:14px;font-weight:800;color:#152033}
+.reservation-table-caption span{font-size:12px;color:#8b95a4;font-weight:500}
+.reservation-table-caption b{color:#ef790d;font-weight:800}
+.reservation-table-caption i{font-style:normal;color:#bcc4d0}

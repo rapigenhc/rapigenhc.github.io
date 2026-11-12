@@ -1,3 +1,4 @@
+import { renderReservationTable, groupReservations, paginateReservationGroups } from './reservation-table.js?v=20261112-1';
 import { anonymizeReservation } from './privacy.js?v=20261102-2';
 /**
  * 래피젠헬스케어 Admin JS - 스마트 커서 및 Flatpickr 날짜 최적화
@@ -171,9 +172,10 @@ function renderFilteredReservations(targetPage = 1) {
     });
 
     const filtered = searched.filter(item => matchesStatus(item, status));
-    totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-    currentIdx = Math.max(1, Math.min(targetPage, totalPages));
-    renderList(filtered.slice((currentIdx - 1) * PAGE_SIZE, currentIdx * PAGE_SIZE));
+    const tablePage = paginateReservationGroups(filtered, targetPage, PAGE_SIZE);
+    totalPages = tablePage.totalPages;
+    currentIdx = tablePage.page;
+    renderList(tablePage.items);
     document.getElementById('list-result-count').innerText = `조회 결과 ${filtered.length}명 · ${currentIdx} / ${totalPages}페이지`;
     updatePaginationUI();
 }
@@ -198,7 +200,14 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
             const snapshot = await getDocs(query(collection(db, 'reservations'),
                 ...constraints, orderBy('createdAt', 'desc')));
             if (version !== fetchVersion) return;
-            periodReservations = snapshot.docs.map(d => anonymizeReservation({ ...d.data(), id: d.id }));
+            // Establish identity before masking; masked names/phones must not merge different people.
+            const rawItems = snapshot.docs.map(d => {
+                const data = d.data();
+                return { ...data, id: d.id, medium: data.utm_medium || data.medium || '-' };
+            });
+            periodReservations = groupReservations(rawItems).flatMap(group => group.records.map(item => ({
+                ...anonymizeReservation(item), displayGroupId: group.id
+            })));
             loadedPeriod = period;
         }
         renderFilteredReservations(isNewSearch ? 1 : targetPage);
@@ -227,40 +236,7 @@ function renderList(items) {
         return;
     }
 
-    items.forEach(data => {
-        const timeStr = data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000).toLocaleString('ko-KR', { year: '2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12: false }) : '방금 전';
-        
-        // 💡 추가된 데이터 맵핑 로직
-        const page = data.pageName || '-'; // 예약페이지 데이터 (Firestore 필드명에 맞게 조정 가능)
-        const source = data.source || data.utm_source || 'direct';
-        const medium = data.utm_medium || data.medium || '-';
-        const status = normalizeStatus(data.status);
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-gray-50/80 transition-all border-b border-gray-50";
-        tr.innerHTML = `
-            <td class="px-8 py-5 text-[12px] text-gray-400 font-bold">${timeStr}</td>
-            <td class="px-6 py-5 text-[14px] font-black text-gray-900">${data.name}</td>
-            <td class="px-6 py-5 text-center text-[13px] font-bold text-gray-500">${data.phone}</td>
-            <td class="px-6 py-5"><span class="bg-white border border-gray-100 px-3 py-1 rounded-lg font-black text-[12px] text-gray-600">${data.package || '-'}</span></td>
-            <td class="px-6 py-5 text-center text-[12px] font-bold text-gray-600">${page}</td>            
-            <td class="px-6 py-5 text-center"><span class="source-${source} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border">${source}</span></td>            
-            <td class="px-6 py-5 text-center"><span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-[10px] font-bold border border-gray-100 uppercase">${medium}</span></td>          
-            <td class="px-6 py-5 text-center">
-                <select data-id="${data.id}" data-status="${status}" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${getStatusColor(status)}">
-                    <option value="대기중" ${status === '대기중' ? 'selected' : ''}>대기중</option>
-                    <option value="고민중" ${status === '고민중' ? 'selected' : ''}>고민중</option>
-                    <option value="부재" ${status === '부재' ? 'selected' : ''}>부재</option>
-                    <option value="확정" ${status === '확정' ? 'selected' : ''}>확정</option>
-                    <option value="미응답" ${status === '미응답' ? 'selected' : ''}>미응답</option>
-                    <option value="본인취소" ${status === '본인취소' ? 'selected' : ''}>본인취소</option>
-                    <option value="예약중복취소" ${status === '예약중복취소' ? 'selected' : ''}>예약중복취소</option>
-                    <option value="기타취소" ${status === '기타취소' ? 'selected' : ''}>기타취소</option>
-                </select>
-            </td>
-        `;
-        listContainer.appendChild(tr);
-    });
+    renderReservationTable(listContainer, items, { statusColor: getStatusColor });
 }
 
 function getStatusColor(status) {

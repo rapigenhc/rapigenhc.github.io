@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 
+    <link rel="stylesheet" href="reservation-table.css?v=20261112-1">
+
     <style>
         body { -webkit-tap-highlight-color: transparent; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -136,7 +138,8 @@
 
             <div class="bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-50 overflow-hidden">
                 <div class="overflow-x-auto no-scrollbar">
-                    <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <table class="reservation-history-table w-full text-left border-collapse min-w-[1000px]">
+                        <caption class="reservation-table-caption"><div><strong>예약 리스트</strong><span><b>(변경)</b> 직전 신청과 달라진 값 &nbsp; <i>—</i> 변경 없음</span></div></caption>
                         <thead>
                             <tr class="bg-gray-50/50 border-b border-gray-50 text-gray-400">
                                 <th class="px-8 py-5 text-[11px] font-black uppercase tracking-widest">신청일시</th>
@@ -166,6 +169,6 @@
             </div>
         </main>
     </div>
-    <script type="module" src="admin.js?v=20261103-1"></script>
+    <script type="module" src="admin.js?v=20261112-1"></script>
 </body>
 </html>

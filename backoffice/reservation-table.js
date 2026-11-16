@@ -105,7 +105,9 @@ export function renderReservationTable(container, items, { selection = false, st
             }
             for (const key of ['package', 'pageName', 'source', 'medium']) {
                 const value = fieldValue(key, current[key], item.campaign || item.utm_campaign || item.campain);
-                html += `<td class="reservation-field${key === 'package' ? '' : ' reservation-centered'}">`;
+                const campaign = item.campaign || item.utm_campaign || item.campain;
+                const campaignTitle = key === 'source' && campaign && campaign !== 'none' ? ` title="캠페인: ${escape(campaign)}"` : '';
+                html += `<td class="reservation-field${key === 'package' ? '' : ' reservation-centered'}"${campaignTitle}>`;
                 html += previous ? (previous[key] === current[key]
                     ? '<span class="reservation-unchanged" aria-label="변경 없음">—</span>'
                     : `<span class="reservation-change"><span class="reservation-change-label">(변경)</span>${value}</span>`) : value;

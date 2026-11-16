@@ -79,3 +79,14 @@ test('table retains every timestamp and change while only the latest status is e
     renderReservationTable(container, [], { selection: true });
     assert.ok(container.innerHTML.includes('colspan="9"'));
 });
+
+
+test('campaign remains available on unchanged channel history and is escaped', () => {
+    const container = { innerHTML: '' };
+    renderReservationTable(container, [
+        row(1, '2026-11-17T10:00:00+09:00', { campaign: 'First' }),
+        row(2, '2026-11-17T11:00:00+09:00', { campaign: 'Next \" campaign' })
+    ]);
+    assert.ok(container.innerHTML.includes('title="캠페인: Next &quot; campaign"'));
+    assert.ok(container.innerHTML.includes('reservation-unchanged'));
+});

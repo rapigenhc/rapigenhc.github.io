@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <script src="./attribution.js?v=20261117-1"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>맞춤형 종합검진 | 래피젠헬스케어</title>
@@ -11,7 +12,7 @@
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="apple-touch-icon" href="img/favicon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="./ga_tracking.js"></script>
+    <script type="module" src="./ga_tracking.js?v=20261117-1"></script>
     <style>
       body {
         -webkit-tap-highlight-color: transparent;
@@ -4832,7 +4833,7 @@
           submit.textContent = "신청 중입니다…";
           try {
             const query = new URLSearchParams(location.search);
-            const response = await (await import("./reservation-api.js")).submitReservation("/api/reservations.php", {
+            const response = await (await import("./reservation-api.js?v=20261117-1")).submitReservation("/api/reservations.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -4840,8 +4841,9 @@
                 phone: digits,
                 package: "종합검진 상담",
                 pageName: "program.html",
-                source: query.get("utm_source") || "direct",
-                medium: query.get("utm_medium") || "-",
+                source: window.RapigenAttribution.get().source,
+                medium: window.RapigenAttribution.get().medium,
+                campaign: window.RapigenAttribution.get().campaign,
                 userAgent: navigator.userAgent,
               }),
             });

@@ -77,10 +77,11 @@ function fields(item) {
     };
 }
 
-function fieldValue(key, value) {
+function fieldValue(key, value, campaign) {
     const source = /^[a-zA-Z0-9_-]+$/.test(value) ? value : 'direct';
     const style = key === 'source' ? `source-${source}` : `reservation-tag-${key}`;
-    return `<span class="reservation-tag ${style}">${escape(value)}</span>`;
+    const title = key === 'source' && campaign && campaign !== 'none' ? ` title="캠페인: ${escape(campaign)}"` : '';
+    return `<span class="reservation-tag ${style}"${title}>${escape(value)}</span>`;
 }
 
 export function renderReservationTable(container, items, { selection = false, statusColor = () => '' } = {}) {
@@ -103,7 +104,7 @@ export function renderReservationTable(container, items, { selection = false, st
                 html += `<td rowspan="${count}" class="reservation-phone">${escape(item.phone)}</td>`;
             }
             for (const key of ['package', 'pageName', 'source', 'medium']) {
-                const value = fieldValue(key, current[key]);
+                const value = fieldValue(key, current[key], item.campaign || item.utm_campaign || item.campain);
                 html += `<td class="reservation-field${key === 'package' ? '' : ' reservation-centered'}">`;
                 html += previous ? (previous[key] === current[key]
                     ? '<span class="reservation-unchanged" aria-label="변경 없음">—</span>'

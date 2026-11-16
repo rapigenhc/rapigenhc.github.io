@@ -1,3 +1,4 @@
+import './attribution.js?v=20261117-1';
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
@@ -37,7 +38,7 @@ async function notify(data) {
 export async function submitReservation(_url, options) {
     if (pending) throw new Error('reservation_busy');
     if (lastSuccess && Date.now() - lastSuccess < 60000) throw new Error('too_many_requests');
-    const data = JSON.parse(options.body);
+    const data = { ...JSON.parse(options.body), ...window.RapigenAttribution.get() };
     if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(data.name)) throw new Error('invalid_name');
     const phone = String(data.phone).replace(/-/g, '');
     if (!/^01[016789]\d{7,8}$/.test(phone)) throw new Error('invalid_phone');
@@ -45,7 +46,7 @@ export async function submitReservation(_url, options) {
     try {
         await addDoc(collection(db, 'reservations'), {
             name: data.name, phone, package: data.package, pageName: data.pageName,
-            source: data.source || 'direct', medium: data.medium || '-',
+            source: data.source, medium: data.medium, campaign: data.campaign,
             userAgent: data.userAgent || '', status: '대기중',
             createdAt: serverTimestamp(), updatedAt: serverTimestamp()
         });

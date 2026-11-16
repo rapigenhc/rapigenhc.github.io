@@ -1,3 +1,5 @@
+import './attribution.js?v=20261117-1';
+
 /* ==========================================================================
    래피젠헬스케어 (Rapigen Healthcare) - 통합 비즈니스 로직 (최적화 버전)
    특징: Fallback 모달 인젝션, 이벤트 위임 충돌 방어, XSS 차단, DB 구조 최적화
@@ -266,9 +268,9 @@ function bindReservationEvent() {
         const pageFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.html';
 
         // 🎯 [DB 최적화 및 복구] 유입 채널 추출
-        const utmSource = sessionStorage.getItem('utm_source') || new URLSearchParams(window.location.search).get('utm_source') || 'direct';
-        const utmMedium = sessionStorage.getItem('utm_medium') || new URLSearchParams(window.location.search).get('utm_medium') || '-';
-        const userAgent = navigator.userAgent;
+        const attribution = window.RapigenAttribution.get();
+        const utmSource = attribution.source;
+        const utmMedium = attribution.medium;
 
         const formData = {
             name: escapeHTML(userName),
@@ -277,8 +279,9 @@ function bindReservationEvent() {
             package: escapeHTML(finalPackageName),
             pageName: pageFileName,
             source: utmSource,       
-            medium: utmMedium,       
-            userAgent: userAgent,    
+            medium: utmMedium,
+            campaign: attribution.campaign,
+            userAgent: navigator.userAgent,
             status: "대기중",
             createdAt: serverTimestamp()
         };
@@ -295,7 +298,8 @@ function bindReservationEvent() {
                 package: formData.package,
                 pageName: formData.pageName,
                 source: formData.source,      
-                medium: formData.medium,      
+                medium: formData.medium,
+                campaign: formData.campaign,
                 userAgent: formData.userAgent, 
                 status: formData.status,
                 createdAt: formData.createdAt,
@@ -309,7 +313,7 @@ function bindReservationEvent() {
             try { localStorage.setItem('last_submit_time', String(reservationLastSuccess)); } catch {}
             try {
             if (typeof gtag === 'function') {
-                gtag('event', 'generate_lead', { 'event_label': formData.package });
+                gtag('event', 'generate_lead', { 'event_label': formData.package, utm_source: formData.source, utm_medium: formData.medium, utm_campaign: formData.campaign });
             }
 
 
@@ -549,22 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* 2. UTM 파라미터 저장 */
-    // const params = new URLSearchParams(window.location.search);
-    // if (params.get('utm_source')) sessionStorage.setItem('rapi_utm_source', params.get('utm_source').toLowerCase());
-    // if (params.get('utm_medium')) sessionStorage.setItem('rapi_utm_medium', params.get('utm_medium').toLowerCase());
-    const urlParams = new URLSearchParams(window.location.search);
-
-    // URL에 파라미터가 있을 때만 세션 스토리지에 업데이트
-    if (urlParams.has('utm_source') || urlParams.has('source')) {
-        sessionStorage.setItem('utm_source', urlParams.get('utm_source') || urlParams.get('source'));
-    }
-    if (urlParams.has('utm_medium') || urlParams.has('medium')) {
-        sessionStorage.setItem('utm_medium', urlParams.get('utm_medium') || urlParams.get('medium'));
-    }
-    if (urlParams.has('utm_campaign') || urlParams.has('campaign')) {
-        sessionStorage.setItem('utm_campaign', urlParams.get('utm_campaign') || urlParams.get('campaign'));
-    }
+    /* 2. 최초 유입은 attribution.js에서 페이지 초기 로드 시 보존합니다. */
 
     /* 3. 푸터 동적 로드 */
     const fContainer = document.getElementById('common-footer-container');
@@ -658,8 +647,7 @@ export async function submitFamilyReservation(data) {
         phone: data.phone.replace(/\D/g, ''),
         package: escapeHTML(data.package),
         pageName: 'rapigen-family.html',
-        source: data.source || 'direct',
-        medium: data.medium || '-',
+        ...window.RapigenAttribution.get(),
         userAgent: data.userAgent,
         status: '대기중',
         createdAt: serverTimestamp(),

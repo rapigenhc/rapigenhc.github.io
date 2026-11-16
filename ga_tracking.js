@@ -1,3 +1,5 @@
+import './attribution.js?v=20261117-1';
+
 /**
  * Rapigen Healthcare - GA4 Tracking Module
  */
@@ -15,6 +17,7 @@ function loadGAScript() {
     window.gtag = function(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', GA_MEASUREMENT_ID, {
+        ...window.RapigenAttribution.gaConfig(),
         'send_page_view': true,
         'cookie_flags': 'SameSite=None;Secure' // 보안 설정
     });
@@ -22,11 +25,11 @@ function loadGAScript() {
 
 // 2. URL 파라미터에서 유입 경로(UTM) 추출 유틸리티
 export const getTrafficSource = () => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const first = window.RapigenAttribution.get();
     return {
-        utm_source: urlParams.get('utm_source') || 'direct',
-        utm_medium: urlParams.get('utm_medium') || 'none',
-        utm_campaign: urlParams.get('utm_campaign') || 'none',
+        utm_source: first.source,
+        utm_medium: first.medium === '-' ? 'none' : first.medium,
+        utm_campaign: first.campaign,
         referrer: document.referrer || 'none'
     };
 };
@@ -37,7 +40,8 @@ export const trackConversion = (packageName) => {
         gtag('event', 'generate_lead', {
             'event_category': 'engagement',
             'event_label': packageName,
-            'value': 1
+            'value': 1,
+            ...getTrafficSource()
         });
         console.log(`📊 GA4 Event: generate_lead [${packageName}]`);
     }

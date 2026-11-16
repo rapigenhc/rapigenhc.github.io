@@ -449,13 +449,14 @@ async function downloadAllReservations({ includePersonalData = false, button } =
                 '예약페이지': data.pageName || '-',
                 '유입 채널': data.source || data.utm_source || 'direct',
                 '매체(Medium)': data.utm_medium || data.medium || '-',
+                '캠페인(Campaign)': data.campaign || data.utm_campaign || data.campain || 'none',
                 '처리 상태': data.status || '대기중'
             }));
 
         const worksheet = XLSX.utils.json_to_sheet(rows);
         worksheet['!cols'] = [
             { wch: 22 }, { wch: 12 }, { wch: 18 }, { wch: 28 },
-            { wch: 22 }, { wch: 14 }, { wch: 18 }, { wch: 14 }
+            { wch: 22 }, { wch: 14 }, { wch: 18 }, { wch: 24 }, { wch: 14 }
         ];
 
         const workbook = XLSX.utils.book_new();

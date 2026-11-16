@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <script src="./attribution.js?v=20261117-1"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
@@ -3636,7 +3637,7 @@
           submit.disabled = true;
           submit.textContent = "신청 중입니다…";
           try {
-            const response = await (await import("./reservation-api.js")).submitReservation("/api/reservations.php", {
+            const response = await (await import("./reservation-api.js?v=20261117-1")).submitReservation("/api/reservations.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -3644,8 +3645,9 @@
                   phone: digits,
                   package: document.querySelector("#booking-package").value,
                   pageName: "2026plus.html",
-                  source: "direct",
-                  medium: "-",
+                  source: window.RapigenAttribution.get().source,
+                  medium: window.RapigenAttribution.get().medium,
+                  campaign: window.RapigenAttribution.get().campaign,
                 }),
               }),
               result = await response.json().catch(() => ({}));

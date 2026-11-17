@@ -18,7 +18,11 @@
     }
 
     const load = async name => {
-        const response = await fetch(new URL(name, root));
+        const url = new URL(name, root);
+        if (name === 'operating-hours.html' || name === 'national-hours.html') {
+            url.searchParams.set('v', '20261117-outpatient-hours');
+        }
+        const response = await fetch(url);
         if (!response.ok) throw new Error(`${name} 로드 실패: ${response.status}`);
         const template = document.createElement('template');
         template.innerHTML = await response.text();

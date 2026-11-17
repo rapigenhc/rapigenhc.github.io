@@ -334,7 +334,6 @@ document.addEventListener('click', async (e) => {
     const summary = e.target.closest('.status-summary');
     if (summary) {
         document.getElementById('filterStatus').value = summary.dataset.status;
-        setInitialDates('week');
         await fetchFromFirestore(1);
         return;
     }
@@ -375,7 +374,6 @@ async function assertLatestStoredReservation(id) {
 // 상태 변경 이벤트 위임
 document.addEventListener('change', async (e) => {
     if (e.target.id === 'filterStatus') {
-        setInitialDates('week');
         await fetchFromFirestore(1);
         return;
     }

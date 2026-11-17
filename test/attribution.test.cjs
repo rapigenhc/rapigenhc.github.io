@@ -8,7 +8,8 @@ function page(href, state = {}, mode = 'normal') {
     const values = state.values ||= new Map();
     const jar = state.jar ||= new Map();
     const handlers = {};
-    const document = { addEventListener: (type, listener) => { handlers[type] = listener; } };
+    const nodes = [];
+    const document = { readyState: 'loading', documentElement: {}, querySelectorAll: () => nodes, addEventListener: (type, listener) => { handlers[type] = listener; } };
     Object.defineProperty(document, 'cookie', {
         get() { if (mode === 'blocked') throw Error('blocked'); return [...jar].map(([k, v]) => `${k}=${v}`).join('; '); },
         set(value) { if (mode === 'blocked') throw Error('blocked'); const first = value.split(';')[0], at = first.indexOf('='); jar.set(first.slice(0, at), first.slice(at + 1)); }
@@ -18,11 +19,15 @@ function page(href, state = {}, mode = 'normal') {
         setItem: (key, value) => { if (mode !== 'normal') throw Error('blocked'); values.set(key, value); },
         removeItem: key => values.delete(key)
     };
+    const historyCalls = [];
     const window = { location: new URL(href), sessionStorage: storage };
-    const context = vm.createContext({ window, document, URL, URLSearchParams });
+    window.history = { state: {}, replaceState(_state, _title, value) { historyCalls.push(value); window.location = new URL(value); } };
+    let observer;
+    class FakeObserver { constructor(callback) { this.callback = callback; observer = this; } observe() {} }
+    const context = vm.createContext({ window, document, URL, URLSearchParams, MutationObserver: FakeObserver });
     vm.runInContext(source, context);
     const get = () => JSON.parse(JSON.stringify(window.RapigenAttribution.get()));
-    return { get, window, document, context, state, handlers };
+    return { get, window, document, context, state, handlers, nodes, historyCalls, get observer() { return observer; } };
 }
 const initial = 'https://reservation.rapigenhc.com/index.html?utm_source=Naver&utm_medium=cpc&utm_campaign=November_Check';
 const expected = { source: 'Naver', medium: 'cpc', campaign: 'November_Check' };
@@ -102,7 +107,7 @@ test('fully blocked storage still carries attribution through first-party links 
         assert.equal(current.window.RapigenAttribution.withAttribution(external), external);
     }
 });
-test('normal links remain clean; new tabs, dynamic links and first-party cross-origin links carry the tuple', () => {
+test('every ordinary HTML click, new tab and first-party cross-origin link carries the first tuple', () => {
     const current = page(initial);
     function click(href, extra = {}, type = 'click') {
         let value = href;
@@ -111,7 +116,8 @@ test('normal links remain clean; new tabs, dynamic links and first-party cross-o
         current.handlers[type]({ target: { closest: () => link }, type, button: 0 });
         return value;
     }
-    assert.equal(click('/program.html'), '/program.html');
+    assert.equal(new URL(click('/program.html')).searchParams.get('utm_source'), 'Naver');
+    assert.equal(new URL(click('/program.html')).searchParams.get('utm_campaign'), 'November_Check');
     assert.ok(click('/program.html', { target: '_blank' }).includes('utm_campaign=November_Check'));
     assert.ok(click('/program.html', {}, 'contextmenu').includes('utm_source=Naver'));
     assert.ok(click('https://rapigenhc.github.io/national.html').includes('utm_medium=cpc'));
@@ -125,12 +131,74 @@ test('GA uses the saved first tuple and does not force organic/direct visits to 
     assert.deepEqual(JSON.parse(JSON.stringify(current.window.RapigenAttribution.gaConfig())), { campaign_source: 'Naver', campaign_medium: 'cpc', campaign_name: 'November_Check' });
     assert.deepEqual(JSON.parse(JSON.stringify(page('https://rapigenhc.github.io/').window.RapigenAttribution.gaConfig())), {});
 });
+test('all original UTM fields travel together, replacing later UTM values but preserving destination filters/hash', () => {
+    const current = page(initial + '&utm_content=Hero_A&utm_term=건강검진&utm_id=ad_42');
+    const url = new URL(current.window.RapigenAttribution.withAttribution('/national.html?package=premium&utm_source=wrong&utm_content=Later&utm_extra=Not_First#booking'));
+    assert.equal(url.searchParams.get('utm_source'), 'Naver');
+    assert.equal(url.searchParams.get('utm_medium'), 'cpc');
+    assert.equal(url.searchParams.get('utm_campaign'), 'November_Check');
+    assert.equal(url.searchParams.get('utm_content'), 'Hero_A');
+    assert.equal(url.searchParams.get('utm_term'), '건강검진');
+    assert.equal(url.searchParams.get('utm_id'), 'ad_42');
+    assert.equal(url.searchParams.get('utm_extra'), null);
+    assert.equal(url.searchParams.get('package'), 'premium');
+    assert.equal(url.hash, '#booking');
+    const copy = current.window.RapigenAttribution.getUtmParams(); copy.utm_source = 'changed';
+    assert.equal(current.window.RapigenAttribution.getUtmParams().utm_source, 'Naver');
+});
+test('restores the visible address after a plain HTML redirect and retains legacy first-touch records', () => {
+    const state = {};
+    page(initial, state);
+    const next = page('https://reservation.rapigenhc.com/program.html?package=a&utm_source=wrong#booking', state);
+    assert.equal(next.window.location.search.includes('utm_source=Naver'), true);
+    assert.equal(next.window.location.search.includes('utm_campaign=November_Check'), true);
+    assert.equal(next.window.location.search.includes('package=a'), true);
+    assert.equal(next.window.location.hash, '#booking');
+    assert.equal(next.historyCalls.length, 1);
+    const legacy = { values: new Map([['rapigen_first_touch_v1', JSON.stringify({ source: 'Partner', medium: 'qr', campaign: 'Saved', tagged: true })]]) };
+    const restored = page('https://rapigenhc.github.io/injection.html?utm_source=wrong', legacy);
+    assert.equal(restored.window.location.search.includes('utm_source=Partner'), true);
+    assert.equal(restored.window.location.search.includes('utm_campaign=Saved'), true);
+});
+test('updates normal DOM links before clicks and dynamically inserted or changed banner/footer links', () => {
+    const current = page(initial);
+    function anchor(href, download = false) {
+        return { href, writes: 0, matches: () => true, querySelectorAll: () => [], hasAttribute: name => name === 'download' && download,
+            getAttribute() { return this.href; }, setAttribute(_name, value) { this.href = value; this.writes++; } };
+    }
+    const menu = anchor('program.html?package=a#booking');
+    const external = anchor('https://example.com/program.html');
+    const download = anchor('national.html', true);
+    current.nodes.push(menu, external, download);
+    current.handlers.DOMContentLoaded();
+    assert.equal(new URL(menu.href).searchParams.get('utm_campaign'), 'November_Check');
+    assert.equal(external.href, 'https://example.com/program.html');
+    assert.equal(download.href, 'national.html');
+    const banner = anchor('ambulatorycare.html');
+    current.observer.callback([{ type: 'childList', addedNodes: [banner] }]);
+    assert.equal(new URL(banner.href).searchParams.get('utm_medium'), 'cpc');
+    banner.href = 'injection.html?utm_source=Later';
+    current.observer.callback([{ type: 'attributes', target: banner }]);
+    assert.equal(new URL(banner.href).searchParams.get('utm_source'), 'Naver');
+    const writes = banner.writes;
+    current.observer.callback([{ type: 'attributes', target: banner }]);
+    assert.equal(banner.writes, writes, 'Observer must stop after the URL is already correct');
+});
+test('missing UTM fields are not filled from the next page and ordinary direct visits get no fabricated UTM', () => {
+    const current = page('https://rapigenhc.github.io/?utm_source=naver');
+    const url = new URL(current.window.RapigenAttribution.withAttribution('program.html?utm_medium=email&utm_campaign=Later'));
+    assert.equal(url.searchParams.get('utm_source'), 'naver');
+    assert.equal(url.searchParams.get('utm_medium'), null);
+    assert.equal(url.searchParams.get('utm_campaign'), null);
+    assert.equal(page('https://rapigenhc.github.io/').window.RapigenAttribution.withAttribution('program.html'), 'program.html');
+    assert.deepEqual(page('https://rapigenhc.github.io/?utm_source=naver&utm_medim=cpc&utm_campain=First').get(), { source: 'naver', medium: 'cpc', campaign: 'First' });
+});
 test('every public document captures before its forms and no inline form writes URL-only attribution', () => {
     const root = path.join(__dirname, '..');
     for (const name of fs.readdirSync(root).filter(name => name.endsWith('.html'))) {
         const html = fs.readFileSync(path.join(root, name), 'utf8');
         if (!/<head[\s>]/i.test(html)) continue;
-        assert.ok(html.includes('attribution.js?v=20261117-1'), name);
+        assert.ok(html.includes('attribution.js?v=20261117-2'), name);
         assert.ok(html.indexOf('attribution.js') < html.indexOf('</head>'), name);
         assert.ok(!/source:\s*query\.get\("utm_source"\)/.test(html), name);
         if (/source:\s*window.RapigenAttribution/.test(html)) assert.ok(html.includes('campaign: window.RapigenAttribution.get().campaign'), name);

@@ -1,10 +1,11 @@
 # 최초 유입값 유지
 
-`attribution.js`는 모든 공개 페이지의 head에서 먼저 실행해 같은 탭의 최초 `source`, `medium`, `campaign`을 하나의 값 묶음으로 저장합니다. 같은 방문에서 다른 메뉴·새로고침·다른 UTM 링크를 거쳐도 최초 묶음을 덮어쓰거나 서로 다른 방문의 필드를 섞지 않습니다. 이전 유입을 전달받지 않은 새 탭에서 독립 진입하면 새 최초값을 기록합니다.
+`attribution.js`는 모든 공개 페이지의 head에서 먼저 실행해 같은 탭의 최초 `source`, `medium`, `campaign`과 함께 `utm_content`·`utm_term`·`utm_id` 등 최초 UTM을 하나의 값 묶음으로 저장합니다. 같은 방문에서 다른 메뉴·새로고침·다른 UTM 링크를 거쳐도 최초 묶음을 덮어쓰거나 서로 다른 방문의 필드를 섞지 않습니다. 이전 유입을 전달받지 않은 새 탭에서 독립 진입하면 새 최초값을 기록합니다.
 
-- 표준 파라미터는 `utm_source`, `utm_medium`, `utm_campaign`입니다. 기존 짧은 이름과 `campain`/`utm_campain`도 읽습니다. 캠페인 대소문자를 바꾸지 않습니다.
+- 표준 파라미터는 `utm_source`, `utm_medium`, `utm_campaign`입니다. 기존 짧은 이름과 `medim`/`utm_medim`, `campain`/`utm_campain`도 읽고 표준 UTM 이름으로 전달합니다. 캠페인 대소문자를 바꾸지 않습니다.
 - 세션 저장이 차단되면 세션 쿠키와 내부 링크 전달로 보완합니다. 새 탭·두 운영 사이트 간 이동에도 필요한 값을 전달합니다. 외부 사이트·전화·관리자·API·다운로드 링크는 수정하지 않습니다.
-- 일반 메뉴 URL에 UTM을 반복해서 붙이지 않아도 예약은 `window.RapigenAttribution.get()`의 최초값을 사용합니다. 기존 저장 키 두 종류도 호환합니다.
+- 일반 HTML 메뉴·버튼·배너·새 탭의 이동 URL에 최초 UTM을 붙입니다. 목적지 URL의 다른 필터와 해시는 보존하고, 뒤에 붙은 다른 UTM은 최초 묶음으로 교체합니다. 동적으로 생성되거나 바뀐 링크도 처리합니다.
+- 새 페이지가 UTM 없는 링크나 JavaScript 주소 변경으로 열려도 기존 최초값을 주소창에 복원합니다. 예약은 `window.RapigenAttribution.get()`의 같은 최초값을 사용합니다. 기존 저장 키와 이미 저장된 최초값도 호환하며, 직접 방문에 가짜 UTM을 만들지 않습니다.
 - PHP 예약과 Firebase 예약 어댑터·가족 예약·공통 푸터 폼·GA 전환이 같은 값을 사용합니다. 직접 방문은 기존 기본값을 사용하며 GA의 자연 검색 판정을 임의로 덮어쓰지 않습니다.
 - 캠페인은 예약 DB·신규 Firebase 가져오기·관리자 응답·엑셀/CSV에 포함됩니다. 표의 유입 채널에 마우스를 올리면 캠페인을 확인할 수 있습니다. 기존 대시보드 지표와 메일 양식은 바꾸지 않습니다.
 
@@ -24,4 +25,4 @@ node test/reservation-client.cjs script.js
 RAPIGEN_TEST_SOCKET=/private/tmp/프로젝트.sock RAPIGEN_TEST_DB_USER=로컬사용자 php test/reservation-attribution.php
 ```
 
-추가로 실제 페이지를 네 번 이동해 예약 제출까지 실행하는 격리 브라우저 검증과 기존 중복 상태·묶음 메일 테스트를 수행합니다.
+추가로 실제 HTML 메뉴·홈 로고·동적 배너·직접 JavaScript 이동을 거쳐, 이동 주소와 예약 제출값에 같은 최초 UTM이 전달되는지 격리 브라우저에서 검증합니다. 이 URL 전달 보완은 프론트엔드 수정이며 추가 DB 마이그레이션이 필요하지 않습니다.

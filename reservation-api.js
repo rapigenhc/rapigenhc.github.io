@@ -1,4 +1,4 @@
-import './attribution.js?v=20261117-1';
+import './attribution.js?v=20261117-2';
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 

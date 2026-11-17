@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <script src="./attribution.js?v=20261117-1"></script>
+    <script src="./attribution.js?v=20261117-2"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -210,7 +210,7 @@
       >
         <div
           class="flex cursor-pointer items-center gap-3"
-          onclick="location.href = 'index.html'"
+          onclick="location.href=window.RapigenAttribution.withAttribution('index.html')"
         >
           <svg
             class="h-6 w-6 text-gray-800"
@@ -232,7 +232,7 @@
         </div>
         <button
           type="button"
-          onclick="location.href = 'index.html'"
+          onclick="location.href=window.RapigenAttribution.withAttribution('index.html')"
           aria-label="홈으로 이동"
           class="grid h-9 w-9 place-items-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100"
         >
@@ -708,6 +708,6 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script>emailjs.init('UYYZlMnSnF3BsSOfK');</script>
-    <script type="module" src="script.js?v=20261117-1"></script>
+    <script type="module" src="script.js?v=20261117-2"></script>
   </body>
 </html>

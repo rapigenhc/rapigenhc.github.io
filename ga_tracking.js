@@ -1,4 +1,4 @@
-import './attribution.js?v=20261117-1';
+import './attribution.js?v=20261117-2';
 
 /**
  * Rapigen Healthcare - GA4 Tracking Module

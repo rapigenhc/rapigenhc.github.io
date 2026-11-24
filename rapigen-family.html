@@ -1660,30 +1660,26 @@
         }
       }
     </style>
+      <link rel="stylesheet" href="sections/site-header.css?v=20261124" />
+    <script src="sections/site-header.js?v=20261124" defer></script>
   </head>
   <body data-page-name="rapigen-family.html">
-    <header class="site-header" id="site-header">
+    <header class="site-header shared-header" id="site-header">
       <div class="shell header-inner">
-        <a
-          class="logo"
-          href="index.html"
-          aria-label="래피젠헬스케어 메인 페이지"
-          ><span class="logo-mark"><img src="img/favicon.png" alt="" /></span
-          ><span>(재)한국산업의학연구소 래피젠헬스케어의원</span></a
-        >
+        <a class="logo" href="index.html" aria-label="래피젠헬스케어 처음으로">
+          <span class="logo-mark"><img src="img/favicon.png" alt="" /></span>
+          <span><span class="logo-prefix">(재)한국산업의학연구소 </span>래피젠헬스케어의원</span>
+        </a>
         <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
-          <a href="#packages">패키지</a><a href="#additional">추가검사</a>
-          <a href="#preferred">우대혜택</a><a href="#location">오시는 길</a>
-          <a class="button header-cta" href="#booking">예약 신청</a>
+          <a href="national.html">국가검진</a>
+          <a href="program.html">종합검진</a>
+          <a href="ambulatorycare.html">외래진료</a>
+          <a href="caution.html">검진주의사항</a>
+          <a href="#equipment">장비시설</a>
+          <a href="#location">오시는 길</a>
+          <a class="button header-cta" href="#booking">예약신청</a>
         </nav>
-        <button
-          class="menu-button"
-          id="menu-button"
-          type="button"
-          aria-expanded="false"
-          aria-controls="primary-nav"
-          aria-label="메뉴 열기"
-        >
+        <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -3033,5 +3029,6 @@
         });
       })();
     </script>
+      <script src="sections/shared-sections.js?v=20261124" data-shared-sections="directions"></script>
   </body>
 </html>

@@ -19,7 +19,9 @@
 
     const load = async name => {
         const url = new URL(name, root);
-        if (name === 'operating-hours.html' || name === 'national-hours.html') {
+        if (name === 'healthcare-tour.html') {
+            url.searchParams.set('v', '20261124');
+        } else if (name === 'operating-hours.html' || name === 'national-hours.html') {
             url.searchParams.set('v', '20261117-outpatient-hours');
         }
         const response = await fetch(url);

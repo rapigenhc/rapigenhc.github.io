@@ -447,20 +447,30 @@
             vertical-align: text-bottom;
         }
     </style>
-</head>
+    <link rel="stylesheet" href="sections/site-header.css?v=20261124" />
+    <script src="sections/site-header.js?v=20261124" defer></script>
+  </head>
 <body class="bg-gray-50 text-gray-900 pb-32 overflow-x-hidden">
 
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
-        <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="location.href=window.RapigenAttribution.withAttribution('index.html')">
-                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">건강검진 이벤트</h1>
-            </div>
-            <button onclick="window.open('https://naver.me/GI3JOGWS', '_blank')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all active:scale-95 border border-gray-200">
-                <img src="./img/nvmap.png" alt="Naver Map" class="w-4 h-4 object-contain rounded-sm">
-                <span class="text-base font-bold text-gray-800 tracking-tight">지도보기</span>
-            </button>
-        </div>
+    <header class="site-header shared-header" id="site-header" data-header-menu="shared">
+      <div class="shell header-inner">
+        <a class="logo" href="index.html" aria-label="래피젠헬스케어 처음으로">
+          <span class="logo-mark"><img src="img/favicon.png" alt="" /></span>
+          <span><span class="logo-prefix">(재)한국산업의학연구소 </span>래피젠헬스케어의원</span>
+        </a>
+        <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
+          <a href="national.html">국가검진</a>
+          <a href="program.html">종합검진</a>
+          <a href="ambulatorycare.html">외래진료</a>
+          <a href="caution.html">검진주의사항</a>
+          <a href="#equipment">장비시설</a>
+          <a href="#location">오시는 길</a>
+          <a class="button header-cta" href="#common-footer-container">예약신청</a>
+        </nav>
+        <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
     <main class="max-w-md md:max-w-xl mx-auto min-h-screen pt-8 px-5">
@@ -1641,6 +1651,7 @@
     </script>
     <script type="module" src="script.js?v=20261117-2"></script>
 
-    <script src="sections/shared-sections.js?v=20261117-outpatient-hours"></script>
-</body>
+    <script src="sections/shared-sections.js?v=20261124"></script>
+    <script src="sections/shared-sections.js?v=20261124" data-shared-sections="directions"></script>
+  </body>
 </html>

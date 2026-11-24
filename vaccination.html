@@ -197,59 +197,30 @@
         }
       }
     </style>
+      <link rel="stylesheet" href="sections/site-header.css?v=20261124" />
+    <script src="sections/site-header.js?v=20261124" defer></script>
   </head>
   <body
     data-package="접종-독감"
     class="vaccination-page bg-slate-50 text-gray-900 pb-32 overflow-x-hidden"
   >
-    <header
-      class="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md"
-    >
-      <div
-        class="mx-auto flex h-14 max-w-md items-center justify-between px-5 md:h-16 md:max-w-5xl"
-      >
-        <div
-          class="flex cursor-pointer items-center gap-3"
-          onclick="location.href=window.RapigenAttribution.withAttribution('index.html')"
-        >
-          <svg
-            class="h-6 w-6 text-gray-800"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              d="M15 19 8 12l7-7"
-            ></path>
-          </svg>
-          <h1 class="text-[18px] font-black tracking-tight md:text-[22px]">
-            래피젠헬스케어 예방접종
-          </h1>
-        </div>
-        <button
-          type="button"
-          onclick="location.href=window.RapigenAttribution.withAttribution('index.html')"
-          aria-label="홈으로 이동"
-          class="grid h-9 w-9 place-items-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100"
-        >
-          <svg
-            class="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              d="m3 12 2-2 7-7 7 7 2 2M5 10v10a1 1 0 0 0 1 1h3m10-11v10a1 1 0 0 1-1 1h-3m-6 1v-5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v5"
-            ></path>
-          </svg>
+    <header class="site-header shared-header" id="site-header" data-header-menu="shared">
+      <div class="shell header-inner">
+        <a class="logo" href="index.html" aria-label="래피젠헬스케어 처음으로">
+          <span class="logo-mark"><img src="img/favicon.png" alt="" /></span>
+          <span><span class="logo-prefix">(재)한국산업의학연구소 </span>래피젠헬스케어의원</span>
+        </a>
+        <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
+          <a href="national.html">국가검진</a>
+          <a href="program.html">종합검진</a>
+          <a href="ambulatorycare.html">외래진료</a>
+          <a href="caution.html">검진주의사항</a>
+          <a href="#equipment">장비시설</a>
+          <a href="#location">오시는 길</a>
+          <a class="button header-cta" href="#common-footer-container">예약신청</a>
+        </nav>
+        <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
         </button>
       </div>
     </header>
@@ -703,11 +674,12 @@
       }
     </script>
     <script
-      src="sections/shared-sections.js?v=20261117-outpatient-hours"
+      src="sections/shared-sections.js?v=20261124"
       data-shared-sections="all"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script>emailjs.init('UYYZlMnSnF3BsSOfK');</script>
     <script type="module" src="script.js?v=20261117-2"></script>
+      <script src="sections/shared-sections.js?v=20261124" data-shared-sections="directions"></script>
   </body>
 </html>

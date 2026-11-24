@@ -22,19 +22,30 @@
             100%  { opacity: 1; transform: translateY(0); }
         }
     </style>
-</head>
+    <link rel="stylesheet" href="sections/site-header.css?v=20261124" />
+    <script src="sections/site-header.js?v=20261124" defer></script>
+  </head>
 <body data-package="외래-탈모" class="bg-white text-gray-900 pb-32 overflow-x-hidden">
 
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div class="max-w-md md:max-w-4xl mx-auto px-5 h-14 md:h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="location.href=window.RapigenAttribution.withAttribution('index.html')">
-                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                <h1 class="text-[18px] md:text-[22px] font-black tracking-tight text-gray-900">래피젠 헬스케어 건강검진 이벤트</h1>
-            </div>
-            <button class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" onclick="location.href=window.RapigenAttribution.withAttribution('index.html')">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            </button>
-        </div>
+    <header class="site-header shared-header" id="site-header" data-header-menu="shared">
+      <div class="shell header-inner">
+        <a class="logo" href="index.html" aria-label="래피젠헬스케어 처음으로">
+          <span class="logo-mark"><img src="img/favicon.png" alt="" /></span>
+          <span><span class="logo-prefix">(재)한국산업의학연구소 </span>래피젠헬스케어의원</span>
+        </a>
+        <nav class="nav" id="primary-nav" aria-label="주요 메뉴">
+          <a href="national.html">국가검진</a>
+          <a href="program.html">종합검진</a>
+          <a href="ambulatorycare.html">외래진료</a>
+          <a href="caution.html">검진주의사항</a>
+          <a href="#equipment">장비시설</a>
+          <a href="#location">오시는 길</a>
+          <a class="button header-cta" href="#common-footer-container">예약신청</a>
+        </nav>
+        <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
     <main class="max-w-[1100px] mx-auto px-5 sm:px-8 py-16 sm:py-24 space-y-28 sm:space-y-40">
@@ -530,7 +541,7 @@
             AOS.init({ duration: 600, once: true });
         });
     </script>
-    <script src="sections/shared-sections.js?v=20261117-outpatient-hours" data-shared-sections="tour"></script>
+    <script src="sections/shared-sections.js?v=20261124" data-shared-sections="tour"></script>
     <div id="common-footer-container"></div>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.js"></script>
     <script type="text/javascript">
@@ -540,5 +551,6 @@
     </script>
     <script type="module" src="script.js?v=20261117-2"></script>
     
-</body>
+    <script src="sections/shared-sections.js?v=20261124" data-shared-sections="directions"></script>
+  </body>
 </html>

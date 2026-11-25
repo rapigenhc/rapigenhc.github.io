@@ -70,6 +70,43 @@
   addEventListener('hashchange', finishNavigation);
   syncActive();
 
+  const bmiForm = document.querySelector('#bmi-form');
+  const bmiHeight = document.querySelector('#bmi-height');
+  const bmiWeight = document.querySelector('#bmi-weight');
+  const bmiResult = document.querySelector('#bmi-result');
+  const bmiError = document.querySelector('#bmi-error');
+  const calculateBMI = (submitted = false) => {
+    bmiError.textContent = '';
+    bmiHeight.removeAttribute('aria-invalid');
+    bmiWeight.removeAttribute('aria-invalid');
+    const height = bmiHeight.valueAsNumber;
+    const weight = bmiWeight.valueAsNumber;
+    const invalidInput = !Number.isFinite(height) || height <= 0
+      ? bmiHeight
+      : !Number.isFinite(weight) || weight <= 0 ? bmiWeight : null;
+    if (invalidInput) {
+      bmiResult.value = '—';
+      if (submitted) {
+        bmiError.textContent = `${invalidInput === bmiHeight ? '키' : '몸무게'}를 0보다 큰 숫자로 입력해 주세요.`;
+        invalidInput.setAttribute('aria-invalid', 'true');
+        invalidInput.focus();
+      }
+      return;
+    }
+    const bmi = weight / ((height / 100) ** 2);
+    if (!Number.isFinite(bmi) || bmi <= 0) {
+      bmiResult.value = '—';
+      bmiError.textContent = '키와 몸무게를 다시 확인해 주세요.';
+      return;
+    }
+    bmiResult.value = bmi.toFixed(1);
+  };
+  bmiForm.addEventListener('input', () => calculateBMI());
+  bmiForm.addEventListener('submit', event => {
+    event.preventDefault();
+    calculateBMI(true);
+  });
+
   const form = document.querySelector('#booking-form');
   const phone = document.querySelector('#user-phone');
   const message = document.querySelector('#form-message');

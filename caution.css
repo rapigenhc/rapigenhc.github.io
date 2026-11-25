@@ -70,6 +70,24 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
 .guide-details .highlight { color: #b43d0c; }
 .guide-note { margin-top: 18px; padding: 16px 20px; border-left: 3px solid var(--brand); border-radius: 0 10px 10px 0; background: var(--brand-soft); color: #843413; font-size: 16px; }
 .guide-note a { font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.bmi-calculator { margin-top: 16px; overflow: hidden; border: 1px solid #f1cdbd; border-radius: 12px; background: #fff; }
+.bmi-calculator summary { display: flex; min-height: 52px; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; background: var(--brand-soft); color: var(--brand-dark); font-size: 16px; font-weight: 800; list-style: none; cursor: pointer; }
+.bmi-calculator summary::-webkit-details-marker { display: none; }
+.bmi-calculator summary:focus-visible { outline-offset: -4px; }
+.bmi-calculator summary svg { width: 20px; height: 20px; flex: 0 0 20px; }
+.bmi-calculator[open] summary { border-bottom: 1px solid #f1cdbd; }
+.bmi-calculator[open] summary svg { transform: rotate(180deg); }
+.bmi-content { padding: 24px; }
+.bmi-content > p { margin-bottom: 20px; color: var(--copy); font-size: 16px; }
+.bmi-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.bmi-fields .field { margin-bottom: 0; }
+.bmi-fields input[aria-invalid="true"] { border-color: #b42318; }
+.bmi-submit { width: 100%; margin-top: 18px; }
+.bmi-error { color: #b42318; font-size: 16px; }
+.bmi-error:not(:empty) { margin-top: 12px; }
+.bmi-result { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 20px; padding: 16px 20px; border-radius: 12px; background: #f7f7f7; font-weight: 800; }
+.bmi-result output { color: var(--brand-dark); font-size: 32px; line-height: 1.3; overflow-wrap: anywhere; }
+.bmi-formula { margin-top: 12px; color: var(--copy); font-size: 16px; }
 .diet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
 .diet-card { padding: 20px; border-radius: 12px; background: #f5f5f5; }
 .diet-card.recommended { background: var(--brand-soft); }
@@ -157,6 +175,9 @@ dialog .button { display: flex; margin-left: auto; }
   .guide-row h3 { padding: 16px 20px; border-bottom: 1px solid #e8e8e8; font-size: 17px; }
   .guide-details { padding: 20px; }
   .guide-note { padding: 14px 16px; }
+  .bmi-calculator summary { padding-inline: 16px; }
+  .bmi-content { padding: 20px 16px; }
+  .bmi-fields { grid-template-columns: 1fr; }
   .diet-schedule > div { grid-template-columns: 1fr; gap: 4px; }
   .contact-strip { align-items: flex-start; flex-direction: column; gap: 14px; padding: 24px; }
   .contact-strip h2 { font-size: 20px; }

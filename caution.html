@@ -7,13 +7,13 @@
     <meta name="description" content="래피젠헬스케어 건강검진 전날과 당일 준비사항, 금식·약물 복용, 위·대장내시경, 여성 고객을 위한 주의사항을 확인하세요." />
     <link rel="canonical" href="https://reservation.rapigenhc.com/caution.html" />
     <link rel="icon" type="image/png" href="img/favicon.png" />
-    <link rel="stylesheet" href="caution.css?v=20261124" />
+    <link rel="stylesheet" href="caution.css?v=20261125-bmi" />
     <link rel="stylesheet" href="sections/shared-directions.css" />
     <link rel="stylesheet" href="sections/site-header.css?v=20261124" />
     <script src="./attribution.js?v=20261117-2"></script>
     <script type="module" src="./ga_tracking.js?v=20261117-2"></script>
     <script src="sections/site-header.js?v=20261124" defer></script>
-    <script src="caution.js?v=20261124" defer></script>
+    <script src="caution.js?v=20261125-bmi" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#caution-content">주의사항 본문 바로가기</a>
@@ -161,7 +161,42 @@
               <div class="guide-details">
                 <ul>
                   <li><strong>만 70세 이상</strong>인 경우 수면내시경 진행이 제한될 수 있어 일반 내시경을 권장합니다.</li>
-                  <li>고도비만, 체중 100kg 이상인 경우 일부 검사가 불가할 수 있습니다.</li>
+                  <li>
+                    수면내시경 검사 시 고도비만(BMI 35 이상) 또는 수술 이력이
+                    있는 경우, MRI 검사 시 체내 금속물(철심 등)이 있거나
+                    폐쇄공포증이 있는 경우에는 일부 검사가 제한될 수 있으므로
+                    반드시 사전에 상담해 주시기 바랍니다.
+                    <details class="bmi-calculator" id="bmi-calculator">
+                      <summary>
+                        <span>BMI 계산하기</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                          <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </summary>
+                      <div class="bmi-content">
+                        <p id="bmi-help">키와 몸무게를 입력하면 BMI가 자동으로 계산됩니다.</p>
+                        <form id="bmi-form" novalidate>
+                          <div class="bmi-fields">
+                            <div class="field">
+                              <label for="bmi-height">키 (cm)</label>
+                              <input id="bmi-height" name="height" type="number" inputmode="decimal" min="0" step="any" placeholder="예: 170" aria-describedby="bmi-help bmi-error" required />
+                            </div>
+                            <div class="field">
+                              <label for="bmi-weight">몸무게 (kg)</label>
+                              <input id="bmi-weight" name="weight" type="number" inputmode="decimal" min="0" step="any" placeholder="예: 70" aria-describedby="bmi-help bmi-error" required />
+                            </div>
+                          </div>
+                          <button class="button brand bmi-submit" type="submit">BMI 계산하기</button>
+                          <p class="bmi-error" id="bmi-error" aria-live="polite"></p>
+                          <div class="bmi-result">
+                            <span id="bmi-result-label">나의 BMI</span>
+                            <output id="bmi-result" name="bmi" for="bmi-height bmi-weight" aria-labelledby="bmi-result-label" aria-live="polite" aria-atomic="true">—</output>
+                          </div>
+                          <p class="bmi-formula">BMI = 몸무게(kg) ÷ 키(m)²</p>
+                        </form>
+                      </div>
+                    </details>
+                  </li>
                   <li>수면 중 무호흡증이나 심한 코골이가 있는 분은 수면 검사 진행이 제한될 수 있습니다.</li>
                   <li>검사 당일 <strong>검지 네일아트, 귀걸이·피어싱 등 액세서리</strong>는 모두 제거해 주세요.</li>
                   <li>수면 검사 시 안전을 위해 대중교통을 이용해 주세요.</li>

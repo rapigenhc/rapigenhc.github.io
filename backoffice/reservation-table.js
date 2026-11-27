@@ -95,7 +95,10 @@ export function renderReservationTable(container, items, { selection = false, st
         return group.records.map((item, index) => {
             const current = fields(item);
             const previous = index ? fields(group.records[index - 1]) : null;
-            const status = item.status === '보류' ? '고민중' : String(item.status || '대기중');
+            const editable = item.canEditStatus !== false && String(item.id) === latestId;
+            const status = editable
+                ? (item.status === '보류' ? '고민중' : String(item.status || '대기중'))
+                : '예약중복취소';
             let html = `<tr class="${index ? 'reservation-history' : 'reservation-group-start'}">`;
             if (selection) html += `<td data-selection-column class="reservation-selection"><input type="checkbox" class="reservation-checkbox" value="${escape(item.id)}" aria-label="${escape(item.name)} ${escape(formatReservationTime(item))} 예약 선택"></td>`;
             html += `<td class="reservation-time">${escape(formatReservationTime(item))}</td>`;
@@ -113,7 +116,6 @@ export function renderReservationTable(container, items, { selection = false, st
                     : `<span class="reservation-change"><span class="reservation-change-label">(변경)</span>${value}</span>`) : value;
                 html += '</td>';
             }
-            const editable = item.canEditStatus !== false && String(item.id) === latestId;
             html += '<td class="reservation-status">';
             if (editable) {
                 html += `<select data-id="${escape(item.id)}" data-status="${escape(status)}" aria-label="${escape(item.name)} ${escape(formatReservationTime(item))} 최신 신청 처리 상태" class="status-select text-[11px] font-black pl-4 pr-9 py-2 rounded-xl border-none outline-none cursor-pointer transition-all ${escape(statusColor(status))}">${statuses.map(option => `<option value="${option}"${status === option ? ' selected' : ''}>${option}</option>`).join('')}</select>`;

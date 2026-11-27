@@ -90,3 +90,36 @@ test('campaign remains available on unchanged channel history and is escaped', (
     assert.ok(container.innerHTML.includes('title="캠페인: Next &quot; campaign"'));
     assert.ok(container.innerHTML.includes('reservation-unchanged'));
 });
+
+test('superseded waiting records display duplicate cancellation with the cancellation color', () => {
+    const container = { innerHTML: '' };
+    const items = [row(1, '2026-11-27T09:00:00+09:00'),
+        row(2, '2026-11-27T10:00:00+09:00'), row(3, '2026-11-27T11:00:00+09:00')];
+    renderReservationTable(container, items, { statusColor: status => status === '예약중복취소' ? 'cancelled' : 'waiting' });
+    assert.equal((container.innerHTML.match(/reservation-status-readonly cancelled">예약중복취소/g) || []).length, 2);
+    assert.equal((container.innerHTML.match(/value="대기중" selected/g) || []).length, 1);
+    assert.ok(!container.innerHTML.includes('reservation-status-readonly waiting'));
+    assert.ok(items.every(item => item.status === '대기중'), 'Rendering must not mutate the input records');
+});
+
+test('server-marked previous applications display cancellation even when the latest is filtered out', () => {
+    const container = { innerHTML: '' };
+    renderReservationTable(container, [row(1, '2026-11-27T09:00:00+09:00', {
+        canEditStatus: false, latestReservationId: '2'
+    })]);
+    assert.ok(container.innerHTML.includes('>예약중복취소</span>'));
+    assert.ok(!container.innerHTML.includes('<select'));
+    assert.ok(!container.innerHTML.includes('>대기중</span>'));
+});
+
+test('the latest application retains its own status and other dates or people stay independent', () => {
+    const container = { innerHTML: '' };
+    renderReservationTable(container, [row(1, '2026-11-26T23:59:59+09:00', { status: '확정' }),
+        row(2, '2026-11-27T00:00:00+09:00'),
+        row(3, '2026-11-27T00:01:00+09:00', { status: '본인취소' }),
+        row(4, '2026-11-27T00:02:00+09:00', { name: '박예시', status: '보류' })]);
+    assert.equal((container.innerHTML.match(/reservation-status-readonly/g) || []).length, 1);
+    for (const status of ['확정', '본인취소', '고민중']) {
+        assert.ok(container.innerHTML.includes(`value="${status}" selected`));
+    }
+});

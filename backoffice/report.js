@@ -1,4 +1,5 @@
 import { anonymizeReservation, maskName, maskPhone } from './privacy.js?v=20261102-2';
+import { decorateReservationStatuses } from './reservation-duplicates.js?v=20261127-1';
 import { buildWeeklyRankings, RANKING_DIMENSIONS } from './report-rankings.js';
 /**
  * 래피젠헬스케어 Report JS - 주간 스냅 엔진
@@ -141,8 +142,8 @@ async function buildReportData() {
 
         const [snapPeriod, snapAll] = await Promise.all([getDocs(qPeriod), getDocs(qAll)]);
         
-        const periodDocs = snapPeriod.docs.map(d => anonymizeReservation(d.data()));
-        const allDocs = snapAll.docs.map(d => anonymizeReservation({ id: d.id, ...d.data() }));
+        const periodDocs = decorateReservationStatuses(snapPeriod.docs.map(d => ({ ...d.data(), id: d.id }))).map(anonymizeReservation);
+        const allDocs = decorateReservationStatuses(snapAll.docs.map(d => ({ ...d.data(), id: d.id }))).map(anonymizeReservation);
         allReservationData = allDocs;
 
         let thisWeekCount = 0;
@@ -431,7 +432,7 @@ async function downloadAllReservations({ includePersonalData = false, button } =
 
     try {
         const snapshot = await getDocs(query(collection(db, "reservations")));
-        allReservationData = snapshot.docs.map(d => anonymizeReservation({ id: d.id, ...d.data() }));
+        allReservationData = decorateReservationStatuses(snapshot.docs.map(d => ({ ...d.data(), id: d.id }))).map(anonymizeReservation);
 
         if (allReservationData.length === 0) {
             alert("다운로드할 예약 데이터가 없습니다.");

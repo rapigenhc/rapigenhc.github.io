@@ -1,11 +1,12 @@
-import { renderReservationTable, groupReservations, paginateReservationGroups } from './reservation-table.js?v=20261117-2';
+import { renderReservationTable, groupReservations, paginateReservationGroups } from './reservation-table.js?v=20261127-1';
+import { decorateReservationStatuses, reconcileDuplicateReservations } from './reservation-duplicates.js?v=20261127-1';
 import { anonymizeReservation } from './privacy.js?v=20261102-2';
 /**
  * 래피젠헬스케어 Admin JS - 스마트 커서 및 Flatpickr 날짜 최적화
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs, updateDoc, serverTimestamp, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs, updateDoc, serverTimestamp, where, Timestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDXL8vuvgnNJmHU0fZwjquIgfD7bHZdA6c",
@@ -206,11 +207,13 @@ window.fetchFromFirestore = async function(targetPage = 1, isNewSearch = false) 
                 const data = d.data();
                 return { ...data, id: d.id, medium: data.utm_medium || data.medium || '-' };
             });
-            periodReservations = groupReservations(rawItems).flatMap(group => group.records.map(item => ({
-                ...anonymizeReservation(item), displayGroupId: group.id,
-                latestReservationId: String(group.records.at(-1).id),
-                canEditStatus: String(item.id) === String(group.records.at(-1).id)
-            })));
+            await reconcileDuplicateReservations(rawItems, {
+                transact: callback => runTransaction(db, callback),
+                reference: id => doc(db, 'reservations', String(id)),
+                timestamp: serverTimestamp
+            });
+            if (version !== fetchVersion) return;
+            periodReservations = decorateReservationStatuses(rawItems).map(anonymizeReservation);
             loadedPeriod = period;
         }
         renderFilteredReservations(isNewSearch ? 1 : targetPage);
